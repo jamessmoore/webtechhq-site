@@ -89,7 +89,7 @@ export default function Services() {
                 {s.subtitle}
               </p>
               <p
-                className="font-mono text-[11px] leading-relaxed flex-1"
+                className="font-mono text-[19px] leading-relaxed flex-1"
                 style={{ color: '#3A6AAA' }}
               >
                 {s.description}

@@ -49,7 +49,7 @@ export default function Hero() {
 
         {/* Body copy */}
         <p
-          className="font-mono text-[13px] leading-relaxed mb-8 max-w-lg"
+          className="font-mono text-[21px] leading-relaxed mb-8 max-w-lg"
           style={{ color: '#2D5A9E' }}
         >
           12+ years building and running infrastructure at scale. Now applying
