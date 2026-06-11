@@ -12,7 +12,7 @@ export default function Hero() {
       <div className="br-corner-bl" />
 
       {/* Watermark hex — behind text, 25% overlap */}
-      <div className="absolute opacity-[0.065] pointer-events-none select-none" style={{ left: '450px', top: '50%', transform: 'translateY(calc(-25% - 160px))' }}>
+      <div className="absolute opacity-[0.065] pointer-events-none select-none left-[450px] max-[600px]:left-[150px]" style={{ top: '50%', transform: 'translateY(calc(-25% - 160px))' }}>
         <HexMark size={320} />
       </div>
 

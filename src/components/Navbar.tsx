@@ -56,7 +56,7 @@ export default function Navbar() {
               key={href}
               href={href}
               className={`font-mono text-[10px] tracking-widest transition-colors duration-150 relative pb-2 hover:text-[#89D4FF] ${
-                active ? 'nav-active text-[#89D4FF]' : 'text-[#3A6AAA]'
+                active ? 'nav-active text-[#89D4FF]' : 'text-brand-sky-dim'
               }`}
             >
               {label}
@@ -112,7 +112,7 @@ export default function Navbar() {
                 href={href}
                 onClick={() => setOpen(false)}
                 className={`font-mono text-[10px] tracking-widest px-6 py-3 transition-colors duration-150 ${
-                  active ? 'text-[#89D4FF]' : 'text-[#3A6AAA]'
+                  active ? 'text-[#89D4FF]' : 'text-brand-sky-dim'
                 }`}
                 style={{ borderTop: '0.5px solid #162D5A' }}
               >

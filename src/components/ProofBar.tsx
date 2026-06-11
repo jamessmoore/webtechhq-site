@@ -8,7 +8,7 @@ const credentials = [
 export default function ProofBar() {
   return (
     <div
-      className="py-3 px-6 flex flex-wrap items-center gap-x-4 gap-y-2"
+      className="py-3 px-6 flex flex-wrap items-center justify-center gap-x-4 gap-y-2"
       style={{
         backgroundColor: '#020810',
         borderTop: '0.5px solid #0D1E3A',
