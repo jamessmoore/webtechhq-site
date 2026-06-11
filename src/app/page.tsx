@@ -8,12 +8,15 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main>
-        <Hero />
-        <Services />
-        <ProofBar />
-      </main>
-      <Footer />
+      <Hero />
+      <div className="relative z-10">
+        <div className="h-screen" aria-hidden="true" />
+        <main>
+          <Services />
+          <ProofBar />
+        </main>
+        <Footer />
+      </div>
     </>
   )
 }

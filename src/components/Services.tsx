@@ -97,7 +97,7 @@ export default function Services() {
               <Link
                 href={s.href}
                 className="font-mono text-[9px] tracking-widest mt-5 block transition-colors duration-150 hover:text-brand-blue"
-                style={{ color: s.featured ? '#3D7FD4' : '#1A3D7A' }}
+                style={{ color: '#7EC8F4' }}
               >
                 LEARN MORE ›
               </Link>

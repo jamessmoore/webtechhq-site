@@ -4,7 +4,7 @@ import HexMark from './HexMark'
 export default function Hero() {
   return (
     <section
-      className="relative min-h-screen pt-[58px] flex flex-col justify-center overflow-hidden br-grid"
+      className="fixed inset-0 z-0 pt-[58px] flex flex-col justify-center overflow-hidden br-grid"
       style={{ backgroundColor: '#040C1C' }}
     >
       {/* BR corner ticks */}
