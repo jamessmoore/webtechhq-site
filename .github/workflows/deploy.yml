@@ -23,7 +23,7 @@ jobs:
             --instance-ids "${{ secrets.INSTANCE_ID }}" \
             --document-name "AWS-RunShellScript" \
             --comment "Deploy webtechhq-site" \
-            --parameters 'commands=["set -euo pipefail","cd /srv/webtechhq","sudo -u ubuntu git pull origin master","sudo -u ubuntu npm ci","sudo -u ubuntu npm run build","sudo -u ubuntu pm2 restart webtechhq --update-env","sudo -u ubuntu pm2 save"]' \
+            --parameters 'commands=["set -eu","cd /srv/webtechhq","sudo -u ubuntu git pull origin master","sudo -u ubuntu npm ci","sudo -u ubuntu npm run build","sudo -u ubuntu pm2 restart webtechhq --update-env","sudo -u ubuntu pm2 save"]' \
             --query "Command.CommandId" --output text)
 
           echo "Command ID: $COMMAND_ID"
