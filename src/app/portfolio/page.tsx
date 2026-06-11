@@ -21,7 +21,7 @@ const projects = [
     title: 'MOORE METHODS WEBSITE',
     content:
       'This site — built with Next.js 16, React 19, and Tailwind CSS, featuring a custom dark design system, a server-action contact form with Gmail SMTP and reCAPTCHA, and a fully agentic build process using Claude Code.',
-    href: 'https://github.com/jamessmoore/webtechhq',
+    href: 'https://github.com/jamessmoore/webtechhq-site',
   },
 ]
 
