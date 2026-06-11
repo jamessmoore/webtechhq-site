@@ -33,7 +33,7 @@ export default function Hero() {
         <h1 className="font-sans font-black leading-tight mb-2" style={{ fontSize: '2.4rem' }}>
           <span style={{ color: '#EEF6FF' }}>I help businesses</span>
           <br />
-          <span style={{ color: '#89D4FF' }}>solve problems by using AI.</span>
+          <span style={{ color: '#89D4FF' }}>solve problems with AI.</span>
         </h1>
 
         {/* Rule */}
@@ -44,7 +44,7 @@ export default function Hero() {
           className="font-mono text-[21px] leading-relaxed mb-8 max-w-lg"
           style={{ color: '#2D5A9E' }}
         >
-          15+ years building and running infrastructure at scale. Now applying
+          20+ years building and running infrastructure at scale. Now applying
           that same battle-tested rigor to AI integration, agentic systems, and
           MCP-powered automation. I build and ship independently — no hand-holding,
           just results.
@@ -52,7 +52,7 @@ export default function Hero() {
 
         {/* Credential chips */}
         <div className="flex flex-wrap gap-2 mb-10">
-          {['15+ YRS EXP', 'ANTHROPIC CERTIFIED', 'MCP BUILDER', 'AWS · GCP · K8S'].map((chip) => (
+          {['20+ YRS EXP', 'ANTHROPIC CERTIFIED', 'MCP BUILDER', 'AWS · GCP · K8S'].map((chip) => (
             <span
               key={chip}
               className="font-mono text-[8px] tracking-widest px-3 py-1"

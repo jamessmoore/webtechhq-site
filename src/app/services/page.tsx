@@ -63,7 +63,7 @@ export default function Page() {
               Senior-level execution. No hand-holding required.
             </h1>
             <p className="font-mono text-[20px] leading-relaxed" style={{ color: '#5B90C8' }}>
-              Every engagement below draws on the same foundation — 15+ years running production
+              Every engagement below draws on the same foundation — 20+ years running production
               systems, plus hands-on experience building real AI agents and MCP integrations. Pick
               the lane that fits, or combine them. Either way, you get a senior engineer who ships.
             </p>

@@ -48,7 +48,7 @@ export default function Page() {
           <div className="max-w-3xl mx-auto flex flex-col gap-6">
             <p className="font-mono text-[15px] leading-relaxed" style={{ color: '#3D7FD4' }}>
               If your infrastructure is held together with duct tape and hope, you&apos;re in the
-              right place. I&apos;m an innovator with 15+ years
+              right place. I&apos;m an innovator with 20+ years
               of experience building, scaling, and automating cloud infrastructure for companies
               ranging from startups to Fortune 500s. I help forward-thinking businesses get their
               technology working for them instead of against them.
