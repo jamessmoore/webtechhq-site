@@ -53,10 +53,9 @@ export default function Navbar() {
             <Link
               key={href}
               href={href}
-              className={`font-mono text-[10px] tracking-widest transition-colors duration-150 relative pb-2 ${
-                active ? 'nav-active' : ''
+              className={`font-mono text-[10px] tracking-widest transition-colors duration-150 relative pb-2 hover:text-[#89D4FF] ${
+                active ? 'nav-active text-[#89D4FF]' : 'text-[#3A6AAA]'
               }`}
-              style={{ color: active ? '#89D4FF' : '#3A6AAA' }}
             >
               {label}
             </Link>

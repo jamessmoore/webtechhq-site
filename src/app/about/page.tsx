@@ -9,7 +9,7 @@ export default function Page() {
       <Navbar />
       <main className="min-h-screen pt-[58px]" style={{ backgroundColor: '#040C1C' }}>
         {/* Page header */}
-        <section className="px-10 pt-8 pb-12">
+        <section className="px-10 pt-8 pb-[15px]">
           <div className="max-w-3xl mx-auto">
             <span className="font-mono font-bold tracking-[0.3em]" style={{ fontSize: '1.75em', color: '#071830' }}>
               ABOUT
@@ -18,8 +18,9 @@ export default function Page() {
             <h1 className="font-sans font-black leading-tight mb-4" style={{ fontSize: '2rem', color: '#EEF6FF' }}>
               Hi, I&apos;m James Moore.
             </h1>
+
             <div
-              className="overflow-hidden w-[220px]"
+              className="overflow-hidden w-[220px] mb-4"
               style={{ border: '0.8px solid #162D5A', borderRadius: '2px' }}
             >
               <Image
@@ -31,6 +32,14 @@ export default function Page() {
                 priority
               />
             </div>
+
+            {/* Sub-headline */}
+            <p
+              className="font-mono text-[11px] tracking-widest"
+              style={{ color: '#EEF6FF' }}
+            >
+              AI INNOVATOR · AGENTIC CURATOR · ENTREPRENEUR
+            </p>
           </div>
         </section>
 

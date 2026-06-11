@@ -4,7 +4,7 @@ import './globals.css'
 export const metadata: Metadata = {
   title: 'Moore Solutions | James S. Moore — AI · SRE · Cloud',
   description:
-    'I help businesses solve problems by using AI. Senior AI/ML Engineer, SRE, and Cloud Architect with 12+ years of experience. Phoenix, AZ.',
+    'I help businesses solve problems by using AI. Senior AI/ML Engineer, SRE, and Cloud Architect with 15+ years of experience. Phoenix, AZ.',
   keywords: ['AI consulting', 'SRE', 'DevOps', 'cloud engineering', 'MCP', 'agentic AI', 'James Moore'],
   authors: [{ name: 'James S. Moore' }],
   openGraph: {
