@@ -16,6 +16,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Deploy via SSM
+        id: deploy
         run: |
           set -euo pipefail
 
@@ -47,3 +48,18 @@ jobs:
             echo "Deploy failed with status: $STATUS"
             exit 1
           fi
+
+      - name: Notify Slack
+        if: always()
+        run: |
+          if [ "${{ steps.deploy.outcome }}" = "success" ]; then
+            COLOR="#36a64f"
+            TEXT=":white_check_mark: Deploy succeeded"
+          else
+            COLOR="#d00000"
+            TEXT=":x: Deploy failed"
+          fi
+
+          curl -sS -X POST -H 'Content-type: application/json' \
+            --data "{\"attachments\":[{\"color\":\"$COLOR\",\"text\":\"$TEXT\",\"fields\":[{\"title\":\"Repo\",\"value\":\"${{ github.repository }}\",\"short\":true},{\"title\":\"Commit\",\"value\":\"<${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>\",\"short\":true},{\"title\":\"Run\",\"value\":\"<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View run>\",\"short\":false}]}]}" \
+            "${{ secrets.SLACK_WEBHOOK_URL }}"
