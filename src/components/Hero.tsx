@@ -11,8 +11,8 @@ export default function Hero() {
       <div className="br-corner-tr" />
       <div className="br-corner-bl" />
 
-      {/* Watermark hex — large, right side */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-[0.065] pointer-events-none select-none">
+      {/* Watermark hex — behind text, 25% overlap */}
+      <div className="absolute opacity-[0.065] pointer-events-none select-none" style={{ left: '450px', top: '50%', transform: 'translateY(calc(-25% - 160px))' }}>
         <HexMark size={320} />
       </div>
 

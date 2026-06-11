@@ -66,7 +66,7 @@ export default function Footer() {
                 className="font-mono text-[7px] tracking-[0.3em]"
                 style={{ color: '#2D5A9E' }}
               >
-                METHODS
+                SOLUTIONS
               </span>
             </div>
           </div>
