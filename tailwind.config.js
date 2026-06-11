@@ -3,6 +3,9 @@ module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
+      screens: {
+        nav: '601px',
+      },
       colors: {
         brand: {
           bg:       '#030B18',
