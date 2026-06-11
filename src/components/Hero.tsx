@@ -42,7 +42,7 @@ export default function Hero() {
         {/* Body copy */}
         <p
           className="font-mono text-[21px] leading-relaxed mb-8 max-w-lg"
-          style={{ color: '#2D5A9E' }}
+          style={{ color: '#D3D3D3' }}
         >
           20+ years building and running infrastructure at scale. Now applying
           that same battle-tested rigor to AI integration, agentic systems, and
@@ -51,11 +51,11 @@ export default function Hero() {
         </p>
 
         {/* Credential chips */}
-        <div className="flex flex-wrap gap-2 mb-10">
+        <div className="flex flex-wrap justify-center gap-2 mb-10">
           {['20+ YRS EXP', 'ANTHROPIC CERTIFIED', 'MCP BUILDER', 'AWS · GCP · K8S'].map((chip) => (
             <span
               key={chip}
-              className="font-mono text-[8px] tracking-widest px-3 py-1"
+              className="font-mono text-[10px] tracking-widest px-3 py-1"
               style={{
                 backgroundColor: '#071830',
                 border: '0.6px solid #1A3D7A',

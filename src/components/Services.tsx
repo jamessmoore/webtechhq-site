@@ -47,8 +47,8 @@ export default function Services() {
         {/* Section header */}
         <div className="mb-8">
           <span
-            className="font-mono text-[8px] tracking-[0.3em]"
-            style={{ color: '#1A3D7A' }}
+            className="font-mono font-bold tracking-[0.3em]"
+            style={{ fontSize: '1.75em', color: '#071830' }}
           >
             SERVICES
           </span>
