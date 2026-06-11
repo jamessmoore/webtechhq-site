@@ -10,10 +10,34 @@ const sections = [
       'I help you figure out where AI actually fits in your business — then build it, from strategy through working prototype.',
   },
   {
+    id: 'automation',
+    title: 'INTELLIGENT AUTOMATION',
+    content:
+      "If a human on your team is doing something repeatedly, a system should probably be doing it instead. Let's find those gaps.",
+  },
+  {
     id: 'devops',
     title: 'DEVOPS & CLOUD INFRASTRUCTURE AUDITS',
     content:
-      "12+ years of AWS, Kubernetes, and Terraform — I'll tell you what's broken, what's expensive, and what's quietly waiting to fail.",
+      "AWS, Kubernetes, and Terraform — I'll tell you what's broken, what's expensive, and what's quietly waiting to fail.",
+  },
+  {
+    id: 'saas',
+    title: 'SAAS DEVELOPMENT',
+    content:
+      "Got a product idea that solves a real problem? I'll help you architect and ship it without building a team first.",
+  },
+  {
+    id: 'cloud-management',
+    title: 'CLOUD MANAGEMENT',
+    content:
+      'Ongoing oversight, optimization, and incident response for cloud infrastructure that needs to stay healthy and cost-efficient.',
+  },
+  {
+    id: 'business-analytics',
+    title: 'BUSINESS ANALYTICS',
+    content:
+      'Turn your data into decisions. I help you identify the right metrics, surface the right insights, and act on them.',
   },
   {
     id: 'sre',
@@ -29,9 +53,9 @@ export default function Page() {
       <Navbar />
       <main className="min-h-screen pt-[58px]" style={{ backgroundColor: '#040C1C' }}>
         {/* Page header */}
-        <section className="px-10 pt-16 pb-12">
+        <section className="px-10 pt-8 pb-12">
           <div className="max-w-3xl mx-auto">
-            <span className="font-mono text-[8px] tracking-[0.3em]" style={{ color: '#1A3D7A' }}>
+            <span className="font-mono font-bold tracking-[0.3em]" style={{ fontSize: '1.75em', color: '#071830' }}>
               SERVICES
             </span>
             <div style={{ height: '0.5px', backgroundColor: '#162D5A', width: '80px', marginTop: '4px', marginBottom: '24px' }} />
@@ -51,7 +75,7 @@ export default function Page() {
           <section
             key={s.id}
             id={s.id}
-            className="px-10 py-12"
+            className="px-10 py-[15px]"
             style={{ borderTop: '0.5px solid #162D5A' }}
           >
             {s.altId && <span id={s.altId} />}
@@ -63,7 +87,7 @@ export default function Page() {
                 {s.title}
               </h2>
               <p
-                className="font-mono text-[19px] leading-relaxed"
+                className="font-mono text-[15px] leading-relaxed"
                 style={{ color: '#3D7FD4' }}
               >
                 {s.content ?? '[Content needed: description, deliverables, pricing/engagement model]'}

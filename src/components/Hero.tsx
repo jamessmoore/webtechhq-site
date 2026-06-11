@@ -33,7 +33,7 @@ export default function Hero() {
         <h1 className="font-sans font-black leading-tight mb-2" style={{ fontSize: '2.4rem' }}>
           <span style={{ color: '#EEF6FF' }}>I help businesses solve</span>
           <br />
-          <span style={{ color: '#89D4FF' }}>painful problems using AI.</span>
+          <span style={{ color: '#89D4FF' }}>problems by using AI.</span>
         </h1>
 
         {/* Sub-headline */}

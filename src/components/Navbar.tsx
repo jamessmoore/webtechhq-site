@@ -8,7 +8,6 @@ const navLinks = [
   { href: '/services',  label: 'SERVICES' },
   { href: '/portfolio', label: 'PORTFOLIO' },
   { href: '/about',     label: 'ABOUT' },
-  { href: '/blog',      label: 'BLOG' },
 ]
 
 export default function Navbar() {
@@ -68,7 +67,7 @@ export default function Navbar() {
       {/* CTA */}
       <div className="ml-auto">
         <Link
-          href="/#contact"
+          href="/contact"
           className="font-mono text-[10px] tracking-widest px-5 py-2 transition-colors duration-150"
           style={{
             backgroundColor: '#0E3A9A',
