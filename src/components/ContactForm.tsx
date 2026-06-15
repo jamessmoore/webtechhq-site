@@ -67,6 +67,29 @@ export default function ContactForm() {
       </div>
 
       <div>
+        <label htmlFor="interest" className="font-mono text-[8px] tracking-widest mb-2 block" style={labelStyle}>
+          WHAT ARE YOU MOST INTERESTED IN?
+        </label>
+        <select
+          id="interest"
+          name="interest"
+          defaultValue=""
+          className="w-full px-3 py-2 font-mono text-[14px] focus:outline-none"
+          style={fieldStyle}
+        >
+          <option value="">Select one…</option>
+          <option value="Business Analytics">Business Analytics</option>
+          <option value="AI Consulting & Agent Development">AI Consulting &amp; Agent Development</option>
+          <option value="Intelligent Automation">Intelligent Automation</option>
+          <option value="DevOps & Cloud Infrastructure Audits">DevOps &amp; Cloud Infrastructure Audits</option>
+          <option value="SaaS Development">SaaS Development</option>
+          <option value="Cloud Management">Cloud Management</option>
+          <option value="SRE Contract — Remote, Senior">SRE Contract — Remote, Senior</option>
+          <option value="Something else">Something else</option>
+        </select>
+      </div>
+
+      <div>
         <label htmlFor="message" className="font-mono text-[8px] tracking-widest mb-2 block" style={labelStyle}>
           MESSAGE
         </label>

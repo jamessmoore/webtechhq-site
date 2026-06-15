@@ -44,7 +44,7 @@ const useCases = [
     image: '/images/use-cases/real-estate.jpg',
     problem: 'Spending hours on calls with people not ready to buy or sell.',
     solution:
-      "AI pre-qualifies inquiries — timeline, budget, motivation — before James's client ever picks up the phone.",
+      'AI pre-qualifies inquiries — timeline, budget, motivation — before you ever pick up the phone.',
     result: 'Only serious prospects make it to a real conversation.',
   },
   {

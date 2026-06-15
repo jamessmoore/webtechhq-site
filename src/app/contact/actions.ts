@@ -27,6 +27,7 @@ export async function sendContactMessage(
 ): Promise<ContactFormState> {
   const name = formData.get('name')?.toString().trim() ?? ''
   const email = formData.get('email')?.toString().trim() ?? ''
+  const interest = formData.get('interest')?.toString().trim() ?? ''
   const message = formData.get('message')?.toString().trim() ?? ''
   const recaptchaToken = formData.get('recaptchaToken')?.toString() ?? ''
 
@@ -53,7 +54,7 @@ export async function sendContactMessage(
       to: process.env.CONTACT_EMAIL ?? process.env.GMAIL_USER,
       replyTo: email,
       subject: `New contact form message from ${name}`,
-      text: `From: ${name} <${email}>\n\n${message}`,
+      text: `From: ${name} <${email}>\nInterested in: ${interest || 'Not specified'}\n\n${message}`,
     })
 
     return { status: 'success', message: "Thanks — I'll get back to you soon." }
