@@ -16,10 +16,10 @@ export default function Hero() {
         <HexMark size={320} />
       </div>
 
-      <div className="relative z-10 px-10 py-20 max-w-2xl">
+      <div className="relative z-10 px-6 sm:px-10 py-10 sm:py-20 max-w-2xl">
         {/* Status badge */}
         <div
-          className="inline-flex items-center gap-2 px-3 py-1 mb-8 font-mono text-[9px] tracking-widest"
+          className="inline-flex items-center gap-2 px-3 py-1 mb-4 sm:mb-8 font-mono text-[9px] tracking-widest"
           style={{ backgroundColor: '#071830', border: '0.8px solid #1A3D7A', borderRadius: '2px', color: '#3D7FD4' }}
         >
           <span
@@ -30,18 +30,18 @@ export default function Hero() {
         </div>
 
         {/* Headline */}
-        <h1 className="font-sans font-black leading-tight mb-2" style={{ fontSize: '2.4rem' }}>
+        <h1 className="font-sans font-black leading-tight mb-2 text-[1.75rem] sm:text-[2.4rem]">
           <span style={{ color: '#EEF6FF' }}>I help businesses</span>
           <br />
           <span style={{ color: '#89D4FF' }}>solve problems with AI.</span>
         </h1>
 
         {/* Rule */}
-        <div style={{ height: '0.5px', backgroundColor: '#162D5A', width: '220px', marginTop: '20px', marginBottom: '24px' }} />
+        <div className="h-[0.5px] w-[220px] mt-3 mb-3 sm:mt-5 sm:mb-6" style={{ backgroundColor: '#162D5A' }} />
 
         {/* Body copy */}
         <p
-          className="font-mono text-[21px] leading-relaxed mb-8 max-w-lg"
+          className="font-mono text-[14px] sm:text-[21px] leading-relaxed mb-4 sm:mb-8 max-w-lg"
           style={{ color: '#D3D3D3' }}
         >
           20+ years building and running infrastructure at scale. Now applying
@@ -51,7 +51,7 @@ export default function Hero() {
         </p>
 
         {/* Credential chips */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
+        <div className="flex flex-wrap justify-center gap-2 mb-4 sm:mb-10">
           {['20+ YRS EXP', 'ANTHROPIC CERTIFIED', 'MCP BUILDER', 'AWS · GCP · K8S'].map((chip) => (
             <span
               key={chip}
@@ -69,7 +69,7 @@ export default function Hero() {
         </div>
 
         {/* CTAs */}
-        <div className="flex flex-wrap gap-4 mb-16">
+        <div className="flex flex-wrap gap-4 mb-6 sm:mb-16">
           <Link
             href="/services"
             className="font-mono text-[10px] tracking-widest px-7 py-3 transition-colors duration-150"

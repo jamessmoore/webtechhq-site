@@ -17,7 +17,8 @@ export default function Navbar() {
 
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-50 h-[58px] flex items-center px-4 nav:px-6"
+      aria-label="Primary"
+      className="fixed top-0 left-0 right-0 z-50 h-[58px] flex items-center px-4 sm:px-6"
       style={{ backgroundColor: '#030B18', borderBottom: '0.5px solid #162D5A' }}
     >
       {/* Logo lockup */}
@@ -27,12 +28,12 @@ export default function Navbar() {
 
       {/* Vertical rule */}
       <div
-        className="hidden nav:block mx-5 self-stretch"
+        className="hidden sm:block mx-5 self-stretch"
         style={{ width: '0.5px', backgroundColor: '#162D5A', marginTop: '10px', marginBottom: '10px' }}
       />
 
       {/* Nav links */}
-      <div className="hidden nav:flex items-center gap-6">
+      <div className="hidden sm:flex items-center gap-6">
         {navLinks.map(({ href, label }) => {
           const active = pathname === href || (href !== '/' && pathname.startsWith(href))
           return (
@@ -50,7 +51,7 @@ export default function Navbar() {
       </div>
 
       {/* CTA */}
-      <div className="hidden nav:block ml-auto">
+      <div className="hidden sm:block ml-auto">
         <Link
           href="/contact"
           className="font-mono text-[10px] tracking-widest px-5 py-2 transition-colors duration-150"
@@ -71,7 +72,7 @@ export default function Navbar() {
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? 'Close menu' : 'Open menu'}
         aria-expanded={open}
-        className="nav:hidden ml-auto flex items-center justify-center w-8 h-8 shrink-0 transition-colors duration-150"
+        className="sm:hidden ml-auto flex items-center justify-center w-8 h-8 shrink-0 transition-colors duration-150"
         style={{
           border: '1px solid #3D7FD4',
           borderRadius: '2px',
@@ -85,7 +86,7 @@ export default function Navbar() {
       {/* Mobile dropdown panel */}
       {open && (
         <div
-          className="nav:hidden absolute left-0 right-0 top-full flex flex-col"
+          className="sm:hidden absolute left-0 right-0 top-full flex flex-col"
           style={{ backgroundColor: '#030B18', borderBottom: '0.5px solid #162D5A' }}
         >
           {navLinks.map(({ href, label }) => {
