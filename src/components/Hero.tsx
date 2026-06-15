@@ -11,9 +11,11 @@ export default function Hero() {
       <div className="br-corner-tr" />
       <div className="br-corner-bl" />
 
-      {/* Watermark hex — behind text, 25% overlap */}
-      <div className="absolute opacity-[0.065] pointer-events-none select-none left-[450px] max-[600px]:left-[150px]" style={{ top: '50%', transform: 'translateY(calc(-25% - 160px))' }}>
-        <HexMark size={320} />
+      {/* Watermark hex — behind text, slow right-to-left drift */}
+      <div className="absolute left-0 opacity-[0.065] pointer-events-none select-none" style={{ top: '50%', transform: 'translateY(calc(-25% - 160px))' }}>
+        <div className="hex-watermark-drift">
+          <HexMark size={320} />
+        </div>
       </div>
 
       <div className="relative z-10 px-6 sm:px-10 py-10 sm:py-20 max-w-2xl">

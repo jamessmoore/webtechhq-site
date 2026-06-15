@@ -85,6 +85,16 @@ body {
   to   { transform: translateX(-50%); }
 }
 
+/* Hex watermark slow drift — negative delay places it at ~450px on load */
+.hex-watermark-drift {
+  animation: hex-drift 150s linear -83s infinite;
+}
+
+@keyframes hex-drift {
+  from { transform: translateX(100vw); }
+  to   { transform: translateX(-340px); }
+}
+
 /* BR corner tick utility */
 .br-corner-tr {
   position: absolute;
