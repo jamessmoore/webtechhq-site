@@ -23,7 +23,7 @@ const services = [
     subtitle: 'INFRA AUDIT',
     description:
       'Terraform, Kubernetes, AWS/GCP — infrastructure audits and hardening from a senior SRE who has operated at scale across dozens of production systems.',
-    href: '/services#devops',
+    href: '/services/technical#devops',
     featured: false,
   },
   {
@@ -31,7 +31,7 @@ const services = [
     subtitle: 'REMOTE · SENIOR',
     description:
       'Fractional or full-time remote SRE contracting. Incident response, reliability engineering, observability pipelines, and on-call structure.',
-    href: '/services#sre',
+    href: '/services/technical#sre',
     featured: false,
   },
 ]

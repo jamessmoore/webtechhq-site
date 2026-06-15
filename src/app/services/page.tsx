@@ -1,7 +1,14 @@
+import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
 const sections = [
+  {
+    id: 'business-analytics',
+    title: 'BUSINESS ANALYTICS',
+    content:
+      'Turn your data into decisions. I help you identify the right metrics, surface the right insights, and act on them.',
+  },
   {
     id: 'ai-consulting',
     altId: 'ai-integration',
@@ -14,36 +21,6 @@ const sections = [
     title: 'INTELLIGENT AUTOMATION',
     content:
       "If a human on your team is doing something repeatedly, a system should probably be doing it instead. Let's find those gaps.",
-  },
-  {
-    id: 'devops',
-    title: 'DEVOPS & CLOUD INFRASTRUCTURE AUDITS',
-    content:
-      "AWS, Kubernetes, and Terraform — I'll tell you what's broken, what's expensive, and what's quietly waiting to fail.",
-  },
-  {
-    id: 'saas',
-    title: 'SAAS DEVELOPMENT',
-    content:
-      "Got a product idea that solves a real problem? I'll help you architect and ship it without building a team first.",
-  },
-  {
-    id: 'cloud-management',
-    title: 'CLOUD MANAGEMENT',
-    content:
-      'Ongoing oversight, optimization, and incident response for cloud infrastructure that needs to stay healthy and cost-efficient.',
-  },
-  {
-    id: 'business-analytics',
-    title: 'BUSINESS ANALYTICS',
-    content:
-      'Turn your data into decisions. I help you identify the right metrics, surface the right insights, and act on them.',
-  },
-  {
-    id: 'sre',
-    title: 'SRE CONTRACT — REMOTE · SENIOR',
-    content:
-      'Fractional or full-time remote SRE support for teams that need senior reliability engineering without a six-month hiring process. I step into on-call rotations, build out observability (Prometheus, Grafana, Datadog), tighten incident response processes, and bring Kubernetes/AWS infrastructure up to a standard that lets your team sleep at night. Engagements are scoped as contract or retainer, fully remote, starting with a short discovery call to align on priorities.',
   },
 ]
 
@@ -90,11 +67,22 @@ export default function Page() {
                 className="font-mono text-[15px] leading-relaxed"
                 style={{ color: '#3D7FD4' }}
               >
-                {s.content ?? '[Content needed: description, deliverables, pricing/engagement model]'}
+                {s.content}
               </p>
             </div>
           </section>
         ))}
+
+        {/* Link to technical services */}
+        <section className="px-10 py-10 text-center" style={{ borderTop: '0.5px solid #162D5A' }}>
+          <Link
+            href="/services/technical"
+            className="font-mono text-[12px] tracking-widest transition-colors duration-150 hover:text-[#89D4FF]"
+            style={{ color: '#3D7FD4' }}
+          >
+            See more technical services ›
+          </Link>
+        </section>
       </main>
       <Footer />
     </>
