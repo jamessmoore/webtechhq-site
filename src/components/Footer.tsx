@@ -4,6 +4,7 @@ import HexMark from './HexMark'
 const footerLinks = [
   { href: '/services',  label: 'SERVICES' },
   { href: '/portfolio', label: 'PORTFOLIO' },
+  { href: '/use-cases', label: 'USE CASES' },
   { href: '/about',     label: 'ABOUT' },
   { href: '/contact',   label: 'CONTACT' },
 ]

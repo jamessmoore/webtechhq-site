@@ -75,6 +75,16 @@ body {
   background: var(--brand-blue);
 }
 
+/* Marquee ticker */
+.marquee-track {
+  animation: marquee 30s linear infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
 /* BR corner tick utility */
 .br-corner-tr {
   position: absolute;
