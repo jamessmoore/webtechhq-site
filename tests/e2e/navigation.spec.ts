@@ -25,7 +25,7 @@ async function openMobileNavIfNeeded(page: Page) {
 test.describe('page loads', () => {
   for (const { path, heading } of PAGES) {
     test(`${path} renders its heading`, async ({ page }) => {
-      const response = await page.goto(path)
+      const response = await page.goto(path, { waitUntil: 'domcontentloaded' })
       expect(response?.status()).toBeLessThan(400)
       await expect(page.getByRole('heading', { level: 1 })).toContainText(heading)
     })
@@ -56,7 +56,7 @@ test.describe('primary navigation', () => {
   })
 
   test('logo returns home from a sub-page', async ({ page }) => {
-    await page.goto('/services')
+    await page.goto('/services', { waitUntil: 'domcontentloaded' })
     await page.getByRole('navigation', { name: 'Primary' }).getByRole('link', { name: 'Moore Solutions' }).click()
     await expect(page).toHaveURL(/\/$/)
   })

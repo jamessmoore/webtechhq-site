@@ -5,7 +5,7 @@ const PAGES = ['/', '/services', '/portfolio', '/about', '/contact']
 test.describe('layout integrity', () => {
   for (const path of PAGES) {
     test(`${path} has no horizontal overflow`, async ({ page }) => {
-      await page.goto(path)
+      await page.goto(path, { waitUntil: 'domcontentloaded' })
 
       const { scrollWidth, clientWidth } = await page.evaluate(() => ({
         scrollWidth: document.documentElement.scrollWidth,
