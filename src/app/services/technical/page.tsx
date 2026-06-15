@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
@@ -6,24 +7,28 @@ const sections = [
   {
     id: 'devops',
     title: 'DEVOPS & CLOUD INFRASTRUCTURE AUDITS',
+    image: '/images/services/technical/devops.jpg',
     content:
       "AWS, Kubernetes, and Terraform — I'll tell you what's broken, what's expensive, and what's quietly waiting to fail.",
   },
   {
     id: 'saas',
     title: 'SAAS DEVELOPMENT',
+    image: '/images/services/technical/saas.jpg',
     content:
       "Got a product idea that solves a real problem? I'll help you architect and ship it without building a team first.",
   },
   {
     id: 'cloud-management',
     title: 'CLOUD MANAGEMENT',
+    image: '/images/services/technical/cloud-management.jpg',
     content:
       'Ongoing oversight, optimization, and incident response for cloud infrastructure that needs to stay healthy and cost-efficient.',
   },
   {
     id: 'sre',
     title: 'SRE CONTRACT — REMOTE · SENIOR',
+    image: '/images/services/technical/sre.jpg',
     content:
       'Fractional or full-time remote SRE support for teams that need senior reliability engineering without a six-month hiring process. I step into on-call rotations, build out observability (Prometheus, Grafana, Datadog), tighten incident response processes, and bring Kubernetes/AWS infrastructure up to a standard that lets your team sleep at night. Engagements are scoped as contract or retainer, fully remote, starting with a short discovery call to align on priorities.',
   },
@@ -77,6 +82,18 @@ export default function Page() {
               >
                 {s.title}
               </h2>
+              <div
+                className="mb-4 overflow-hidden"
+                style={{ border: '0.8px solid #162D5A', borderRadius: '2px' }}
+              >
+                <Image
+                  src={s.image}
+                  alt={s.title}
+                  width={1200}
+                  height={675}
+                  className="w-full h-auto"
+                />
+              </div>
               <p
                 className="font-mono text-[15px] leading-relaxed"
                 style={{ color: '#3D7FD4' }}
