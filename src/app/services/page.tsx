@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
@@ -6,6 +7,7 @@ const sections = [
   {
     id: 'business-analytics',
     title: 'BUSINESS ANALYTICS',
+    image: '/images/services/business-analytics.jpg',
     content:
       'Turn your data into decisions. I help you identify the right metrics, surface the right insights, and act on them.',
   },
@@ -13,12 +15,14 @@ const sections = [
     id: 'ai-consulting',
     altId: 'ai-integration',
     title: 'AI CONSULTING & AGENT DEVELOPMENT',
+    image: '/images/services/ai-consulting.jpg',
     content:
       'I help you figure out where AI actually fits in your business — then build it, from strategy through working prototype.',
   },
   {
     id: 'automation',
     title: 'INTELLIGENT AUTOMATION',
+    image: '/images/services/automation.jpg',
     content:
       "If a human on your team is doing something repeatedly, a system should probably be doing it instead. Let's find those gaps.",
   },
@@ -63,6 +67,18 @@ export default function Page() {
               >
                 {s.title}
               </h2>
+              <div
+                className="mb-4 overflow-hidden"
+                style={{ border: '0.8px solid #162D5A', borderRadius: '2px' }}
+              >
+                <Image
+                  src={s.image}
+                  alt={s.title}
+                  width={1200}
+                  height={675}
+                  className="w-full h-auto"
+                />
+              </div>
               <p
                 className="font-mono text-[15px] leading-relaxed"
                 style={{ color: '#3D7FD4' }}
