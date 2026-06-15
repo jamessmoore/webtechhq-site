@@ -9,13 +9,15 @@ export default function Home() {
     <>
       <Navbar />
       <Hero />
-      <div className="relative z-10">
+      <div className="relative z-10 pointer-events-none">
         <div className="h-screen" aria-hidden="true" />
-        <main>
-          <Services />
-          <ProofBar />
-        </main>
-        <Footer />
+        <div className="pointer-events-auto">
+          <main>
+            <Services />
+            <ProofBar />
+          </main>
+          <Footer />
+        </div>
       </div>
     </>
   )
