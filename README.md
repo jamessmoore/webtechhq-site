@@ -1,6 +1,6 @@
 # webtechhq-site
 
-James S. Moore personal brand site — **Moore Methods** — built with Next.js 14 (App Router), TypeScript, and Tailwind CSS.
+James S. Moore personal brand site — **Moore Solutions** — built with Next.js 14 (App Router), TypeScript, and Tailwind CSS.
 
 ## Local development
 
