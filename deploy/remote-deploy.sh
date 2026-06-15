@@ -58,7 +58,7 @@ pm2 delete webtechhq >/dev/null 2>&1 || true
 pm2 start npm --name webtechhq --cwd "$CURRENT" -- start
 pm2 save
 
-echo "==> Health check"
+echo "==> Health check: app"
 HEALTHY=0
 for _ in $(seq 1 15); do
   if curl -sf -o /dev/null http://127.0.0.1:3000/; then
@@ -67,6 +67,22 @@ for _ in $(seq 1 15); do
   fi
   sleep 2
 done
+
+# The app responding on :3000 doesn't mean the public site works — nginx
+# serves /_next/static/ and /public/ directly via aliases into this release's
+# directory tree, so also check that a static asset from the homepage is
+# reachable through nginx (catches path/alias mismatches like the one that
+# broke styling site-wide after the first release-based deploy).
+if [ "$HEALTHY" -eq 1 ]; then
+  echo "==> Health check: static assets via nginx"
+  HEALTHY=0
+  ASSET_PATH=$(curl -sf http://127.0.0.1:3000/ | grep -oE '/_next/static/[^"]+\.css' | head -n1)
+  if [ -n "$ASSET_PATH" ] && curl -sfk -H "Host: webtechhq.com" "https://127.0.0.1$ASSET_PATH" -o /dev/null; then
+    HEALTHY=1
+  else
+    echo "Static asset '$ASSET_PATH' not reachable via nginx"
+  fi
+fi
 
 if [ "$HEALTHY" -ne 1 ]; then
   echo "Health check FAILED"
