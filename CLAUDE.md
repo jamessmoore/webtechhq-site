@@ -15,6 +15,7 @@ Moore Solutions personal brand site (webtechhq.com) — Next.js 16 (App Router),
 3. Push the branch and open a pull request targeting `master` (`gh pr create`).
 4. Wait for CI (`test / test` — lint, build, typecheck, Playwright e2e) to pass on the PR.
 5. Only merge the PR into `master` after all required checks pass.
+6. After a successful merge, delete the feature branch — both remote (`gh pr merge --delete-branch`, or `git push origin --delete <branch>` if already merged) and local (`git branch -d <branch>`). Skip this for any branch backing an active worktree.
 
 Never commit directly to `master`, never push directly to `master`, and never merge a PR with failing or pending checks. Since merging to `master` triggers a production deploy, treat PR merges as a deploy action — confirm with the user before merging unless they've explicitly asked for the merge.
 
