@@ -12,6 +12,8 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v6
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v6
         with:
@@ -19,34 +21,61 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      - name: Resolve target instance
+        id: instance
+        run: |
+          set -euo pipefail
+
+          INSTANCE_ID=$(aws ec2 describe-instances \
+            --filters "Name=tag:Name,Values=webtechhq-web" "Name=instance-state-name,Values=running" \
+            --query "Reservations[0].Instances[0].InstanceId" --output text)
+
+          if [ -z "$INSTANCE_ID" ] || [ "$INSTANCE_ID" = "None" ]; then
+            echo "No running instance tagged Name=webtechhq-web was found" >&2
+            exit 1
+          fi
+
+          echo "Deploying to $INSTANCE_ID"
+          echo "instance_id=$INSTANCE_ID" >> "$GITHUB_OUTPUT"
+
       - name: Deploy via SSM
         id: deploy
         run: |
           set -euo pipefail
 
+          INSTANCE_ID="${{ steps.instance.outputs.instance_id }}"
+          PAYLOAD=$(base64 -w0 deploy/remote-deploy.sh)
+
           COMMAND_ID=$(aws ssm send-command \
-            --instance-ids "${{ secrets.INSTANCE_ID }}" \
+            --instance-ids "$INSTANCE_ID" \
             --document-name "AWS-RunShellScript" \
-            --comment "Deploy webtechhq-site" \
-            --parameters 'commands=["set -eu","cd /srv/webtechhq","sudo -u ubuntu git pull origin master","sudo -u ubuntu npm ci","sudo -u ubuntu npm run build","sudo -u ubuntu pm2 restart webtechhq --update-env","sudo -u ubuntu pm2 save"]' \
+            --comment "Deploy webtechhq-site (release-based)" \
+            --timeout-seconds 1800 \
+            --parameters "{\"commands\":[\"echo $PAYLOAD | base64 -d | sudo -u ubuntu bash -s -- master\"]}" \
             --query "Command.CommandId" --output text)
 
           echo "Command ID: $COMMAND_ID"
 
-          aws ssm wait command-executed \
-            --command-id "$COMMAND_ID" \
-            --instance-id "${{ secrets.INSTANCE_ID }}" || true
+          # Poll instead of `ssm wait command-executed` — the build can take
+          # several minutes and the waiter's default timeout is far too short.
+          STATUS="Pending"
+          for _ in $(seq 1 90); do
+            STATUS=$(aws ssm get-command-invocation \
+              --command-id "$COMMAND_ID" \
+              --instance-id "$INSTANCE_ID" \
+              --query "Status" --output text)
 
+            case "$STATUS" in
+              Pending|InProgress|Delayed) sleep 10 ;;
+              *) break ;;
+            esac
+          done
+
+          echo "Final status: $STATUS"
           aws ssm get-command-invocation \
             --command-id "$COMMAND_ID" \
-            --instance-id "${{ secrets.INSTANCE_ID }}" \
-            --query "{Status:Status,StdOut:StandardOutputContent,StdErr:StandardErrorContent}" \
-            --output text
-
-          STATUS=$(aws ssm get-command-invocation \
-            --command-id "$COMMAND_ID" \
-            --instance-id "${{ secrets.INSTANCE_ID }}" \
-            --query "Status" --output text)
+            --instance-id "$INSTANCE_ID" \
+            --query "{Status:Status,StdOut:StandardOutputContent,StdErr:StandardErrorContent}"
 
           if [ "$STATUS" != "Success" ]; then
             echo "Deploy failed with status: $STATUS"
