@@ -21,11 +21,18 @@ export default function ContactForm() {
   const [state, formAction, pending] = useActionState(sendContactMessage, initialState)
   const recaptchaRef = useRef<ReCAPTCHA>(null)
   const [recaptchaToken, setRecaptchaToken] = useState('')
+  const [lastStatus, setLastStatus] = useState(state.status)
+
+  if (state.status !== lastStatus) {
+    setLastStatus(state.status)
+    if (state.status === 'success') {
+      setRecaptchaToken('')
+    }
+  }
 
   useEffect(() => {
     if (state.status === 'success') {
       recaptchaRef.current?.reset()
-      setRecaptchaToken('')
     }
   }, [state.status])
 
