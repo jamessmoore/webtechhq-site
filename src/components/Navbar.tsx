@@ -39,7 +39,7 @@ export default function Navbar() {
             <Link
               key={href}
               href={href}
-              className={`font-mono text-[10px] tracking-widest transition-colors duration-150 relative pb-2 hover:text-[#89D4FF] ${
+              className={`font-mono text-[10px] tracking-widest transition-colors duration-150 relative hover:text-[#89D4FF] ${
                 active ? 'nav-active text-[#89D4FF]' : 'text-brand-sky-dim'
               }`}
             >
