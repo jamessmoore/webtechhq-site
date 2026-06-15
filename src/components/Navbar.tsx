@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import HexMark from './HexMark'
+import LogoLockup from './LogoLockup'
 
 const navLinks = [
   { href: '/services',  label: 'SERVICES' },
@@ -21,24 +21,8 @@ export default function Navbar() {
       style={{ backgroundColor: '#030B18', borderBottom: '0.5px solid #162D5A' }}
     >
       {/* Logo lockup */}
-      <Link href="/" className="flex items-center gap-3 shrink-0">
-        <HexMark size={39} />
-        <div className="flex flex-col justify-center leading-none">
-          <span
-            className="font-sans font-black text-[19px] tracking-[0.22em]"
-            style={{ color: '#EEF6FF' }}
-          >
-            MOORE
-          </span>
-          <div style={{ borderTop: '0.5px solid #1A3D7A', marginTop: '2px', paddingTop: '2px' }}>
-            <span
-              className="font-mono text-[7px] tracking-[0.3em]"
-              style={{ color: '#2D5A9E' }}
-            >
-              SOLUTIONS
-            </span>
-          </div>
-        </div>
+      <Link href="/" className="flex items-center shrink-0">
+        <LogoLockup height={40} />
       </Link>
 
       {/* Vertical rule */}
