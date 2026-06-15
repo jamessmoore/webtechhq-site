@@ -38,7 +38,7 @@ test.describe('primary navigation', () => {
       await page.goto('/')
       await openMobileNavIfNeeded(page)
 
-      const nav = page.locator('nav')
+      const nav = page.getByRole('navigation', { name: 'Primary' })
       await nav.getByRole('link', { name: label, exact: true }).click()
 
       await expect(page).toHaveURL(new RegExp(`${path}$`))
@@ -49,7 +49,7 @@ test.describe('primary navigation', () => {
     await page.goto('/')
     await openMobileNavIfNeeded(page)
 
-    const nav = page.locator('nav')
+    const nav = page.getByRole('navigation', { name: 'Primary' })
     await nav.getByRole('link', { name: /LET'S TALK/i }).click()
 
     await expect(page).toHaveURL(/\/contact$/)
@@ -57,7 +57,7 @@ test.describe('primary navigation', () => {
 
   test('logo returns home from a sub-page', async ({ page }) => {
     await page.goto('/services')
-    await page.locator('nav').getByRole('link', { name: 'Moore Solutions' }).click()
+    await page.getByRole('navigation', { name: 'Primary' }).getByRole('link', { name: 'Moore Solutions' }).click()
     await expect(page).toHaveURL(/\/$/)
   })
 
@@ -67,7 +67,7 @@ test.describe('primary navigation', () => {
 
     await page.goto('/')
     await openMobileNavIfNeeded(page)
-    await page.locator('nav').getByRole('link', { name: 'ABOUT', exact: true }).click()
+    await page.getByRole('navigation', { name: 'Primary' }).getByRole('link', { name: 'ABOUT', exact: true }).click()
 
     await expect(page).toHaveURL(/\/about$/)
     await expect(page.getByRole('button', { name: 'Open menu' })).toBeVisible()
@@ -136,7 +136,7 @@ test.describe('about page inline links', () => {
 
   test('"let\'s talk" link navigates to /contact', async ({ page }) => {
     await page.goto('/about')
-    await page.getByRole('link', { name: "let's talk" }).click()
+    await page.locator('main').getByRole('link', { name: "let's talk" }).click()
     await expect(page).toHaveURL(/\/contact$/)
   })
 })

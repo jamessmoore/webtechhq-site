@@ -17,6 +17,7 @@ export default function Navbar() {
 
   return (
     <nav
+      aria-label="Primary"
       className="fixed top-0 left-0 right-0 z-50 h-[58px] flex items-center px-4 sm:px-6"
       style={{ backgroundColor: '#030B18', borderBottom: '0.5px solid #162D5A' }}
     >

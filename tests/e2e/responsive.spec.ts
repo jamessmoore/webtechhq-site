@@ -24,7 +24,7 @@ test.describe('navbar responsiveness', () => {
     const isNarrow = !!viewport && viewport.width < 640
 
     const hamburger = page.getByRole('button', { name: 'Open menu' })
-    const desktopLinks = page.locator('nav').getByRole('link', { name: 'SERVICES', exact: true })
+    const desktopLinks = page.getByRole('navigation', { name: 'Primary' }).getByRole('link', { name: 'SERVICES', exact: true })
 
     if (isNarrow) {
       await expect(hamburger).toBeVisible()
@@ -42,7 +42,7 @@ test.describe('navbar responsiveness', () => {
     await page.goto('/')
     await page.getByRole('button', { name: 'Open menu' }).click()
 
-    const dropdown = page.locator('nav').getByRole('link', { name: 'PORTFOLIO', exact: true })
+    const dropdown = page.getByRole('navigation', { name: 'Primary' }).getByRole('link', { name: 'PORTFOLIO', exact: true })
     await expect(dropdown).toBeVisible()
     await expect(dropdown).toBeInViewport()
   })
@@ -50,7 +50,7 @@ test.describe('navbar responsiveness', () => {
   test('navbar logo and CTA are visible and not obscured', async ({ page }) => {
     await page.goto('/')
 
-    const logo = page.locator('nav').getByRole('link', { name: 'Moore Solutions' })
+    const logo = page.getByRole('navigation', { name: 'Primary' }).getByRole('link', { name: 'Moore Solutions' })
     await expect(logo).toBeVisible()
     // click() throws if another element intercepts pointer events at the target point
     await logo.click()
