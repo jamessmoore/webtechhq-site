@@ -11,7 +11,7 @@ export default function Page() {
         {/* Page header */}
         <section className="px-10 pt-8 pb-[15px]">
           <div className="max-w-3xl mx-auto">
-            <span className="font-mono font-bold tracking-[0.3em]" style={{ fontSize: '1.75em', color: '#071830' }}>
+            <span className="font-mono font-bold tracking-[0.3em]" style={{ fontSize: '1.75em', color: '#162D5A' }}>
               ABOUT
             </span>
             <div style={{ height: '0.5px', backgroundColor: '#162D5A', width: '80px', marginTop: '4px', marginBottom: '24px' }} />
@@ -36,7 +36,7 @@ export default function Page() {
             {/* Sub-headline */}
             <p
               className="font-mono text-[11px] tracking-widest"
-              style={{ color: '#EEF6FF' }}
+              style={{ color: '#5B90C8' }}
             >
               AI INNOVATOR · AGENTIC CURATOR · ENTREPRENEUR
             </p>
@@ -46,34 +46,34 @@ export default function Page() {
         {/* Bio */}
         <section className="px-10 py-[15px]" style={{ borderTop: '0.5px solid #162D5A' }}>
           <div className="max-w-3xl mx-auto flex flex-col gap-6">
-            <p className="font-mono text-[15px] leading-relaxed" style={{ color: '#3D7FD4' }}>
+            <p className="font-mono text-[15px] leading-relaxed" style={{ color: '#EEF6FF' }}>
               If your infrastructure is held together with duct tape and hope, you&apos;re in the
               right place. I&apos;m an innovator with 20+ years
               of experience building, scaling, and automating cloud infrastructure for companies
               ranging from startups to Fortune 500s. I help forward-thinking businesses get their
               technology working for them instead of against them.
             </p>
-            <p className="font-mono text-[15px] leading-relaxed" style={{ color: '#3D7FD4' }}>
+            <p className="font-mono text-[15px] leading-relaxed" style={{ color: '#EEF6FF' }}>
               I offer a handful of core services — from infrastructure audits and intelligent
               automation to engineering augmentation and AI consulting. Take a look at the{' '}
               <Link
                 href="/services"
-                className="underline transition-colors duration-150 hover:text-[#89D4FF]"
-                style={{ color: '#89D4FF' }}
+                className="underline transition-colors duration-150 hover:text-[#BCE5FF]"
+                style={{ color: '#BCE5FF' }}
               >
                 Services page
               </Link>{' '}
               for the full breakdown.
             </p>
-            <p className="font-mono text-[15px] leading-relaxed" style={{ color: '#3D7FD4' }}>
+            <p className="font-mono text-[15px] leading-relaxed" style={{ color: '#EEF6FF' }}>
               Whether you&apos;re a founder who needs a trusted technical partner or an
               engineering team that needs senior-level firepower on demand, I work remotely, I
               move fast, and I build things that last. Take a look around — and if something
               resonates,{' '}
               <Link
                 href="/contact"
-                className="underline transition-colors duration-150 hover:text-[#89D4FF]"
-                style={{ color: '#89D4FF' }}
+                className="underline transition-colors duration-150 hover:text-[#BCE5FF]"
+                style={{ color: '#BCE5FF' }}
               >
                 let&apos;s talk
               </Link>

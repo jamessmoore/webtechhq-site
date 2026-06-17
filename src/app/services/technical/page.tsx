@@ -44,14 +44,14 @@ export default function Page() {
           <div className="max-w-3xl mx-auto">
             <Link
               href="/services"
-              className="font-mono text-[10px] tracking-widest transition-colors duration-150 hover:text-[#89D4FF]"
-              style={{ color: '#3D7FD4' }}
+              className="font-mono text-[10px] tracking-widest transition-colors duration-150 hover:text-[#BCE5FF]"
+              style={{ color: '#5B90C8' }}
             >
               ‹ BACK TO SERVICES
             </Link>
             <span
               className="font-mono font-bold tracking-[0.3em] block mt-4"
-              style={{ fontSize: '1.75em', color: '#071830' }}
+              style={{ fontSize: '1.75em', color: '#162D5A' }}
             >
               TECHNICAL SERVICES
             </span>
@@ -59,7 +59,7 @@ export default function Page() {
             <h1 className="font-sans font-black leading-tight mb-4" style={{ fontSize: '2rem', color: '#EEF6FF' }}>
               Infrastructure, automation, and AI — built and operated by a senior engineer.
             </h1>
-            <p className="font-mono text-[20px] leading-relaxed" style={{ color: '#5B90C8' }}>
+            <p className="font-mono text-[20px] leading-relaxed" style={{ color: '#80AEE0' }}>
               These engagements draw on 20+ years running production systems, plus hands-on
               experience building real AI agents and MCP integrations. Pick the lane that fits,
               or combine them.
@@ -78,7 +78,7 @@ export default function Page() {
             <div className="max-w-3xl mx-auto">
               <h2
                 className="font-mono font-bold text-[24px] tracking-widest mb-4"
-                style={{ color: '#89D4FF' }}
+                style={{ color: '#BCE5FF' }}
               >
                 {s.title}
               </h2>
@@ -96,7 +96,7 @@ export default function Page() {
               </div>
               <p
                 className="font-mono text-[15px] leading-relaxed"
-                style={{ color: '#3D7FD4' }}
+                style={{ color: '#5B90C8' }}
               >
                 {s.content}
               </p>

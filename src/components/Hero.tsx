@@ -22,7 +22,7 @@ export default function Hero() {
         {/* Status badge */}
         <div
           className="inline-flex items-center gap-2 px-3 py-1 mb-4 sm:mb-8 font-mono text-[9px] tracking-widest"
-          style={{ backgroundColor: '#071830', border: '0.8px solid #1A3D7A', borderRadius: '2px', color: '#3D7FD4' }}
+          style={{ backgroundColor: '#071830', border: '0.8px solid #1A3D7A', borderRadius: '2px', color: '#FFFFFF' }}
         >
           <span
             className="inline-block w-[6px] h-[6px] rounded-full"
@@ -61,7 +61,7 @@ export default function Hero() {
               style={{
                 backgroundColor: '#071830',
                 border: '0.6px solid #1A3D7A',
-                color: '#3D7FD4',
+                color: '#FFFFFF',
                 borderRadius: '2px',
               }}
             >
@@ -74,15 +74,15 @@ export default function Hero() {
         <div className="flex flex-wrap gap-4 mb-6 sm:mb-16">
           <Link
             href="/services"
-            className="font-mono text-[10px] tracking-widest px-7 py-3 transition-colors duration-150"
+            className="font-mono font-bold text-[12px] tracking-widest px-7 py-3 transition-colors duration-150"
             style={{ backgroundColor: '#0E3A9A', border: '1px solid #3D7FD4', color: '#89D4FF', borderRadius: '2px' }}
           >
             VIEW SERVICES ›
           </Link>
           <Link
             href="/portfolio"
-            className="font-mono text-[10px] tracking-widest px-7 py-3 transition-colors duration-150"
-            style={{ backgroundColor: 'transparent', border: '1px solid #1A3D7A', color: '#3A6AAA', borderRadius: '2px' }}
+            className="font-mono font-bold text-[12px] tracking-widest px-7 py-3 transition-colors duration-150"
+            style={{ backgroundColor: 'transparent', border: '1px solid #1A3D7A', color: '#89D4FF', borderRadius: '2px' }}
           >
             SEE MY WORK ›
           </Link>
@@ -91,7 +91,7 @@ export default function Hero() {
         {/* Tagline */}
         <p
           className="font-mono text-[10px] tracking-widest"
-          style={{ color: '#5B90C8' }}
+          style={{ color: '#80AEE0' }}
         >
           FORGED IN EXPERIENCE. BUILT FOR WHAT&apos;S NEXT.
         </p>
