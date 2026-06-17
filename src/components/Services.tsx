@@ -2,36 +2,36 @@ import Link from 'next/link'
 
 const services = [
   {
-    title: 'AI INTEGRATION',
-    subtitle: '& AGENTS',
+    title: 'BUSINESS ANALYTICS',
+    subtitle: 'METRICS & INSIGHT',
     description:
-      'Custom AI integrations, MCP servers, and agentic pipelines that automate real workflows — not demos. Built on Claude, Bedrock, and open tooling.',
-    href: '/services#ai-integration',
+      'Finding the metrics that actually predict outcomes, then building the dashboards and reports that make the next decision obvious.',
+    href: '/services#business-analytics',
     featured: false,
   },
   {
     title: 'AI CONSULTING',
-    subtitle: 'STRATEGY & ROI',
+    subtitle: '& AGENT DEV',
     badge: 'MOST REQUESTED',
     description:
-      'Strategy, tool selection, and ROI framing for businesses ready to move beyond the hype. Clear-eyed advice from someone who actually builds.',
+      'Mapping where AI actually moves the needle in your business, then shipping it — agents, MCP servers, and integrations that do real work.',
     href: '/services#ai-consulting',
     featured: true,
   },
   {
-    title: 'DEVOPS & CLOUD',
-    subtitle: 'INFRA AUDIT',
+    title: 'INTELLIGENT',
+    subtitle: 'AUTOMATION',
     description:
-      'Terraform, Kubernetes, AWS/GCP — infrastructure audits and hardening from a senior SRE who has operated at scale across dozens of production systems.',
-    href: '/services/technical#devops',
+      "Repetitive manual work is a system waiting to be built. I find where your team is doing it by hand and replace it with one that isn't.",
+    href: '/services#automation',
     featured: false,
   },
   {
-    title: 'SRE CONTRACT',
-    subtitle: 'REMOTE · SENIOR',
+    title: 'DEVOPS & CLOUD',
+    subtitle: 'INFRA AUDITS',
     description:
-      'Fractional or full-time remote SRE contracting. Incident response, reliability engineering, observability pipelines, and on-call structure.',
-    href: '/services/technical#sre',
+      "AWS, Kubernetes, Terraform — a senior SRE's read on what's fragile, overpriced, or quietly one bad deploy from taking down production.",
+    href: '/services/technical#devops',
     featured: false,
   },
 ]

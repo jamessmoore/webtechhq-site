@@ -56,10 +56,10 @@ export default function Page() {
           <section
             key={s.id}
             id={s.id}
-            className="px-10 py-[15px]"
+            className="px-10 py-[15px] scroll-mt-[58px]"
             style={{ borderTop: '0.5px solid #162D5A' }}
           >
-            {s.altId && <span id={s.altId} />}
+            {s.altId && <span id={s.altId} className="block scroll-mt-[58px]" />}
             <div className="max-w-3xl mx-auto">
               <h2
                 className="font-mono font-bold text-[24px] tracking-widest mb-4"
