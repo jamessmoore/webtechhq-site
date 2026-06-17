@@ -9,7 +9,7 @@ export default function Page() {
       <Navbar />
       <main className="min-h-screen pt-[58px] br-grid" style={{ backgroundColor: '#040C1C' }}>
         {/* Page header */}
-        <section className="px-10 pt-16 pb-12">
+        <section className="px-10 pt-24 pb-12">
           <div className="max-w-3xl mx-auto">
             <h1 className="font-sans font-black leading-tight mb-4" style={{ fontSize: '2rem', color: '#EEF6FF' }}>
               Let&apos;s talk.
