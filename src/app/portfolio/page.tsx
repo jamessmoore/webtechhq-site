@@ -23,6 +23,20 @@ const projects = [
       'This site — built with Next.js 16, React 19, and Tailwind CSS, featuring a custom dark design system, a server-action contact form with Gmail SMTP and reCAPTCHA, and a fully agentic build process using Claude Code.',
     href: 'https://github.com/jamessmoore/webtechhq-site',
   },
+  {
+    id: 'webtechhq-infra',
+    title: 'WEBTECHHQ INFRASTRUCTURE',
+    content:
+      'Terraform infrastructure for webtechhq.com — a single EC2 instance, Elastic IP, and security group provisioned as code, with user-data bootstrapping Node.js, PM2, Nginx, UFW, and fail2ban for production hardening.',
+    href: 'https://github.com/jamessmoore/webtechhq-infra',
+  },
+  {
+    id: 'iot-pipeline-demo',
+    title: 'IOT TELEMETRY PIPELINE',
+    content:
+      'A full-stack IoT demo: ESP32 sensors monitoring an oil well tank, streaming over MQTT into OpenSearch, with a Next.js dashboard for visualization. A portfolio piece demonstrating the full path from sensor to dashboard.',
+    href: 'https://github.com/jamessmoore/iot-pipeline-demo',
+  },
 ]
 
 export default function Page() {
@@ -48,38 +62,48 @@ export default function Page() {
           </div>
         </section>
 
-        {/* Project sections */}
-        {projects.map((p) => (
-          <section
-            key={p.id}
-            className="px-10 py-[15px]"
-            style={{ borderTop: '0.5px solid #162D5A' }}
-          >
-            <div className="max-w-3xl mx-auto">
-              <h2
-                className="font-mono font-bold text-[24px] tracking-widest mb-4"
-                style={{ color: '#BCE5FF' }}
+        {/* Project list */}
+        <section className="px-10 py-[15px]" style={{ borderTop: '0.5px solid #162D5A' }}>
+          <ul className="max-w-3xl mx-auto flex flex-col">
+            {projects.map((p) => (
+              <li
+                key={p.id}
+                className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-6 py-6"
+                style={{ borderBottom: '0.5px solid #162D5A' }}
               >
-                {p.title}
-              </h2>
-              <p
-                className="font-mono text-[15px] leading-relaxed mb-4"
-                style={{ color: '#5B90C8' }}
-              >
-                {p.content}
-              </p>
-              <a
-                href={p.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block font-mono text-[10px] tracking-widest px-5 py-2 transition-colors duration-150"
-                style={{ backgroundColor: '#0E3A9A', border: '1px solid #3D7FD4', color: '#BCE5FF', borderRadius: '2px' }}
-              >
-                VIEW ON GITHUB ›
-              </a>
-            </div>
-          </section>
-        ))}
+                <div className="flex gap-3">
+                  <span
+                    className="mt-[7px] inline-block w-[6px] h-[6px] rounded-full shrink-0"
+                    style={{ backgroundColor: '#3D7FD4' }}
+                  />
+                  <div>
+                    <h2
+                      className="font-mono font-bold text-[15px] tracking-widest mb-2"
+                      style={{ color: '#BCE5FF' }}
+                    >
+                      {p.title}
+                    </h2>
+                    <p
+                      className="font-mono text-[14px] leading-relaxed"
+                      style={{ color: '#5B90C8' }}
+                    >
+                      {p.content}
+                    </p>
+                  </div>
+                </div>
+                <a
+                  href={p.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="shrink-0 self-start sm:text-right font-mono text-[10px] tracking-widest transition-colors duration-150 hover:text-[#89D4FF]"
+                  style={{ color: '#7EC8F4' }}
+                >
+                  VIEW ON GITHUB ›
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
       </main>
       <Footer />
     </>
