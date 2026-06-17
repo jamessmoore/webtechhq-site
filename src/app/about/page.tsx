@@ -47,15 +47,27 @@ export default function Page() {
         <section className="px-10 py-[15px]" style={{ borderTop: '0.5px solid #162D5A' }}>
           <div className="max-w-3xl mx-auto flex flex-col gap-6">
             <p className="font-mono text-[15px] leading-relaxed" style={{ color: '#EEF6FF' }}>
-              If your infrastructure is held together with duct tape and hope, you&apos;re in the
-              right place. I&apos;m an innovator with 20+ years
-              of experience building, scaling, and automating cloud infrastructure for companies
-              ranging from startups to Fortune 500s. I help forward-thinking businesses get their
-              technology working for them instead of against them.
+              If your business is running on sticky notes, spreadsheets, and hope, you&apos;re in
+              the right place. I&apos;m an AI/ML engineer with a senior SRE background — 20+ years
+              building, scaling, and automating production systems for everyone from scrappy
+              startups to Fortune 500s. These days most of that experience goes toward a different
+              kind of client: local service businesses, retailers and restaurants, and solo
+              professionals who know AI could help but aren&apos;t sure where to start.
             </p>
             <p className="font-mono text-[15px] leading-relaxed" style={{ color: '#EEF6FF' }}>
-              I offer a handful of core services — from infrastructure audits and intelligent
-              automation to engineering augmentation and AI consulting. Take a look at the{' '}
+              The way in is simple: a flat-rate AI Business Audit — a working session plus a
+              written report on where AI could actually save you time or make you money, no hype
+              attached. From there, the most common next step is an AI assistant trained on your
+              business that handles inquiries and follow-ups while you sleep. See what that looks
+              like in the{' '}
+              <Link
+                href="/use-cases"
+                className="underline transition-colors duration-150 hover:text-[#BCE5FF]"
+                style={{ color: '#BCE5FF' }}
+              >
+                Use Cases
+              </Link>{' '}
+              or the full{' '}
               <Link
                 href="/services"
                 className="underline transition-colors duration-150 hover:text-[#BCE5FF]"
@@ -63,13 +75,13 @@ export default function Page() {
               >
                 Services page
               </Link>{' '}
-              for the full breakdown.
+              breakdown.
             </p>
             <p className="font-mono text-[15px] leading-relaxed" style={{ color: '#EEF6FF' }}>
-              Whether you&apos;re a founder who needs a trusted technical partner or an
-              engineering team that needs senior-level firepower on demand, I work remotely, I
-              move fast, and I build things that last. Take a look around — and if something
-              resonates,{' '}
+              Whether you&apos;re a plumber tired of missing after-hours calls, a coach who can&apos;t
+              scale discovery calls, or a founder who wants senior-level technical judgment without
+              hiring a team, I work remotely, I move fast, and I build things that last. Take a
+              look around — and if something resonates,{' '}
               <Link
                 href="/contact"
                 className="underline transition-colors duration-150 hover:text-[#BCE5FF]"
