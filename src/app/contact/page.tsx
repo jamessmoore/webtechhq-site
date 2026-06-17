@@ -18,7 +18,7 @@ export default function Page() {
             <h1 className="font-sans font-black leading-tight mb-4" style={{ fontSize: '2rem', color: '#EEF6FF' }}>
               Let&apos;s talk.
             </h1>
-            <p className="font-mono text-[20px] leading-relaxed" style={{ color: '#5B90C8' }}>
+            <p className="font-mono text-[20px] leading-relaxed" style={{ color: '#80AEE0' }}>
               Tell me about what you&apos;re working on — AI integration, cloud infrastructure,
               or an SRE need.
             </p>
@@ -42,10 +42,10 @@ export default function Page() {
                 className="flex flex-col gap-3 p-5 self-start"
                 style={{ backgroundColor: '#071525', border: '0.8px solid #162D5A', borderRadius: '2px' }}
               >
-                <h2 className="font-mono font-bold text-[12px] tracking-widest" style={{ color: '#89D4FF' }}>
+                <h2 className="font-mono font-bold text-[12px] tracking-widest" style={{ color: '#BCE5FF' }}>
                   PREFER LINKEDIN?
                 </h2>
-                <p className="font-mono text-[11px] leading-relaxed" style={{ color: '#3D7FD4' }}>
+                <p className="font-mono text-[11px] leading-relaxed" style={{ color: '#5B90C8' }}>
                   Connect or send a message directly through LinkedIn.
                 </p>
                 <a
@@ -53,7 +53,7 @@ export default function Page() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-mono text-[10px] tracking-widest px-5 py-2 text-center transition-colors duration-150"
-                  style={{ backgroundColor: '#0E3A9A', border: '1px solid #3D7FD4', color: '#89D4FF', borderRadius: '2px' }}
+                  style={{ backgroundColor: '#0E3A9A', border: '1px solid #3D7FD4', color: '#BCE5FF', borderRadius: '2px' }}
                 >
                   VIEW LINKEDIN PROFILE ›
                 </a>
