@@ -83,7 +83,7 @@ export default function Footer() {
               <Link
                 key={href}
                 href={href}
-                className="font-mono text-[9px] tracking-widest transition-colors duration-150 text-[#1A3D7A] hover:text-[#89D4FF]"
+                className="font-mono text-[9px] tracking-widest transition-all duration-200 text-[#EEF6FF] hover:text-[#89D4FF] hover:[text-shadow:0_0_6px_#89D4FF,0_0_14px_#3D9FFF]"
               >
                 {label}
               </Link>
