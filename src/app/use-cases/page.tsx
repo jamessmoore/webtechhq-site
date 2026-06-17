@@ -18,7 +18,17 @@ const marqueeItems = [
   'CUSTOMER FOLLOW-UP',
 ]
 
-const useCases = [
+type UseCase = {
+  id: string
+  headline: string
+  category: string
+  image: string
+  problem: string
+  solution: string
+  result: string
+}
+
+const useCases: UseCase[] = [
   {
     id: 'plumbing',
     headline: 'The Plumber Who Missed Leads After Hours',
@@ -155,7 +165,7 @@ export default function Page() {
                   <span className="font-mono text-[10px] tracking-widest block mb-1" style={{ color: '#2D5A9E' }}>
                     THE PROBLEM
                   </span>
-                  <p className="font-mono text-[15px] leading-relaxed" style={{ color: '#5B90C8' }}>
+                  <p className="font-mono text-[15px] leading-relaxed" style={{ color: '#EEF6FF' }}>
                     {u.problem}
                   </p>
                 </div>
@@ -164,16 +174,16 @@ export default function Page() {
                   <span className="font-mono text-[10px] tracking-widest block mb-1" style={{ color: '#2D5A9E' }}>
                     THE SOLUTION
                   </span>
-                  <p className="font-mono text-[15px] leading-relaxed" style={{ color: '#5B90C8' }}>
+                  <p className="font-mono text-[15px] leading-relaxed" style={{ color: '#EEF6FF' }}>
                     {u.solution}
                   </p>
                 </div>
 
                 <div className="flex gap-3 items-start pt-4" style={{ borderTop: '0.5px solid #162D5A' }}>
-                  <span className="font-mono text-[15px] leading-relaxed" style={{ color: '#BCE5FF' }}>
+                  <span className="font-mono text-[15px] leading-relaxed" style={{ color: '#4ADE80' }}>
                     ›
                   </span>
-                  <p className="font-mono text-[15px] leading-relaxed font-bold" style={{ color: '#EEF6FF' }}>
+                  <p className="font-mono text-[15px] leading-relaxed font-bold" style={{ color: '#4ADE80' }}>
                     {u.result}
                   </p>
                 </div>

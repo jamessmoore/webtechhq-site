@@ -113,10 +113,10 @@ export default function Footer() {
         {/* Copyright — domain tucked here, very quiet */}
         <p
           className="font-mono text-[8px] tracking-widest"
-          style={{ color: '#0A1630' }}
+          style={{ color: '#A9CFFA' }}
         >
           © 2026 JAMES S. MOORE · PHOENIX, AZ
-          <span style={{ color: '#091428', marginLeft: '8px' }}>
+          <span style={{ color: '#A9CFFA', marginLeft: '8px' }}>
             · WEBTECHHQ.COM
           </span>
         </p>
