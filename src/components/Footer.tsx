@@ -65,7 +65,7 @@ export default function Footer() {
             <div style={{ borderTop: '0.5px solid #1A3D7A', marginTop: '2px', paddingTop: '2px' }}>
               <span
                 className="font-mono text-[7px] tracking-[0.3em]"
-                style={{ color: '#2D5A9E' }}
+                style={{ color: '#A9CFFA' }}
               >
                 SOLUTIONS
               </span>

@@ -63,7 +63,7 @@ export default function LogoLockup({ height = 40, className = '' }: LogoLockupPr
         fontFamily="'Courier New', Courier, monospace"
         fontSize="33"
         letterSpacing="7"
-        fill="#2D5A9E"
+        fill="#A9CFFA"
       >
         SOLUTIONS
       </text>
