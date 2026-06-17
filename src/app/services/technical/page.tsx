@@ -72,7 +72,7 @@ export default function Page() {
           <section
             key={s.id}
             id={s.id}
-            className="px-10 py-[15px]"
+            className="px-10 py-[15px] scroll-mt-[58px]"
             style={{ borderTop: '0.5px solid #162D5A' }}
           >
             <div className="max-w-3xl mx-auto">

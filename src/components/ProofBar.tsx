@@ -17,7 +17,7 @@ export default function ProofBar() {
     >
       <span
         className="font-mono text-[8px] tracking-[0.2em]"
-        style={{ color: '#162D5A' }}
+        style={{ color: '#A9CFFA' }}
       >
         CERTIFIED:
       </span>
@@ -28,7 +28,7 @@ export default function ProofBar() {
           )}
           <span
             className="font-mono text-[8px] tracking-widest"
-            style={{ color: '#1A3D7A' }}
+            style={{ color: '#A9CFFA' }}
           >
             {c}
           </span>
