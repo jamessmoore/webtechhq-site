@@ -121,8 +121,8 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={pending || !recaptchaToken}
-        className="font-mono font-bold text-[16px] tracking-widest px-7 py-3 transition-colors duration-150 self-start disabled:opacity-50"
-        style={{ backgroundColor: '#4ADE80', border: '1px solid #4ADE80', color: '#04140C', borderRadius: '2px' }}
+        className="font-mono font-bold text-[16px] tracking-widest px-7 py-3 mt-[4px] transition-colors duration-150 self-start disabled:opacity-50"
+        style={{ backgroundColor: '#238636', border: '1px solid #238636', color: '#FFFFFF', borderRadius: '6px' }}
       >
         {pending ? 'SENDING…' : 'SEND MESSAGE ›'}
       </button>

@@ -22,7 +22,7 @@ export default function Hero() {
         {/* Status badge */}
         <div
           className="inline-flex items-center gap-2 px-3 py-1 mb-4 sm:mb-8 font-mono text-[9px] tracking-widest"
-          style={{ backgroundColor: '#071830', border: '0.8px solid #1A3D7A', borderRadius: '2px', color: '#FFFFFF' }}
+          style={{ backgroundColor: '#071830', border: '0.8px solid #1A3D7A', borderRadius: '4px', color: '#FFFFFF' }}
         >
           <span
             className="inline-block w-[6px] h-[6px] rounded-full"
@@ -62,7 +62,7 @@ export default function Hero() {
                 backgroundColor: '#071830',
                 border: '0.6px solid #1A3D7A',
                 color: '#FFFFFF',
-                borderRadius: '2px',
+                borderRadius: '4px',
               }}
             >
               {chip}
@@ -75,14 +75,14 @@ export default function Hero() {
           <Link
             href="/services"
             className="font-mono font-bold text-[12px] tracking-widest px-7 py-3 transition-colors duration-150"
-            style={{ backgroundColor: '#0E3A9A', border: '1px solid #3D7FD4', color: '#89D4FF', borderRadius: '2px' }}
+            style={{ backgroundColor: '#0E3A9A', border: '1px solid #3D7FD4', color: '#89D4FF', borderRadius: '6px' }}
           >
             VIEW SERVICES ›
           </Link>
           <Link
             href="/portfolio"
             className="font-mono font-bold text-[12px] tracking-widest px-7 py-3 transition-colors duration-150"
-            style={{ backgroundColor: 'transparent', border: '1px solid #1A3D7A', color: '#89D4FF', borderRadius: '2px' }}
+            style={{ backgroundColor: 'transparent', border: '1px solid #1A3D7A', color: '#89D4FF', borderRadius: '6px' }}
           >
             SEE MY WORK ›
           </Link>

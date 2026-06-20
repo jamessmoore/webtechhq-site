@@ -99,7 +99,7 @@ export default function Footer() {
                 aria-label={label}
                 title={label}
                 className="flex items-center justify-center w-7 h-7 border-[0.6px] border-[#1A3D7A] text-[#3A6AAA] transition-colors duration-150 hover:border-[#3D7FD4] hover:text-[#89D4FF]"
-                style={{ backgroundColor: '#071830', borderRadius: '2px' }}
+                style={{ backgroundColor: '#071830', borderRadius: '6px' }}
               >
                 {icon}
               </a>
