@@ -215,7 +215,7 @@ export default function Page() {
             <Link
               href="/contact"
               className="inline-block font-mono text-[10px] tracking-widest px-7 py-3 transition-colors duration-150"
-              style={{ backgroundColor: '#0E3A9A', border: '1px solid #3D7FD4', color: '#BCE5FF', borderRadius: '2px' }}
+              style={{ backgroundColor: '#0E3A9A', border: '1px solid #3D7FD4', color: '#BCE5FF', borderRadius: '6px' }}
             >
               LET&apos;S TALK ›
             </Link>

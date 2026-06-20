@@ -49,7 +49,7 @@ export default function Page() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-mono text-[10px] tracking-widest px-5 py-2 text-center transition-colors duration-150"
-                  style={{ backgroundColor: '#0E3A9A', border: '1px solid #3D7FD4', color: '#BCE5FF', borderRadius: '2px' }}
+                  style={{ backgroundColor: '#0E3A9A', border: '1px solid #3D7FD4', color: '#BCE5FF', borderRadius: '6px' }}
                 >
                   VIEW LINKEDIN PROFILE ›
                 </a>

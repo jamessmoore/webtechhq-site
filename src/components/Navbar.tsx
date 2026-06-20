@@ -60,7 +60,7 @@ export default function Navbar() {
             backgroundColor: '#0E3A9A',
             border: '1px solid #3D7FD4',
             color: '#89D4FF',
-            borderRadius: '2px',
+            borderRadius: '6px',
           }}
         >
           LET&apos;S TALK ›
@@ -76,7 +76,7 @@ export default function Navbar() {
         className="sm:hidden ml-auto flex items-center justify-center w-8 h-8 shrink-0 transition-colors duration-150"
         style={{
           border: '1px solid #3D7FD4',
-          borderRadius: '2px',
+          borderRadius: '6px',
           color: '#89D4FF',
           backgroundColor: open ? '#0E3A9A' : 'transparent',
         }}

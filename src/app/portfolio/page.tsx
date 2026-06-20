@@ -100,7 +100,7 @@ export default function Page() {
                     href={p.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-mono text-[10px] tracking-widest transition-colors duration-150 hover:text-[#89D4FF]"
+                    className="font-mono text-[10px] tracking-widest transition-all duration-200 hover:text-[#89D4FF] hover:[text-shadow:0_0_6px_#89D4FF,0_0_14px_#3D9FFF] active:!text-white"
                     style={{ color: '#7EC8F4' }}
                   >
                     VIEW ON GITHUB ›
@@ -110,7 +110,7 @@ export default function Page() {
                       href={p.variant.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="font-mono text-[10px] tracking-widest transition-colors duration-150 hover:text-[#89D4FF]"
+                      className="font-mono text-[10px] tracking-widest transition-all duration-200 hover:text-[#89D4FF] hover:[text-shadow:0_0_6px_#89D4FF,0_0_14px_#3D9FFF] active:!text-white"
                       style={{ color: '#5B90C8' }}
                     >
                       {p.variant.label}

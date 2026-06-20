@@ -62,7 +62,7 @@ export default function Page() {
               like in the{' '}
               <Link
                 href="/use-cases"
-                className="underline transition-colors duration-150 hover:text-[#BCE5FF]"
+                className="underline transition-all duration-200 hover:text-[#BCE5FF] hover:[text-shadow:0_0_6px_#BCE5FF,0_0_14px_#3D9FFF] active:!text-white"
                 style={{ color: '#BCE5FF' }}
               >
                 Use Cases
@@ -70,7 +70,7 @@ export default function Page() {
               or the full{' '}
               <Link
                 href="/services"
-                className="underline transition-colors duration-150 hover:text-[#BCE5FF]"
+                className="underline transition-all duration-200 hover:text-[#BCE5FF] hover:[text-shadow:0_0_6px_#BCE5FF,0_0_14px_#3D9FFF] active:!text-white"
                 style={{ color: '#BCE5FF' }}
               >
                 Services page
@@ -84,7 +84,7 @@ export default function Page() {
               look around — and if something resonates,{' '}
               <Link
                 href="/contact"
-                className="underline transition-colors duration-150 hover:text-[#BCE5FF]"
+                className="underline transition-all duration-200 hover:text-[#BCE5FF] hover:[text-shadow:0_0_6px_#BCE5FF,0_0_14px_#3D9FFF] active:!text-white"
                 style={{ color: '#BCE5FF' }}
               >
                 let&apos;s talk

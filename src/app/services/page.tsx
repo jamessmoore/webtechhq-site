@@ -93,7 +93,7 @@ export default function Page() {
         <section className="px-10 py-10 text-center" style={{ borderTop: '0.5px solid #162D5A' }}>
           <Link
             href="/services/technical"
-            className="font-mono text-[12px] tracking-widest transition-colors duration-150 hover:text-[#89D4FF]"
+            className="font-mono text-[12px] tracking-widest transition-all duration-200 hover:text-[#89D4FF] hover:[text-shadow:0_0_6px_#89D4FF,0_0_14px_#3D9FFF] active:!text-white"
             style={{ color: '#5B90C8' }}
           >
             See more technical services ›
