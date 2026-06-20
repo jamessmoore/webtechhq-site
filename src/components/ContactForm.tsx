@@ -11,7 +11,7 @@ const labelStyle = {
 }
 
 const fieldStyle = {
-  backgroundColor: '#071525',
+  backgroundColor: '#143C6A',
   border: '0.8px solid #162D5A',
   color: '#EEF6FF',
   borderRadius: '2px',
@@ -37,9 +37,9 @@ export default function ContactForm() {
   }, [state.status])
 
   return (
-    <form action={formAction} className="flex flex-col gap-5">
+    <form action={formAction} className="flex flex-col gap-[5px]">
       <div>
-        <label htmlFor="name" className="font-mono text-[8px] tracking-widest mb-2 block" style={labelStyle}>
+        <label htmlFor="name" className="font-mono text-[18px] tracking-widest mb-2 block" style={labelStyle}>
           NAME
         </label>
         <input
@@ -53,7 +53,7 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="email" className="font-mono text-[8px] tracking-widest mb-2 block" style={labelStyle}>
+        <label htmlFor="email" className="font-mono text-[18px] tracking-widest mb-2 block" style={labelStyle}>
           EMAIL
         </label>
         <input
@@ -67,7 +67,7 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="interest" className="font-mono text-[8px] tracking-widest mb-2 block" style={labelStyle}>
+        <label htmlFor="interest" className="font-mono text-[13px] md:text-[18px] tracking-widest mb-2 block" style={labelStyle}>
           WHAT ARE YOU MOST INTERESTED IN?
         </label>
         <select
@@ -90,7 +90,7 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="message" className="font-mono text-[8px] tracking-widest mb-2 block" style={labelStyle}>
+        <label htmlFor="message" className="font-mono text-[18px] tracking-widest mb-2 block" style={labelStyle}>
           MESSAGE
         </label>
         <textarea
@@ -121,8 +121,8 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={pending || !recaptchaToken}
-        className="font-mono text-[10px] tracking-widest px-7 py-3 transition-colors duration-150 self-start disabled:opacity-50"
-        style={{ backgroundColor: '#0E3A9A', border: '1px solid #3D7FD4', color: '#89D4FF', borderRadius: '2px' }}
+        className="font-mono font-bold text-[16px] tracking-widest px-7 py-3 transition-colors duration-150 self-start disabled:opacity-50"
+        style={{ backgroundColor: '#4ADE80', border: '1px solid #4ADE80', color: '#04140C', borderRadius: '2px' }}
       >
         {pending ? 'SENDING…' : 'SEND MESSAGE ›'}
       </button>

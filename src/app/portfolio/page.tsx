@@ -13,8 +13,12 @@ const projects = [
     id: 'daily-tech-brief',
     title: 'DAILY TECH BRIEF AGENT',
     content:
-      'An autonomous Claude Code agent that runs nightly via cron, researches the latest news in DevOps, AI agents, MCP, and cloud infrastructure using a scoped subagent, and posts a structured summary straight to Slack through a custom MCP server.',
+      'An autonomous Claude Code agent that runs nightly via cron, researches the latest news in DevOps, AI agents, MCP, and cloud infrastructure using a scoped subagent, and posts a structured summary straight to Slack through a custom MCP server. Also available as a Bedrock-native variant for teams standardized on AWS.',
     href: 'https://github.com/jamessmoore/daily-tech-brief',
+    variant: {
+      label: 'VIEW BEDROCK VARIANT ›',
+      href: 'https://github.com/jamessmoore/daily-tech-brief-bedrock',
+    },
   },
   {
     id: 'webtechhq-site',
@@ -65,11 +69,11 @@ export default function Page() {
         {/* Project list */}
         <section className="px-10 py-[15px]" style={{ borderTop: '0.5px solid #162D5A' }}>
           <ul className="max-w-3xl mx-auto flex flex-col">
-            {projects.map((p) => (
+            {projects.map((p, i) => (
               <li
                 key={p.id}
                 className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-6 py-6"
-                style={{ borderBottom: '0.5px solid #162D5A' }}
+                style={i < projects.length - 1 ? { borderBottom: '0.5px solid #162D5A' } : undefined}
               >
                 <div className="flex gap-3">
                   <span
@@ -91,15 +95,28 @@ export default function Page() {
                     </p>
                   </div>
                 </div>
-                <a
-                  href={p.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="shrink-0 self-start sm:text-right font-mono text-[10px] tracking-widest transition-colors duration-150 hover:text-[#89D4FF]"
-                  style={{ color: '#7EC8F4' }}
-                >
-                  VIEW ON GITHUB ›
-                </a>
+                <div className="shrink-0 self-start sm:text-right flex flex-col gap-2">
+                  <a
+                    href={p.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-mono text-[10px] tracking-widest transition-colors duration-150 hover:text-[#89D4FF]"
+                    style={{ color: '#7EC8F4' }}
+                  >
+                    VIEW ON GITHUB ›
+                  </a>
+                  {p.variant && (
+                    <a
+                      href={p.variant.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-mono text-[10px] tracking-widest transition-colors duration-150 hover:text-[#89D4FF]"
+                      style={{ color: '#5B90C8' }}
+                    >
+                      {p.variant.label}
+                    </a>
+                  )}
+                </div>
               </li>
             ))}
           </ul>
