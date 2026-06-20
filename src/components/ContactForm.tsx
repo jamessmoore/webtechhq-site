@@ -11,7 +11,7 @@ const labelStyle = {
 }
 
 const fieldStyle = {
-  backgroundColor: '#071525',
+  backgroundColor: '#143C6A',
   border: '0.8px solid #162D5A',
   color: '#EEF6FF',
   borderRadius: '2px',
@@ -121,8 +121,8 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={pending || !recaptchaToken}
-        className="font-mono text-[10px] tracking-widest px-7 py-3 transition-colors duration-150 self-start disabled:opacity-50"
-        style={{ backgroundColor: '#0E3A9A', border: '1px solid #3D7FD4', color: '#89D4FF', borderRadius: '2px' }}
+        className="font-mono font-bold text-[16px] tracking-widest px-7 py-3 transition-colors duration-150 self-start disabled:opacity-50"
+        style={{ backgroundColor: '#157136', border: '1px solid #157136', color: '#FFFFFF', borderRadius: '2px' }}
       >
         {pending ? 'SENDING…' : 'SEND MESSAGE ›'}
       </button>

@@ -22,7 +22,7 @@ export default function Page() {
         </section>
 
         {/* Form + alternative contact */}
-        <section className="px-10 py-12">
+        <section className="px-10 pt-0 pb-12">
           <div className="max-w-3xl mx-auto relative overflow-hidden">
             {/* Hex watermark — behind form top fields + LinkedIn box */}
             <div
