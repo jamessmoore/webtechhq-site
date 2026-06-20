@@ -15,8 +15,8 @@ export default function Page() {
               Let&apos;s talk.
             </h1>
             <p className="font-mono text-[20px] leading-relaxed" style={{ color: '#80AEE0' }}>
-              Tell me about what you&apos;re working on — AI integration, cloud infrastructure,
-              or an SRE need.
+              Tell me about what you&apos;re working on — AI agents, automation, business
+              analytics, or cloud and SRE infrastructure.
             </p>
           </div>
         </section>
