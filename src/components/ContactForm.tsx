@@ -37,9 +37,9 @@ export default function ContactForm() {
   }, [state.status])
 
   return (
-    <form action={formAction} className="flex flex-col gap-5">
+    <form action={formAction} className="flex flex-col gap-[5px]">
       <div>
-        <label htmlFor="name" className="font-mono text-[8px] tracking-widest mb-2 block" style={labelStyle}>
+        <label htmlFor="name" className="font-mono text-[18px] tracking-widest mb-2 block" style={labelStyle}>
           NAME
         </label>
         <input
@@ -53,7 +53,7 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="email" className="font-mono text-[8px] tracking-widest mb-2 block" style={labelStyle}>
+        <label htmlFor="email" className="font-mono text-[18px] tracking-widest mb-2 block" style={labelStyle}>
           EMAIL
         </label>
         <input
@@ -67,7 +67,7 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="interest" className="font-mono text-[8px] tracking-widest mb-2 block" style={labelStyle}>
+        <label htmlFor="interest" className="font-mono text-[13px] md:text-[18px] tracking-widest mb-2 block" style={labelStyle}>
           WHAT ARE YOU MOST INTERESTED IN?
         </label>
         <select
@@ -90,7 +90,7 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="message" className="font-mono text-[8px] tracking-widest mb-2 block" style={labelStyle}>
+        <label htmlFor="message" className="font-mono text-[18px] tracking-widest mb-2 block" style={labelStyle}>
           MESSAGE
         </label>
         <textarea
