@@ -41,7 +41,7 @@ export default function Navbar() {
             <Link
               key={href}
               href={href}
-              className={`font-mono text-[10px] tracking-widest transition-colors duration-150 relative hover:text-[#89D4FF] ${
+              className={`font-sans text-[12.5px] tracking-widest transition-colors duration-150 relative hover:text-[#89D4FF] ${
                 active ? 'nav-active text-[#89D4FF]' : 'text-[#EEF6FF]'
               }`}
             >
@@ -55,9 +55,9 @@ export default function Navbar() {
       <div className="hidden sm:block ml-auto">
         <Link
           href="/contact"
-          className="font-mono text-[10px] tracking-widest px-5 py-2 transition-colors duration-150"
+          className="font-sans text-[12.5px] tracking-widest px-5 py-2 transition-colors duration-150"
           style={{
-            backgroundColor: '#0E3A9A',
+            background: 'linear-gradient(180deg, #1A4FC4, #0E3A9A)',
             border: '1px solid #3D7FD4',
             color: '#89D4FF',
             borderRadius: '6px',
@@ -81,7 +81,7 @@ export default function Navbar() {
           backgroundColor: open ? '#0E3A9A' : 'transparent',
         }}
       >
-        <span className="font-mono text-[14px] leading-none">{open ? '✕' : '☰'}</span>
+        <span className="font-sans text-[14px] leading-none">{open ? '✕' : '☰'}</span>
       </button>
 
       {/* Mobile dropdown panel */}
@@ -97,7 +97,7 @@ export default function Navbar() {
                 key={href}
                 href={href}
                 onClick={() => setOpen(false)}
-                className={`font-mono text-[10px] tracking-widest px-6 py-3 transition-colors duration-150 ${
+                className={`font-sans text-[12.5px] tracking-widest px-6 py-3 transition-colors duration-150 ${
                   active ? 'text-[#89D4FF]' : 'text-[#EEF6FF]'
                 }`}
                 style={{ borderTop: '0.5px solid #162D5A' }}
@@ -109,9 +109,9 @@ export default function Navbar() {
           <Link
             href="/contact"
             onClick={() => setOpen(false)}
-            className="font-mono text-[10px] tracking-widest px-6 py-3 text-center"
+            className="font-sans text-[12.5px] tracking-widest px-6 py-3 text-center"
             style={{
-              backgroundColor: '#0E3A9A',
+              background: 'linear-gradient(180deg, #1A4FC4, #0E3A9A)',
               color: '#89D4FF',
               borderTop: '0.5px solid #162D5A',
             }}

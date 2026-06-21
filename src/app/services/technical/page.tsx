@@ -44,13 +44,13 @@ export default function Page() {
           <div className="max-w-3xl mx-auto">
             <Link
               href="/services"
-              className="font-mono text-[10px] tracking-widest transition-all duration-200 hover:text-[#BCE5FF] hover:[text-shadow:0_0_6px_#BCE5FF,0_0_14px_#3D9FFF] active:!text-white"
+              className="font-sans text-[10px] tracking-widest transition-all duration-200 hover:text-[#BCE5FF] hover:[text-shadow:0_0_6px_#BCE5FF,0_0_14px_#3D9FFF] active:!text-white"
               style={{ color: '#5B90C8' }}
             >
               ‹ BACK TO SERVICES
             </Link>
             <span
-              className="font-mono font-bold tracking-[0.3em] block mt-4"
+              className="font-sans font-bold tracking-[0.3em] block mt-4"
               style={{ fontSize: '1.75em', color: '#162D5A' }}
             >
               TECHNICAL SERVICES
@@ -59,7 +59,7 @@ export default function Page() {
             <h1 className="font-sans font-black leading-tight mb-4" style={{ fontSize: '2rem', color: '#EEF6FF' }}>
               Infrastructure, automation, and AI — built and operated by a senior engineer.
             </h1>
-            <p className="font-mono text-[20px] leading-relaxed" style={{ color: '#80AEE0' }}>
+            <p className="font-sans text-[24px] leading-relaxed" style={{ color: '#80AEE0' }}>
               These engagements draw on 20+ years running production systems, plus hands-on
               experience building real AI agents and MCP integrations. Pick the lane that fits,
               or combine them.
@@ -77,7 +77,7 @@ export default function Page() {
           >
             <div className="max-w-3xl mx-auto">
               <h2
-                className="font-mono font-bold text-[24px] tracking-widest mb-4"
+                className="font-sans font-bold text-[24px] tracking-widest mb-4"
                 style={{ color: '#BCE5FF' }}
               >
                 {s.title}
@@ -95,8 +95,8 @@ export default function Page() {
                 />
               </div>
               <p
-                className="font-mono text-[15px] leading-relaxed"
-                style={{ color: '#5B90C8' }}
+                className="font-sans text-[21px] leading-relaxed"
+                style={{ color: '#FFFFFF' }}
               >
                 {s.content}
               </p>

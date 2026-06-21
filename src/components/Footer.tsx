@@ -64,7 +64,7 @@ export default function Footer() {
             </span>
             <div style={{ borderTop: '0.5px solid #1A3D7A', marginTop: '2px', paddingTop: '2px' }}>
               <span
-                className="font-mono text-[7px] tracking-[0.3em]"
+                className="font-sans text-[7px] tracking-[0.3em]"
                 style={{ color: '#A9CFFA' }}
               >
                 SOLUTIONS
@@ -83,7 +83,7 @@ export default function Footer() {
               <Link
                 key={href}
                 href={href}
-                className="font-mono text-[9px] tracking-widest transition-all duration-200 text-[#EEF6FF] hover:text-[#89D4FF] hover:[text-shadow:0_0_6px_#89D4FF,0_0_14px_#3D9FFF]"
+                className="font-sans text-[11.25px] tracking-widest transition-all duration-200 text-[#EEF6FF] hover:text-[#89D4FF] hover:[text-shadow:0_0_6px_#89D4FF,0_0_14px_#3D9FFF]"
               >
                 {label}
               </Link>
@@ -112,7 +112,7 @@ export default function Footer() {
 
         {/* Copyright — domain tucked here, very quiet */}
         <p
-          className="font-mono text-[8px] tracking-widest"
+          className="font-sans text-[8px] tracking-widest"
           style={{ color: '#A9CFFA' }}
         >
           © 2026 JAMES S. MOORE · PHOENIX, AZ

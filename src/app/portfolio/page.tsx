@@ -55,14 +55,14 @@ export default function Page() {
         {/* Page header */}
         <section className="px-10 pt-8 pb-12">
           <div className="max-w-3xl mx-auto">
-            <span className="font-mono font-bold tracking-[0.3em]" style={{ fontSize: '1.75em', color: '#162D5A' }}>
+            <span className="font-sans font-bold tracking-[0.3em]" style={{ fontSize: '1.75em', color: '#162D5A' }}>
               PORTFOLIO
             </span>
             <div style={{ height: '0.5px', backgroundColor: '#162D5A', width: '80px', marginTop: '4px', marginBottom: '24px' }} />
             <h1 className="font-sans font-black leading-tight mb-4" style={{ fontSize: '2rem', color: '#EEF6FF' }}>
               Recent builds, open for review.
             </h1>
-            <p className="font-mono text-[15px] leading-relaxed" style={{ color: '#5B90C8' }}>
+            <p className="font-sans text-[24px] leading-relaxed" style={{ color: '#5B90C8' }}>
               A sample of recent projects — AI agents, MCP servers, and the site you&apos;re
               looking at right now. Every repo below is public; clone it, read the code, and
               judge for yourself.
@@ -86,14 +86,14 @@ export default function Page() {
                   />
                   <div>
                     <h2
-                      className="font-mono font-bold text-[15px] tracking-widest mb-2"
+                      className="font-sans font-bold text-[21px] tracking-widest mb-2"
                       style={{ color: '#BCE5FF' }}
                     >
                       {p.title}
                     </h2>
                     <p
-                      className="font-mono text-[14px] leading-relaxed"
-                      style={{ color: '#5B90C8' }}
+                      className="font-sans text-[18px] leading-relaxed"
+                      style={{ color: '#FFFFFF' }}
                     >
                       {p.content}
                     </p>
@@ -104,7 +104,7 @@ export default function Page() {
                     href={p.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-mono text-[10px] tracking-widest transition-all duration-200 hover:text-[#89D4FF] hover:[text-shadow:0_0_6px_#89D4FF,0_0_14px_#3D9FFF] active:!text-white"
+                    className="font-sans text-[12px] tracking-widest transition-all duration-200 hover:text-[#89D4FF] hover:[text-shadow:0_0_6px_#89D4FF,0_0_14px_#3D9FFF] active:!text-white"
                     style={{ color: '#7EC8F4' }}
                   >
                     VIEW ON GITHUB ›
@@ -114,7 +114,7 @@ export default function Page() {
                       href={p.variant.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="font-mono text-[10px] tracking-widest transition-all duration-200 hover:text-[#89D4FF] hover:[text-shadow:0_0_6px_#89D4FF,0_0_14px_#3D9FFF] active:!text-white"
+                      className="font-sans text-[12px] tracking-widest transition-all duration-200 hover:text-[#89D4FF] hover:[text-shadow:0_0_6px_#89D4FF,0_0_14px_#3D9FFF] active:!text-white"
                       style={{ color: '#5B90C8' }}
                     >
                       {p.variant.label}
