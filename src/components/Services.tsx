@@ -5,7 +5,7 @@ const services = [
     title: 'BUSINESS ANALYTICS',
     subtitle: 'METRICS & INSIGHT',
     description:
-      'Finding the metrics that actually predict outcomes, then building the dashboards and reports that make the next decision obvious.',
+      'Finding the metrics that actually predict outcomes, then building the dashboards and reports that make the next decision easy.',
     href: '/services#business-analytics',
     featured: false,
   },
