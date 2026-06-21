@@ -39,7 +39,7 @@ export default function ContactForm() {
   return (
     <form action={formAction} className="flex flex-col gap-[5px]">
       <div>
-        <label htmlFor="name" className="font-mono text-[18px] tracking-widest mb-2 block" style={labelStyle}>
+        <label htmlFor="name" className="font-sans text-[18px] tracking-widest mb-2 block" style={labelStyle}>
           NAME
         </label>
         <input
@@ -47,13 +47,13 @@ export default function ContactForm() {
           name="name"
           type="text"
           required
-          className="w-full px-3 py-2 font-mono text-[14px] focus:outline-none"
+          className="w-full px-3 py-2 font-sans text-[14px] focus:outline-none"
           style={fieldStyle}
         />
       </div>
 
       <div>
-        <label htmlFor="email" className="font-mono text-[18px] tracking-widest mb-2 block" style={labelStyle}>
+        <label htmlFor="email" className="font-sans text-[18px] tracking-widest mb-2 block" style={labelStyle}>
           EMAIL
         </label>
         <input
@@ -61,20 +61,20 @@ export default function ContactForm() {
           name="email"
           type="email"
           required
-          className="w-full px-3 py-2 font-mono text-[14px] focus:outline-none"
+          className="w-full px-3 py-2 font-sans text-[14px] focus:outline-none"
           style={fieldStyle}
         />
       </div>
 
       <div>
-        <label htmlFor="interest" className="font-mono text-[13px] md:text-[18px] tracking-widest mb-2 block" style={labelStyle}>
+        <label htmlFor="interest" className="font-sans text-[13px] md:text-[18px] tracking-widest mb-2 block" style={labelStyle}>
           WHAT ARE YOU MOST INTERESTED IN?
         </label>
         <select
           id="interest"
           name="interest"
           defaultValue=""
-          className="w-full px-3 py-2 font-mono text-[14px] focus:outline-none"
+          className="w-full px-3 py-2 font-sans text-[14px] focus:outline-none"
           style={fieldStyle}
         >
           <option value="">Select one…</option>
@@ -90,7 +90,7 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="message" className="font-mono text-[18px] tracking-widest mb-2 block" style={labelStyle}>
+        <label htmlFor="message" className="font-sans text-[18px] tracking-widest mb-2 block" style={labelStyle}>
           MESSAGE
         </label>
         <textarea
@@ -98,7 +98,7 @@ export default function ContactForm() {
           name="message"
           required
           rows={6}
-          className="w-full px-3 py-2 font-mono text-[14px] leading-relaxed focus:outline-none resize-none"
+          className="w-full px-3 py-2 font-sans text-[14px] leading-relaxed focus:outline-none resize-none"
           style={fieldStyle}
         />
       </div>
@@ -113,7 +113,7 @@ export default function ContactForm() {
           theme="dark"
         />
       ) : (
-        <p className="font-mono text-[9px] tracking-widest" style={{ color: '#E0556F' }}>
+        <p className="font-sans text-[9px] tracking-widest" style={{ color: '#E0556F' }}>
           reCAPTCHA not configured — set NEXT_PUBLIC_RECAPTCHA_SITE_KEY
         </p>
       )}
@@ -121,7 +121,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={pending || !recaptchaToken}
-        className="font-mono font-bold text-[16px] tracking-widest px-7 py-3 mt-[4px] transition-colors duration-150 self-start disabled:opacity-50"
+        className="font-sans font-bold text-[16px] tracking-widest px-7 py-3 mt-[4px] transition-colors duration-150 self-start disabled:opacity-50"
         style={{ backgroundColor: '#238636', border: '1px solid #238636', color: '#FFFFFF', borderRadius: '6px' }}
       >
         {pending ? 'SENDING…' : 'SEND MESSAGE ›'}
@@ -129,7 +129,7 @@ export default function ContactForm() {
 
       {state.status !== 'idle' && (
         <p
-          className="font-mono text-[11px] leading-relaxed"
+          className="font-sans text-[11px] leading-relaxed"
           style={{ color: state.status === 'success' ? '#89D4FF' : '#E0556F' }}
         >
           {state.message}

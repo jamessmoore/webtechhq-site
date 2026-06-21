@@ -47,7 +47,7 @@ export default function Services() {
         {/* Section header */}
         <div className="mb-8">
           <span
-            className="font-mono font-bold tracking-[0.3em]"
+            className="font-sans font-bold tracking-[0.3em]"
             style={{ fontSize: '1.75em', color: '#071830' }}
           >
             SERVICES
@@ -71,32 +71,32 @@ export default function Services() {
             >
               {s.badge && (
                 <span
-                  className="font-mono text-[7px] tracking-widest mb-2 block transition-all duration-200 group-active:!text-white"
+                  className="font-sans text-[7px] tracking-widest mb-2 block transition-all duration-200 group-active:!text-white"
                   style={{ color: '#2D5A9E' }}
                 >
                   {s.badge}
                 </span>
               )}
               <h3
-                className="font-mono font-bold text-[10px] tracking-widest mb-1 transition-all duration-200 group-hover:[text-shadow:0_0_6px_#89D4FF,0_0_14px_#3D9FFF]"
+                className="font-sans font-bold text-[10px] tracking-widest mb-1 transition-all duration-200 group-hover:[text-shadow:0_0_6px_#89D4FF,0_0_14px_#3D9FFF]"
                 style={{ color: '#89D4FF' }}
               >
                 {s.title}
               </h3>
               <p
-                className="font-mono text-[8px] tracking-widest mb-4 transition-all duration-200 group-active:!text-white"
+                className="font-sans text-[8px] tracking-widest mb-4 transition-all duration-200 group-active:!text-white"
                 style={{ color: '#2D5A9E' }}
               >
                 {s.subtitle}
               </p>
               <p
-                className="font-mono text-[19px] leading-relaxed flex-1 transition-all duration-200 group-active:!text-white"
+                className="font-sans text-[19px] leading-relaxed flex-1 transition-all duration-200 group-active:!text-white"
                 style={{ color: '#3A6AAA' }}
               >
                 {s.description}
               </p>
               <span
-                className="font-mono text-[9px] tracking-widest mt-5 block transition-all duration-200 group-hover:text-brand-blue group-hover:[text-shadow:0_0_6px_#3D7FD4,0_0_14px_#3D9FFF]"
+                className="font-sans text-[9px] tracking-widest mt-5 block transition-all duration-200 group-hover:text-brand-blue group-hover:[text-shadow:0_0_6px_#3D7FD4,0_0_14px_#3D9FFF]"
                 style={{ color: '#7EC8F4' }}
               >
                 LEARN MORE ›

@@ -14,7 +14,7 @@ export default function Page() {
             <h1 className="font-sans font-black leading-tight mb-4" style={{ fontSize: '2rem', color: '#EEF6FF' }}>
               Let&apos;s talk.
             </h1>
-            <p className="font-mono text-[20px] leading-relaxed" style={{ color: '#80AEE0' }}>
+            <p className="font-sans text-[24px] leading-relaxed" style={{ color: '#80AEE0' }}>
               Tell me about what you&apos;re working on — AI agents, automation, business
               analytics, or cloud and SRE infrastructure.
             </p>
@@ -38,18 +38,18 @@ export default function Page() {
                 className="flex flex-col gap-3 p-5 self-start"
                 style={{ backgroundColor: '#071525', border: '0.8px solid #162D5A', borderRadius: '2px' }}
               >
-                <h2 className="font-mono font-bold text-[12px] tracking-widest" style={{ color: '#BCE5FF' }}>
+                <h2 className="font-sans font-bold text-[12px] tracking-widest" style={{ color: '#BCE5FF' }}>
                   PREFER LINKEDIN?
                 </h2>
-                <p className="font-mono text-[11px] leading-relaxed" style={{ color: '#5B90C8' }}>
+                <p className="font-sans text-[11px] leading-relaxed" style={{ color: '#5B90C8' }}>
                   Connect or send a message directly through LinkedIn.
                 </p>
                 <a
                   href="https://linkedin.com/in/thejamesmoore"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-mono text-[10px] tracking-widest px-5 py-2 text-center transition-colors duration-150"
-                  style={{ backgroundColor: '#0E3A9A', border: '1px solid #3D7FD4', color: '#BCE5FF', borderRadius: '6px' }}
+                  className="font-sans text-[12.5px] tracking-widest px-5 py-2 text-center transition-colors duration-150"
+                  style={{ background: 'linear-gradient(180deg, #1A4FC4, #0E3A9A)', border: '1px solid #3D7FD4', color: '#BCE5FF', borderRadius: '6px' }}
                 >
                   VIEW LINKEDIN PROFILE ›
                 </a>

@@ -16,7 +16,7 @@ export default function ProofBar() {
       }}
     >
       <span
-        className="font-mono text-[8px] tracking-[0.2em]"
+        className="font-sans text-[8px] tracking-[0.2em]"
         style={{ color: '#A9CFFA' }}
       >
         CERTIFIED:
@@ -27,7 +27,7 @@ export default function ProofBar() {
             <span style={{ color: '#0D1E3A', fontFamily: 'monospace', fontSize: '8px' }}>·</span>
           )}
           <span
-            className="font-mono text-[8px] tracking-widest"
+            className="font-sans text-[8px] tracking-widest"
             style={{ color: '#A9CFFA' }}
           >
             {c}

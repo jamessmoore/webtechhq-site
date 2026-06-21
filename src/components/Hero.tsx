@@ -21,7 +21,7 @@ export default function Hero() {
       <div className="relative z-10 px-6 sm:px-10 py-10 sm:py-20 max-w-2xl">
         {/* Status badge */}
         <div
-          className="inline-flex items-center gap-2 px-3 py-1 mb-4 sm:mb-8 font-mono text-[9px] tracking-widest"
+          className="inline-flex items-center gap-2 px-3 py-1 mb-4 sm:mb-8 font-sans text-[9px] tracking-widest"
           style={{ backgroundColor: '#071830', border: '0.8px solid #1A3D7A', borderRadius: '4px', color: '#FFFFFF' }}
         >
           <span
@@ -43,7 +43,7 @@ export default function Hero() {
 
         {/* Body copy */}
         <p
-          className="font-mono text-[14px] sm:text-[21px] leading-relaxed mb-4 sm:mb-8 max-w-lg"
+          className="font-sans text-[18px] sm:text-[24px] leading-relaxed mb-4 sm:mb-8 max-w-lg"
           style={{ color: '#D3D3D3' }}
         >
           20+ years building and running infrastructure at scale. Now applying
@@ -57,7 +57,7 @@ export default function Hero() {
           {['20+ YRS EXP', 'ANTHROPIC CERTIFIED', 'MCP BUILDER', 'AWS · GCP · K8S'].map((chip) => (
             <span
               key={chip}
-              className="font-mono text-[10px] tracking-widest px-3 py-1"
+              className="font-sans text-[10px] tracking-widest px-3 py-1"
               style={{
                 backgroundColor: '#071830',
                 border: '0.6px solid #1A3D7A',
@@ -74,14 +74,14 @@ export default function Hero() {
         <div className="flex flex-wrap gap-4 mb-6 sm:mb-16">
           <Link
             href="/services"
-            className="font-mono font-bold text-[12px] tracking-widest px-7 py-3 transition-colors duration-150"
-            style={{ backgroundColor: '#0E3A9A', border: '1px solid #3D7FD4', color: '#89D4FF', borderRadius: '6px' }}
+            className="font-sans font-bold text-[15px] tracking-widest px-7 py-3 transition-colors duration-150"
+            style={{ background: 'linear-gradient(180deg, #1A4FC4, #0E3A9A)', border: '1px solid #3D7FD4', color: '#89D4FF', borderRadius: '6px' }}
           >
             VIEW SERVICES ›
           </Link>
           <Link
             href="/portfolio"
-            className="font-mono font-bold text-[12px] tracking-widest px-7 py-3 transition-colors duration-150"
+            className="font-sans font-bold text-[15px] tracking-widest px-7 py-3 transition-colors duration-150"
             style={{ backgroundColor: 'transparent', border: '1px solid #1A3D7A', color: '#89D4FF', borderRadius: '6px' }}
           >
             SEE MY WORK ›
@@ -90,7 +90,7 @@ export default function Hero() {
 
         {/* Tagline */}
         <p
-          className="font-mono text-[10px] tracking-widest"
+          className="font-sans text-[12px] tracking-widest"
           style={{ color: '#80AEE0' }}
         >
           FORGED IN EXPERIENCE. BUILT FOR WHAT&apos;S NEXT.

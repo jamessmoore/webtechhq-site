@@ -97,7 +97,7 @@ export default function Page() {
             {[0, 1].map((rep) => (
               <span key={rep} className="inline-flex shrink-0">
                 {marqueeItems.map((item, i) => (
-                  <span key={i} className="font-mono text-[10px] tracking-widest" style={{ color: '#FFFFFF', padding: '0 2rem' }}>
+                  <span key={i} className="font-sans text-[10px] tracking-widest" style={{ color: '#FFFFFF', padding: '0 2rem' }}>
                     {item}
                     <span style={{ color: '#1A3D7A', margin: '0 0.5rem' }}>·</span>
                   </span>
@@ -110,14 +110,14 @@ export default function Page() {
         {/* Page header */}
         <section className="px-10 pt-8 pb-12">
           <div className="max-w-3xl mx-auto">
-            <span className="font-mono font-bold tracking-[0.3em]" style={{ fontSize: '1.75em', color: '#162D5A' }}>
+            <span className="font-sans font-bold tracking-[0.3em]" style={{ fontSize: '1.75em', color: '#162D5A' }}>
               USE CASES
             </span>
             <div style={{ height: '0.5px', backgroundColor: '#162D5A', width: '80px', marginTop: '4px', marginBottom: '24px' }} />
             <h1 className="font-sans font-black leading-tight mb-4" style={{ fontSize: '2rem', color: '#EEF6FF' }}>
               Real problems. <span style={{ color: '#BCE5FF' }}>Practical AI solutions.</span>
             </h1>
-            <p className="font-mono text-[20px] leading-relaxed" style={{ color: '#80AEE0' }}>
+            <p className="font-sans text-[24px] leading-relaxed" style={{ color: '#80AEE0' }}>
               Here&apos;s what AI actually looks like when it&apos;s working inside a small
               business — not the hype, just the everyday problems it solves.
             </p>
@@ -133,7 +133,7 @@ export default function Page() {
           >
             <div className="max-w-3xl mx-auto">
               {/* Headline */}
-              <h2 className="font-mono font-bold text-[24px] tracking-widest mb-4" style={{ color: '#BCE5FF' }}>
+              <h2 className="font-sans font-bold text-[24px] tracking-widest mb-4" style={{ color: '#BCE5FF' }}>
                 {u.headline}
               </h2>
 
@@ -143,7 +143,7 @@ export default function Page() {
                   className="inline-block w-[6px] h-[6px] rounded-full shrink-0"
                   style={{ backgroundColor: '#3D7FD4' }}
                 />
-                <span className="font-mono text-[10px] tracking-widest" style={{ color: '#80AEE0' }}>
+                <span className="font-sans text-[18px] tracking-widest" style={{ color: '#80AEE0' }}>
                   {u.category}
                 </span>
               </div>
@@ -162,28 +162,28 @@ export default function Page() {
                 style={{ backgroundColor: '#071525', border: '0.8px solid #162D5A', borderRadius: '2px' }}
               >
                 <div className="mb-4">
-                  <span className="font-mono text-[10px] tracking-widest block mb-1" style={{ color: '#2D5A9E' }}>
+                  <span className="font-sans text-[16px] tracking-widest block mb-1" style={{ color: '#2D5A9E' }}>
                     THE PROBLEM
                   </span>
-                  <p className="font-mono text-[15px] leading-relaxed" style={{ color: '#EEF6FF' }}>
+                  <p className="font-sans text-[21px] leading-relaxed" style={{ color: '#EEF6FF' }}>
                     {u.problem}
                   </p>
                 </div>
 
                 <div className="mb-4">
-                  <span className="font-mono text-[10px] tracking-widest block mb-1" style={{ color: '#2D5A9E' }}>
+                  <span className="font-sans text-[16px] tracking-widest block mb-1" style={{ color: '#2D5A9E' }}>
                     THE SOLUTION
                   </span>
-                  <p className="font-mono text-[15px] leading-relaxed" style={{ color: '#EEF6FF' }}>
+                  <p className="font-sans text-[21px] leading-relaxed" style={{ color: '#EEF6FF' }}>
                     {u.solution}
                   </p>
                 </div>
 
                 <div className="flex gap-3 items-start pt-4" style={{ borderTop: '0.5px solid #162D5A' }}>
-                  <span className="font-mono text-[15px] leading-relaxed" style={{ color: '#4ADE80' }}>
+                  <span className="font-sans text-[21px] leading-relaxed" style={{ color: '#4ADE80' }}>
                     ›
                   </span>
-                  <p className="font-mono text-[15px] leading-relaxed font-bold" style={{ color: '#4ADE80' }}>
+                  <p className="font-sans text-[21px] leading-relaxed font-bold" style={{ color: '#4ADE80' }}>
                     {u.result}
                   </p>
                 </div>
@@ -195,7 +195,7 @@ export default function Page() {
         {/* Disclaimer */}
         <section className="px-10 py-[15px]" style={{ borderTop: '0.5px solid #162D5A' }}>
           <div className="max-w-3xl mx-auto">
-            <p className="font-mono text-[11px] leading-relaxed tracking-wide" style={{ color: '#2D5A9E' }}>
+            <p className="font-sans text-[13.5px] leading-relaxed tracking-wide" style={{ color: '#2D5A9E' }}>
               NOTE: The scenarios above are illustrative — based on the types of problems I
               commonly see small businesses face, not specific past client engagements. Every
               business is different, and that&apos;s exactly the kind of thing worth talking through.
@@ -209,13 +209,13 @@ export default function Page() {
             <h2 className="font-sans font-black leading-tight mb-4" style={{ fontSize: '1.75rem', color: '#EEF6FF' }}>
               See what this looks like for your business.
             </h2>
-            <p className="font-mono text-[15px] leading-relaxed mb-8" style={{ color: '#5B90C8' }}>
+            <p className="font-sans text-[21px] leading-relaxed mb-8" style={{ color: '#5B90C8' }}>
               Let&apos;s talk about where AI could actually move the needle for you.
             </p>
             <Link
               href="/contact"
-              className="inline-block font-mono text-[10px] tracking-widest px-7 py-3 transition-colors duration-150"
-              style={{ backgroundColor: '#0E3A9A', border: '1px solid #3D7FD4', color: '#BCE5FF', borderRadius: '6px' }}
+              className="inline-block font-sans text-[12.5px] tracking-widest px-7 py-3 transition-colors duration-150"
+              style={{ background: 'linear-gradient(180deg, #1A4FC4, #0E3A9A)', border: '1px solid #3D7FD4', color: '#BCE5FF', borderRadius: '6px' }}
             >
               LET&apos;S TALK ›
             </Link>
