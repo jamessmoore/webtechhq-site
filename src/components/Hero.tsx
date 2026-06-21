@@ -43,7 +43,7 @@ export default function Hero() {
 
         {/* Body copy */}
         <p
-          className="font-sans text-[24px] leading-relaxed mb-4 sm:mb-8 max-w-lg"
+          className="font-sans text-[18px] sm:text-[24px] leading-relaxed mb-4 sm:mb-8 max-w-lg"
           style={{ color: '#D3D3D3' }}
         >
           20+ years building and running infrastructure at scale. Now applying
