@@ -11,7 +11,7 @@ export default function Page() {
         {/* Page header */}
         <section className="px-10 pt-8 pb-[15px]">
           <div className="max-w-3xl mx-auto">
-            <span className="font-sans font-bold tracking-[0.3em]" style={{ fontSize: '1.75em', color: '#162D5A' }}>
+            <span className="font-sans font-bold tracking-[0.3em]" style={{ fontSize: '1.75em', color: '#1A3D7A' }}>
               ABOUT
             </span>
             <div style={{ height: '0.5px', backgroundColor: '#162D5A', width: '80px', marginTop: '4px', marginBottom: '24px' }} />
@@ -35,7 +35,7 @@ export default function Page() {
 
             {/* Sub-headline */}
             <p
-              className="font-sans text-[11px] tracking-widest"
+              className="font-sans text-[12px] tracking-widest"
               style={{ color: '#5B90C8' }}
             >
               AI INNOVATOR · AGENTIC CURATOR · ENTREPRENEUR

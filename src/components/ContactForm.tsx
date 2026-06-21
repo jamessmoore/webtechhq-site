@@ -7,7 +7,7 @@ import { sendContactMessage, type ContactFormState } from '@/app/contact/actions
 const initialState: ContactFormState = { status: 'idle' }
 
 const labelStyle = {
-  color: '#1A3D7A',
+  color: '#FFFFFF',
 }
 
 const fieldStyle = {

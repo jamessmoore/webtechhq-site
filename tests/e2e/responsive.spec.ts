@@ -79,7 +79,15 @@ test.describe('footer responsiveness', () => {
     await page.goto('/')
     await page.locator('footer').scrollIntoViewIfNeeded()
 
-    await expect(page.locator('footer').getByRole('link', { name: 'CONTACT', exact: true })).toBeVisible()
+    const viewport = page.viewportSize()
+    const isNarrow = !!viewport && viewport.width < 640
+
+    const contactLink = page.locator('footer').getByRole('link', { name: 'CONTACT', exact: true })
+    if (isNarrow) {
+      await expect(contactLink).toBeHidden()
+    } else {
+      await expect(contactLink).toBeVisible()
+    }
     await expect(page.locator('footer').getByRole('link', { name: 'GitHub' })).toBeVisible()
   })
 })

@@ -96,6 +96,9 @@ test.describe('footer', () => {
     { label: 'CONTACT', path: '/contact' },
   ]) {
     test(`footer link "${label}" navigates to ${path}`, async ({ page }) => {
+      const viewport = page.viewportSize()
+      test.skip(!!viewport && viewport.width < 640, 'footer nav links are hidden below the sm breakpoint')
+
       await page.goto('/')
       await page.locator('footer').getByRole('link', { name: label, exact: true }).click()
       await expect(page).toHaveURL(new RegExp(`${path}$`))

@@ -9,7 +9,7 @@ const sections = [
     title: 'BUSINESS ANALYTICS',
     image: '/images/services/business-analytics.jpg',
     content:
-      'Turn your data into decisions. I help you identify the right metrics, surface the right insights, and act on them.',
+      'Eliminate the noise and make informed decisions based on your data. I help you identify the right metrics, surface the right insights, and act on them.',
   },
   {
     id: 'ai-consulting',
@@ -17,14 +17,14 @@ const sections = [
     title: 'AI CONSULTING & AGENT DEVELOPMENT',
     image: '/images/services/ai-consulting.jpg',
     content:
-      'I help you figure out where AI actually fits in your business — then build it, from strategy through working prototype.',
+      'I help you figure out where AI actually fits in your business — then I implement it, from strategy through working prototype.',
   },
   {
     id: 'automation',
     title: 'INTELLIGENT AUTOMATION',
     image: '/images/services/automation.jpg',
     content:
-      "If a human on your team is doing something repeatedly, a system should probably be doing it instead. Let's find those gaps.",
+      "If a human on your team is doing something repeatedly, a system should probably be doing it instead. Let's find those gaps and reduce your operational costs.",
   },
 ]
 
@@ -36,7 +36,7 @@ export default function Page() {
         {/* Page header */}
         <section className="px-10 pt-8 pb-12">
           <div className="max-w-3xl mx-auto">
-            <span className="font-sans font-bold tracking-[0.3em]" style={{ fontSize: '1.75em', color: '#162D5A' }}>
+            <span className="font-sans font-bold tracking-[0.3em]" style={{ fontSize: '1.75em', color: '#1A3D7A' }}>
               SERVICES
             </span>
             <div style={{ height: '0.5px', backgroundColor: '#162D5A', width: '80px', marginTop: '4px', marginBottom: '24px' }} />
