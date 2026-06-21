@@ -9,7 +9,7 @@ const sections = [
     title: 'BUSINESS ANALYTICS',
     image: '/images/services/business-analytics.jpg',
     content:
-      'Eliminate the noise and make informed decisions based on your data. I help you identify the right metrics, surface the right insights, and act on them.',
+      'Eliminate the noise and make informed decisions based on your data. I help you identify the right metrics, surface the right insights and act on them.',
   },
   {
     id: 'ai-consulting',
@@ -46,7 +46,7 @@ export default function Page() {
             <p className="font-sans text-[24px] leading-relaxed" style={{ color: '#80AEE0' }}>
               Every engagement below draws on the same foundation — 20+ years running production
               systems, plus hands-on experience building real AI agents and MCP integrations. Pick
-              the lane that fits, or combine them. Either way, you get a senior engineer who ships.
+              the lane that fits or combine them. Either way, you get a senior engineer who delivers a robust solution.
             </p>
           </div>
         </section>

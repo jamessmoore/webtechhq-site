@@ -48,7 +48,7 @@ export default function Hero() {
         >
           20+ years building and running infrastructure at scale. Now applying
           that same battle-tested rigor to AI integration, agentic systems, and
-          MCP-powered automation. I build and ship independently — no hand-holding,
+          MCP-powered automation. I build and deploy independently — no hand-holding,
           just results.
         </p>
 
