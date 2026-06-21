@@ -8,6 +8,10 @@ const projects = [
     content:
       'A custom Model Context Protocol server that audits AWS EC2 infrastructure for security and compliance issues — flagging untagged instances, public IP exposure, and overly permissive security groups — then generates client-ready reports in Markdown, HTML, or PDF.',
     href: 'https://github.com/jamessmoore/aws-audit-mcp',
+    variant: {
+      label: 'VIEW CORESAMPLE ›',
+      href: 'https://github.com/jamessmoore/CoreSample',
+    },
   },
   {
     id: 'daily-tech-brief',
