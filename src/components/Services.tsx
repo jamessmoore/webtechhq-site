@@ -89,10 +89,7 @@ export default function Services() {
               >
                 {s.subtitle}
               </p>
-              <p
-                className="font-sans text-[19px] leading-relaxed flex-1 transition-all duration-200 group-active:!text-white"
-                style={{ color: '#3A6AAA' }}
-              >
+              <p className="font-sans text-[19px] leading-relaxed flex-1 text-white">
                 {s.description}
               </p>
               <span

@@ -16,7 +16,7 @@ const sections = [
     title: 'SAAS DEVELOPMENT',
     image: '/images/services/technical/saas.jpg',
     content:
-      "Got a product idea that solves a real problem? I'll help you architect and ship it without building a team first.",
+      "Got a product idea that solves a real problem? I'll help you architect and deploy it without building a team first.",
   },
   {
     id: 'cloud-management',
@@ -51,7 +51,7 @@ export default function Page() {
             </Link>
             <span
               className="font-sans font-bold tracking-[0.3em] block mt-4"
-              style={{ fontSize: '1.75em', color: '#162D5A' }}
+              style={{ fontSize: '1.75em', color: '#1A3D7A' }}
             >
               TECHNICAL SERVICES
             </span>

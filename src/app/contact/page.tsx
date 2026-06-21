@@ -41,7 +41,7 @@ export default function Page() {
                 <h2 className="font-sans font-bold text-[12px] tracking-widest" style={{ color: '#BCE5FF' }}>
                   PREFER LINKEDIN?
                 </h2>
-                <p className="font-sans text-[11px] leading-relaxed" style={{ color: '#5B90C8' }}>
+                <p className="font-sans text-[15px] leading-relaxed" style={{ color: '#5B90C8' }}>
                   Connect or send a message directly through LinkedIn.
                 </p>
                 <a

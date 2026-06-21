@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import HexMark from '@/components/HexMark'
 
 const marqueeItems = [
   'AI AUTOMATION',
@@ -97,9 +98,11 @@ export default function Page() {
             {[0, 1].map((rep) => (
               <span key={rep} className="inline-flex shrink-0">
                 {marqueeItems.map((item, i) => (
-                  <span key={i} className="font-sans text-[10px] tracking-widest" style={{ color: '#FFFFFF', padding: '0 2rem' }}>
+                  <span key={i} className="inline-flex items-center font-sans text-[17px] tracking-widest" style={{ color: '#FFFFFF', padding: '0 2rem' }}>
                     {item}
-                    <span style={{ color: '#1A3D7A', margin: '0 0.5rem' }}>·</span>
+                    <span style={{ margin: '0 0.5rem' }}>
+                      <HexMark size={10} />
+                    </span>
                   </span>
                 ))}
               </span>
@@ -110,7 +113,7 @@ export default function Page() {
         {/* Page header */}
         <section className="px-10 pt-8 pb-12">
           <div className="max-w-3xl mx-auto">
-            <span className="font-sans font-bold tracking-[0.3em]" style={{ fontSize: '1.75em', color: '#162D5A' }}>
+            <span className="font-sans font-bold tracking-[0.3em]" style={{ fontSize: '1.75em', color: '#1A3D7A' }}>
               USE CASES
             </span>
             <div style={{ height: '0.5px', backgroundColor: '#162D5A', width: '80px', marginTop: '4px', marginBottom: '24px' }} />

@@ -1,5 +1,6 @@
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import HexMark from '@/components/HexMark'
 
 const projects = [
   {
@@ -55,7 +56,7 @@ export default function Page() {
         {/* Page header */}
         <section className="px-10 pt-8 pb-12">
           <div className="max-w-3xl mx-auto">
-            <span className="font-sans font-bold tracking-[0.3em]" style={{ fontSize: '1.75em', color: '#162D5A' }}>
+            <span className="font-sans font-bold tracking-[0.3em]" style={{ fontSize: '1.75em', color: '#1A3D7A' }}>
               PORTFOLIO
             </span>
             <div style={{ height: '0.5px', backgroundColor: '#162D5A', width: '80px', marginTop: '4px', marginBottom: '24px' }} />
@@ -79,25 +80,24 @@ export default function Page() {
                 className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-6 py-6"
                 style={i < projects.length - 1 ? { borderBottom: '0.5px solid #162D5A' } : undefined}
               >
-                <div className="flex gap-3">
-                  <span
-                    className="mt-[7px] inline-block w-[6px] h-[6px] rounded-full shrink-0"
-                    style={{ backgroundColor: '#3D7FD4' }}
-                  />
-                  <div>
+                <div>
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="shrink-0">
+                      <HexMark size={14} />
+                    </span>
                     <h2
-                      className="font-sans font-bold text-[21px] tracking-widest mb-2"
+                      className="font-sans font-bold text-[21px] tracking-widest"
                       style={{ color: '#BCE5FF' }}
                     >
                       {p.title}
                     </h2>
-                    <p
-                      className="font-sans text-[18px] leading-relaxed"
-                      style={{ color: '#FFFFFF' }}
-                    >
-                      {p.content}
-                    </p>
                   </div>
+                  <p
+                    className="font-sans text-[18px] leading-relaxed"
+                    style={{ color: '#FFFFFF' }}
+                  >
+                    {p.content}
+                  </p>
                 </div>
                 <div className="shrink-0 self-start sm:text-right flex flex-col gap-2">
                   <a

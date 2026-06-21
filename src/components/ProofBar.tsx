@@ -1,3 +1,5 @@
+import HexMark from './HexMark'
+
 const credentials = [
   'ANTHROPIC CLAUDE',
   'AMAZON BEDROCK',
@@ -16,18 +18,16 @@ export default function ProofBar() {
       }}
     >
       <span
-        className="font-sans text-[8px] tracking-[0.2em]"
+        className="font-sans text-[11px] tracking-[0.2em]"
         style={{ color: '#A9CFFA' }}
       >
         CERTIFIED:
       </span>
       {credentials.map((c, i) => (
         <span key={c} className="flex items-center gap-4">
-          {i > 0 && (
-            <span style={{ color: '#0D1E3A', fontFamily: 'monospace', fontSize: '8px' }}>·</span>
-          )}
+          {i > 0 && <HexMark size={11} />}
           <span
-            className="font-sans text-[8px] tracking-widest"
+            className="font-sans text-[11px] tracking-widest"
             style={{ color: '#A9CFFA' }}
           >
             {c}
