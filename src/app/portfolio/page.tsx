@@ -3,11 +3,15 @@ import Footer from '@/components/Footer'
 
 const projects = [
   {
-    id: 'aws-audit-mcp',
-    title: 'AWS AUDIT MCP SERVER',
+    id: 'coresample',
+    title: 'CORESAMPLE — AWS AUDIT FRAMEWORK',
     content:
-      'A custom Model Context Protocol server that audits AWS EC2 infrastructure for security and compliance issues — flagging untagged instances, public IP exposure, and overly permissive security groups — then generates client-ready reports in Markdown, HTML, or PDF.',
-    href: 'https://github.com/jamessmoore/aws-audit-mcp',
+      'An AWS-native security and compliance audit framework built on Amazon Bedrock and MCP. The audit logic, the foundation-model invocation, and every AWS API call run entirely inside the account boundary — no external service ever reaches in to inspect your infrastructure. Read-only, per-service IAM roles scan EC2 for untagged instances, public IP exposure, and overly permissive security groups, then hand findings to a dedicated reporting MCP server for a client-ready report.',
+    href: 'https://github.com/jamessmoore/CoreSample',
+    variant: {
+      label: 'VIEW AWS AUDIT MCP ›',
+      href: 'https://github.com/jamessmoore/aws-audit-mcp',
+    },
   },
   {
     id: 'daily-tech-brief',
