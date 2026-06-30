@@ -19,3 +19,8 @@ next-env.d.ts
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# SQLite database
+/data/*.db
+/data/*.db-shm
+/data/*.db-wal
