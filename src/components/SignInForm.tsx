@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useRef, useState, FormEvent } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function SignInForm() {
   const router = useRouter();
@@ -13,25 +14,37 @@ export default function SignInForm() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState("");
+  const recaptchaRef = useRef<ReCAPTCHA | null>(null);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    if (!recaptchaToken && process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) {
+      setError("Please complete the reCAPTCHA check before continuing.");
+      return;
+    }
     setLoading(true);
     setError(null);
 
     const result = await signIn("credentials", {
       email,
       password,
+      recaptchaToken,
       redirect: false,
     });
 
     setLoading(false);
 
     if (!result?.ok) {
+      recaptchaRef.current?.reset();
+      setRecaptchaToken("");
+
       if (result?.error === "EMAIL_NOT_VERIFIED") {
         setError(
           "Please verify your email before signing in. Check your inbox for a verification link.",
         );
+      } else if (result?.error === "RECAPTCHA_FAILED") {
+        setError("reCAPTCHA verification failed. Please try again.");
       } else {
         setError("Incorrect email or password.");
       }
@@ -78,13 +91,22 @@ export default function SignInForm() {
 
       {/* Password */}
       <div>
-        <label
-          htmlFor="signin-password"
-          className="block text-xs mb-1.5 tracking-wider"
-          style={{ color: "#6B8CAE" }}
-        >
-          PASSWORD
-        </label>
+        <div className="flex items-center justify-between mb-1.5">
+          <label
+            htmlFor="signin-password"
+            className="block text-xs tracking-wider"
+            style={{ color: "#6B8CAE" }}
+          >
+            PASSWORD
+          </label>
+          <a
+            href="/forgot-password"
+            className="text-xs underline hover:no-underline"
+            style={{ color: "#89D4FF" }}
+          >
+            Forgot password?
+          </a>
+        </div>
         <input
           id="signin-password"
           type="password"
@@ -105,6 +127,21 @@ export default function SignInForm() {
         />
       </div>
 
+      {/* reCAPTCHA */}
+      {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ? (
+        <ReCAPTCHA
+          ref={recaptchaRef}
+          sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+          onChange={(value) => setRecaptchaToken(value ?? "")}
+          onExpired={() => setRecaptchaToken("")}
+          theme="dark"
+        />
+      ) : (
+        <p className="font-sans text-[9px] tracking-widest" style={{ color: "#E0556F" }}>
+          reCAPTCHA not configured — set NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+        </p>
+      )}
+
       {/* Error */}
       {error && (
         <p
@@ -122,7 +159,7 @@ export default function SignInForm() {
       {/* Submit */}
       <button
         type="submit"
-        disabled={loading}
+        disabled={loading || (!!process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && !recaptchaToken)}
         className="w-full py-3 text-sm font-bold tracking-widest transition-all duration-150 disabled:opacity-60"
         style={{
           background: loading ? "#0E3A9A" : "linear-gradient(180deg, #1A4FC4, #0E3A9A)",

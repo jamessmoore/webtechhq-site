@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import { getUserByEmail, createUser } from "@/lib/users";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/email";
+import { verifyRecaptcha } from "@/lib/recaptcha";
 
 export async function POST(request: NextRequest) {
   try {
@@ -32,23 +33,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify reCAPTCHA
-    const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
-    if (recaptchaSecret) {
-      const recaptchaRes = await fetch(
-        "https://www.google.com/recaptcha/api/siteverify",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: `secret=${recaptchaSecret}&response=${recaptchaToken}`,
-        },
+    if (!(await verifyRecaptcha(recaptchaToken))) {
+      return NextResponse.json(
+        { error: "reCAPTCHA verification failed. Please try again." },
+        { status: 400 },
       );
-      const recaptchaData = (await recaptchaRes.json()) as { success: boolean };
-      if (!recaptchaData.success) {
-        return NextResponse.json(
-          { error: "reCAPTCHA verification failed. Please try again." },
-          { status: 400 },
-        );
-      }
     }
 
     // Check for existing account

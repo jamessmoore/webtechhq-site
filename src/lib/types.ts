@@ -11,6 +11,8 @@ export interface User {
   emailVerifiedAt?: string;
   verificationToken?: string;
   verificationExpiresAt?: string;
+  resetToken?: string;
+  resetExpiresAt?: string;
   createdAt: string;
 }
 
@@ -25,6 +27,8 @@ export interface UserRow {
   email_verified_at: string | null;
   verification_token: string | null;
   verification_expires_at: string | null;
+  reset_token: string | null;
+  reset_expires_at: string | null;
   created_at: string;
 }
 
@@ -40,6 +44,8 @@ export function rowToUser(row: UserRow): User {
     emailVerifiedAt: row.email_verified_at ?? undefined,
     verificationToken: row.verification_token ?? undefined,
     verificationExpiresAt: row.verification_expires_at ?? undefined,
+    resetToken: row.reset_token ?? undefined,
+    resetExpiresAt: row.reset_expires_at ?? undefined,
     createdAt: row.created_at,
   };
 }

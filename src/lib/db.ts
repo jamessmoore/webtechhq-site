@@ -32,6 +32,8 @@ function migrate(db: Database.Database): void {
       email_verified_at       TEXT,
       verification_token      TEXT,
       verification_expires_at TEXT,
+      reset_token             TEXT,
+      reset_expires_at        TEXT,
       created_at              TEXT NOT NULL
     );
 
@@ -43,6 +45,9 @@ function migrate(db: Database.Database): void {
 
     CREATE INDEX IF NOT EXISTS idx_users_token
       ON users (verification_token);
+
+    CREATE INDEX IF NOT EXISTS idx_users_reset_token
+      ON users (reset_token);
 
     CREATE TABLE IF NOT EXISTS submissions (
       id                       TEXT PRIMARY KEY,
@@ -76,4 +81,15 @@ function migrate(db: Database.Database): void {
     CREATE INDEX IF NOT EXISTS idx_submissions_status
       ON submissions (approval_status);
   `);
+
+  // Backfill reset_token columns for databases created before they existed.
+  const columns = db.prepare("PRAGMA table_info(users)").all() as { name: string }[];
+  const columnNames = new Set(columns.map((c) => c.name));
+  if (!columnNames.has("reset_token")) {
+    db.exec("ALTER TABLE users ADD COLUMN reset_token TEXT");
+    db.exec("CREATE INDEX IF NOT EXISTS idx_users_reset_token ON users (reset_token)");
+  }
+  if (!columnNames.has("reset_expires_at")) {
+    db.exec("ALTER TABLE users ADD COLUMN reset_expires_at TEXT");
+  }
 }

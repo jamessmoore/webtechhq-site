@@ -8,6 +8,7 @@ import {
   linkGoogleAccount,
   getUserPasswordHash,
 } from "@/lib/users";
+import { verifyRecaptcha } from "@/lib/recaptcha";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   session: { strategy: "jwt" },
@@ -21,11 +22,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       credentials: {
         email: {},
         password: {},
+        recaptchaToken: {},
       },
       authorize: async (credentials) => {
         const email = credentials?.email as string;
         const password = credentials?.password as string;
+        const recaptchaToken = credentials?.recaptchaToken as string;
         if (!email || !password) return null;
+
+        if (!(await verifyRecaptcha(recaptchaToken))) {
+          throw new Error("RECAPTCHA_FAILED");
+        }
 
         const user = getUserByEmail(email);
         if (!user) return null;

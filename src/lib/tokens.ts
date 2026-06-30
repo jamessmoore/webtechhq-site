@@ -1,16 +1,26 @@
 import { randomUUID } from "crypto";
 
 const EXPIRY_HOURS = 24;
+const RESET_EXPIRY_HOURS = 1;
+
+function generateToken(hours: number): { token: string; expiresAt: string } {
+  const token = randomUUID();
+  const expiresAt = new Date(Date.now() + hours * 60 * 60 * 1000).toISOString();
+  return { token, expiresAt };
+}
 
 export function generateVerificationToken(): {
   token: string;
   expiresAt: string;
 } {
-  const token = randomUUID();
-  const expiresAt = new Date(
-    Date.now() + EXPIRY_HOURS * 60 * 60 * 1000,
-  ).toISOString();
-  return { token, expiresAt };
+  return generateToken(EXPIRY_HOURS);
+}
+
+export function generateResetToken(): {
+  token: string;
+  expiresAt: string;
+} {
+  return generateToken(RESET_EXPIRY_HOURS);
 }
 
 export function isTokenExpired(expiresAt: string): boolean {

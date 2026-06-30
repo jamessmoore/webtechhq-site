@@ -89,3 +89,36 @@ export function getUserPasswordHash(email: string): string | null {
     | undefined;
   return row?.password_hash ?? null;
 }
+
+export function setPasswordResetToken(
+  userId: string,
+  token: string,
+  expiresAt: string,
+): void {
+  const db = getDb();
+  db.prepare("UPDATE users SET reset_token = ?, reset_expires_at = ? WHERE id = ?").run(
+    token,
+    expiresAt,
+    userId,
+  );
+}
+
+export function getUserByResetToken(token: string): User | null {
+  const db = getDb();
+  const row = db.prepare("SELECT * FROM users WHERE reset_token = ?").get(token) as
+    | UserRow
+    | undefined;
+  return row ? rowToUser(row) : null;
+}
+
+/** Sets a new password hash and clears any pending reset token. */
+export function resetUserPassword(userId: string, passwordHash: string): void {
+  const db = getDb();
+  db.prepare(`
+    UPDATE users
+    SET password_hash = ?,
+        reset_token = NULL,
+        reset_expires_at = NULL
+    WHERE id = ?
+  `).run(passwordHash, userId);
+}
