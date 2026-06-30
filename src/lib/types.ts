@@ -1,8 +1,52 @@
-export type ApprovalStatus =
-  | "pending_verification"
-  | "pending_review"
-  | "approved"
-  | "rejected";
+// ─── Users ────────────────────────────────────────────────────────────────────
+
+export interface User {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  passwordHash?: string;
+  googleId?: string;
+  emailVerified: boolean;
+  emailVerifiedAt?: string;
+  verificationToken?: string;
+  verificationExpiresAt?: string;
+  createdAt: string;
+}
+
+export interface UserRow {
+  id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  password_hash: string | null;
+  google_id: string | null;
+  email_verified: 0 | 1;
+  email_verified_at: string | null;
+  verification_token: string | null;
+  verification_expires_at: string | null;
+  created_at: string;
+}
+
+export function rowToUser(row: UserRow): User {
+  return {
+    id: row.id,
+    firstName: row.first_name,
+    lastName: row.last_name,
+    email: row.email,
+    passwordHash: row.password_hash ?? undefined,
+    googleId: row.google_id ?? undefined,
+    emailVerified: row.email_verified === 1,
+    emailVerifiedAt: row.email_verified_at ?? undefined,
+    verificationToken: row.verification_token ?? undefined,
+    verificationExpiresAt: row.verification_expires_at ?? undefined,
+    createdAt: row.created_at,
+  };
+}
+
+// ─── Submissions ──────────────────────────────────────────────────────────────
+
+export type ApprovalStatus = "pending_review" | "approved" | "rejected";
 
 export type ValidationFlag =
   | "suspicious_email"
@@ -11,8 +55,7 @@ export type ValidationFlag =
   | "misaligned_answers"
   | "high_compliance_risk"
   | "low_ai_fit"
-  | "no_data_available"
-  | "unverified_email";
+  | "no_data_available";
 
 export type TeamSize = "Solo" | "2-5" | "6-10" | "10+";
 
@@ -33,8 +76,7 @@ export type DataAnswer =
 
 export interface Submission {
   id: string;
-  name: string;
-  email: string;
+  userId: string;
   businessType?: string;
   teamSize?: TeamSize;
   layer1Problem?: string;
@@ -47,11 +89,6 @@ export interface Submission {
   layer3Data?: DataAnswer;
   additionalNotes?: string;
   submittedAt: string;
-  emailVerified: boolean;
-  emailVerifiedAt?: string;
-  idpVerified: boolean;
-  verificationToken?: string;
-  verificationExpiresAt?: string;
   validationFlags: ValidationFlag[];
   approvalStatus: ApprovalStatus;
   approvedBy?: string;
@@ -59,11 +96,9 @@ export interface Submission {
   adminNotes?: string;
 }
 
-/** Row shape as stored in SQLite (snake_case, booleans as 0/1, flags as JSON string) */
 export interface SubmissionRow {
   id: string;
-  name: string;
-  email: string;
+  user_id: string;
   business_type: string | null;
   team_size: string | null;
   layer1_problem: string | null;
@@ -76,11 +111,6 @@ export interface SubmissionRow {
   layer3_data: string | null;
   additional_notes: string | null;
   submitted_at: string;
-  email_verified: 0 | 1;
-  email_verified_at: string | null;
-  idp_verified: 0 | 1;
-  verification_token: string | null;
-  verification_expires_at: string | null;
   validation_flags: string;
   approval_status: ApprovalStatus;
   approved_by: string | null;
@@ -91,8 +121,7 @@ export interface SubmissionRow {
 export function rowToSubmission(row: SubmissionRow): Submission {
   return {
     id: row.id,
-    name: row.name,
-    email: row.email,
+    userId: row.user_id,
     businessType: row.business_type ?? undefined,
     teamSize: (row.team_size as TeamSize) ?? undefined,
     layer1Problem: row.layer1_problem ?? undefined,
@@ -105,15 +134,16 @@ export function rowToSubmission(row: SubmissionRow): Submission {
     layer3Data: (row.layer3_data as DataAnswer) ?? undefined,
     additionalNotes: row.additional_notes ?? undefined,
     submittedAt: row.submitted_at,
-    emailVerified: row.email_verified === 1,
-    emailVerifiedAt: row.email_verified_at ?? undefined,
-    idpVerified: row.idp_verified === 1,
-    verificationToken: row.verification_token ?? undefined,
-    verificationExpiresAt: row.verification_expires_at ?? undefined,
     validationFlags: JSON.parse(row.validation_flags) as ValidationFlag[],
     approvalStatus: row.approval_status,
     approvedBy: row.approved_by ?? undefined,
     approvedAt: row.approved_at ?? undefined,
     adminNotes: row.admin_notes ?? undefined,
   };
+}
+
+// ─── Convenience join type (used in admin dashboard) ─────────────────────────
+
+export interface SubmissionWithUser extends Submission {
+  user: Pick<User, "firstName" | "lastName" | "email">;
 }
