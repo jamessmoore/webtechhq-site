@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Link from "next/link";
 import ReCAPTCHA from "react-google-recaptcha";
 import type {
   TeamSize,
@@ -434,6 +435,30 @@ function Step4({
   );
 }
 
+// ── AI disclosure ─────────────────────────────────────────────────────────────
+
+function AiDisclosureNotice() {
+  return (
+    <p
+      className="font-sans text-[11px] leading-relaxed mt-4"
+      style={{ color: "#5B90C8" }}
+    >
+      <strong style={{ color: "#80AEE0" }}>Heads up:</strong> This form uses
+      AI (Claude, via AWS Bedrock) to generate your personalized response.
+      Your answers are never sold or shared — they&apos;re used only to
+      reply to you and, with your permission, to follow up about working
+      together.{" "}
+      <Link
+        href="/privacy"
+        className="underline hover:no-underline"
+        style={{ color: "#89D4FF" }}
+      >
+        Privacy Policy
+      </Link>
+    </p>
+  );
+}
+
 // ── Progress bar ──────────────────────────────────────────────────────────────
 
 function ProgressBar({ step, total }: { step: number; total: number }) {
@@ -691,6 +716,8 @@ export default function Questionnaire({
           {error}
         </p>
       )}
+
+      {isLastStep && <AiDisclosureNotice />}
 
       <div
         className="flex items-center justify-between mt-6 pt-5"
