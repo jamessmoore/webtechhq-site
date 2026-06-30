@@ -70,6 +70,9 @@ function migrate(db: Database.Database): void {
     CREATE INDEX IF NOT EXISTS idx_submissions_user_id
       ON submissions (user_id);
 
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_submissions_user_unique
+      ON submissions (user_id);
+
     CREATE INDEX IF NOT EXISTS idx_submissions_status
       ON submissions (approval_status);
   `);

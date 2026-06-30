@@ -66,6 +66,21 @@ export function getSubmissionById(id: string): Submission | null {
   return row ? rowToSubmission(row) : null;
 }
 
+export function getSubmissionWithUser(id: string): SubmissionWithUser | null {
+  const db = getDb();
+  const row = db.prepare(`
+    SELECT s.*, u.first_name, u.last_name, u.email
+    FROM submissions s
+    JOIN users u ON u.id = s.user_id
+    WHERE s.id = ?
+  `).get(id) as (SubmissionRow & { first_name: string; last_name: string; email: string }) | undefined;
+  if (!row) return null;
+  return {
+    ...rowToSubmission(row),
+    user: { firstName: row.first_name, lastName: row.last_name, email: row.email },
+  };
+}
+
 export function getSubmissionsByUser(userId: string): Submission[] {
   const db = getDb();
   const rows = db.prepare("SELECT * FROM submissions WHERE user_id = ? ORDER BY submitted_at DESC").all(userId) as SubmissionRow[];
