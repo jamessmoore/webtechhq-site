@@ -12,7 +12,7 @@ export default function Page() {
         <section className="px-10 pt-[32px] pb-[15px]">
           <div className="max-w-3xl mx-auto">
             <h1 className="font-sans font-black leading-tight mb-4" style={{ fontSize: '2rem', color: '#EEF6FF' }}>
-              Let&apos;s talk.
+              Let&apos;s go.
             </h1>
             <p className="font-sans text-[24px] leading-relaxed" style={{ color: '#80AEE0' }}>
               Tell me about what you&apos;re working on — AI agents, automation, business

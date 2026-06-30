@@ -73,11 +73,11 @@ export default function Hero() {
         {/* CTAs */}
         <div className="flex flex-wrap gap-4 mb-6 sm:mb-16">
           <Link
-            href="/services"
+            href="/signup"
             className="font-sans font-bold text-[15px] tracking-widest px-7 py-3 transition-colors duration-150"
             style={{ background: 'linear-gradient(180deg, #1A4FC4, #0E3A9A)', border: '1px solid #3D7FD4', color: '#89D4FF', borderRadius: '6px' }}
           >
-            VIEW SERVICES ›
+            GET STARTED ›
           </Link>
           <Link
             href="/portfolio"

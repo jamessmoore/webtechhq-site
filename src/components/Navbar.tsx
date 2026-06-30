@@ -54,7 +54,7 @@ export default function Navbar() {
       {/* CTA */}
       <div className="hidden sm:block ml-auto">
         <Link
-          href="/contact"
+          href="/questionnaire"
           className="font-sans text-[12.5px] tracking-widest px-5 py-2 transition-colors duration-150"
           style={{
             background: 'linear-gradient(180deg, #1A4FC4, #0E3A9A)',
@@ -63,7 +63,7 @@ export default function Navbar() {
             borderRadius: '6px',
           }}
         >
-          LET&apos;S TALK ›
+          LET&apos;S GO ›
         </Link>
       </div>
 
@@ -107,7 +107,7 @@ export default function Navbar() {
             )
           })}
           <Link
-            href="/contact"
+            href="/questionnaire"
             onClick={() => setOpen(false)}
             className="font-sans text-[12.5px] tracking-widest px-6 py-3 text-center"
             style={{
@@ -116,7 +116,7 @@ export default function Navbar() {
               borderTop: '0.5px solid #162D5A',
             }}
           >
-            LET&apos;S TALK ›
+            LET&apos;S GO ›
           </Link>
         </div>
       )}
