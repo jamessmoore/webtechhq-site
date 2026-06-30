@@ -34,9 +34,9 @@ export function createSubmission(data: {
       layer1_problem, layer1_elimination,
       layer2_hours, layer2_salary,
       layer3_repetitive, layer3_compliance, layer3_compliance_detail, layer3_data,
-      additional_notes, submitted_at, validation_flags, approval_status
+      additional_notes, submitted_at, created_at, validation_flags, approval_status
     ) VALUES (
-      ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending_review'
+      ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending_review'
     )
   `).run(
     id,
@@ -52,6 +52,7 @@ export function createSubmission(data: {
     data.layer3ComplianceDetail ?? null,
     data.layer3Data ?? null,
     data.additionalNotes ?? null,
+    now,
     now,
     JSON.stringify(data.validationFlags ?? []),
   );

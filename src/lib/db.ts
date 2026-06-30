@@ -59,6 +59,7 @@ function migrate(db: Database.Database): void {
       layer3_data              TEXT,
       additional_notes         TEXT,
       submitted_at             TEXT NOT NULL,
+      created_at               TEXT NOT NULL,
       validation_flags         TEXT NOT NULL DEFAULT '[]',
       approval_status          TEXT NOT NULL DEFAULT 'pending_review',
       approved_by              TEXT,

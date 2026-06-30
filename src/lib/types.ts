@@ -89,6 +89,7 @@ export interface Submission {
   layer3Data?: DataAnswer;
   additionalNotes?: string;
   submittedAt: string;
+  createdAt: string;
   validationFlags: ValidationFlag[];
   approvalStatus: ApprovalStatus;
   approvedBy?: string;
@@ -111,6 +112,7 @@ export interface SubmissionRow {
   layer3_data: string | null;
   additional_notes: string | null;
   submitted_at: string;
+  created_at: string;
   validation_flags: string;
   approval_status: ApprovalStatus;
   approved_by: string | null;
@@ -134,6 +136,7 @@ export function rowToSubmission(row: SubmissionRow): Submission {
     layer3Data: (row.layer3_data as DataAnswer) ?? undefined,
     additionalNotes: row.additional_notes ?? undefined,
     submittedAt: row.submitted_at,
+    createdAt: row.created_at,
     validationFlags: JSON.parse(row.validation_flags) as ValidationFlag[],
     approvalStatus: row.approval_status,
     approvedBy: row.approved_by ?? undefined,
