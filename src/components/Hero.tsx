@@ -80,11 +80,11 @@ export default function Hero() {
             GET STARTED ›
           </Link>
           <Link
-            href="/portfolio"
+            href="/use-cases"
             className="font-sans font-bold text-[15px] tracking-widest px-7 py-3 transition-colors duration-150"
             style={{ backgroundColor: 'transparent', border: '1px solid #1A3D7A', color: '#89D4FF', borderRadius: '6px' }}
           >
-            SEE MY WORK ›
+            SEE HOW IT WORKS ›
           </Link>
         </div>
 

@@ -5,7 +5,7 @@ const PAGES = [
   { path: '/services', heading: 'Senior-level execution. No hand-holding required.' },
   { path: '/portfolio', heading: 'Recent builds, open for review.' },
   { path: '/about', heading: "Hi, I'm James Moore." },
-  { path: '/contact', heading: "Let's talk." },
+  { path: '/contact', heading: "Let's go." },
 ]
 
 const NAV_LINKS = [
@@ -45,14 +45,15 @@ test.describe('primary navigation', () => {
     })
   }
 
-  test('"LET\'S TALK" navigates to /contact', async ({ page }) => {
+  test('"LET\'S GO" navigates to signup when signed out', async ({ page }) => {
     await page.goto('/')
     await openMobileNavIfNeeded(page)
 
     const nav = page.getByRole('navigation', { name: 'Primary' })
-    await nav.getByRole('link', { name: /LET'S TALK/i }).click()
+    await nav.getByRole('link', { name: /LET'S GO/i }).click()
 
-    await expect(page).toHaveURL(/\/contact$/)
+    // /questionnaire is auth-gated and redirects signed-out visitors to /signup
+    await expect(page).toHaveURL(/\/signup$/)
   })
 
   test('logo returns home from a sub-page', async ({ page }) => {
@@ -75,16 +76,16 @@ test.describe('primary navigation', () => {
 })
 
 test.describe('hero CTAs', () => {
-  test('"VIEW SERVICES" button navigates to /services', async ({ page }) => {
+  test('"GET STARTED" button navigates to /signup', async ({ page }) => {
     await page.goto('/')
-    await page.getByRole('link', { name: /VIEW SERVICES/i }).click()
-    await expect(page).toHaveURL(/\/services$/)
+    await page.getByRole('link', { name: /GET STARTED/i }).click()
+    await expect(page).toHaveURL(/\/signup$/)
   })
 
-  test('"SEE MY WORK" button navigates to /portfolio', async ({ page }) => {
+  test('"SEE HOW IT WORKS" button navigates to /use-cases', async ({ page }) => {
     await page.goto('/')
-    await page.getByRole('link', { name: /SEE MY WORK/i }).click()
-    await expect(page).toHaveURL(/\/portfolio$/)
+    await page.getByRole('link', { name: /SEE HOW IT WORKS/i }).click()
+    await expect(page).toHaveURL(/\/use-cases$/)
   })
 })
 
@@ -137,9 +138,10 @@ test.describe('about page inline links', () => {
     await expect(page).toHaveURL(/\/services$/)
   })
 
-  test('"let\'s talk" link navigates to /contact', async ({ page }) => {
+  test('"let\'s go" link navigates to signup when signed out', async ({ page }) => {
     await page.goto('/about')
-    await page.locator('main').getByRole('link', { name: "let's talk" }).click()
-    await expect(page).toHaveURL(/\/contact$/)
+    await page.locator('main').getByRole('link', { name: "let's go" }).click()
+    // /questionnaire is auth-gated and redirects signed-out visitors to /signup
+    await expect(page).toHaveURL(/\/signup$/)
   })
 })
