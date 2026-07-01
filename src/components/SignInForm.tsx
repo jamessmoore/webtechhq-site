@@ -8,7 +8,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 export default function SignInForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") ?? "/questionnaire";
+  const callbackUrl = searchParams.get("callbackUrl") ?? "/panel";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

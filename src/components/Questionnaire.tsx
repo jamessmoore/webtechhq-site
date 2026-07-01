@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import ReCAPTCHA from "react-google-recaptcha";
 import type {
   TeamSize,
@@ -552,12 +553,16 @@ export default function Questionnaire({
   email,
   emailVerified,
   alreadySubmitted,
+  redirectOnSuccessHref,
 }: {
   firstName: string;
   email: string;
   emailVerified: boolean;
   alreadySubmitted: boolean;
+  /** If provided, navigates here on successful submit instead of showing SuccessScreen. */
+  redirectOnSuccessHref?: string;
 }) {
+  const router = useRouter();
   const [step, setStep] = useState(1);
   const [form, setForm] = useState<FormData>(INITIAL_FORM);
   const [error, setError] = useState<string | null>(null);
@@ -628,6 +633,10 @@ export default function Questionnaire({
         setError(data.error ?? "Something went wrong. Please try again.");
         recaptchaRef.current?.reset();
         setRecaptchaToken("");
+        return;
+      }
+      if (redirectOnSuccessHref) {
+        router.push(redirectOnSuccessHref);
         return;
       }
       setDone(true);

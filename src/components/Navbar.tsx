@@ -54,7 +54,7 @@ export default function Navbar() {
       {/* CTA */}
       <div className="hidden sm:block ml-auto">
         <Link
-          href="/questionnaire"
+          href="/panel"
           className="font-sans text-[12.5px] tracking-widest px-5 py-2 transition-colors duration-150"
           style={{
             background: 'linear-gradient(180deg, #1A4FC4, #0E3A9A)',
@@ -107,7 +107,7 @@ export default function Navbar() {
             )
           })}
           <Link
-            href="/questionnaire"
+            href="/panel"
             onClick={() => setOpen(false)}
             className="font-sans text-[12.5px] tracking-widest px-6 py-3 text-center"
             style={{

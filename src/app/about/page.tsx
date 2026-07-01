@@ -83,7 +83,7 @@ export default function Page() {
               hiring a team, I work remotely, I move fast, and I build things that last. Take a
               look around — and if something resonates,{' '}
               <Link
-                href="/questionnaire"
+                href="/panel"
                 className="underline transition-all duration-200 hover:text-[#BCE5FF] hover:[text-shadow:0_0_6px_#BCE5FF,0_0_14px_#3D9FFF] active:!text-white"
                 style={{ color: '#BCE5FF' }}
               >

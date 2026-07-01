@@ -216,7 +216,7 @@ export default function Page() {
               Let&apos;s go find where AI can actually move the needle for you.
             </p>
             <Link
-              href="/questionnaire"
+              href="/panel"
               className="inline-block font-sans text-[12.5px] tracking-widest px-7 py-3 transition-colors duration-150"
               style={{ background: 'linear-gradient(180deg, #1A4FC4, #0E3A9A)', border: '1px solid #3D7FD4', color: '#BCE5FF', borderRadius: '6px' }}
             >

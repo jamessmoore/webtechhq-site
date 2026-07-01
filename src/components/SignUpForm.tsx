@@ -77,7 +77,7 @@ export default function SignUpForm() {
   }
 
   async function handleGoogle() {
-    await signIn("google", { callbackUrl: "/questionnaire" });
+    await signIn("google", { callbackUrl: "/panel" });
   }
 
   if (submitted) {

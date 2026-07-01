@@ -20,7 +20,7 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  if (pathname.startsWith("/questionnaire")) {
+  if (pathname.startsWith("/questionnaire") || pathname.startsWith("/panel")) {
     if (!hasSession(request)) {
       return NextResponse.redirect(new URL("/signup", request.url));
     }
@@ -30,5 +30,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/questionnaire/:path*", "/admin/:path*"],
+  matcher: ["/questionnaire/:path*", "/admin/:path*", "/panel/:path*"],
 };
