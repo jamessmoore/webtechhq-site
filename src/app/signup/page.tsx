@@ -66,11 +66,11 @@ export default function SignUpPage() {
             className="text-3xl xl:text-4xl font-bold leading-tight mb-6"
             style={{ fontFamily: "'Courier New', monospace" }}
           >
-            <span style={{ color: "#EEF6FF" }}>Find the AI opportunities</span>
+            <span style={{ color: "#EEF6FF" }}>Find the opportunities</span>
             <br />
             <span style={{ color: "#89D4FF" }}>hiding in your business</span>
           </h1>
-          <p className="text-sm leading-relaxed mb-10">
+          <p className="text-[21px] leading-relaxed mb-10">
             Answer a few questions about your biggest operational headaches.
             I&apos;ll build you a custom AI prompt, ready to run in Claude,
             ChatGPT, or Gemini, that surfaces your top opportunities, ranks
@@ -78,7 +78,7 @@ export default function SignUpPage() {
           </p>
 
           <ul className="space-y-3">
-            {PROOF_POINTS.map((point) => (
+            {PROOF_POINTS.map((point, index) => (
               <li key={point} className="flex items-start gap-3">
                 <span
                   className="mt-0.5 shrink-0 w-4 h-4 rounded-full flex items-center justify-center"
@@ -88,7 +88,10 @@ export default function SignUpPage() {
                     <path d="M1 4l2.2 2.2 3.8-4.4" stroke="#89D4FF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </span>
-                <span className="text-sm leading-relaxed" style={{ color: "#8BACC8" }}>
+                <span
+                  className={index === 0 ? "text-[15px] leading-relaxed" : "text-sm leading-relaxed"}
+                  style={{ color: "#8BACC8" }}
+                >
                   {point}
                 </span>
               </li>
@@ -98,7 +101,7 @@ export default function SignUpPage() {
 
         {/* Footer copy */}
         <div className="relative z-10">
-          <p className="text-xs">
+          <p className="text-[14px]">
             James S. Moore · Moore Solutions · webtechhq.com
           </p>
         </div>
@@ -128,7 +131,7 @@ export default function SignUpPage() {
               Create your account
             </h2>
             <p className="text-sm">
-              Free to start. Takes about 5 minutes.
+              The finder is free. Takes about 5 minutes.
             </p>
           </div>
 

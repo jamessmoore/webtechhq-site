@@ -11,12 +11,11 @@ export default function Page() {
         {/* Page header */}
         <section className="px-10 pt-[32px] pb-[15px]">
           <div className="max-w-3xl mx-auto">
-            <h1 className="font-sans font-black leading-tight mb-4" style={{ fontSize: '2rem', color: '#EEF6FF' }}>
+            <h1 className="font-sans font-black leading-tight mb-4" style={{ fontSize: '2rem' }}>
               Let&apos;s go.
             </h1>
-            <p className="font-sans text-[24px] leading-relaxed">
-              Tell me about what you&apos;re working on: AI agents, automation, business
-              analytics, or cloud and SRE infrastructure.
+            <p className="font-sans text-[21px] leading-relaxed">
+              Please send me a note. I make every effort to reply within 24 hours.
             </p>
           </div>
         </section>

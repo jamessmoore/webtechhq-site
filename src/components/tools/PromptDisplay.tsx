@@ -112,7 +112,7 @@ export default function PromptDisplay({
           style={{
             backgroundColor: "#071525",
             border: "0.8px solid #162D5A",
-            color: "#EEF6FF",
+            color: "#89D4FF",
             borderRadius: "2px",
             fontFamily: '"Courier New", monospace',
           }}
@@ -123,7 +123,7 @@ export default function PromptDisplay({
             className="font-sans text-[11px] tracking-widest mb-2"
             style={{ color: "var(--brand-white)" }}
           >
-            SEND TO:
+            COPY TO CLIPBOARD AND OPEN:
           </p>
           <div className="flex flex-wrap gap-2">
             {[
@@ -211,14 +211,6 @@ export default function PromptDisplay({
           </button>
         </div>
       </div>
-
-      <p
-        className="font-sans text-[12px] mt-6 leading-relaxed"
-        style={{ color: "#3D7FD4" }}
-      >
-        When you&apos;re ready to move from ideas to an actual plan, that&apos;s exactly what a
-        scoping conversation with James is for.
-      </p>
     </div>
   );
 }

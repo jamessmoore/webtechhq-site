@@ -132,7 +132,7 @@ export default function SignUpForm() {
             <label
               htmlFor={field}
               className="block text-xs mb-1.5 tracking-wider"
-              style={{ color: "#6B8CAE" }}
+              style={{ color: "#FFFFFF" }}
             >
               {label.toUpperCase()}
             </label>
@@ -163,7 +163,7 @@ export default function SignUpForm() {
         <label
           htmlFor="email"
           className="block text-xs mb-1.5 tracking-wider"
-          style={{ color: "#6B8CAE" }}
+          style={{ color: "#FFFFFF" }}
         >
           EMAIL
         </label>
@@ -192,7 +192,7 @@ export default function SignUpForm() {
         <label
           htmlFor="password"
           className="block text-xs mb-1.5 tracking-wider"
-          style={{ color: "#6B8CAE" }}
+          style={{ color: "#FFFFFF" }}
         >
           PASSWORD
         </label>
@@ -215,7 +215,7 @@ export default function SignUpForm() {
           onFocus={(e) => (e.currentTarget.style.borderColor = "#3D7FD4")}
           onBlur={(e) => (e.currentTarget.style.borderColor = "#162D5A")}
         />
-        <p className="mt-1 text-xs">
+        <p className="mt-1 text-[13px]" style={{ color: "#89D4FF" }}>
           At least 8 characters
         </p>
       </div>
@@ -229,7 +229,7 @@ export default function SignUpForm() {
           onChange={(e) => set("tos", e.target.checked)}
           className="mt-0.5 shrink-0 cursor-pointer accent-[#3D7FD4]"
         />
-        <label htmlFor="tos" className="text-xs leading-relaxed cursor-pointer" style={{ color: "#6B8CAE" }}>
+        <label htmlFor="tos" className="text-xs leading-relaxed cursor-pointer" style={{ color: "#FFFFFF" }}>
           I agree to the{" "}
           <a href="/terms" className="underline hover:no-underline" style={{ color: "#89D4FF" }}>
             Terms of Service
