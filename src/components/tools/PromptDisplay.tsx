@@ -3,6 +3,33 @@
 import { useState } from "react";
 import { CheckIcon, CopyIcon } from "./icons";
 
+const BRAND_COLORS: Record<
+  string,
+  { brand: string; restingBg: string; restingText: string; copiedBorder: string; copiedText: string }
+> = {
+  Claude: {
+    brand: "#D97757",
+    restingBg: "#5A2D1E",
+    restingText: "#E8A78F",
+    copiedBorder: "#E8916F",
+    copiedText: "#FFE8DC",
+  },
+  ChatGPT: {
+    brand: "#10A37F",
+    restingBg: "#0F3D30",
+    restingText: "#7FD9BE",
+    copiedBorder: "#4FCBA8",
+    copiedText: "#DFFFF3",
+  },
+  Gemini: {
+    brand: "#8E75B2",
+    restingBg: "#352C43",
+    restingText: "#C9B8E8",
+    copiedBorder: "#B79EDD",
+    copiedText: "#F2EAFB",
+  },
+};
+
 export default function PromptDisplay({
   firstName,
   prompt,
@@ -108,30 +135,13 @@ export default function PromptDisplay({
               { label: "Gemini", url: "https://gemini.google.com/app", copyFirst: true },
             ].map(({ label, url, copyFirst }) => {
               const isCopied = copiedDestination === label;
-              // Claude's brand orange (#D97757), matching the asterisk mark in the
-              // Claude chat interface — other destinations keep the default blue.
-              const isClaude = label === "Claude";
-              const border = isClaude
-                ? isCopied
-                  ? "#E8916F"
-                  : "#5A2D1E"
-                : isCopied
-                  ? "#3D7FD4"
-                  : "#162D5A";
-              const background = isClaude
-                ? isCopied
-                  ? "#D97757"
-                  : "#5A2D1E"
-                : isCopied
-                  ? "#1A4FC4"
-                  : "#143C6A";
-              const color = isClaude
-                ? isCopied
-                  ? "#FFE8DC"
-                  : "#E8A78F"
-                : isCopied
-                  ? "#BCE5FF"
-                  : "#80AEE0";
+              // Each destination's resting/copied colors are built from its own brand
+              // color: Claude's asterisk orange (#D97757), ChatGPT's teal (#10A37F),
+              // Gemini's violet (#8E75B2).
+              const palette = BRAND_COLORS[label];
+              const border = isCopied ? palette.copiedBorder : palette.restingBg;
+              const background = isCopied ? palette.brand : palette.restingBg;
+              const color = isCopied ? palette.copiedText : palette.restingText;
               return (
                 <button
                   key={label}
