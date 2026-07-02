@@ -211,14 +211,6 @@ export default function PromptDisplay({
           </button>
         </div>
       </div>
-
-      <p
-        className="font-sans text-[12px] mt-6 leading-relaxed"
-        style={{ color: "#3D7FD4" }}
-      >
-        When you&apos;re ready to move from ideas to an actual plan, that&apos;s exactly what a
-        scoping conversation with James is for.
-      </p>
     </div>
   );
 }
