@@ -18,6 +18,31 @@ KEEP_RELEASES=5
 
 mkdir -p "$RELEASES_DIR"
 
+# Deletes releases beyond the last $KEEP_RELEASES (by mtime), skipping
+# whichever one "current" points to no matter where it falls in that
+# ordering. Called both before and after the build: a release that fails
+# partway through (clone succeeds, npm ci/build doesn't) still leaves a
+# full node_modules on disk, and with only success-path cleanup those
+# orphans never get removed — on this host's small root volume, a run of
+# failed deploys silently filled the disk and broke even SSM's ability to
+# run commands on the box, which is what surfaced this in the first place.
+prune_old_releases() {
+  local live=""
+  if [ -L "$CURRENT" ]; then
+    live=$(readlink -f "$CURRENT")
+  fi
+  cd "$RELEASES_DIR"
+  ls -1dt */ 2>/dev/null | tail -n +$((KEEP_RELEASES + 1)) | while read -r d; do
+    d="${d%/}"
+    full="$RELEASES_DIR/$d"
+    [ "$full" = "$live" ] && continue
+    rm -rf "$full"
+  done
+}
+
+echo "==> Pruning old releases before build (keeping last $KEEP_RELEASES, plus the live release)"
+prune_old_releases
+
 # One-time migration from the old layout, where the app was checked out
 # directly into $APP_DIR instead of $APP_DIR/releases/<ts> + current symlink.
 if [ ! -L "$CURRENT" ] && [ -d "$APP_DIR/.git" ]; then
@@ -97,7 +122,6 @@ if [ "$HEALTHY" -ne 1 ]; then
 fi
 
 echo "==> Cleaning up old releases (keeping last $KEEP_RELEASES)"
-cd "$RELEASES_DIR"
-ls -1dt */ 2>/dev/null | tail -n +$((KEEP_RELEASES + 1)) | xargs -r rm -rf
+prune_old_releases
 
 echo "==> Deploy successful: $RELEASE"
