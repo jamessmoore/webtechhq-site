@@ -108,6 +108,30 @@ export default function PromptDisplay({
               { label: "Gemini", url: "https://gemini.google.com/app", copyFirst: true },
             ].map(({ label, url, copyFirst }) => {
               const isCopied = copiedDestination === label;
+              // Claude's brand orange (#D97757), matching the asterisk mark in the
+              // Claude chat interface — other destinations keep the default blue.
+              const isClaude = label === "Claude";
+              const border = isClaude
+                ? isCopied
+                  ? "#E8916F"
+                  : "#5A2D1E"
+                : isCopied
+                  ? "#3D7FD4"
+                  : "#162D5A";
+              const background = isClaude
+                ? isCopied
+                  ? "#D97757"
+                  : "#5A2D1E"
+                : isCopied
+                  ? "#1A4FC4"
+                  : "#143C6A";
+              const color = isClaude
+                ? isCopied
+                  ? "#FFE8DC"
+                  : "#E8A78F"
+                : isCopied
+                  ? "#BCE5FF"
+                  : "#80AEE0";
               return (
                 <button
                   key={label}
@@ -117,9 +141,9 @@ export default function PromptDisplay({
                   style={{
                     padding: "10px 18px",
                     borderRadius: 6,
-                    border: `0.8px solid ${isCopied ? "#3D7FD4" : "#162D5A"}`,
-                    backgroundColor: isCopied ? "#1A4FC4" : "#143C6A",
-                    color: isCopied ? "#BCE5FF" : "#80AEE0",
+                    border: `0.8px solid ${border}`,
+                    backgroundColor: background,
+                    color: color,
                     cursor: "pointer",
                   }}
                 >
