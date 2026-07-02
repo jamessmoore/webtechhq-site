@@ -14,7 +14,7 @@ export default function Page() {
             <h1 className="font-sans font-black leading-tight mb-4" style={{ fontSize: '2rem', color: '#EEF6FF' }}>
               Let&apos;s go.
             </h1>
-            <p className="font-sans text-[24px] leading-relaxed">
+            <p className="font-sans text-[21px] leading-relaxed">
               Please send me a note. I make every effort to reply within 24 hours.
             </p>
           </div>
