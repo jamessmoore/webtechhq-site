@@ -63,7 +63,7 @@ export default async function AdminPage() {
             ADMIN
           </span>
         </div>
-        <p className="font-sans text-[12px]" style={{ color: "#5B90C8" }}>
+        <p className="font-sans text-[12px]">
           {session?.user?.email}
         </p>
       </header>
@@ -82,7 +82,7 @@ export default async function AdminPage() {
               className="p-5"
               style={{ backgroundColor: "#071525", border: "0.8px solid #162D5A", borderRadius: "4px" }}
             >
-              <p className="font-sans text-[10px] tracking-widest mb-1" style={{ color: "#5B90C8" }}>{label}</p>
+              <p className="font-sans text-[10px] tracking-widest mb-1">{label}</p>
               <p className="font-sans font-black text-[32px] leading-none" style={{ color }}>{value}</p>
             </div>
           ))}
@@ -97,7 +97,7 @@ export default async function AdminPage() {
           </div>
 
           {submissions.length === 0 ? (
-            <p className="px-6 py-10 font-sans text-[14px]" style={{ color: "#5B90C8" }}>
+            <p className="px-6 py-10 font-sans text-[14px]">
               No submissions yet.
             </p>
           ) : (

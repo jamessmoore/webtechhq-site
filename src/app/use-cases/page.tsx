@@ -120,7 +120,7 @@ export default function Page() {
             <h1 className="font-sans font-black leading-tight mb-4" style={{ fontSize: '2rem', color: '#EEF6FF' }}>
               Real problems. <span style={{ color: '#BCE5FF' }}>Practical AI solutions.</span>
             </h1>
-            <p className="font-sans text-[24px] leading-relaxed" style={{ color: '#80AEE0' }}>
+            <p className="font-sans text-[24px] leading-relaxed">
               Here&apos;s what AI actually looks like when it&apos;s working inside a small
               business — not the hype, just the everyday problems it solves.
             </p>
@@ -168,7 +168,7 @@ export default function Page() {
                   <span className="font-sans text-[16px] tracking-widest block mb-1" style={{ color: '#2D5A9E' }}>
                     THE PROBLEM
                   </span>
-                  <p className="font-sans text-[21px] leading-relaxed" style={{ color: '#EEF6FF' }}>
+                  <p className="font-sans text-[21px] leading-relaxed">
                     {u.problem}
                   </p>
                 </div>
@@ -177,7 +177,7 @@ export default function Page() {
                   <span className="font-sans text-[16px] tracking-widest block mb-1" style={{ color: '#2D5A9E' }}>
                     THE SOLUTION
                   </span>
-                  <p className="font-sans text-[21px] leading-relaxed" style={{ color: '#EEF6FF' }}>
+                  <p className="font-sans text-[21px] leading-relaxed">
                     {u.solution}
                   </p>
                 </div>
@@ -198,7 +198,7 @@ export default function Page() {
         {/* Disclaimer */}
         <section className="px-10 py-[15px]" style={{ borderTop: '0.5px solid #162D5A' }}>
           <div className="max-w-3xl mx-auto">
-            <p className="font-sans text-[13.5px] leading-relaxed tracking-wide" style={{ color: '#2D5A9E' }}>
+            <p className="font-sans text-[13.5px] leading-relaxed tracking-wide">
               NOTE: The scenarios above are illustrative — based on the types of problems I
               commonly see small businesses face, not specific past client engagements. Every
               business is different, and that&apos;s exactly the kind of thing worth talking through.
@@ -212,7 +212,7 @@ export default function Page() {
             <h2 className="font-sans font-black leading-tight mb-4" style={{ fontSize: '1.75rem', color: '#EEF6FF' }}>
               See what this looks like for your business.
             </h2>
-            <p className="font-sans text-[21px] leading-relaxed mb-8" style={{ color: '#5B90C8' }}>
+            <p className="font-sans text-[21px] leading-relaxed mb-8">
               Let&apos;s go find where AI can actually move the needle for you.
             </p>
             <Link

@@ -8,7 +8,7 @@ export default function ToolPlaceholderCard({ glyph, name, desc }: ToolPlacehold
   return (
     <div
       className="relative"
-      style={{ border: "0.8px dashed #162D5A", padding: 20, backgroundColor: "rgba(7,21,37,.5)" }}
+      style={{ border: "0.8px dashed #162D5A", padding: 20, backgroundColor: "rgba(7,21,37,.5)", borderRadius: 6 }}
     >
       <div
         className="flex items-center justify-center"
@@ -20,12 +20,13 @@ export default function ToolPlaceholderCard({ glyph, name, desc }: ToolPlacehold
           color: "#5B90C8",
           marginBottom: 14,
           font: '400 16px "Courier New", monospace',
+          borderRadius: 3,
         }}
       >
         {glyph}
       </div>
       <div style={{ font: "700 14px Arial, sans-serif", color: "#80AEE0" }}>{name}</div>
-      <p style={{ margin: "6px 0 0", font: "400 12.5px/1.55 Arial, sans-serif", color: "#5B7BA5" }}>{desc}</p>
+      <p style={{ margin: "6px 0 0", font: "400 12.5px/1.55 Arial, sans-serif" }}>{desc}</p>
       <span
         className="inline-block"
         style={{
@@ -35,6 +36,7 @@ export default function ToolPlaceholderCard({ glyph, name, desc }: ToolPlacehold
           color: "#5B7BA5",
           border: "0.8px solid #162D5A",
           padding: "3px 8px",
+          borderRadius: 3,
         }}
       >
         COMING SOON
