@@ -63,7 +63,7 @@ export default function Page() {
             <h1 className="font-sans font-black leading-tight mb-4" style={{ fontSize: '2rem', color: '#EEF6FF' }}>
               Recent builds, open for review.
             </h1>
-            <p className="font-sans text-[24px] leading-relaxed" style={{ color: '#5B90C8' }}>
+            <p className="font-sans text-[24px] leading-relaxed">
               A sample of recent projects — AI agents, MCP servers, and the site you&apos;re
               looking at right now. Every repo below is public; clone it, read the code, and
               judge for yourself.
@@ -92,10 +92,7 @@ export default function Page() {
                       {p.title}
                     </h2>
                   </div>
-                  <p
-                    className="font-sans text-[18px] leading-relaxed"
-                    style={{ color: '#FFFFFF' }}
-                  >
+                  <p className="font-sans text-[18px] leading-relaxed">
                     {p.content}
                   </p>
                 </div>

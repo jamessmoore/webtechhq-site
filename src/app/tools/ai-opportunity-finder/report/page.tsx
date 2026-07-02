@@ -42,7 +42,7 @@ export default async function ToolsReportPage() {
           >
             Strong potential, {user.firstName}.
           </h1>
-          <p style={{ margin: "12px 0 0", font: "400 clamp(14px,2.4vw,15.5px)/1.6 Arial, sans-serif", color: "#80AEE0" }}>
+          <p style={{ margin: "12px 0 0", font: "400 clamp(14px,2.4vw,15.5px)/1.6 Arial, sans-serif" }}>
             Based on your answers, the fastest wins are around how quickly leads get a response
             and how much repetitive admin is on your plate. Here are the moves we&apos;d make —
             in the order we&apos;d make them.
@@ -57,7 +57,7 @@ export default async function ToolsReportPage() {
       >
         YOUR PRIORITIZED OPPORTUNITIES
       </h2>
-      <p style={{ margin: "0 0 18px", font: "400 13.5px/1.5 Arial, sans-serif", color: "#5B7BA5" }}>
+      <p style={{ margin: "0 0 18px", font: "400 13.5px/1.5 Arial, sans-serif" }}>
         Ranked by impact, effort, and how well they fit your business. Tap any one to see what it
         looks like for you.
       </p>

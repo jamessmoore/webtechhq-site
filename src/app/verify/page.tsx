@@ -94,7 +94,7 @@ export default async function VerifyPage({
             {heading}
           </h1>
 
-          <p className="text-sm leading-relaxed mb-8" style={{ color: "#FFFFFF" }}>
+          <p className="text-sm leading-relaxed mb-8">
             {body}
           </p>
 
@@ -113,7 +113,7 @@ export default async function VerifyPage({
           </Link>
         </div>
 
-        <p className="mt-6 text-xs" style={{ color: "#4A6A8A" }}>
+        <p className="mt-6 text-xs">
           <Link href="/" className="underline hover:no-underline" style={{ color: "#4A6A8A" }}>
             ← Back to webtechhq.com
           </Link>

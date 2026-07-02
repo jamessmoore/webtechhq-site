@@ -17,10 +17,10 @@ const STATUS_CONFIG = {
   completed: {
     pillLabel: "COMPLETED",
     dotColor: "#89D4FF",
-    primaryLabel: "VIEW YOUR REPORT",
-    primaryHref: "/tools/ai-opportunity-finder/report",
-    secondaryLabel: "REVIEW ANSWERS",
-    secondaryHref: "/tools/ai-opportunity-finder",
+    primaryLabel: "SEE RESULTS",
+    primaryHref: "/tools/ai-opportunity-finder",
+    secondaryLabel: null as string | null,
+    secondaryHref: null as string | null,
   },
 };
 
@@ -30,7 +30,7 @@ export default function FeaturedToolCard({ status }: FeaturedToolCardProps) {
   return (
     <div
       className="relative overflow-hidden card-accent featured"
-      style={{ marginTop: 28, border: "0.8px solid #3D7FD4", backgroundColor: "#071525" }}
+      style={{ marginTop: 28, border: "0.8px solid #3D7FD4", backgroundColor: "#071525", borderRadius: 6 }}
     >
       <span className="br-corner-tr" />
       <span className="br-corner-bl" />
@@ -40,7 +40,7 @@ export default function FeaturedToolCard({ status }: FeaturedToolCardProps) {
       >
         <div
           className="flex-none flex items-center justify-center"
-          style={{ width: 58, height: 58, backgroundColor: "#0A1832", border: "0.8px solid #3D7FD4" }}
+          style={{ width: 58, height: 58, backgroundColor: "#0A1832", border: "0.8px solid #3D7FD4", borderRadius: 4 }}
         >
           <SparkleIcon size={28} style={{ color: "#89D4FF" } as React.CSSProperties} />
         </div>
@@ -60,13 +60,14 @@ export default function FeaturedToolCard({ status }: FeaturedToolCardProps) {
                 backgroundColor: "#0A1A2E",
                 border: "0.8px solid #162D5A",
                 padding: "4px 10px",
+                borderRadius: 3,
               }}
             >
               <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: cfg.dotColor }} />
               {cfg.pillLabel}
             </span>
           </div>
-          <p style={{ margin: "11px 0 0", font: "400 14px/1.6 Arial, sans-serif", color: "#80AEE0", maxWidth: 520 }}>
+          <p style={{ margin: "11px 0 0", font: "400 14px/1.6 Arial, sans-serif", maxWidth: 520 }}>
             Answer a few plain-English questions about how you work. We&apos;ll hand back a
             prioritized list of the AI moves that would save you the most time and money — no
             jargon, no fluff.

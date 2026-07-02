@@ -83,10 +83,7 @@ export default function Services() {
               >
                 {s.title}
               </h3>
-              <p
-                className="font-sans text-[8px] tracking-widest mb-4 transition-all duration-200 group-active:!text-white"
-                style={{ color: '#2D5A9E' }}
-              >
+              <p className="font-sans text-[8px] tracking-widest mb-4">
                 {s.subtitle}
               </p>
               <p className="font-sans text-[19px] leading-relaxed flex-1 text-white">

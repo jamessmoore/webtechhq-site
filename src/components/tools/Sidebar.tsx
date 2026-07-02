@@ -99,7 +99,12 @@ export default function Sidebar({ user, mobileOpen, onClose, signOutButton }: Si
         </div>
 
         <nav className="flex flex-col gap-[2px]">
-          <Link href="/tools" onClick={onClose} style={{ ...navBase, ...(isDashActive ? navActive : {}) }}>
+          <Link
+            href="/tools"
+            onClick={onClose}
+            className="transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)]"
+            style={{ ...navBase, ...(isDashActive ? navActive : {}), borderRadius: 6 }}
+          >
             <GridIcon />
             <span>Dashboard</span>
           </Link>
@@ -125,7 +130,7 @@ export default function Sidebar({ user, mobileOpen, onClose, signOutButton }: Si
         <div className="flex flex-col gap-3" style={{ marginTop: "auto" }}>
           <div
             className="relative"
-            style={{ backgroundColor: "#071525", border: "0.8px solid #162D5A", padding: "14px 15px" }}
+            style={{ backgroundColor: "#071525", border: "0.8px solid #162D5A", padding: "14px 15px", borderRadius: 6 }}
           >
             <span className="br-corner-tr" style={{ top: 6, right: 6, width: 13, height: 13 }} />
             <div className="flex items-center gap-2" style={{ marginBottom: 8 }}>
@@ -134,7 +139,7 @@ export default function Sidebar({ user, mobileOpen, onClose, signOutButton }: Si
                 NEED A HAND?
               </span>
             </div>
-            <p style={{ margin: "0 0 11px", font: '400 12.5px/1.55 Arial, sans-serif', color: "#80AEE0" }}>
+            <p style={{ margin: "0 0 11px", font: '400 12.5px/1.55 Arial, sans-serif' }}>
               Stuck on anything? James reads every message himself.
             </p>
             <Link
@@ -166,6 +171,7 @@ export default function Sidebar({ user, mobileOpen, onClose, signOutButton }: Si
                 backgroundColor: "#0A1832",
                 font: '700 12px "Courier New", monospace',
                 color: "#89D4FF",
+                borderRadius: 6,
               }}
             >
               {initialsOf(user)}

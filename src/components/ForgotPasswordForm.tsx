@@ -61,7 +61,7 @@ export default function ForgotPasswordForm() {
         >
           Check your inbox
         </h2>
-        <p className="text-sm leading-relaxed" style={{ color: "#6B8CAE" }}>
+        <p className="text-sm leading-relaxed">
           If an account exists for{" "}
           <span style={{ color: "#89D4FF" }}>{email}</span>, we&apos;ve sent a
           password reset link. It expires in 1 hour.
@@ -142,7 +142,7 @@ export default function ForgotPasswordForm() {
         {loading ? "SENDING…" : "SEND RESET LINK ›"}
       </button>
 
-      <p className="text-center text-xs" style={{ color: "#4A6A8A" }}>
+      <p className="text-center text-xs">
         Remembered your password?{" "}
         <a href="/signin" className="underline hover:no-underline" style={{ color: "#89D4FF" }}>
           Sign in

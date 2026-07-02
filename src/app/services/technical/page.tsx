@@ -59,7 +59,7 @@ export default function Page() {
             <h1 className="font-sans font-black leading-tight mb-4" style={{ fontSize: '2rem', color: '#EEF6FF' }}>
               Infrastructure, automation, and AI — built and operated by a senior engineer.
             </h1>
-            <p className="font-sans text-[24px] leading-relaxed" style={{ color: '#80AEE0' }}>
+            <p className="font-sans text-[24px] leading-relaxed">
               These engagements draw on 20+ years running production systems, plus hands-on
               experience building real AI agents and MCP integrations. Pick the lane that fits,
               or combine them.
@@ -94,10 +94,7 @@ export default function Page() {
                   className="w-full h-auto"
                 />
               </div>
-              <p
-                className="font-sans text-[21px] leading-relaxed"
-                style={{ color: '#FFFFFF' }}
-              >
+              <p className="font-sans text-[21px] leading-relaxed">
                 {s.content}
               </p>
             </div>

@@ -97,12 +97,12 @@ export default function SignUpForm() {
         >
           Check your inbox
         </h2>
-        <p className="text-sm leading-relaxed" style={{ color: "#FFFFFF" }}>
+        <p className="text-sm leading-relaxed">
           We sent a verification link to{" "}
           <span style={{ color: "#89D4FF" }}>{form.email}</span>.<br />
           Click it to activate your account and start the questionnaire.
         </p>
-        <p className="mt-4 text-xs" style={{ color: "#FFFFFF" }}>
+        <p className="mt-4 text-xs">
           Didn&apos;t get it? Check your spam folder or{" "}
           <button
             type="button"
@@ -215,7 +215,7 @@ export default function SignUpForm() {
           onFocus={(e) => (e.currentTarget.style.borderColor = "#3D7FD4")}
           onBlur={(e) => (e.currentTarget.style.borderColor = "#162D5A")}
         />
-        <p className="mt-1 text-xs" style={{ color: "#4A6A8A" }}>
+        <p className="mt-1 text-xs">
           At least 8 characters
         </p>
       </div>
@@ -311,7 +311,7 @@ export default function SignUpForm() {
         Continue with Google
       </button>
 
-      <p className="text-center text-xs" style={{ color: "#4A6A8A" }}>
+      <p className="text-center text-xs">
         Already have an account?{" "}
         <a href="/signin" className="underline hover:no-underline" style={{ color: "#89D4FF" }}>
           Sign in

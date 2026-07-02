@@ -310,10 +310,7 @@ function Step3({
             hours / week
           </span>
         </div>
-        <p
-          className="font-sans text-[12px] mt-1.5"
-          style={{ color: "#5B90C8" }}
-        >
+        <p className="font-sans text-[12px] mt-1.5">
           Rough estimate is fine — include everyone involved.
         </p>
       </div>
@@ -327,10 +324,7 @@ function Step3({
           options={SALARY_OPTIONS}
           placeholder="Select a range…"
         />
-        <p
-          className="font-sans text-[12px] mt-1.5"
-          style={{ color: "#5B90C8" }}
-        >
+        <p className="font-sans text-[12px] mt-1.5">
           Salary + benefits if it&apos;s an employee. Your own rate if it&apos;s your
           time.
         </p>
@@ -440,10 +434,7 @@ function Step4({
 
 function AiDisclosureNotice() {
   return (
-    <p
-      className="font-sans text-[11px] leading-relaxed mt-4"
-      style={{ color: "#5B90C8" }}
-    >
+    <p className="font-sans text-[11px] leading-relaxed mt-4">
       <strong style={{ color: "#80AEE0" }}>Heads up:</strong> This form uses
       AI (Claude, via AWS Bedrock) to generate your personalized response.
       Your answers are never sold or shared — they&apos;re used only to
@@ -523,21 +514,15 @@ function SuccessScreen({ firstName }: { firstName: string }) {
       >
         Got it, {firstName}.
       </h2>
-      <p
-        className="font-sans text-[15px] leading-relaxed mb-2"
-        style={{ color: "#5B90C8" }}
-      >
+      <p className="font-sans text-[15px] leading-relaxed mb-2">
         Your answers are in. I&apos;ll review them and build your personalized
         AI Opportunity Report.
       </p>
-      <p className="font-sans text-[15px]" style={{ color: "#5B90C8" }}>
+      <p className="font-sans text-[15px]">
         Expect it in your inbox within{" "}
         <span style={{ color: "#89D4FF" }}>48 hours</span>.
       </p>
-      <p
-        className="font-sans text-[12px] mt-5 leading-relaxed"
-        style={{ color: "#3D7FD4" }}
-      >
+      <p className="font-sans text-[12px] mt-5 leading-relaxed">
         I personally review every submission before generating your report.
         You&apos;ll get your top 3 AI opportunities, ranked by impact — with
         realistic time and cost estimates, not hype.
@@ -681,10 +666,7 @@ export default function Questionnaire({
         >
           You&apos;re already in the queue
         </h2>
-        <p
-          className="font-sans text-[15px] leading-relaxed"
-          style={{ color: "#5B90C8" }}
-        >
+        <p className="font-sans text-[15px] leading-relaxed">
           We received your questionnaire. Your AI Opportunity Report is being
           prepared — watch your inbox at{" "}
           <span style={{ color: "#89D4FF" }}>{email}</span>.
@@ -702,10 +684,7 @@ export default function Questionnaire({
         >
           Verify your email first
         </h2>
-        <p
-          className="font-sans text-[15px] leading-relaxed"
-          style={{ color: "#5B90C8" }}
-        >
+        <p className="font-sans text-[15px] leading-relaxed">
           Check your inbox at{" "}
           <span style={{ color: "#89D4FF" }}>{email}</span> for a verification
           link. Once confirmed you can start the questionnaire.

@@ -199,7 +199,7 @@ export default function SignInForm() {
         Continue with Google
       </button>
 
-      <p className="text-center text-xs" style={{ color: "#4A6A8A" }}>
+      <p className="text-center text-xs">
         Don&apos;t have an account?{" "}
         <a href="/signup" className="underline hover:no-underline" style={{ color: "#89D4FF" }}>
           Get started

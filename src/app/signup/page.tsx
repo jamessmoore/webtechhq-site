@@ -59,10 +59,7 @@ export default function SignUpPage() {
 
         {/* Main copy */}
         <div className="relative z-10 max-w-[440px]">
-          <p
-            className="text-xs tracking-[0.2em] mb-4"
-            style={{ color: "#3D7FD4" }}
-          >
+          <p className="text-xs tracking-[0.2em] mb-4">
             AI OPPORTUNITY FINDER
           </p>
           <h1
@@ -74,7 +71,7 @@ export default function SignUpPage() {
           >
             Find the AI opportunities hiding in your business
           </h1>
-          <p className="text-sm leading-relaxed mb-10" style={{ color: "#FFFFFF" }}>
+          <p className="text-sm leading-relaxed mb-10">
             Answer a few questions about your biggest operational headaches.
             I&apos;ll identify your top AI opportunities, rank them by
             impact, and estimate what each one is worth to you.
@@ -101,7 +98,7 @@ export default function SignUpPage() {
 
         {/* Footer copy */}
         <div className="relative z-10">
-          <p className="text-xs" style={{ color: "#4A6A8A" }}>
+          <p className="text-xs">
             James S. Moore · Moore Solutions · webtechhq.com
           </p>
         </div>
@@ -130,7 +127,7 @@ export default function SignUpPage() {
             >
               Create your account
             </h2>
-            <p className="text-sm" style={{ color: "#FFFFFF" }}>
+            <p className="text-sm">
               Free to start. Takes about 5 minutes.
             </p>
           </div>

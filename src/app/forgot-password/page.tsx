@@ -47,7 +47,7 @@ export default function ForgotPasswordPage() {
             >
               Forgot your password?
             </h1>
-            <p className="text-sm" style={{ color: "#6B8CAE" }}>
+            <p className="text-sm">
               Enter your email and we&apos;ll send you a reset link.
             </p>
           </div>
@@ -55,7 +55,7 @@ export default function ForgotPasswordPage() {
           <ForgotPasswordForm />
         </div>
 
-        <p className="mt-6 text-center text-xs" style={{ color: "#4A6A8A" }}>
+        <p className="mt-6 text-center text-xs">
           <Link href="/" className="underline hover:no-underline" style={{ color: "#4A6A8A" }}>
             ← Back to webtechhq.com
           </Link>
