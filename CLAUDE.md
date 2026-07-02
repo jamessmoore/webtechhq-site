@@ -47,6 +47,8 @@ tests/e2e/         # Playwright specs
 
 When editing on-page copy (Hero, Services, About, etc.), match the existing brand voice: knowledgeable but approachable, confident without arrogance, faith-informed but not preachy, direct and occasionally humorous. Keep claims (years of experience, credentials, client names) consistent with what's already on the site unless James gives updated figures.
 
+**No em dashes.** Don't use em dashes (`—`) in any user-facing copy. Split into two sentences, or use a comma, colon, or parentheses instead, whichever reads most naturally. Applies to new copy and to existing copy you touch; doesn't apply to code comments.
+
 ## Buttons & clickable links — default styling
 
 Every button-like or link-like clickable element (CTAs, nav links, form submit buttons) gets these two treatments by default unless a component has an explicit reason not to (e.g. plain inline text links):
