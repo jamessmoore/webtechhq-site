@@ -24,10 +24,11 @@ export default function Page() {
               style={{ border: '0.8px solid #162D5A', borderRadius: '2px' }}
             >
               <Image
-                src="/james-moore.png"
+                src="/james-moore.webp"
                 alt="James Moore"
-                width={932}
-                height={1061}
+                width={700}
+                height={797}
+                sizes="220px"
                 className="w-full h-auto"
                 priority
               />
