@@ -134,7 +134,9 @@ export default function PrivacyPage() {
         <h2>8. Requesting Data Deletion</h2>
         <p>
           To request removal of your data, email us at{" "}
-          <a href="mailto:james@webtechhq.com">james@webtechhq.com</a>{" "}
+          <a href="mailto:privacypolicy@webtechhq.com">
+            privacypolicy@webtechhq.com
+          </a>{" "}
           with the subject line &quot;Data Deletion Request.&quot; We
           will confirm and process your request within a reasonable
           timeframe.
@@ -178,7 +180,9 @@ export default function PrivacyPage() {
           <br />
           Moore Solutions
           <br />
-          <a href="mailto:james@webtechhq.com">james@webtechhq.com</a>
+          <a href="mailto:privacypolicy@webtechhq.com">
+            privacypolicy@webtechhq.com
+          </a>
           <br />
           webtechhq.com
         </p>

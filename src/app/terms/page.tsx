@@ -162,7 +162,9 @@ export default function TermsPage() {
           <br />
           Moore Solutions
           <br />
-          <a href="mailto:james@webtechhq.com">james@webtechhq.com</a>
+          <a href="mailto:termsofservice@webtechhq.com">
+            termsofservice@webtechhq.com
+          </a>
           <br />
           webtechhq.com
         </p>
