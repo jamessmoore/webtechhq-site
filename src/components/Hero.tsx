@@ -73,18 +73,18 @@ export default function Hero() {
         {/* CTAs */}
         <div className="flex flex-wrap gap-4 mb-6 sm:mb-16">
           <Link
-            href="/services"
-            className="font-sans font-bold text-[15px] tracking-widest px-7 py-3 transition-colors duration-150"
+            href="/signup"
+            className="font-sans font-bold text-[15px] tracking-widest px-7 py-3 transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
             style={{ background: 'linear-gradient(180deg, #1A4FC4, #0E3A9A)', border: '1px solid #3D7FD4', color: '#89D4FF', borderRadius: '6px' }}
           >
-            VIEW SERVICES ›
+            GET STARTED ›
           </Link>
           <Link
-            href="/portfolio"
-            className="font-sans font-bold text-[15px] tracking-widest px-7 py-3 transition-colors duration-150"
+            href="/use-cases"
+            className="font-sans font-bold text-[15px] tracking-widest px-7 py-3 transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
             style={{ backgroundColor: 'transparent', border: '1px solid #1A3D7A', color: '#89D4FF', borderRadius: '6px' }}
           >
-            SEE MY WORK ›
+            SEE HOW IT WORKS ›
           </Link>
         </div>
 

@@ -54,8 +54,8 @@ export default function Navbar() {
       {/* CTA */}
       <div className="hidden sm:block ml-auto">
         <Link
-          href="/contact"
-          className="font-sans text-[12.5px] tracking-widest px-5 py-2 transition-colors duration-150"
+          href="/tools"
+          className="font-sans text-[12.5px] tracking-widest px-5 py-2 transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
           style={{
             background: 'linear-gradient(180deg, #1A4FC4, #0E3A9A)',
             border: '1px solid #3D7FD4',
@@ -63,7 +63,7 @@ export default function Navbar() {
             borderRadius: '6px',
           }}
         >
-          LET&apos;S TALK ›
+          LET&apos;S GO ›
         </Link>
       </div>
 
@@ -73,7 +73,7 @@ export default function Navbar() {
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? 'Close menu' : 'Open menu'}
         aria-expanded={open}
-        className="sm:hidden ml-auto flex items-center justify-center w-8 h-8 shrink-0 transition-colors duration-150"
+        className="sm:hidden ml-auto flex items-center justify-center w-8 h-8 shrink-0 transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
         style={{
           border: '1px solid #3D7FD4',
           borderRadius: '6px',
@@ -107,16 +107,16 @@ export default function Navbar() {
             )
           })}
           <Link
-            href="/contact"
+            href="/tools"
             onClick={() => setOpen(false)}
-            className="font-sans text-[12.5px] tracking-widest px-6 py-3 text-center"
+            className="font-sans text-[12.5px] tracking-widest px-6 py-3 text-center transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
             style={{
               background: 'linear-gradient(180deg, #1A4FC4, #0E3A9A)',
               color: '#89D4FF',
               borderTop: '0.5px solid #162D5A',
             }}
           >
-            LET&apos;S TALK ›
+            LET&apos;S GO ›
           </Link>
         </div>
       )}

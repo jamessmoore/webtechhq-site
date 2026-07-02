@@ -1,0 +1,19 @@
+{
+  "_comment": "Structure reference only — placeholder copy, safe to commit. Copy this file to prompt-templates.local.json (gitignored) and replace template_text with real copy before running `npm run seed:prompt-templates`. 27 real combinations (repetitive x compliance x data) plus exactly one is_fallback row are expected.",
+  "templates": [
+    {
+      "trigger_repetitive": "Mostly repetitive",
+      "trigger_compliance": "No concerns",
+      "trigger_data": "Yes, we're organized",
+      "is_fallback": false,
+      "template_text": "PLACEHOLDER: describe the {business_type} solution for a repetitive task, no compliance concerns, organized data. Reference {layer1_problem}, {layer1_elimination}."
+    },
+    {
+      "trigger_repetitive": null,
+      "trigger_compliance": null,
+      "trigger_data": null,
+      "is_fallback": true,
+      "template_text": "PLACEHOLDER fallback template for combinations with no direct match. Reference {business_type}, {layer1_problem}, {additional_notes}."
+    }
+  ]
+}
