@@ -129,10 +129,10 @@ export default async function AdminPage() {
                         {s.user.email}
                       </td>
                       <td className="px-6 py-4 font-sans text-[13px]" style={{ color: "#80AEE0", maxWidth: "180px" }}>
-                        <span className="block truncate">{s.businessType ?? "—"}</span>
+                        <span className="block truncate">{s.businessType ?? "N/A"}</span>
                       </td>
                       <td className="px-6 py-4 font-sans text-[13px]" style={{ color: "#80AEE0", whiteSpace: "nowrap" }}>
-                        {s.teamSize ?? "—"}
+                        {s.teamSize ?? "N/A"}
                       </td>
                       <td className="px-6 py-4">
                         <StatusBadge status={s.approvalStatus} />

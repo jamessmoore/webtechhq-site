@@ -3,6 +3,33 @@
 import { useState } from "react";
 import { CheckIcon, CopyIcon } from "./icons";
 
+const BRAND_COLORS: Record<
+  string,
+  { brand: string; restingBg: string; restingText: string; copiedBorder: string; copiedText: string }
+> = {
+  Claude: {
+    brand: "#D97757",
+    restingBg: "#5A2D1E",
+    restingText: "#E8A78F",
+    copiedBorder: "#E8916F",
+    copiedText: "#FFE8DC",
+  },
+  ChatGPT: {
+    brand: "#10A37F",
+    restingBg: "#0F3D30",
+    restingText: "#7FD9BE",
+    copiedBorder: "#4FCBA8",
+    copiedText: "#DFFFF3",
+  },
+  Gemini: {
+    brand: "#8E75B2",
+    restingBg: "#352C43",
+    restingText: "#C9B8E8",
+    copiedBorder: "#B79EDD",
+    copiedText: "#F2EAFB",
+  },
+};
+
 export default function PromptDisplay({
   firstName,
   prompt,
@@ -69,9 +96,10 @@ export default function PromptDisplay({
           color: "var(--brand-white)",
         }}
       >
-        Here&apos;s a prompt built specifically for your business. Copy it and paste it into the
-        AI chat tool of your choice — ChatGPT, Claude, Gemini, whatever you already use — to
-        start exploring where AI could help.
+        Here&apos;s a prompt built specifically for your business. Click a button below and
+        we&apos;ll open Claude, ChatGPT, or Gemini with the prompt ready to go: copied to your
+        clipboard or pre-filled, depending on the tool. Or copy it yourself and paste it into
+        whatever AI chat tool you already prefer.
       </p>
 
       <div style={{ marginTop: 28 }}>
@@ -108,25 +136,32 @@ export default function PromptDisplay({
               { label: "Gemini", url: "https://gemini.google.com/app", copyFirst: true },
             ].map(({ label, url, copyFirst }) => {
               const isCopied = copiedDestination === label;
+              // Each destination's resting/copied colors are built from its own brand
+              // color: Claude's asterisk orange (#D97757), ChatGPT's teal (#10A37F),
+              // Gemini's violet (#8E75B2).
+              const palette = BRAND_COLORS[label];
+              const border = isCopied ? palette.copiedBorder : palette.restingBg;
+              const background = isCopied ? palette.brand : palette.restingBg;
+              const color = isCopied ? palette.copiedText : palette.restingText;
               return (
                 <button
                   key={label}
                   type="button"
                   onClick={() => handleSendTo(label, url, copyFirst)}
-                  className="inline-flex items-center gap-2 font-sans text-[12px] tracking-wide transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
+                  className="inline-flex items-center gap-2 font-sans text-[12px] tracking-wide transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(255,255,255,0.45),0_0_24px_6px_rgba(255,255,255,0.25)] hover:!text-white"
                   style={{
                     padding: "10px 18px",
                     borderRadius: 6,
-                    border: `0.8px solid ${isCopied ? "#3D7FD4" : "#162D5A"}`,
-                    backgroundColor: isCopied ? "#1A4FC4" : "#143C6A",
-                    color: isCopied ? "#BCE5FF" : "#80AEE0",
+                    border: `0.8px solid ${border}`,
+                    backgroundColor: background,
+                    color: color,
                     cursor: "pointer",
                   }}
                 >
                   {isCopied ? (
                     <>
                       <CheckIcon size={13} />
-                      COPIED — PASTE IN {label.toUpperCase()}
+                      COPIED, PASTE IN {label.toUpperCase()}
                     </>
                   ) : (
                     <>{label} ›</>
@@ -140,7 +175,7 @@ export default function PromptDisplay({
               className="font-sans text-[11px] mt-2"
               style={{ color: "#E8634A" }}
             >
-              Couldn&apos;t copy automatically — use Copy to Clipboard below, then paste it in
+              Couldn&apos;t copy automatically. Use Copy to Clipboard below, then paste it in
               manually.
             </p>
           )}

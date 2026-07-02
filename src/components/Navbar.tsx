@@ -6,9 +6,9 @@ import { usePathname } from 'next/navigation'
 import LogoLockup from './LogoLockup'
 
 const navLinks = [
-  { href: '/services',  label: 'SERVICES' },
-  { href: '/portfolio', label: 'PORTFOLIO' },
+  { href: '/tools',     label: 'TOOLS' },
   { href: '/use-cases', label: 'USE CASES' },
+  { href: '/services',  label: 'SERVICES' },
   { href: '/about',     label: 'ABOUT' },
 ]
 

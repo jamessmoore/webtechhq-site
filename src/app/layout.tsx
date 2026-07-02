@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Moore Solutions | James S. Moore — AI · SRE · Cloud',
+  title: 'Moore Solutions | James S. Moore · AI · SRE · Cloud',
   description:
     'I help businesses solve problems with AI. Senior AI/ML Engineer, SRE, and Cloud Architect with 20+ years of experience. Phoenix, AZ.',
   keywords: ['AI consulting', 'SRE', 'DevOps', 'cloud engineering', 'MCP', 'agentic AI', 'James Moore'],

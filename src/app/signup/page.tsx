@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 };
 
 const PROOF_POINTS = [
-  "Personalized AI opportunity analysis for your business",
-  "Ranked by impact and ROI — not generic recommendations",
-  "Delivered to your inbox within 48 hours",
+  "A custom AI prompt built around your business, not a generic template",
+  "Send it straight to Claude, ChatGPT, or Gemini in one click",
+  "Get your answers in minutes, not days",
 ];
 
 export default function SignUpPage() {
@@ -64,17 +64,17 @@ export default function SignUpPage() {
           </p>
           <h1
             className="text-3xl xl:text-4xl font-bold leading-tight mb-6"
-            style={{
-              color: "#EEF6FF",
-              fontFamily: "'Courier New', monospace",
-            }}
+            style={{ fontFamily: "'Courier New', monospace" }}
           >
-            Find the AI opportunities hiding in your business
+            <span style={{ color: "#EEF6FF" }}>Find the AI opportunities</span>
+            <br />
+            <span style={{ color: "#89D4FF" }}>hiding in your business</span>
           </h1>
           <p className="text-sm leading-relaxed mb-10">
             Answer a few questions about your biggest operational headaches.
-            I&apos;ll identify your top AI opportunities, rank them by
-            impact, and estimate what each one is worth to you.
+            I&apos;ll build you a custom AI prompt, ready to run in Claude,
+            ChatGPT, or Gemini, that surfaces your top opportunities, ranks
+            them by impact, and estimates what each one is worth.
           </p>
 
           <ul className="space-y-3">

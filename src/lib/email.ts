@@ -38,7 +38,7 @@ export async function sendVerificationEmail(
         <p style="margin-top:24px;font-size:13px;color:#6B6660">
           If you didn't create an account, you can safely ignore this email.
         </p>
-        <p style="font-size:13px;color:#6B6660">— James Moore, Moore Solutions</p>
+        <p style="font-size:13px;color:#6B6660">James Moore, Moore Solutions</p>
       </div>
     `,
   });
@@ -70,10 +70,10 @@ export async function sendPasswordResetEmail(
           Reset my password
         </a>
         <p style="margin-top:24px;font-size:13px;color:#6B6660">
-          If you didn't request this, you can safely ignore this email — your password
+          If you didn't request this, you can safely ignore this email. Your password
           won't be changed.
         </p>
-        <p style="font-size:13px;color:#6B6660">— James Moore, Moore Solutions</p>
+        <p style="font-size:13px;color:#6B6660">James Moore, Moore Solutions</p>
       </div>
     `,
   });
@@ -96,8 +96,8 @@ export async function sendPromptEmail(
         <h2 style="margin-bottom:8px">Hi ${firstName},</h2>
         <p style="margin-bottom:16px">
           Based on what you shared, we've built a prompt specifically for your business.
-          Head back to the AI Opportunity Finder to view and copy it — paste it into the
-          AI chat tool of your choice (ChatGPT, Claude, Gemini — whatever you already use)
+          Head back to the AI Opportunity Finder to view and copy it, then paste it into the
+          AI chat tool of your choice (ChatGPT, Claude, Gemini, or whatever you already use)
           to start exploring where AI could help.
         </p>
         <a href="${toolUrl}"
@@ -105,7 +105,7 @@ export async function sendPromptEmail(
                   text-decoration:none;border-radius:4px;font-weight:bold">
           View my prompt
         </a>
-        <p style="margin-top:24px;font-size:13px;color:#6B6660">— James Moore, Moore Solutions</p>
+        <p style="margin-top:24px;font-size:13px;color:#6B6660">James Moore, Moore Solutions</p>
       </div>
     `,
   });
@@ -121,7 +121,7 @@ export async function sendGoogleAccountNoticeEmail(
     to,
     from: { email: FROM, name: "Moore Solutions" },
     trackingSettings: { clickTracking: { enable: false } },
-    subject: "Password reset request — Moore Solutions",
+    subject: "Password reset request | Moore Solutions",
     html: `
       <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;color:#0F0F0F">
         <h2 style="margin-bottom:8px">Hi ${firstName},</h2>
@@ -133,7 +133,7 @@ export async function sendGoogleAccountNoticeEmail(
         <p style="margin-top:24px;font-size:13px;color:#6B6660">
           If you didn't request this, you can safely ignore this email.
         </p>
-        <p style="font-size:13px;color:#6B6660">— James Moore, Moore Solutions</p>
+        <p style="font-size:13px;color:#6B6660">James Moore, Moore Solutions</p>
       </div>
     `,
   });

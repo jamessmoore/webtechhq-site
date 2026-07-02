@@ -40,7 +40,7 @@ export const OPPORTUNITIES: Opportunity[] = [
     effort: "Low",
     time: "~5 HRS/WK",
     fit: 94,
-    plain: "Every new inquiry gets a friendly, accurate reply in under a minute — day or night — so hot leads never go cold while you're out on a job.",
+    plain: "Every new inquiry gets a friendly, accurate reply in under a minute (day or night) so hot leads never go cold while you're out on a job.",
     looks: [
       "Auto-replies to web forms, texts, and missed calls within 60 seconds",
       "Answers common questions and books the next step automatically",
@@ -56,7 +56,7 @@ export const OPPORTUNITIES: Opportunity[] = [
     effort: "Medium",
     time: "~3 HRS/WK",
     fit: 88,
-    plain: "Turn a few details into a polished quote in minutes, then let the system politely nudge customers who haven't replied — on your behalf.",
+    plain: "Turn a few details into a polished quote in minutes, then let the system politely nudge customers who haven't replied on your behalf.",
     looks: [
       "Draft quotes from a short voice note or a few fields",
       "Automatic, friendly follow-ups until they answer",
@@ -76,7 +76,7 @@ export const OPPORTUNITIES: Opportunity[] = [
     looks: [
       "Trained only on your real services, pricing, and hours",
       "Collects name and number when someone's ready to buy",
-      "Works on your existing site — no rebuild needed",
+      "Works on your existing site, no rebuild needed",
     ],
     rollout: "Stand it up on your top 10 questions, then refine from real conversations over the first two weeks.",
   },
@@ -88,7 +88,7 @@ export const OPPORTUNITIES: Opportunity[] = [
     effort: "Medium",
     time: "~2 HRS/WK",
     fit: 79,
-    plain: "Let customers self-book real openings and get automatic reminders — cutting no-shows and the endless phone tag.",
+    plain: "Let customers self-book real openings and get automatic reminders, cutting no-shows and the endless phone tag.",
     looks: [
       "Customers see only the slots you actually have open",
       "Text and email reminders go out automatically",
@@ -126,12 +126,12 @@ export const OPPORTUNITIES: Opportunity[] = [
       "No more hunting through threads for a phone number",
       "Sets you up to automate without the mess",
     ],
-    rollout: "We migrate what you have, no big software project — and keep it dead simple to maintain.",
+    rollout: "We migrate what you have, no big software project, and keep it dead simple to maintain.",
   },
 ];
 
 export const COMING_SOON_TOOLS: { glyph: string; name: string; desc: string }[] = [
-  { glyph: "✎", name: "Content Assistant", desc: "Draft posts, emails, and replies in your voice — in seconds." },
+  { glyph: "✎", name: "Content Assistant", desc: "Draft posts, emails, and replies in your voice, in seconds." },
   { glyph: "★", name: "Review Responder", desc: "Friendly, on-brand replies to every review you get." },
   { glyph: "◎", name: "Competitor Scan", desc: "See what nearby businesses are doing online, summarized." },
 ];

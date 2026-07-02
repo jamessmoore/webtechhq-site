@@ -9,6 +9,9 @@ const STATUS_CONFIG = {
   not_started: {
     pillLabel: "NOT STARTED",
     dotColor: "#5B7BA5",
+    pillBg: "#0A1A2E",
+    pillBorder: "#162D5A",
+    pillText: "#80AEE0",
     primaryLabel: "START THE QUESTIONNAIRE",
     primaryHref: "/tools/ai-opportunity-finder",
     secondaryLabel: null as string | null,
@@ -16,7 +19,10 @@ const STATUS_CONFIG = {
   },
   completed: {
     pillLabel: "COMPLETED",
-    dotColor: "#89D4FF",
+    dotColor: "#FFFFFF",
+    pillBg: "#16A34A",
+    pillBorder: "#16A34A",
+    pillText: "#FFFFFF",
     primaryLabel: "SEE RESULTS",
     primaryHref: "/tools/ai-opportunity-finder",
     secondaryLabel: null as string | null,
@@ -56,9 +62,9 @@ export default function FeaturedToolCard({ status }: FeaturedToolCardProps) {
               style={{
                 font: '400 10px "Courier New", monospace',
                 letterSpacing: "0.12em",
-                color: "#80AEE0",
-                backgroundColor: "#0A1A2E",
-                border: "0.8px solid #162D5A",
+                color: cfg.pillText,
+                backgroundColor: cfg.pillBg,
+                border: `0.8px solid ${cfg.pillBorder}`,
                 padding: "4px 10px",
                 borderRadius: 3,
               }}
@@ -68,9 +74,9 @@ export default function FeaturedToolCard({ status }: FeaturedToolCardProps) {
             </span>
           </div>
           <p style={{ margin: "11px 0 0", font: "400 14px/1.6 Arial, sans-serif", maxWidth: 520 }}>
-            Answer a few plain-English questions about how you work. We&apos;ll hand back a
-            prioritized list of the AI moves that would save you the most time and money — no
-            jargon, no fluff.
+            Answer a few plain-English questions about how you work. We&apos;ll build you a custom
+            prompt to run in Claude, ChatGPT, or Gemini, pointing straight at the AI moves that
+            would save you the most time and money. No jargon, no fluff.
           </p>
           <div className="flex gap-5 flex-wrap" style={{ margin: "18px 0 22px" }}>
             <div
@@ -82,15 +88,6 @@ export default function FeaturedToolCard({ status }: FeaturedToolCardProps) {
                 <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
               </svg>
               4 QUICK SECTIONS
-            </div>
-            <div
-              className="flex items-center gap-2"
-              style={{ font: '400 12px "Courier New", monospace', letterSpacing: "0.03em", color: "#80AEE0" }}
-            >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#89D4FF" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 19V10M10 19V4M16 19v-6M22 19H2" />
-              </svg>
-              SCORED REPORT
             </div>
           </div>
           <div className="flex gap-3 items-center flex-wrap">

@@ -165,7 +165,7 @@ export default function SignUpForm() {
           className="block text-xs mb-1.5 tracking-wider"
           style={{ color: "#6B8CAE" }}
         >
-          WORK EMAIL
+          EMAIL
         </label>
         <input
           id="email"
@@ -253,7 +253,7 @@ export default function SignUpForm() {
         />
       ) : (
         <p className="font-sans text-[9px] tracking-widest" style={{ color: "#E0556F" }}>
-          reCAPTCHA not configured — set NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+          reCAPTCHA not configured: set NEXT_PUBLIC_RECAPTCHA_SITE_KEY
         </p>
       )}
 

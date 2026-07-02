@@ -9,7 +9,7 @@ const sections = [
     title: 'DEVOPS & CLOUD INFRASTRUCTURE AUDITS',
     image: '/images/services/technical/devops.jpg',
     content:
-      "AWS, Kubernetes, and Terraform — I'll tell you what's broken, what's expensive, and what's quietly waiting to fail.",
+      "AWS, Kubernetes, and Terraform: I'll tell you what's broken, what's expensive, and what's quietly waiting to fail.",
   },
   {
     id: 'saas',
@@ -27,7 +27,7 @@ const sections = [
   },
   {
     id: 'sre',
-    title: 'SRE CONTRACT — REMOTE · SENIOR',
+    title: 'SRE CONTRACT · REMOTE · SENIOR',
     image: '/images/services/technical/sre.jpg',
     content:
       'Fractional or full-time remote SRE support for teams that need senior reliability engineering without a six-month hiring process. I step into on-call rotations, build out observability (Prometheus, Grafana, Datadog), tighten incident response processes, and bring Kubernetes/AWS infrastructure up to a standard that lets your team sleep at night. Engagements are scoped as contract or retainer, fully remote, starting with a short discovery call to align on priorities.',
@@ -57,7 +57,7 @@ export default function Page() {
             </span>
             <div style={{ height: '0.5px', backgroundColor: '#162D5A', width: '80px', marginTop: '4px', marginBottom: '24px' }} />
             <h1 className="font-sans font-black leading-tight mb-4" style={{ fontSize: '2rem', color: '#EEF6FF' }}>
-              Infrastructure, automation, and AI — built and operated by a senior engineer.
+              Infrastructure, automation, and AI, built and operated by a senior engineer.
             </h1>
             <p className="font-sans text-[24px] leading-relaxed">
               These engagements draw on 20+ years running production systems, plus hands-on

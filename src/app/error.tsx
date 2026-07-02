@@ -67,7 +67,7 @@ export default function Error({
               className="font-sans text-[16px] sm:text-[18px] leading-relaxed mb-10"
               style={{ color: '#D3D3D3' }}
             >
-              An unexpected error hit the server. Try again — if it keeps
+              An unexpected error hit the server. Try again, and if it keeps
               happening, James would genuinely like to know about it.
             </p>
 

@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
@@ -17,7 +16,7 @@ const sections = [
     title: 'AI CONSULTING & AGENT DEVELOPMENT',
     image: '/images/services/ai-consulting.jpg',
     content:
-      'I help you figure out where AI actually fits in your business — then I implement it, from strategy through working prototype.',
+      'I help you figure out where AI actually fits in your business, then I implement it, from strategy through working prototype.',
   },
   {
     id: 'automation',
@@ -44,7 +43,7 @@ export default function Page() {
               Senior-level execution. No hand-holding required.
             </h1>
             <p className="font-sans text-[24px] leading-relaxed">
-              Every engagement below draws on the same foundation — 20+ years running production
+              Every engagement below draws on the same foundation: 20+ years running production
               systems, plus hands-on experience building real AI agents and MCP integrations. Pick
               the lane that fits or combine them. Either way, you get a senior engineer who delivers a robust solution.
             </p>
@@ -85,17 +84,6 @@ export default function Page() {
             </div>
           </section>
         ))}
-
-        {/* Link to technical services */}
-        <section className="px-10 py-10 text-center" style={{ borderTop: '0.5px solid #162D5A' }}>
-          <Link
-            href="/services/technical"
-            className="font-sans text-[21px] tracking-widest transition-all duration-200 hover:text-[#89D4FF] hover:[text-shadow:0_0_6px_#89D4FF,0_0_14px_#3D9FFF] active:!text-white"
-            style={{ color: '#5B90C8' }}
-          >
-            See more technical services ›
-          </Link>
-        </section>
       </main>
       <Footer />
     </>

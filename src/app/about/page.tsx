@@ -46,15 +46,15 @@ export default function Page() {
           <div className="max-w-3xl mx-auto flex flex-col gap-6">
             <p className="font-sans leading-relaxed">
               If your business is running on sticky notes, spreadsheets, and hope, you&apos;re in
-              the right place. I&apos;m an AI/ML engineer with a senior SRE background — 20+ years
+              the right place. I&apos;m an AI/ML engineer with a senior SRE background: 20+ years
               building, scaling, and automating production systems for everyone from scrappy
               startups to Fortune 500s. These days most of that experience goes toward a different
               kind of client: local service businesses, retailers and restaurants, and solo
               professionals who know AI could help but aren&apos;t sure where to start.
             </p>
             <p className="font-sans leading-relaxed">
-              The way in is simple: a flat-rate AI Business Audit — a working session plus a
-              written report on where AI could actually save you time or make you money, no hype
+              The way in is simple: a flat-rate AI Business Audit (a working session plus a
+              written report on where AI could actually save you time or make you money), no hype
               attached. From there, the most common next step is an AI assistant trained on your
               business that handles inquiries and follow-ups while you sleep. See what that looks
               like in the{' '}
@@ -79,7 +79,7 @@ export default function Page() {
               Whether you&apos;re a plumber tired of missing after-hours calls, a coach who can&apos;t
               scale discovery calls, or a founder who wants senior-level technical judgment without
               hiring a team, I work remotely, I move fast, and I build things that last. Take a
-              look around — and if something resonates,{' '}
+              look around, and if something resonates,{' '}
               <Link
                 href="/tools"
                 className="underline transition-all duration-200 hover:text-[#BCE5FF] hover:[text-shadow:0_0_6px_#BCE5FF,0_0_14px_#3D9FFF] active:!text-white"

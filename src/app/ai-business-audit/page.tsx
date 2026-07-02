@@ -46,7 +46,7 @@ export default async function QuestionnairePage() {
                 className="font-sans text-[24px] leading-relaxed"
                 style={{ color: "#80AEE0" }}
               >
-                Hi {user.firstName} — answer four quick sections and I&apos;ll
+                Hi {user.firstName}, answer four quick sections and I&apos;ll
                 send your personalized AI Opportunity Report within 48 hours.
               </p>
             )}

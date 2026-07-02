@@ -14,7 +14,7 @@ const services = [
     subtitle: '& AGENT DEV',
     badge: 'MOST REQUESTED',
     description:
-      'Mapping where AI actually moves the needle in your business, then shipping it — agents, MCP servers, and integrations that do real work.',
+      'Mapping where AI actually moves the needle in your business, then shipping it: agents, MCP servers, and integrations that do real work.',
     href: '/services#ai-consulting',
     featured: true,
   },
@@ -30,7 +30,7 @@ const services = [
     title: 'DEVOPS & CLOUD',
     subtitle: 'INFRA AUDITS',
     description:
-      "AWS, Kubernetes, Terraform — a senior SRE's read on what's fragile, overpriced, or quietly one bad deploy from taking down production.",
+      "AWS, Kubernetes, Terraform: a senior SRE's read on what's fragile, overpriced, or quietly one bad deploy from taking down production.",
     href: '/services/technical#devops',
     featured: false,
   },

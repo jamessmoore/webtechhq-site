@@ -9,8 +9,8 @@ const PAGES = [
 ]
 
 const NAV_LINKS = [
+  { label: 'USE CASES', path: '/use-cases' },
   { label: 'SERVICES', path: '/services' },
-  { label: 'PORTFOLIO', path: '/portfolio' },
   { label: 'ABOUT', path: '/about' },
 ]
 
@@ -91,8 +91,8 @@ test.describe('hero CTAs', () => {
 
 test.describe('footer', () => {
   for (const { label, path } of [
+    { label: 'USE CASES', path: '/use-cases' },
     { label: 'SERVICES', path: '/services' },
-    { label: 'PORTFOLIO', path: '/portfolio' },
     { label: 'ABOUT', path: '/about' },
     { label: 'CONTACT', path: '/contact' },
   ]) {
