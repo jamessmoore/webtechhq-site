@@ -44,12 +44,12 @@ export default function SignInPage() {
           <div className="mb-7">
             <h1
               className="text-2xl font-bold mb-2"
-              style={{ color: "#EEF6FF", fontFamily: "'Courier New', monospace" }}
+              style={{ color: "#3D7FD4", fontFamily: "'Courier New', monospace" }}
             >
               Welcome back
             </h1>
-            <p className="text-sm" style={{ color: "#6B8CAE" }}>
-              Sign in to continue your questionnaire.
+            <p className="text-sm">
+              Please sign in to continue.
             </p>
           </div>
 
@@ -58,7 +58,7 @@ export default function SignInPage() {
           </Suspense>
         </div>
 
-        <p className="mt-6 text-center text-xs" style={{ color: "#4A6A8A" }}>
+        <p className="mt-6 text-center text-xs">
           <Link href="/" className="underline hover:no-underline" style={{ color: "#4A6A8A" }}>
             ← Back to webtechhq.com
           </Link>

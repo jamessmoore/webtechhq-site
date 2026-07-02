@@ -14,7 +14,7 @@ export default function Page() {
             <h1 className="font-sans font-black leading-tight mb-4" style={{ fontSize: '2rem', color: '#EEF6FF' }}>
               Let&apos;s go.
             </h1>
-            <p className="font-sans text-[24px] leading-relaxed" style={{ color: '#80AEE0' }}>
+            <p className="font-sans text-[24px] leading-relaxed">
               Tell me about what you&apos;re working on — AI agents, automation, business
               analytics, or cloud and SRE infrastructure.
             </p>
@@ -41,7 +41,7 @@ export default function Page() {
                 <h2 className="font-sans font-bold text-[12px] tracking-widest" style={{ color: '#BCE5FF' }}>
                   PREFER LINKEDIN?
                 </h2>
-                <p className="font-sans text-[15px] leading-relaxed" style={{ color: '#5B90C8' }}>
+                <p className="font-sans text-[15px] leading-relaxed">
                   Connect or send a message directly through LinkedIn.
                 </p>
                 <a

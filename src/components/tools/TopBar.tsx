@@ -82,6 +82,7 @@ export default function TopBar({ kicker, title, user, onOpenMobileMenu }: TopBar
             backgroundColor: "#0A1832",
             font: '700 12px "Courier New", monospace',
             color: "#89D4FF",
+            borderRadius: 6,
           }}
         >
           {initialsOf(user)}

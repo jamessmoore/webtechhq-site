@@ -55,7 +55,7 @@ export default function OpportunityCard({ opp, expanded, onToggle }: Opportunity
               {opp.cat.toUpperCase()}
             </span>
           </div>
-          <p style={{ margin: "8px 0 0", font: "400 13.5px/1.55 Arial, sans-serif", color: "#FFFFFF" }}>{opp.plain}</p>
+          <p style={{ margin: "8px 0 0", font: "400 13.5px/1.55 Arial, sans-serif" }}>{opp.plain}</p>
           <div className="flex gap-4 flex-wrap" style={{ marginTop: 12 }}>
             <span className="flex items-center gap-[7px]" style={{ font: '400 11px "Courier New", monospace', letterSpacing: "0.03em", color: "#80AEE0" }}>
               <Dot color={IMPACT_COLOR[opp.impact]} />
@@ -102,7 +102,7 @@ export default function OpportunityCard({ opp, expanded, onToggle }: Opportunity
               <div style={{ font: '400 10.5px "Courier New", monospace', letterSpacing: "0.12em", color: "#89D4FF", marginBottom: 11 }}>
                 HOW WE&apos;D ROLL IT OUT
               </div>
-              <p style={{ margin: "0 0 16px", font: "400 13px/1.6 Arial, sans-serif", color: "#80AEE0" }}>{opp.rollout}</p>
+              <p style={{ margin: "0 0 16px", font: "400 13px/1.6 Arial, sans-serif" }}>{opp.rollout}</p>
               <Link
                 href="/contact"
                 className="inline-flex items-center gap-2 transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"

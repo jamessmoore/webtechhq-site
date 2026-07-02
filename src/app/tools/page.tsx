@@ -22,11 +22,11 @@ export default async function ToolsDashboardPage() {
   return (
     <div style={{ maxWidth: 1040, margin: "0 auto", padding: "clamp(24px,4vw,40px) clamp(18px,4vw,44px) 64px" }}>
       <h1
-        style={{ margin: 0, font: '400 clamp(23px,4.4vw,32px)/1.15 "Courier New", monospace', color: "#EEF6FF", letterSpacing: "0.01em" }}
+        style={{ margin: 0, font: '400 clamp(23px,4.4vw,32px)/1.15 "Courier New", monospace', letterSpacing: "0.01em" }}
       >
         Welcome back, {user.firstName}.
       </h1>
-      <p style={{ margin: "11px 0 0", font: "400 clamp(14px,2.4vw,15.5px)/1.6 Arial, sans-serif", color: "#80AEE0", maxWidth: 560 }}>
+      <p style={{ margin: "11px 0 0", font: "400 clamp(14px,2.4vw,15.5px)/1.6 Arial, sans-serif", maxWidth: 560 }}>
         Your AI toolkit lives here. Run a tool, get clear results, and put your time back where
         it belongs — running the business.
       </p>

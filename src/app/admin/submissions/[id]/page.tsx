@@ -18,7 +18,7 @@ const STATUS_BADGE: Record<ApprovalStatus, { label: string; color: string; bg: s
 function Section({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="mb-6">
-      <p className="font-sans text-[10px] tracking-widest mb-1.5" style={{ color: "#5B90C8" }}>
+      <p className="font-sans text-[10px] tracking-widest mb-1.5">
         {label}
       </p>
       <div className="font-sans text-[14px] leading-relaxed" style={{ color: "#EEF6FF" }}>
@@ -78,7 +78,7 @@ export default async function SubmissionDetailPage({
             ADMIN
           </span>
         </div>
-        <p className="font-sans text-[12px]" style={{ color: "#5B90C8" }}>
+        <p className="font-sans text-[12px]">
           {session?.user?.email}
         </p>
       </header>
@@ -97,7 +97,7 @@ export default async function SubmissionDetailPage({
             <h1 className="font-sans font-black text-[22px] mb-1" style={{ color: "#EEF6FF" }}>
               {submission.user.firstName} {submission.user.lastName}
             </h1>
-            <p className="font-sans text-[13px]" style={{ color: "#5B90C8" }}>
+            <p className="font-sans text-[13px]">
               {submission.user.email} · Submitted {new Date(submission.submittedAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
             </p>
           </div>
@@ -182,7 +182,7 @@ export default async function SubmissionDetailPage({
                 <h2 className="font-sans font-bold text-[12px] tracking-widest mb-4" style={{ color: "#3D7FD4" }}>
                   ADDITIONAL NOTES
                 </h2>
-                <p className="font-sans text-[14px] leading-relaxed" style={{ color: "#EEF6FF" }}>
+                <p className="font-sans text-[14px] leading-relaxed">
                   {submission.additionalNotes}
                 </p>
               </Card>

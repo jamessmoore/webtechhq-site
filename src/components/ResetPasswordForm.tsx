@@ -72,7 +72,7 @@ export default function ResetPasswordForm({ token }: { token: string }) {
         >
           Password updated
         </h2>
-        <p className="text-sm leading-relaxed mb-5" style={{ color: "#6B8CAE" }}>
+        <p className="text-sm leading-relaxed mb-5">
           Your password has been reset. You can now sign in with your new password.
         </p>
         <button
@@ -123,7 +123,7 @@ export default function ResetPasswordForm({ token }: { token: string }) {
           onFocus={(e) => (e.currentTarget.style.borderColor = "#3D7FD4")}
           onBlur={(e) => (e.currentTarget.style.borderColor = "#162D5A")}
         />
-        <p className="mt-1 text-xs" style={{ color: "#4A6A8A" }}>
+        <p className="mt-1 text-xs">
           At least 8 characters
         </p>
       </div>

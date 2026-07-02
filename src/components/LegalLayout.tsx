@@ -24,10 +24,7 @@ export function LegalLayout({
       </header>
 
       <main className="flex-1 px-6 py-12 max-w-[720px] mx-auto w-full">
-        <p
-          className="text-xs tracking-[0.2em] mb-4"
-          style={{ color: "#3D7FD4" }}
-        >
+        <p className="text-xs tracking-[0.2em] mb-4">
           {eyebrow}
         </p>
         <h1
@@ -36,7 +33,7 @@ export function LegalLayout({
         >
           {title}
         </h1>
-        <p className="text-sm mb-10" style={{ color: "#6B8CAE" }}>
+        <p className="text-sm mb-10">
           {lastUpdated}
         </p>
 

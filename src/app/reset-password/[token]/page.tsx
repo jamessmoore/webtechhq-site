@@ -53,7 +53,7 @@ export default async function ResetPasswordPage({
             >
               Choose a new password
             </h1>
-            <p className="text-sm" style={{ color: "#6B8CAE" }}>
+            <p className="text-sm">
               Enter a new password for your account.
             </p>
           </div>
@@ -61,7 +61,7 @@ export default async function ResetPasswordPage({
           <ResetPasswordForm token={token} />
         </div>
 
-        <p className="mt-6 text-center text-xs" style={{ color: "#4A6A8A" }}>
+        <p className="mt-6 text-center text-xs">
           <Link href="/" className="underline hover:no-underline" style={{ color: "#4A6A8A" }}>
             ← Back to webtechhq.com
           </Link>

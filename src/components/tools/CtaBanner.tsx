@@ -12,7 +12,7 @@ export default function CtaBanner() {
         <h3 style={{ margin: 0, font: '700 clamp(16px,3vw,20px) "Courier New", monospace', color: "#EEF6FF", letterSpacing: "0.02em" }}>
           Want to turn this into a plan?
         </h3>
-        <p style={{ margin: "9px 0 0", font: "400 14px/1.55 Arial, sans-serif", color: "#80AEE0", maxWidth: 480 }}>
+        <p style={{ margin: "9px 0 0", font: "400 14px/1.55 Arial, sans-serif", maxWidth: 480 }}>
           Book a free 20-minute walkthrough. James will talk through your top opportunities and
           what it&apos;d take to get the first one live.
         </p>
