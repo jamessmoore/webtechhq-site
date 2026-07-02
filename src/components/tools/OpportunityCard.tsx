@@ -55,7 +55,7 @@ export default function OpportunityCard({ opp, expanded, onToggle }: Opportunity
               {opp.cat.toUpperCase()}
             </span>
           </div>
-          <p style={{ margin: "8px 0 0", font: "400 13.5px/1.55 Arial, sans-serif", color: "#80AEE0" }}>{opp.plain}</p>
+          <p style={{ margin: "8px 0 0", font: "400 13.5px/1.55 Arial, sans-serif", color: "#FFFFFF" }}>{opp.plain}</p>
           <div className="flex gap-4 flex-wrap" style={{ marginTop: 12 }}>
             <span className="flex items-center gap-[7px]" style={{ font: '400 11px "Courier New", monospace', letterSpacing: "0.03em", color: "#80AEE0" }}>
               <Dot color={IMPACT_COLOR[opp.impact]} />

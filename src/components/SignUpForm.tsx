@@ -97,12 +97,12 @@ export default function SignUpForm() {
         >
           Check your inbox
         </h2>
-        <p className="text-sm leading-relaxed" style={{ color: "#6B8CAE" }}>
+        <p className="text-sm leading-relaxed" style={{ color: "#FFFFFF" }}>
           We sent a verification link to{" "}
           <span style={{ color: "#89D4FF" }}>{form.email}</span>.<br />
           Click it to activate your account and start the questionnaire.
         </p>
-        <p className="mt-4 text-xs" style={{ color: "#4A6A8A" }}>
+        <p className="mt-4 text-xs" style={{ color: "#FFFFFF" }}>
           Didn&apos;t get it? Check your spam folder or{" "}
           <button
             type="button"

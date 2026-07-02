@@ -24,3 +24,6 @@ next-env.d.ts
 /data/*.db
 /data/*.db-shm
 /data/*.db-wal
+
+# Prompt template seed data — core IP, never commit real template text
+/data/seeds/*.local.json

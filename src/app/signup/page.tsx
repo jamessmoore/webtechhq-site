@@ -63,7 +63,7 @@ export default function SignUpPage() {
             className="text-xs tracking-[0.2em] mb-4"
             style={{ color: "#3D7FD4" }}
           >
-            AI BUSINESS AUDIT
+            AI OPPORTUNITY FINDER
           </p>
           <h1
             className="text-3xl xl:text-4xl font-bold leading-tight mb-6"
@@ -74,7 +74,7 @@ export default function SignUpPage() {
           >
             Find the AI opportunities hiding in your business
           </h1>
-          <p className="text-sm leading-relaxed mb-10" style={{ color: "#6B8CAE" }}>
+          <p className="text-sm leading-relaxed mb-10" style={{ color: "#FFFFFF" }}>
             Answer a few questions about your biggest operational headaches.
             I&apos;ll identify your top AI opportunities, rank them by
             impact, and estimate what each one is worth to you.
@@ -126,11 +126,11 @@ export default function SignUpPage() {
           <div className="mb-8">
             <h2
               className="text-2xl font-bold mb-2"
-              style={{ color: "#EEF6FF", fontFamily: "'Courier New', monospace" }}
+              style={{ color: "#3D7FD4", fontFamily: "'Courier New', monospace" }}
             >
               Create your account
             </h2>
-            <p className="text-sm" style={{ color: "#6B8CAE" }}>
+            <p className="text-sm" style={{ color: "#FFFFFF" }}>
               Free to start. Takes about 5 minutes.
             </p>
           </div>

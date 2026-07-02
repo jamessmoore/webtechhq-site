@@ -8,7 +8,8 @@
     "start": "next start -p 3000",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "seed:prompt-templates": "node scripts/seed-prompt-templates.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.108.0",

@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { getUserById } from "@/lib/users";
 import { createSubmission, getSubmissionsByUser } from "@/lib/submissions";
+import { renderPromptTemplate } from "@/lib/tools/promptTemplates";
+import { sendPromptEmail } from "@/lib/email";
 import type {
   TeamSize,
   RepetitiveAnswer,
@@ -85,6 +87,22 @@ export async function POST(request: NextRequest) {
   }
 
   try {
+    const renderedPrompt = renderPromptTemplate({
+      repetitive: body.layer3Repetitive,
+      compliance: body.layer3Compliance,
+      data: body.layer3Data,
+      vars: {
+        businessType: body.businessType?.trim(),
+        teamSize: body.teamSize,
+        layer1Problem: body.layer1Problem?.trim(),
+        layer1Elimination: body.layer1Elimination?.trim(),
+        layer2Hours: body.layer2Hours,
+        layer2Salary: body.layer2Salary,
+        complianceDetail: body.layer3ComplianceDetail?.trim(),
+        additionalNotes: body.additionalNotes?.trim(),
+      },
+    });
+
     const submission = createSubmission({
       userId: user.id,
       businessType: body.businessType?.trim(),
@@ -98,8 +116,17 @@ export async function POST(request: NextRequest) {
       layer3ComplianceDetail: body.layer3ComplianceDetail?.trim(),
       layer3Data: body.layer3Data,
       additionalNotes: body.additionalNotes?.trim(),
+      renderedPrompt: renderedPrompt ?? undefined,
     });
-    return NextResponse.json({ success: true, id: submission.id });
+
+    if (renderedPrompt) {
+      // Non-blocking — don't fail the submission if email delivery fails.
+      sendPromptEmail(user.email, user.firstName, renderedPrompt).catch((err) => {
+        console.error("Prompt email failed:", err);
+      });
+    }
+
+    return NextResponse.json({ success: true, id: submission.id, renderedPrompt });
   } catch (err: unknown) {
     if (err instanceof Error && err.message.includes("UNIQUE constraint failed")) {
       return NextResponse.json(

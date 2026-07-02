@@ -42,7 +42,9 @@ export default function Sidebar({ user, toolStatus, mobileOpen, onClose, signOut
     cursor: "pointer",
     color: "#80AEE0",
     transition: "all .14s",
-    borderLeft: "2px solid transparent",
+    borderLeftWidth: 2,
+    borderLeftStyle: "solid",
+    borderLeftColor: "transparent",
   };
 
   const navActive: React.CSSProperties = {

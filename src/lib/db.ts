@@ -80,6 +80,34 @@ function migrate(db: Database.Database): void {
 
     CREATE INDEX IF NOT EXISTS idx_submissions_status
       ON submissions (approval_status);
+
+    CREATE TABLE IF NOT EXISTS prompt_template (
+      id                  TEXT PRIMARY KEY,
+      trigger_repetitive  TEXT,
+      trigger_compliance  TEXT,
+      trigger_data        TEXT,
+      is_fallback         INTEGER NOT NULL DEFAULT 0,
+      version             INTEGER NOT NULL DEFAULT 1,
+      template_text       TEXT NOT NULL,
+      created_at          TEXT NOT NULL,
+      updated_at          TEXT NOT NULL
+    );
+
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_prompt_template_trigger
+      ON prompt_template (trigger_repetitive, trigger_compliance, trigger_data)
+      WHERE is_fallback = 0;
+
+    CREATE TABLE IF NOT EXISTS prompt_template_eval (
+      id            TEXT PRIMARY KEY,
+      template_id   TEXT NOT NULL REFERENCES prompt_template (id) ON DELETE CASCADE,
+      model_tested  TEXT NOT NULL,
+      rubric        TEXT NOT NULL,
+      notes         TEXT,
+      evaluated_at  TEXT NOT NULL
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_prompt_template_eval_template_id
+      ON prompt_template_eval (template_id);
   `);
 
   // Backfill reset_token columns for databases created before they existed.
@@ -91,5 +119,12 @@ function migrate(db: Database.Database): void {
   }
   if (!columnNames.has("reset_expires_at")) {
     db.exec("ALTER TABLE users ADD COLUMN reset_expires_at TEXT");
+  }
+
+  // Backfill rendered_prompt for databases created before it existed.
+  const submissionColumns = db.prepare("PRAGMA table_info(submissions)").all() as { name: string }[];
+  const submissionColumnNames = new Set(submissionColumns.map((c) => c.name));
+  if (!submissionColumnNames.has("rendered_prompt")) {
+    db.exec("ALTER TABLE submissions ADD COLUMN rendered_prompt TEXT");
   }
 }

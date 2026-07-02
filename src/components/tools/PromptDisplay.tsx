@@ -1,0 +1,103 @@
+"use client";
+
+import { useState } from "react";
+import { CheckIcon, CopyIcon } from "./icons";
+
+export default function PromptDisplay({
+  firstName,
+  prompt,
+}: {
+  firstName: string;
+  prompt: string;
+}) {
+  const [copied, setCopied] = useState(false);
+
+  async function handleCopy() {
+    try {
+      await navigator.clipboard.writeText(prompt);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard API unavailable — user can still select and copy manually.
+    }
+  }
+
+  return (
+    <div>
+      <h2
+        style={{
+          margin: 0,
+          font: '400 clamp(21px,4vw,27px)/1.2 "Courier New", monospace',
+          color: "#EEF6FF",
+          letterSpacing: "0.01em",
+        }}
+      >
+        Got it, {firstName}.
+      </h2>
+      <p
+        style={{
+          margin: "11px 0 0",
+          font: "400 clamp(14px,2.4vw,15.5px)/1.6 Arial, sans-serif",
+          color: "#80AEE0",
+        }}
+      >
+        Here&apos;s a prompt built specifically for your business. Copy it and paste it into the
+        AI chat tool of your choice — ChatGPT, Claude, Gemini, whatever you already use — to
+        start exploring where AI could help.
+      </p>
+
+      <div style={{ marginTop: 28 }}>
+        <textarea
+          readOnly
+          value={prompt}
+          rows={16}
+          onFocus={(e) => e.currentTarget.select()}
+          className="w-full px-3 py-3 font-sans text-[13px] leading-relaxed focus:outline-none resize-y"
+          style={{
+            backgroundColor: "#071525",
+            border: "0.8px solid #162D5A",
+            color: "#EEF6FF",
+            borderRadius: "2px",
+            fontFamily: '"Courier New", monospace',
+          }}
+        />
+
+        <button
+          type="button"
+          onClick={handleCopy}
+          className="inline-flex items-center gap-2 mt-4 transition-colors duration-150"
+          style={{
+            padding: "10px 18px",
+            borderRadius: 2,
+            border: `0.8px solid ${copied ? "#3D7FD4" : "#162D5A"}`,
+            backgroundColor: copied ? "#1A4FC4" : "#143C6A",
+            color: copied ? "#BCE5FF" : "#80AEE0",
+            font: '400 12px "Courier New", monospace',
+            letterSpacing: "0.08em",
+            cursor: "pointer",
+          }}
+        >
+          {copied ? (
+            <>
+              <CheckIcon size={14} />
+              COPIED
+            </>
+          ) : (
+            <>
+              <CopyIcon size={14} />
+              COPY TO CLIPBOARD
+            </>
+          )}
+        </button>
+      </div>
+
+      <p
+        className="font-sans text-[12px] mt-6 leading-relaxed"
+        style={{ color: "#3D7FD4" }}
+      >
+        When you&apos;re ready to move from ideas to an actual plan, that&apos;s exactly what a
+        scoping conversation with James is for.
+      </p>
+    </div>
+  );
+}

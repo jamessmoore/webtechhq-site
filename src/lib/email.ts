@@ -7,7 +7,7 @@ function getSendGrid() {
   return sgMail;
 }
 
-const FROM = process.env.SENDGRID_FROM_EMAIL ?? "james@webtechhq.com";
+const FROM = process.env.SENDGRID_FROM_EMAIL ?? "noreply@webtechhq.com";
 const BASE_URL = process.env.NEXTAUTH_URL ?? "http://localhost:3000";
 
 export async function sendVerificationEmail(
@@ -20,7 +20,8 @@ export async function sendVerificationEmail(
 
   await sg.send({
     to,
-    from: FROM,
+    from: { email: FROM, name: "Moore Solutions" },
+    trackingSettings: { clickTracking: { enable: false } },
     subject: "Verify your Moore Solutions account",
     html: `
       <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;color:#0F0F0F">
@@ -53,7 +54,8 @@ export async function sendPasswordResetEmail(
 
   await sg.send({
     to,
-    from: FROM,
+    from: { email: FROM, name: "Moore Solutions" },
+    trackingSettings: { clickTracking: { enable: false } },
     subject: "Reset your Moore Solutions password",
     html: `
       <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;color:#0F0F0F">
@@ -77,6 +79,45 @@ export async function sendPasswordResetEmail(
   });
 }
 
+export async function sendPromptEmail(
+  to: string,
+  firstName: string,
+  renderedPrompt: string,
+): Promise<void> {
+  const toolUrl = `${BASE_URL}/tools/ai-opportunity-finder`;
+  const sg = getSendGrid();
+
+  const escapedPrompt = renderedPrompt
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
+  await sg.send({
+    to,
+    from: { email: FROM, name: "Moore Solutions" },
+    trackingSettings: { clickTracking: { enable: false } },
+    subject: "Your AI Opportunity Finder prompt is ready",
+    html: `
+      <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;color:#0F0F0F">
+        <h2 style="margin-bottom:8px">Hi ${firstName},</h2>
+        <p style="margin-bottom:16px">
+          Based on what you shared, here's a prompt built specifically for your business.
+          Paste it into the AI chat tool of your choice (ChatGPT, Claude, Gemini — whatever
+          you already use) to start exploring where AI could help.
+        </p>
+        <pre style="white-space:pre-wrap;background:#F7F5F0;border:1px solid #D4D0C8;
+                     border-radius:4px;padding:16px;font-family:monospace;font-size:12.5px;
+                     line-height:1.5;color:#0F0F0F">${escapedPrompt}</pre>
+        <p style="margin-top:20px">
+          You can also come back and copy this anytime from your
+          <a href="${toolUrl}" style="color:#1A4FC4">AI Opportunity Finder page</a>.
+        </p>
+        <p style="margin-top:24px;font-size:13px;color:#6B6660">— James Moore, Moore Solutions</p>
+      </div>
+    `,
+  });
+}
+
 export async function sendGoogleAccountNoticeEmail(
   to: string,
   firstName: string,
@@ -85,7 +126,8 @@ export async function sendGoogleAccountNoticeEmail(
 
   await sg.send({
     to,
-    from: FROM,
+    from: { email: FROM, name: "Moore Solutions" },
+    trackingSettings: { clickTracking: { enable: false } },
     subject: "Password reset request — Moore Solutions",
     html: `
       <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;color:#0F0F0F">

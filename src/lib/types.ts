@@ -94,6 +94,7 @@ export interface Submission {
   layer3ComplianceDetail?: string;
   layer3Data?: DataAnswer;
   additionalNotes?: string;
+  renderedPrompt?: string;
   submittedAt: string;
   createdAt: string;
   validationFlags: ValidationFlag[];
@@ -117,6 +118,7 @@ export interface SubmissionRow {
   layer3_compliance_detail: string | null;
   layer3_data: string | null;
   additional_notes: string | null;
+  rendered_prompt: string | null;
   submitted_at: string;
   created_at: string;
   validation_flags: string;
@@ -141,6 +143,7 @@ export function rowToSubmission(row: SubmissionRow): Submission {
     layer3ComplianceDetail: row.layer3_compliance_detail ?? undefined,
     layer3Data: (row.layer3_data as DataAnswer) ?? undefined,
     additionalNotes: row.additional_notes ?? undefined,
+    renderedPrompt: row.rendered_prompt ?? undefined,
     submittedAt: row.submitted_at,
     createdAt: row.created_at,
     validationFlags: JSON.parse(row.validation_flags) as ValidationFlag[],

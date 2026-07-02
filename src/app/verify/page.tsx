@@ -89,12 +89,12 @@ export default async function VerifyPage({
 
           <h1
             className="text-2xl font-bold mb-4"
-            style={{ color: "#EEF6FF", fontFamily: "'Courier New', monospace" }}
+            style={{ color: "#3D7FD4", fontFamily: "'Courier New', monospace" }}
           >
             {heading}
           </h1>
 
-          <p className="text-sm leading-relaxed mb-8" style={{ color: "#6B8CAE" }}>
+          <p className="text-sm leading-relaxed mb-8" style={{ color: "#FFFFFF" }}>
             {body}
           </p>
 
