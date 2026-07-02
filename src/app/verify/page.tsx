@@ -39,7 +39,7 @@ const CONTENT: Record<
     iconColor: "#FF6B6B",
     iconBg: "rgba(255,107,107,0.1)",
     heading: "Invalid link",
-    body: "This verification link doesn't look right — it may have already been used or was copied incorrectly. Try signing in, or create a new account.",
+    body: "This verification link doesn't look right. It may have already been used or was copied incorrectly. Try signing in, or create a new account.",
     cta: { label: "Sign in →", href: "/signin" },
   },
 };

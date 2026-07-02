@@ -84,7 +84,7 @@ export default function ContactForm() {
           <option value="DevOps & Cloud Infrastructure Audits">DevOps &amp; Cloud Infrastructure Audits</option>
           <option value="SaaS Development">SaaS Development</option>
           <option value="Cloud Management">Cloud Management</option>
-          <option value="SRE Contract — Remote, Senior">SRE Contract — Remote, Senior</option>
+          <option value="SRE Contract (Remote, Senior)">SRE Contract (Remote, Senior)</option>
           <option value="Something else">Something else</option>
         </select>
       </div>
@@ -114,7 +114,7 @@ export default function ContactForm() {
         />
       ) : (
         <p className="font-sans text-[9px] tracking-widest" style={{ color: '#E0556F' }}>
-          reCAPTCHA not configured — set NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+          reCAPTCHA not configured: set NEXT_PUBLIC_RECAPTCHA_SITE_KEY
         </p>
       )}
 

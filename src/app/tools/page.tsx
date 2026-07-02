@@ -28,7 +28,7 @@ export default async function ToolsDashboardPage() {
       </h1>
       <p style={{ margin: "11px 0 0", font: "400 clamp(14px,2.4vw,15.5px)/1.6 Arial, sans-serif", maxWidth: 560 }}>
         Your AI toolkit lives here. Run a tool, get clear results, and put your time back where
-        it belongs — running the business.
+        it belongs, running the business.
       </p>
 
       <FeaturedToolCard status={toolStatus} />

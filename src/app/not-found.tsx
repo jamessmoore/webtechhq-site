@@ -5,7 +5,7 @@ import Footer from '@/components/Footer'
 import HexMark from '@/components/HexMark'
 
 export const metadata: Metadata = {
-  title: '404 — Page Not Found | Moore Solutions',
+  title: '404: Page Not Found | Moore Solutions',
   description: 'This page doesn\'t exist. Head back to Moore Solutions.',
 }
 

@@ -33,7 +33,7 @@ const useCases: UseCase[] = [
   {
     id: 'plumbing',
     headline: 'The Plumber Who Missed Leads After Hours',
-    category: 'LOCAL SERVICE — HVAC/PLUMBING',
+    category: 'LOCAL SERVICE · HVAC/PLUMBING',
     image: '/images/use-cases/plumbing.jpg',
     problem: 'Calls coming in at 9pm go to voicemail. Half never call back.',
     solution: 'AI answers after hours, collects job details, books a callback slot.',
@@ -55,7 +55,7 @@ const useCases: UseCase[] = [
     image: '/images/use-cases/real-estate.jpg',
     problem: 'Spending hours on calls with people not ready to buy or sell.',
     solution:
-      'AI pre-qualifies inquiries — timeline, budget, motivation — before you ever pick up the phone.',
+      'AI pre-qualifies inquiries (timeline, budget, motivation) before you ever pick up the phone.',
     result: 'Only serious prospects make it to a real conversation.',
   },
   {
@@ -72,7 +72,7 @@ const useCases: UseCase[] = [
     headline: 'The Boutique That Lost Customers Between Visits',
     category: 'RETAIL',
     image: '/images/use-cases/boutique.jpg',
-    problem: 'Customers bought once and disappeared — no follow-up system.',
+    problem: 'Customers bought once and disappeared, no follow-up system.',
     solution: 'AI sends personalized follow-ups based on what they bought, with relevant offers.',
     result: 'Repeat visit rate climbed without any manual effort.',
   },
@@ -81,7 +81,7 @@ const useCases: UseCase[] = [
     headline: "The Business Coach Who Couldn't Scale Her Discovery Calls",
     category: 'SOLO PROFESSIONAL',
     image: '/images/use-cases/coaching.jpg',
-    problem: "Running 10+ free discovery calls a week — most didn't convert.",
+    problem: "Running 10+ free discovery calls a week, most didn't convert.",
     solution: 'AI handled the first conversation, answered FAQs, and only passed through serious prospects.',
     result: 'Discovery calls cut in half, conversion rate doubled.',
   },
@@ -122,7 +122,7 @@ export default function Page() {
             </h1>
             <p className="font-sans text-[24px] leading-relaxed">
               Here&apos;s what AI actually looks like when it&apos;s working inside a small
-              business — not the hype, just the everyday problems it solves.
+              business, not the hype, just the everyday problems it solves.
             </p>
           </div>
         </section>
@@ -199,7 +199,7 @@ export default function Page() {
         <section className="px-10 py-[15px]" style={{ borderTop: '0.5px solid #162D5A' }}>
           <div className="max-w-3xl mx-auto">
             <p className="font-sans text-[13.5px] leading-relaxed tracking-wide">
-              NOTE: The scenarios above are illustrative — based on the types of problems I
+              NOTE: The scenarios above are illustrative, based on the types of problems I
               commonly see small businesses face, not specific past client engagements. Every
               business is different, and that&apos;s exactly the kind of thing worth talking through.
             </p>

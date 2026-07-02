@@ -168,7 +168,7 @@ export default function ResetPasswordForm({ token }: { token: string }) {
         />
       ) : (
         <p className="font-sans text-[9px] tracking-widest" style={{ color: "#E0556F" }}>
-          reCAPTCHA not configured — set NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+          reCAPTCHA not configured: set NEXT_PUBLIC_RECAPTCHA_SITE_KEY
         </p>
       )}
 

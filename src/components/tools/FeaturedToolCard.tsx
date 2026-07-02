@@ -75,7 +75,7 @@ export default function FeaturedToolCard({ status }: FeaturedToolCardProps) {
           </div>
           <p style={{ margin: "11px 0 0", font: "400 14px/1.6 Arial, sans-serif", maxWidth: 520 }}>
             Answer a few plain-English questions about how you work. We&apos;ll build you a custom
-            prompt to run in Claude, ChatGPT, or Gemini — pointing straight at the AI moves that
+            prompt to run in Claude, ChatGPT, or Gemini, pointing straight at the AI moves that
             would save you the most time and money. No jargon, no fluff.
           </p>
           <div className="flex gap-5 flex-wrap" style={{ margin: "18px 0 22px" }}>

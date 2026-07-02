@@ -36,7 +36,7 @@ export default function Hero() {
         >
           20+ years building and running infrastructure at scale. Now applying
           that same battle-tested rigor to solutions for small business owners.
-          I build and deploy independently — no hand-holding, just results.
+          I build and deploy independently, no hand-holding, just results.
         </p>
 
         {/* Credential chips */}

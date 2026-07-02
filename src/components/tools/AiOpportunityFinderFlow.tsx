@@ -53,7 +53,7 @@ export default function AiOpportunityFinderFlow({
           color: "#80AEE0",
         }}
       >
-        There are no wrong answers — just tell us how things really work today. The more honest
+        There are no wrong answers, just tell us how things really work today. The more honest
         you are, the sharper your report.
       </p>
 

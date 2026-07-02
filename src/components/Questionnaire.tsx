@@ -262,7 +262,7 @@ function Step2({
         <TextArea
           value={form.layer1Problem}
           onChange={(v) => set("layer1Problem", v)}
-          placeholder="Be as specific as you can — the more detail, the better your report will be."
+          placeholder="Be as specific as you can. The more detail, the better your report will be."
           autoFocus
         />
       </div>
@@ -311,7 +311,7 @@ function Step3({
           </span>
         </div>
         <p className="font-sans text-[12px] mt-1.5">
-          Rough estimate is fine — include everyone involved.
+          Rough estimate is fine, include everyone involved.
         </p>
       </div>
       <div>
@@ -379,7 +379,7 @@ function Step4({
             <TextArea
               value={form.layer3ComplianceDetail}
               onChange={(v) => set("layer3ComplianceDetail", v)}
-              placeholder="Briefly describe the concern — HIPAA, PCI, state regulations, etc."
+              placeholder="Briefly describe the concern: HIPAA, PCI, state regulations, etc."
               rows={3}
             />
           </div>
@@ -422,7 +422,7 @@ function Step4({
             className="font-sans text-[9px] tracking-widest"
             style={{ color: "#E0556F" }}
           >
-            reCAPTCHA not configured — set NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+            reCAPTCHA not configured: set NEXT_PUBLIC_RECAPTCHA_SITE_KEY
           </p>
         )}
       </div>
@@ -437,7 +437,7 @@ function AiDisclosureNotice() {
     <p className="font-sans text-[11px] leading-relaxed mt-4">
       <strong style={{ color: "#80AEE0" }}>Heads up:</strong> This form uses
       AI (Claude, via AWS Bedrock) to generate your personalized response.
-      Your answers are never sold or shared — they&apos;re used only to
+      Your answers are never sold or shared. They&apos;re used only to
       reply to you and, with your permission, to follow up about working
       together.{" "}
       <Link
@@ -524,7 +524,7 @@ function SuccessScreen({ firstName }: { firstName: string }) {
       </p>
       <p className="font-sans text-[12px] mt-5 leading-relaxed">
         I personally review every submission before generating your report.
-        You&apos;ll get your top 3 AI opportunities, ranked by impact — with
+        You&apos;ll get your top 3 AI opportunities, ranked by impact, with
         realistic time and cost estimates, not hype.
       </p>
     </StatusCard>
@@ -668,7 +668,7 @@ export default function Questionnaire({
         </h2>
         <p className="font-sans text-[15px] leading-relaxed">
           We received your questionnaire. Your AI Opportunity Report is being
-          prepared — watch your inbox at{" "}
+          prepared. Watch your inbox at{" "}
           <span style={{ color: "#89D4FF" }}>{email}</span>.
         </p>
       </StatusCard>

@@ -187,7 +187,7 @@ export default function Sidebar({ user, mobileOpen, onClose, signOutButton }: Si
                 className="whitespace-nowrap overflow-hidden text-ellipsis"
                 style={{ font: '400 11px Arial, sans-serif', color: "#5B7BA5" }}
               >
-                {user.businessType || "—"}
+                {user.businessType || "N/A"}
               </div>
             </div>
             {signOutButton}

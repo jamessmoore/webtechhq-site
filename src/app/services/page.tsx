@@ -16,7 +16,7 @@ const sections = [
     title: 'AI CONSULTING & AGENT DEVELOPMENT',
     image: '/images/services/ai-consulting.jpg',
     content:
-      'I help you figure out where AI actually fits in your business — then I implement it, from strategy through working prototype.',
+      'I help you figure out where AI actually fits in your business, then I implement it, from strategy through working prototype.',
   },
   {
     id: 'automation',
@@ -43,7 +43,7 @@ export default function Page() {
               Senior-level execution. No hand-holding required.
             </h1>
             <p className="font-sans text-[24px] leading-relaxed">
-              Every engagement below draws on the same foundation — 20+ years running production
+              Every engagement below draws on the same foundation: 20+ years running production
               systems, plus hands-on experience building real AI agents and MCP integrations. Pick
               the lane that fits or combine them. Either way, you get a senior engineer who delivers a robust solution.
             </p>

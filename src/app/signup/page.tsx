@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 const PROOF_POINTS = [
-  "A custom AI prompt built around your business — not a generic template",
+  "A custom AI prompt built around your business, not a generic template",
   "Send it straight to Claude, ChatGPT, or Gemini in one click",
   "Get your answers in minutes, not days",
 ];
@@ -72,8 +72,8 @@ export default function SignUpPage() {
           </h1>
           <p className="text-sm leading-relaxed mb-10">
             Answer a few questions about your biggest operational headaches.
-            I&apos;ll build you a custom AI prompt — ready to run in Claude,
-            ChatGPT, or Gemini — that surfaces your top opportunities, ranks
+            I&apos;ll build you a custom AI prompt, ready to run in Claude,
+            ChatGPT, or Gemini, that surfaces your top opportunities, ranks
             them by impact, and estimates what each one is worth.
           </p>
 

@@ -97,7 +97,7 @@ export default function PromptDisplay({
         }}
       >
         Here&apos;s a prompt built specifically for your business. Click a button below and
-        we&apos;ll open Claude, ChatGPT, or Gemini with the prompt ready to go — copied to your
+        we&apos;ll open Claude, ChatGPT, or Gemini with the prompt ready to go: copied to your
         clipboard or pre-filled, depending on the tool. Or copy it yourself and paste it into
         whatever AI chat tool you already prefer.
       </p>
@@ -161,7 +161,7 @@ export default function PromptDisplay({
                   {isCopied ? (
                     <>
                       <CheckIcon size={13} />
-                      COPIED — PASTE IN {label.toUpperCase()}
+                      COPIED, PASTE IN {label.toUpperCase()}
                     </>
                   ) : (
                     <>{label} ›</>
@@ -175,7 +175,7 @@ export default function PromptDisplay({
               className="font-sans text-[11px] mt-2"
               style={{ color: "#E8634A" }}
             >
-              Couldn&apos;t copy automatically — use Copy to Clipboard below, then paste it in
+              Couldn&apos;t copy automatically. Use Copy to Clipboard below, then paste it in
               manually.
             </p>
           )}

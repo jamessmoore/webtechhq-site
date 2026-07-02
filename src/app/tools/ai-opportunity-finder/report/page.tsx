@@ -44,7 +44,7 @@ export default async function ToolsReportPage() {
           </h1>
           <p style={{ margin: "12px 0 0", font: "400 clamp(14px,2.4vw,15.5px)/1.6 Arial, sans-serif" }}>
             Based on your answers, the fastest wins are around how quickly leads get a response
-            and how much repetitive admin is on your plate. Here are the moves we&apos;d make —
+            and how much repetitive admin is on your plate. Here are the moves we&apos;d make,
             in the order we&apos;d make them.
           </p>
         </div>

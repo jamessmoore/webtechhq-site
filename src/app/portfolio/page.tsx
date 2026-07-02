@@ -5,9 +5,9 @@ import HexMark from '@/components/HexMark'
 const projects = [
   {
     id: 'coresample',
-    title: 'CORESAMPLE — AWS AUDIT FRAMEWORK',
+    title: 'CORESAMPLE: AWS AUDIT FRAMEWORK',
     content:
-      'An AWS-native security and compliance audit framework built on Amazon Bedrock and MCP. The audit logic, the foundation-model invocation, and every AWS API call run entirely inside the account boundary — no external service ever reaches in to inspect your infrastructure. Read-only, per-service IAM roles scan EC2 for untagged instances, public IP exposure, and overly permissive security groups, then hand findings to a dedicated reporting MCP server for a client-ready report.',
+      'An AWS-native security and compliance audit framework built on Amazon Bedrock and MCP. The audit logic, the foundation-model invocation, and every AWS API call run entirely inside the account boundary; no external service ever reaches in to inspect your infrastructure. Read-only, per-service IAM roles scan EC2 for untagged instances, public IP exposure, and overly permissive security groups, then hand findings to a dedicated reporting MCP server for a client-ready report.',
     href: 'https://github.com/jamessmoore/CoreSample',
     variant: {
       label: 'VIEW AWS AUDIT MCP ›',
@@ -29,14 +29,14 @@ const projects = [
     id: 'webtechhq-site',
     title: 'MOORE SOLUTIONS WEBSITE',
     content:
-      'This site — built with Next.js 16, React 19, and Tailwind CSS, featuring a custom dark design system, a server-action contact form with Gmail SMTP and reCAPTCHA, and a fully agentic build process using Claude Code.',
+      'This site, built with Next.js 16, React 19, and Tailwind CSS, featuring a custom dark design system, a server-action contact form with Gmail SMTP and reCAPTCHA, and a fully agentic build process using Claude Code.',
     href: 'https://github.com/jamessmoore/webtechhq-site',
   },
   {
     id: 'webtechhq-infra',
     title: 'WEBTECHHQ INFRASTRUCTURE',
     content:
-      'Terraform infrastructure for webtechhq.com — a single EC2 instance, Elastic IP, and security group provisioned as code, with user-data bootstrapping Node.js, PM2, Nginx, UFW, and fail2ban for production hardening.',
+      'Terraform infrastructure for webtechhq.com: a single EC2 instance, Elastic IP, and security group provisioned as code, with user-data bootstrapping Node.js, PM2, Nginx, UFW, and fail2ban for production hardening.',
     href: 'https://github.com/jamessmoore/webtechhq-infra',
   },
   {
@@ -64,7 +64,7 @@ export default function Page() {
               Recent builds, open for review.
             </h1>
             <p className="font-sans text-[24px] leading-relaxed">
-              A sample of recent projects — AI agents, MCP servers, and the site you&apos;re
+              A sample of recent projects: AI agents, MCP servers, and the site you&apos;re
               looking at right now. Every repo below is public; clone it, read the code, and
               judge for yourself.
             </p>

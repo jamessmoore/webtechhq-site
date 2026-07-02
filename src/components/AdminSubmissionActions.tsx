@@ -130,7 +130,7 @@ export default function AdminSubmissionActions({
           rows={4}
           value={notes}
           onChange={(e) => { setNotes(e.target.value); setSaved(false); }}
-          placeholder="Internal notes — not visible to the submitter."
+          placeholder="Internal notes, not visible to the submitter."
           className="w-full px-3 py-2 focus:outline-none"
           style={fieldStyle}
         />
