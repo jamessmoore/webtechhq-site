@@ -8,7 +8,6 @@ import LogoLockup from './LogoLockup'
 const navLinks = [
   { href: '/tools',     label: 'TOOLS' },
   { href: '/services',  label: 'SERVICES' },
-  { href: '/portfolio', label: 'PORTFOLIO' },
   { href: '/use-cases', label: 'USE CASES' },
   { href: '/about',     label: 'ABOUT' },
 ]
