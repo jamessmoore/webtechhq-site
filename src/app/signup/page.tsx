@@ -78,7 +78,7 @@ export default function SignUpPage() {
           </p>
 
           <ul className="space-y-3">
-            {PROOF_POINTS.map((point) => (
+            {PROOF_POINTS.map((point, index) => (
               <li key={point} className="flex items-start gap-3">
                 <span
                   className="mt-0.5 shrink-0 w-4 h-4 rounded-full flex items-center justify-center"
@@ -88,7 +88,10 @@ export default function SignUpPage() {
                     <path d="M1 4l2.2 2.2 3.8-4.4" stroke="#89D4FF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </span>
-                <span className="text-sm leading-relaxed" style={{ color: "#8BACC8" }}>
+                <span
+                  className={index === 0 ? "text-[15px] leading-relaxed" : "text-sm leading-relaxed"}
+                  style={{ color: "#8BACC8" }}
+                >
                   {point}
                 </span>
               </li>
