@@ -35,9 +35,8 @@ export default function Hero() {
           style={{ color: '#D3D3D3' }}
         >
           20+ years building and running infrastructure at scale. Now applying
-          that same battle-tested rigor to AI integration, agentic systems, and
-          MCP-powered automation. I build and deploy independently — no hand-holding,
-          just results.
+          that same battle-tested rigor to creating solutions for small business
+          owners. I build and deploy independently — no hand-holding, just results.
         </p>
 
         {/* Credential chips */}
