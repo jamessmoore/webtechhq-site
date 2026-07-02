@@ -128,7 +128,7 @@ export default function SignUpPage() {
               Create your account
             </h2>
             <p className="text-sm">
-              Free to start. Takes about 5 minutes.
+              The finder is free. Takes about 5 minutes.
             </p>
           </div>
 
