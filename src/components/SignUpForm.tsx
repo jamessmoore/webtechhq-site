@@ -229,7 +229,7 @@ export default function SignUpForm() {
           onChange={(e) => set("tos", e.target.checked)}
           className="mt-0.5 shrink-0 cursor-pointer accent-[#3D7FD4]"
         />
-        <label htmlFor="tos" className="text-xs leading-relaxed cursor-pointer" style={{ color: "#6B8CAE" }}>
+        <label htmlFor="tos" className="text-xs leading-relaxed cursor-pointer" style={{ color: "#FFFFFF" }}>
           I agree to the{" "}
           <a href="/terms" className="underline hover:no-underline" style={{ color: "#89D4FF" }}>
             Terms of Service
