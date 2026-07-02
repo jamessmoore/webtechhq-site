@@ -19,18 +19,6 @@ export default function Hero() {
       </div>
 
       <div className="relative z-10 px-6 sm:px-10 py-10 sm:py-20 max-w-2xl">
-        {/* Status badge */}
-        <div
-          className="inline-flex items-center gap-2 px-3 py-1 mb-4 sm:mb-8 font-sans text-[9px] tracking-widest"
-          style={{ backgroundColor: '#071830', border: '0.8px solid #1A3D7A', borderRadius: '4px', color: '#FFFFFF' }}
-        >
-          <span
-            className="inline-block w-[6px] h-[6px] rounded-full"
-            style={{ backgroundColor: '#5BA8F0' }}
-          />
-          AVAILABLE FOR CONTRACTS
-        </div>
-
         {/* Headline */}
         <h1 className="font-sans font-black leading-tight mb-2 text-[1.75rem] sm:text-[2.4rem]">
           <span style={{ color: '#EEF6FF' }}>I help businesses</span>
