@@ -66,7 +66,7 @@ export default function SignUpPage() {
             className="text-3xl xl:text-4xl font-bold leading-tight mb-6"
             style={{ fontFamily: "'Courier New', monospace" }}
           >
-            <span style={{ color: "#EEF6FF" }}>Find the AI opportunities</span>
+            <span style={{ color: "#EEF6FF" }}>Find the opportunities</span>
             <br />
             <span style={{ color: "#89D4FF" }}>hiding in your business</span>
           </h1>
