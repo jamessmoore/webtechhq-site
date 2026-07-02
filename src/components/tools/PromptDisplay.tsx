@@ -123,7 +123,7 @@ export default function PromptDisplay({
             className="font-sans text-[11px] tracking-widest mb-2"
             style={{ color: "var(--brand-white)" }}
           >
-            SEND TO:
+            COPY TO CLIPBOARD AND OPEN:
           </p>
           <div className="flex flex-wrap gap-2">
             {[
