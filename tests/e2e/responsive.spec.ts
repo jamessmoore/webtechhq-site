@@ -42,7 +42,7 @@ test.describe('navbar responsiveness', () => {
     await page.goto('/')
     await page.getByRole('button', { name: 'Open menu' }).click()
 
-    const dropdown = page.getByRole('navigation', { name: 'Primary' }).getByRole('link', { name: 'PORTFOLIO', exact: true })
+    const dropdown = page.getByRole('navigation', { name: 'Primary' }).getByRole('link', { name: 'TOOLS', exact: true })
     await expect(dropdown).toBeVisible()
     await expect(dropdown).toBeInViewport()
   })
