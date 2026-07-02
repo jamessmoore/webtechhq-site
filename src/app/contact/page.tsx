@@ -15,8 +15,7 @@ export default function Page() {
               Let&apos;s go.
             </h1>
             <p className="font-sans text-[24px] leading-relaxed">
-              Tell me about what you&apos;re working on: AI agents, automation, business
-              analytics, or cloud and SRE infrastructure.
+              Please send me a note. I make every effort to reply within 24 hours.
             </p>
           </div>
         </section>
