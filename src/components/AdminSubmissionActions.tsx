@@ -72,7 +72,7 @@ export default function AdminSubmissionActions({
             type="button"
             disabled={saving || isApproved}
             onClick={() => patch({ status: "approved" })}
-            className="font-sans font-bold text-[13px] tracking-widest px-5 py-2 transition-colors duration-150 disabled:opacity-40"
+            className="font-sans font-bold text-[13px] tracking-widest px-5 py-2 transition-all duration-200 disabled:opacity-40 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
             style={{
               backgroundColor: isApproved ? "#1a5c2a" : "#238636",
               border: `1px solid ${isApproved ? "#2ea043" : "#238636"}`,
@@ -87,7 +87,7 @@ export default function AdminSubmissionActions({
             type="button"
             disabled={saving || isRejected}
             onClick={() => patch({ status: "rejected" })}
-            className="font-sans font-bold text-[13px] tracking-widest px-5 py-2 transition-colors duration-150 disabled:opacity-40"
+            className="font-sans font-bold text-[13px] tracking-widest px-5 py-2 transition-all duration-200 disabled:opacity-40 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
             style={{
               backgroundColor: isRejected ? "#5c1a1a" : "#8B2020",
               border: `1px solid ${isRejected ? "#c0392b" : "#8B2020"}`,
@@ -103,7 +103,7 @@ export default function AdminSubmissionActions({
               type="button"
               disabled={saving}
               onClick={() => patch({ status: "pending_review" })}
-              className="font-sans text-[13px] tracking-widest px-5 py-2 transition-colors duration-150 disabled:opacity-40"
+              className="font-sans text-[13px] tracking-widest px-5 py-2 transition-all duration-200 disabled:opacity-40 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
               style={{
                 backgroundColor: "transparent",
                 border: "0.8px solid #162D5A",
@@ -139,7 +139,7 @@ export default function AdminSubmissionActions({
             type="button"
             disabled={saving}
             onClick={() => patch({ notes })}
-            className="font-sans text-[13px] tracking-widest px-4 py-1.5 transition-colors duration-150 disabled:opacity-40"
+            className="font-sans text-[13px] tracking-widest px-4 py-1.5 transition-all duration-200 disabled:opacity-40 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
             style={{
               backgroundColor: "#0E3A9A",
               border: "1px solid #3D7FD4",

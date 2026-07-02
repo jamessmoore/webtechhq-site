@@ -95,10 +95,10 @@ export default function FeaturedToolCard({ status }: FeaturedToolCardProps) {
           <div className="flex gap-3 items-center flex-wrap">
             <Link
               href={cfg.primaryHref}
-              className="inline-flex items-center gap-[9px] transition-colors duration-150"
+              className="inline-flex items-center gap-[9px] transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
               style={{
                 padding: "12px 20px",
-                borderRadius: 2,
+                borderRadius: 6,
                 border: "0.8px solid #3D7FD4",
                 backgroundColor: "#1A4FC4",
                 color: "#EEF6FF",
@@ -112,10 +112,10 @@ export default function FeaturedToolCard({ status }: FeaturedToolCardProps) {
             {cfg.secondaryLabel && cfg.secondaryHref && (
               <Link
                 href={cfg.secondaryHref}
-                className="transition-colors duration-150"
+                className="transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
                 style={{
                   padding: "12px 18px",
-                  borderRadius: 2,
+                  borderRadius: 6,
                   border: "0.8px solid #162D5A",
                   backgroundColor: "transparent",
                   color: "#EEF6FF",

@@ -759,11 +759,11 @@ export default function Questionnaire({
           <button
             type="button"
             onClick={back}
-            className="font-sans text-[13px] tracking-widest px-5 py-2 transition-colors duration-150"
+            className="font-sans text-[13px] tracking-widest px-5 py-2 transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
             style={{
               backgroundColor: "transparent",
               border: "0.8px solid #162D5A",
-              borderRadius: "2px",
+              borderRadius: "6px",
               color: "#80AEE0",
               cursor: "pointer",
             }}
@@ -778,7 +778,7 @@ export default function Questionnaire({
           type="button"
           onClick={isLastStep ? submit : next}
           disabled={submitDisabled}
-          className="font-sans font-bold text-[16px] tracking-widest px-7 py-3 transition-colors duration-150 disabled:opacity-50"
+          className="font-sans font-bold text-[16px] tracking-widest px-7 py-3 transition-all duration-200 disabled:opacity-50 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
           style={{
             backgroundColor: "#238636",
             border: "1px solid #238636",

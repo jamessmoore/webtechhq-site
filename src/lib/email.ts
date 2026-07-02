@@ -82,15 +82,9 @@ export async function sendPasswordResetEmail(
 export async function sendPromptEmail(
   to: string,
   firstName: string,
-  renderedPrompt: string,
 ): Promise<void> {
   const toolUrl = `${BASE_URL}/tools/ai-opportunity-finder`;
   const sg = getSendGrid();
-
-  const escapedPrompt = renderedPrompt
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
 
   await sg.send({
     to,
@@ -101,17 +95,16 @@ export async function sendPromptEmail(
       <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;color:#0F0F0F">
         <h2 style="margin-bottom:8px">Hi ${firstName},</h2>
         <p style="margin-bottom:16px">
-          Based on what you shared, here's a prompt built specifically for your business.
-          Paste it into the AI chat tool of your choice (ChatGPT, Claude, Gemini — whatever
-          you already use) to start exploring where AI could help.
+          Based on what you shared, we've built a prompt specifically for your business.
+          Head back to the AI Opportunity Finder to view and copy it — paste it into the
+          AI chat tool of your choice (ChatGPT, Claude, Gemini — whatever you already use)
+          to start exploring where AI could help.
         </p>
-        <pre style="white-space:pre-wrap;background:#F7F5F0;border:1px solid #D4D0C8;
-                     border-radius:4px;padding:16px;font-family:monospace;font-size:12.5px;
-                     line-height:1.5;color:#0F0F0F">${escapedPrompt}</pre>
-        <p style="margin-top:20px">
-          You can also come back and copy this anytime from your
-          <a href="${toolUrl}" style="color:#1A4FC4">AI Opportunity Finder page</a>.
-        </p>
+        <a href="${toolUrl}"
+           style="display:inline-block;padding:12px 28px;background:#1A4FC4;color:#fff;
+                  text-decoration:none;border-radius:4px;font-weight:bold">
+          View my prompt
+        </a>
         <p style="margin-top:24px;font-size:13px;color:#6B6660">— James Moore, Moore Solutions</p>
       </div>
     `,

@@ -178,10 +178,10 @@ export default function Sidebar({ user, toolStatus, mobileOpen, onClose, signOut
             </p>
             <Link
               href="/contact"
-              className="block w-full text-center transition-colors duration-150"
+              className="block w-full text-center transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
               style={{
                 padding: 9,
-                borderRadius: 2,
+                borderRadius: 6,
                 border: "0.8px solid #162D5A",
                 backgroundColor: "transparent",
                 color: "#EEF6FF",

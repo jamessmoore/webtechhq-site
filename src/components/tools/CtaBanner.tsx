@@ -19,10 +19,10 @@ export default function CtaBanner() {
       </div>
       <Link
         href="/contact"
-        className="inline-flex items-center gap-[9px] transition-colors duration-150"
+        className="inline-flex items-center gap-[9px] transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
         style={{
           padding: "14px 22px",
-          borderRadius: 2,
+          borderRadius: 6,
           border: "0.8px solid #3D7FD4",
           backgroundColor: "#1A4FC4",
           color: "#EEF6FF",

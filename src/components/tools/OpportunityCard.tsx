@@ -105,10 +105,10 @@ export default function OpportunityCard({ opp, expanded, onToggle }: Opportunity
               <p style={{ margin: "0 0 16px", font: "400 13px/1.6 Arial, sans-serif", color: "#80AEE0" }}>{opp.rollout}</p>
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 transition-colors duration-150"
+                className="inline-flex items-center gap-2 transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
                 style={{
                   padding: "10px 16px",
-                  borderRadius: 2,
+                  borderRadius: 6,
                   border: "0.8px solid #3D7FD4",
                   backgroundColor: "#143C6A",
                   color: "#BCE5FF",

@@ -121,7 +121,7 @@ export async function POST(request: NextRequest) {
 
     if (renderedPrompt) {
       // Non-blocking — don't fail the submission if email delivery fails.
-      sendPromptEmail(user.email, user.firstName, renderedPrompt).catch((err) => {
+      sendPromptEmail(user.email, user.firstName).catch((err) => {
         console.error("Prompt email failed:", err);
       });
     }

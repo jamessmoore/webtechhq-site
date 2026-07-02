@@ -48,7 +48,7 @@ export default function Page() {
                   href="https://linkedin.com/in/thejamesmoore"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-sans text-[12.5px] tracking-widest px-5 py-2 text-center transition-colors duration-150"
+                  className="font-sans text-[12.5px] tracking-widest px-5 py-2 text-center transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
                   style={{ background: 'linear-gradient(180deg, #1A4FC4, #0E3A9A)', border: '1px solid #3D7FD4', color: '#BCE5FF', borderRadius: '6px' }}
                 >
                   VIEW LINKEDIN PROFILE ›

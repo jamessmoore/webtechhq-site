@@ -271,7 +271,7 @@ export default function SignUpForm() {
       <button
         type="submit"
         disabled={loading || (!!process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && !recaptchaToken)}
-        className="w-full py-3 font-sans font-bold text-[16px] tracking-widest transition-colors duration-150 disabled:opacity-50"
+        className="w-full py-3 font-sans font-bold text-[16px] tracking-widest transition-all duration-200 disabled:opacity-50 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
         style={{
           backgroundColor: "#238636",
           border: "1px solid #238636",
@@ -296,7 +296,7 @@ export default function SignUpForm() {
       <button
         type="button"
         onClick={handleGoogle}
-        className="w-full flex items-center justify-center gap-3 py-2.5 text-sm tracking-wide transition-all duration-150"
+        className="w-full flex items-center justify-center gap-3 py-2.5 text-sm tracking-wide transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
         style={{
           background: "rgba(14,58,154,0.08)",
           border: "1px solid #162D5A",

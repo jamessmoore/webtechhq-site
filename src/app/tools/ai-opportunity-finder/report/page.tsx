@@ -75,10 +75,10 @@ export default async function ToolsReportPage() {
       <div className="flex gap-3 justify-center flex-wrap" style={{ marginTop: 20 }}>
         <Link
           href="/tools/ai-opportunity-finder"
-          className="transition-colors duration-150"
+          className="transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
           style={{
             padding: "11px 18px",
-            borderRadius: 2,
+            borderRadius: 6,
             border: "0.8px solid #162D5A",
             backgroundColor: "transparent",
             color: "#80AEE0",
@@ -94,7 +94,7 @@ export default async function ToolsReportPage() {
           title="PDF export is coming soon"
           style={{
             padding: "11px 18px",
-            borderRadius: 2,
+            borderRadius: 6,
             border: "0.8px solid #162D5A",
             backgroundColor: "transparent",
             color: "#5B7BA5",
