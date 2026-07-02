@@ -96,9 +96,10 @@ export default function PromptDisplay({
           color: "var(--brand-white)",
         }}
       >
-        Here&apos;s a prompt built specifically for your business. Copy it and paste it into the
-        AI chat tool of your choice — ChatGPT, Claude, Gemini, whatever you already use — to
-        start exploring where AI could help.
+        Here&apos;s a prompt built specifically for your business. Click a button below and
+        we&apos;ll open Claude, ChatGPT, or Gemini with the prompt ready to go — copied to your
+        clipboard or pre-filled, depending on the tool. Or copy it yourself and paste it into
+        whatever AI chat tool you already prefer.
       </p>
 
       <div style={{ marginTop: 28 }}>
@@ -147,7 +148,7 @@ export default function PromptDisplay({
                   key={label}
                   type="button"
                   onClick={() => handleSendTo(label, url, copyFirst)}
-                  className="inline-flex items-center gap-2 font-sans text-[12px] tracking-wide transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
+                  className="inline-flex items-center gap-2 font-sans text-[12px] tracking-wide transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(255,255,255,0.45),0_0_24px_6px_rgba(255,255,255,0.25)] hover:!text-white"
                   style={{
                     padding: "10px 18px",
                     borderRadius: 6,
