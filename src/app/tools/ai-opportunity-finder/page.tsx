@@ -7,7 +7,7 @@ import { getSubmissionsByUser } from "@/lib/submissions";
 
 export const metadata: Metadata = { title: "AI Opportunity Finder | Moore Solutions" };
 
-export default async function PanelQuestionnairePage() {
+export default async function ToolsQuestionnairePage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/signup");
 
@@ -35,7 +35,7 @@ export default async function PanelQuestionnairePage() {
           email={user.email}
           emailVerified={user.emailVerified}
           alreadySubmitted={alreadySubmitted}
-          redirectOnSuccessHref="/panel/tools/ai-opportunity-finder/report"
+          redirectOnSuccessHref="/tools/ai-opportunity-finder/report"
         />
       </div>
     </div>

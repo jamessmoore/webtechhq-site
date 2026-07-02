@@ -43,7 +43,7 @@ body {
   flex-shrink: 0;
 }
 
-/* Denser grid overlay for app surfaces (client panel) */
+/* Denser grid overlay for app surfaces (client tools) */
 .br-grid-dense {
   background-image:
     linear-gradient(var(--brand-grid) 1px, transparent 1px),

@@ -52,7 +52,7 @@ test.describe('primary navigation', () => {
     const nav = page.getByRole('navigation', { name: 'Primary' })
     await nav.getByRole('link', { name: /LET'S GO/i }).click()
 
-    // /panel is auth-gated and redirects signed-out visitors to /signup
+    // /tools is auth-gated and redirects signed-out visitors to /signup
     await expect(page).toHaveURL(/\/signup$/)
   })
 
@@ -141,7 +141,7 @@ test.describe('about page inline links', () => {
   test('"let\'s go" link navigates to signup when signed out', async ({ page }) => {
     await page.goto('/about')
     await page.locator('main').getByRole('link', { name: "let's go" }).click()
-    // /panel is auth-gated and redirects signed-out visitors to /signup
+    // /tools is auth-gated and redirects signed-out visitors to /signup
     await expect(page).toHaveURL(/\/signup$/)
   })
 })

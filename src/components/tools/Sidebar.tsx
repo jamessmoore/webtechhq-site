@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import HexMark from "@/components/HexMark";
 import { GridIcon, SparkleIcon, ShieldIcon, CloseIcon } from "./icons";
 
-interface PanelUser {
+interface ToolsUser {
   firstName: string;
   lastName: string;
   email: string;
@@ -13,22 +13,22 @@ interface PanelUser {
 }
 
 interface SidebarProps {
-  user: PanelUser;
+  user: ToolsUser;
   toolStatus: "not_started" | "completed";
   mobileOpen: boolean;
   onClose: () => void;
   signOutButton: React.ReactNode;
 }
 
-function initialsOf(user: PanelUser): string {
+function initialsOf(user: ToolsUser): string {
   const initials = `${user.firstName?.[0] ?? ""}${user.lastName?.[0] ?? ""}`.toUpperCase();
   return initials || "?";
 }
 
 export default function Sidebar({ user, toolStatus, mobileOpen, onClose, signOutButton }: SidebarProps) {
   const pathname = usePathname();
-  const isDashActive = pathname === "/panel";
-  const isToolActive = pathname.startsWith("/panel/tools/ai-opportunity-finder");
+  const isDashActive = pathname === "/tools";
+  const isToolActive = pathname.startsWith("/tools/ai-opportunity-finder");
 
   const navBase: React.CSSProperties = {
     display: "flex",
@@ -82,7 +82,7 @@ export default function Sidebar({ user, toolStatus, mobileOpen, onClose, signOut
             <div
               style={{ font: '400 10px "Courier New", monospace', color: "#5B90C8", marginTop: 3, letterSpacing: "0.28em" }}
             >
-              CLIENT PANEL
+              CLIENT TOOLS
             </div>
           </div>
           <button
@@ -97,7 +97,7 @@ export default function Sidebar({ user, toolStatus, mobileOpen, onClose, signOut
         </div>
 
         <nav className="flex flex-col gap-[2px]">
-          <Link href="/panel" onClick={onClose} style={{ ...navBase, ...(isDashActive ? navActive : {}) }}>
+          <Link href="/tools" onClick={onClose} style={{ ...navBase, ...(isDashActive ? navActive : {}) }}>
             <GridIcon />
             <span>Dashboard</span>
           </Link>
@@ -109,7 +109,7 @@ export default function Sidebar({ user, toolStatus, mobileOpen, onClose, signOut
           </div>
 
           <Link
-            href="/panel/tools/ai-opportunity-finder"
+            href="/tools/ai-opportunity-finder"
             onClick={onClose}
             style={{ ...navBase, ...(isToolActive ? navActive : {}) }}
           >

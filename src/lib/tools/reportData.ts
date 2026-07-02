@@ -1,6 +1,6 @@
 // Static placeholder report content, matching the design prototype.
 // Not derived from real submission data — a real scoring/report-generation
-// engine is future work. See design_handoff_client_panel/README.md.
+// engine is future work. See design_handoff_client_tools/README.md.
 
 export interface Opportunity {
   rank: number;

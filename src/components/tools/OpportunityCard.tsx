@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { Opportunity } from "@/lib/panel/reportData";
+import type { Opportunity } from "@/lib/tools/reportData";
 import { ChevronIcon, ClockIcon, CheckIcon, ArrowRightIcon } from "./icons";
 
 interface OpportunityCardProps {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { Opportunity } from "@/lib/panel/reportData";
+import type { Opportunity } from "@/lib/tools/reportData";
 import OpportunityCard from "./OpportunityCard";
 
 interface OpportunitiesListProps {

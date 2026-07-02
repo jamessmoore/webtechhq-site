@@ -2,10 +2,10 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getUserById } from "@/lib/users";
 import { getSubmissionsByUser } from "@/lib/submissions";
-import PanelShell from "@/components/panel/PanelShell";
-import SignOutButton from "@/components/panel/SignOutButton";
+import ToolsShell from "@/components/tools/ToolsShell";
+import SignOutButton from "@/components/tools/SignOutButton";
 
-export default async function PanelLayout({ children }: { children: React.ReactNode }) {
+export default async function ToolsLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
   if (!session?.user?.id) redirect("/signup");
 
@@ -16,7 +16,7 @@ export default async function PanelLayout({ children }: { children: React.ReactN
   const toolStatus: "not_started" | "completed" = submissions.length > 0 ? "completed" : "not_started";
 
   return (
-    <PanelShell
+    <ToolsShell
       user={{
         firstName: user.firstName,
         lastName: user.lastName,
@@ -27,6 +27,6 @@ export default async function PanelLayout({ children }: { children: React.ReactN
       signOutButton={<SignOutButton />}
     >
       {children}
-    </PanelShell>
+    </ToolsShell>
   );
 }

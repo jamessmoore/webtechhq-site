@@ -3,13 +3,13 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getUserById } from "@/lib/users";
 import { getSubmissionsByUser } from "@/lib/submissions";
-import FeaturedToolCard from "@/components/panel/FeaturedToolCard";
-import ToolPlaceholderCard from "@/components/panel/ToolPlaceholderCard";
-import { COMING_SOON_TOOLS } from "@/lib/panel/reportData";
+import FeaturedToolCard from "@/components/tools/FeaturedToolCard";
+import ToolPlaceholderCard from "@/components/tools/ToolPlaceholderCard";
+import { COMING_SOON_TOOLS } from "@/lib/tools/reportData";
 
 export const metadata: Metadata = { title: "Dashboard | Moore Solutions" };
 
-export default async function PanelDashboardPage() {
+export default async function ToolsDashboardPage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/signup");
 

@@ -4,17 +4,17 @@ import Link from "next/link";
 import { auth } from "@/auth";
 import { getUserById } from "@/lib/users";
 import { getSubmissionsByUser } from "@/lib/submissions";
-import { SparkleIcon } from "@/components/panel/icons";
-import ReportScoreRing from "@/components/panel/ReportScoreRing";
-import KpiTiles from "@/components/panel/KpiTiles";
-import OpportunitiesList from "@/components/panel/OpportunitiesList";
-import ReadinessBars from "@/components/panel/ReadinessBars";
-import CtaBanner from "@/components/panel/CtaBanner";
-import { REPORT_SCORE, KPIS, OPPORTUNITIES, READINESS_BARS } from "@/lib/panel/reportData";
+import { SparkleIcon } from "@/components/tools/icons";
+import ReportScoreRing from "@/components/tools/ReportScoreRing";
+import KpiTiles from "@/components/tools/KpiTiles";
+import OpportunitiesList from "@/components/tools/OpportunitiesList";
+import ReadinessBars from "@/components/tools/ReadinessBars";
+import CtaBanner from "@/components/tools/CtaBanner";
+import { REPORT_SCORE, KPIS, OPPORTUNITIES, READINESS_BARS } from "@/lib/tools/reportData";
 
 export const metadata: Metadata = { title: "Your Opportunity Report | Moore Solutions" };
 
-export default async function PanelReportPage() {
+export default async function ToolsReportPage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/signup");
 
@@ -22,7 +22,7 @@ export default async function PanelReportPage() {
   if (!user) redirect("/signup");
 
   const submissions = getSubmissionsByUser(user.id);
-  if (submissions.length === 0) redirect("/panel/tools/ai-opportunity-finder");
+  if (submissions.length === 0) redirect("/tools/ai-opportunity-finder");
 
   return (
     <div style={{ maxWidth: 920, margin: "0 auto", padding: "clamp(24px,4vw,40px) clamp(18px,4vw,44px) 70px" }}>
@@ -74,7 +74,7 @@ export default async function PanelReportPage() {
 
       <div className="flex gap-3 justify-center flex-wrap" style={{ marginTop: 20 }}>
         <Link
-          href="/panel/tools/ai-opportunity-finder"
+          href="/tools/ai-opportunity-finder"
           className="transition-colors duration-150"
           style={{
             padding: "11px 18px",

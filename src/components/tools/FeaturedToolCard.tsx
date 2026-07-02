@@ -10,7 +10,7 @@ const STATUS_CONFIG = {
     pillLabel: "NOT STARTED",
     dotColor: "#5B7BA5",
     primaryLabel: "START THE QUESTIONNAIRE",
-    primaryHref: "/panel/tools/ai-opportunity-finder",
+    primaryHref: "/tools/ai-opportunity-finder",
     secondaryLabel: null as string | null,
     secondaryHref: null as string | null,
   },
@@ -18,9 +18,9 @@ const STATUS_CONFIG = {
     pillLabel: "COMPLETED",
     dotColor: "#89D4FF",
     primaryLabel: "VIEW YOUR REPORT",
-    primaryHref: "/panel/tools/ai-opportunity-finder/report",
+    primaryHref: "/tools/ai-opportunity-finder/report",
     secondaryLabel: "REVIEW ANSWERS",
-    secondaryHref: "/panel/tools/ai-opportunity-finder",
+    secondaryHref: "/tools/ai-opportunity-finder",
   },
 };
 

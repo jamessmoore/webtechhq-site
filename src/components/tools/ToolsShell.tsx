@@ -5,32 +5,32 @@ import { usePathname } from "next/navigation";
 import Sidebar from "./Sidebar";
 import TopBar from "./TopBar";
 
-interface PanelUser {
+interface ToolsUser {
   firstName: string;
   lastName: string;
   email: string;
   businessType?: string;
 }
 
-interface PanelShellProps {
-  user: PanelUser;
+interface ToolsShellProps {
+  user: ToolsUser;
   toolStatus: "not_started" | "completed";
   signOutButton: React.ReactNode;
   children: React.ReactNode;
 }
 
 function pageMeta(pathname: string): { kicker: string; title: string } {
-  if (pathname === "/panel") return { kicker: "CONTROL PANEL", title: "Dashboard" };
-  if (pathname.startsWith("/panel/tools/ai-opportunity-finder/report")) {
+  if (pathname === "/tools") return { kicker: "CLIENT TOOLS", title: "Dashboard" };
+  if (pathname.startsWith("/tools/ai-opportunity-finder/report")) {
     return { kicker: "AI OPPORTUNITY FINDER", title: "Your Opportunity Report" };
   }
-  if (pathname.startsWith("/panel/tools/ai-opportunity-finder")) {
+  if (pathname.startsWith("/tools/ai-opportunity-finder")) {
     return { kicker: "AI TOOLS", title: "AI Opportunity Finder" };
   }
-  return { kicker: "CONTROL PANEL", title: "Dashboard" };
+  return { kicker: "CLIENT TOOLS", title: "Dashboard" };
 }
 
-export default function PanelShell({ user, toolStatus, signOutButton, children }: PanelShellProps) {
+export default function ToolsShell({ user, toolStatus, signOutButton, children }: ToolsShellProps) {
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { kicker, title } = pageMeta(pathname);

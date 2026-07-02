@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { MenuIcon, HelpCircleIcon } from "./icons";
 
-interface PanelUser {
+interface ToolsUser {
   firstName: string;
   lastName: string;
   email: string;
@@ -11,11 +11,11 @@ interface PanelUser {
 interface TopBarProps {
   kicker: string;
   title: string;
-  user: PanelUser;
+  user: ToolsUser;
   onOpenMobileMenu: () => void;
 }
 
-function initialsOf(user: PanelUser): string {
+function initialsOf(user: ToolsUser): string {
   const initials = `${user.firstName?.[0] ?? ""}${user.lastName?.[0] ?? ""}`.toUpperCase();
   return initials || "?";
 }
