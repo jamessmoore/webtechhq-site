@@ -215,7 +215,7 @@ export default function SignUpForm() {
           onFocus={(e) => (e.currentTarget.style.borderColor = "#3D7FD4")}
           onBlur={(e) => (e.currentTarget.style.borderColor = "#162D5A")}
         />
-        <p className="mt-1 text-xs">
+        <p className="mt-1 text-[13px]" style={{ color: "#89D4FF" }}>
           At least 8 characters
         </p>
       </div>
