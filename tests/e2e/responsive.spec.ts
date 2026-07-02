@@ -59,18 +59,18 @@ test.describe('navbar responsiveness', () => {
 })
 
 test.describe('hero CTAs visible across viewports', () => {
-  test('"VIEW SERVICES" and "SEE MY WORK" are visible and clickable', async ({ page }) => {
+  test('"GET STARTED" and "SEE HOW IT WORKS" are visible and clickable', async ({ page }) => {
     await page.goto('/')
 
-    const viewServices = page.getByRole('link', { name: /VIEW SERVICES/i })
-    const seeMyWork = page.getByRole('link', { name: /SEE MY WORK/i })
+    const getStarted = page.getByRole('link', { name: /GET STARTED/i })
+    const seeHowItWorks = page.getByRole('link', { name: /SEE HOW IT WORKS/i })
 
-    await expect(viewServices).toBeVisible()
-    await expect(seeMyWork).toBeVisible()
+    await expect(getStarted).toBeVisible()
+    await expect(seeHowItWorks).toBeVisible()
 
     // toBeInViewport guards against elements rendered off-screen on small viewports
-    await expect(viewServices).toBeInViewport()
-    await expect(seeMyWork).toBeInViewport()
+    await expect(getStarted).toBeInViewport()
+    await expect(seeHowItWorks).toBeInViewport()
   })
 })
 

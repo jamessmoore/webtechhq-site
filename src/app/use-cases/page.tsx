@@ -213,14 +213,14 @@ export default function Page() {
               See what this looks like for your business.
             </h2>
             <p className="font-sans text-[21px] leading-relaxed mb-8" style={{ color: '#5B90C8' }}>
-              Let&apos;s talk about where AI could actually move the needle for you.
+              Let&apos;s go find where AI can actually move the needle for you.
             </p>
             <Link
-              href="/contact"
-              className="inline-block font-sans text-[12.5px] tracking-widest px-7 py-3 transition-colors duration-150"
+              href="/tools"
+              className="inline-block font-sans text-[12.5px] tracking-widest px-7 py-3 transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
               style={{ background: 'linear-gradient(180deg, #1A4FC4, #0E3A9A)', border: '1px solid #3D7FD4', color: '#BCE5FF', borderRadius: '6px' }}
             >
-              LET&apos;S TALK ›
+              LET&apos;S GO ›
             </Link>
           </div>
         </section>

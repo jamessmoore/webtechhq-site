@@ -121,7 +121,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={pending || !recaptchaToken}
-        className="font-sans font-bold text-[16px] tracking-widest px-7 py-3 mt-[4px] transition-colors duration-150 self-start disabled:opacity-50"
+        className="font-sans font-bold text-[16px] tracking-widest px-7 py-3 mt-[4px] transition-all duration-200 self-start disabled:opacity-50 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
         style={{ backgroundColor: '#238636', border: '1px solid #238636', color: '#FFFFFF', borderRadius: '6px' }}
       >
         {pending ? 'SENDING…' : 'SEND MESSAGE ›'}
