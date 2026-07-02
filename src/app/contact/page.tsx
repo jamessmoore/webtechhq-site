@@ -11,7 +11,7 @@ export default function Page() {
         {/* Page header */}
         <section className="px-10 pt-[32px] pb-[15px]">
           <div className="max-w-3xl mx-auto">
-            <h1 className="font-sans font-black leading-tight mb-4" style={{ fontSize: '2rem', color: '#EEF6FF' }}>
+            <h1 className="font-sans font-black leading-tight mb-4" style={{ fontSize: '2rem' }}>
               Let&apos;s go.
             </h1>
             <p className="font-sans text-[21px] leading-relaxed">
