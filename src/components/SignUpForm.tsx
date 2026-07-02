@@ -165,7 +165,7 @@ export default function SignUpForm() {
           className="block text-xs mb-1.5 tracking-wider"
           style={{ color: "#6B8CAE" }}
         >
-          WORK EMAIL
+          EMAIL
         </label>
         <input
           id="email"
