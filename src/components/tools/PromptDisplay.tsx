@@ -112,7 +112,7 @@ export default function PromptDisplay({
           style={{
             backgroundColor: "#071525",
             border: "0.8px solid #162D5A",
-            color: "#EEF6FF",
+            color: "#FFFFFF",
             borderRadius: "2px",
             fontFamily: '"Courier New", monospace',
           }}
