@@ -28,7 +28,7 @@ export default function PromptDisplay({
         style={{
           margin: 0,
           font: '400 clamp(21px,4vw,27px)/1.2 "Courier New", monospace',
-          color: "#EEF6FF",
+          color: "var(--brand-blue)",
           letterSpacing: "0.01em",
         }}
       >
@@ -38,11 +38,11 @@ export default function PromptDisplay({
         style={{
           margin: "11px 0 0",
           font: "400 clamp(14px,2.4vw,15.5px)/1.6 Arial, sans-serif",
-          color: "#80AEE0",
+          color: "var(--brand-white)",
         }}
       >
         Here&apos;s a prompt built specifically for your business. Copy it and paste it into the
-        AI chat tool of your choice — ChatGPT, Claude, Grok, whatever you already use — to
+        AI chat tool of your choice — ChatGPT, Claude, Gemini, whatever you already use — to
         start exploring where AI could help.
       </p>
 
@@ -61,6 +61,40 @@ export default function PromptDisplay({
             fontFamily: '"Courier New", monospace',
           }}
         />
+
+        <div style={{ marginTop: 16 }}>
+          <p
+            className="font-sans text-[11px] tracking-widest mb-2"
+            style={{ color: "var(--brand-white)" }}
+          >
+            SEND TO:
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {[
+              { label: "Claude", href: "https://claude.ai" },
+              { label: "ChatGPT", href: "https://chatgpt.com" },
+              { label: "Gemini", href: "https://gemini.google.com" },
+            ].map(({ label, href }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-sans text-[12px] tracking-wide transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
+                style={{
+                  padding: "10px 18px",
+                  borderRadius: 6,
+                  border: "0.8px solid #162D5A",
+                  backgroundColor: "#143C6A",
+                  color: "#80AEE0",
+                  textDecoration: "none",
+                }}
+              >
+                {label} ›
+              </a>
+            ))}
+          </div>
+        </div>
 
         <div className="flex justify-end mt-4">
           <button
@@ -90,40 +124,6 @@ export default function PromptDisplay({
               </>
             )}
           </button>
-        </div>
-
-        <div style={{ marginTop: 16 }}>
-          <p
-            className="font-sans text-[11px] tracking-widest mb-2"
-            style={{ color: "#5B90C8" }}
-          >
-            OPEN IN:
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {[
-              { label: "Claude", href: "https://claude.ai" },
-              { label: "ChatGPT", href: "https://chatgpt.com" },
-              { label: "Grok", href: "https://grok.com" },
-            ].map(({ label, href }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-sans text-[12px] tracking-wide transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
-                style={{
-                  padding: "10px 18px",
-                  borderRadius: 6,
-                  border: "0.8px solid #162D5A",
-                  backgroundColor: "#143C6A",
-                  color: "#80AEE0",
-                  textDecoration: "none",
-                }}
-              >
-                {label} ›
-              </a>
-            ))}
-          </div>
         </div>
       </div>
 
