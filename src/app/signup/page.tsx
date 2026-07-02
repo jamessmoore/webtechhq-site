@@ -70,7 +70,7 @@ export default function SignUpPage() {
             <br />
             <span style={{ color: "#89D4FF" }}>hiding in your business</span>
           </h1>
-          <p className="text-sm leading-relaxed mb-10">
+          <p className="text-[21px] leading-relaxed mb-10">
             Answer a few questions about your biggest operational headaches.
             I&apos;ll build you a custom AI prompt, ready to run in Claude,
             ChatGPT, or Gemini, that surfaces your top opportunities, ranks
