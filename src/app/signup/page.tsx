@@ -101,7 +101,7 @@ export default function SignUpPage() {
 
         {/* Footer copy */}
         <div className="relative z-10">
-          <p className="text-xs">
+          <p className="text-[14px]">
             James S. Moore · Moore Solutions · webtechhq.com
           </p>
         </div>
