@@ -25,7 +25,7 @@ function initialsOf(user: ToolsUser): string {
   return initials || "?";
 }
 
-export default function Sidebar({ user, toolStatus, mobileOpen, onClose, signOutButton }: SidebarProps) {
+export default function Sidebar({ user, mobileOpen, onClose, signOutButton }: SidebarProps) {
   const pathname = usePathname();
   const isDashActive = pathname === "/tools";
   const isToolActive = pathname.startsWith("/tools/ai-opportunity-finder");
@@ -113,52 +113,13 @@ export default function Sidebar({ user, toolStatus, mobileOpen, onClose, signOut
           <Link
             href="/tools/ai-opportunity-finder"
             onClick={onClose}
-            style={{ ...navBase, ...(isToolActive ? navActive : {}) }}
+            className="transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)]"
+            style={{ ...navBase, ...(isToolActive ? navActive : {}), borderRadius: 6 }}
           >
             <SparkleIcon size={17} />
             <span style={{ flex: 1 }}>AI Opportunity Finder</span>
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                backgroundColor: toolStatus === "completed" ? "#89D4FF" : "#5B7BA5",
-              }}
-            />
+            <HexMark size={14} />
           </Link>
-
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
-              padding: "10px 12px",
-              fontFamily: '"Courier New", monospace',
-              fontSize: 13.5,
-              letterSpacing: "0.03em",
-              color: "#5B7BA5",
-              cursor: "default",
-              borderLeft: "2px solid transparent",
-              opacity: 0.7,
-            }}
-          >
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="4" y="10.5" width="16" height="10" />
-              <path d="M8 10.5V7a4 4 0 0 1 8 0v3.5" />
-            </svg>
-            <span style={{ flex: 1 }}>More tools</span>
-            <span
-              style={{
-                font: '400 9px "Courier New", monospace',
-                letterSpacing: "0.12em",
-                color: "#5B7BA5",
-                border: "0.8px solid #162D5A",
-                padding: "2px 6px",
-              }}
-            >
-              SOON
-            </span>
-          </div>
         </nav>
 
         <div className="flex flex-col gap-3" style={{ marginTop: "auto" }}>
