@@ -132,7 +132,7 @@ export default function SignUpForm() {
             <label
               htmlFor={field}
               className="block text-xs mb-1.5 tracking-wider"
-              style={{ color: "#6B8CAE" }}
+              style={{ color: "#FFFFFF" }}
             >
               {label.toUpperCase()}
             </label>
@@ -163,7 +163,7 @@ export default function SignUpForm() {
         <label
           htmlFor="email"
           className="block text-xs mb-1.5 tracking-wider"
-          style={{ color: "#6B8CAE" }}
+          style={{ color: "#FFFFFF" }}
         >
           EMAIL
         </label>
@@ -192,7 +192,7 @@ export default function SignUpForm() {
         <label
           htmlFor="password"
           className="block text-xs mb-1.5 tracking-wider"
-          style={{ color: "#6B8CAE" }}
+          style={{ color: "#FFFFFF" }}
         >
           PASSWORD
         </label>
