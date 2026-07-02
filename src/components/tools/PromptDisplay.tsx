@@ -11,6 +11,8 @@ export default function PromptDisplay({
   prompt: string;
 }) {
   const [copied, setCopied] = useState(false);
+  const [copiedDestination, setCopiedDestination] = useState<string | null>(null);
+  const [copyFailed, setCopyFailed] = useState(false);
 
   async function handleCopy() {
     try {
@@ -20,6 +22,32 @@ export default function PromptDisplay({
     } catch {
       // Clipboard API unavailable — user can still select and copy manually.
     }
+  }
+
+  // ChatGPT accepts the prompt as a "?q=" URL argument. Claude and Gemini have no
+  // equivalent (Claude dropped it over prompt-injection concerns; Gemini never had
+  // one), so those copy the prompt to the clipboard before opening the site.
+  //
+  // The write must be awaited and confirmed *before* opening the destination tab —
+  // window.open() shifts document focus away, and Chromium browsers silently fail
+  // any clipboard write that lands after focus has moved (NotAllowedError: Document
+  // is not focused). Doing the write first, while this document still has focus,
+  // avoids that race.
+  async function handleSendTo(label: string, url: string, copyFirst: boolean) {
+    if (copyFirst) {
+      try {
+        await navigator.clipboard.writeText(prompt);
+        setCopiedDestination(label);
+        setCopyFailed(false);
+        setTimeout(() => setCopiedDestination(null), 2000);
+      } catch {
+        // Clipboard write was blocked (e.g. no active user-activation window,
+        // or an unsupported browser) — surface it instead of failing silently.
+        setCopyFailed(true);
+        setTimeout(() => setCopyFailed(false), 4000);
+      }
+    }
+    window.open(url, "_blank", "noopener,noreferrer");
   }
 
   return (
@@ -71,29 +99,51 @@ export default function PromptDisplay({
           </p>
           <div className="flex flex-wrap gap-2">
             {[
-              { label: "Claude", href: "https://claude.ai" },
-              { label: "ChatGPT", href: "https://chatgpt.com" },
-              { label: "Gemini", href: "https://gemini.google.com" },
-            ].map(({ label, href }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-sans text-[12px] tracking-wide transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
-                style={{
-                  padding: "10px 18px",
-                  borderRadius: 6,
-                  border: "0.8px solid #162D5A",
-                  backgroundColor: "#143C6A",
-                  color: "#80AEE0",
-                  textDecoration: "none",
-                }}
-              >
-                {label} ›
-              </a>
-            ))}
+              { label: "Claude", url: "https://claude.ai/new", copyFirst: true },
+              {
+                label: "ChatGPT",
+                url: `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`,
+                copyFirst: false,
+              },
+              { label: "Gemini", url: "https://gemini.google.com/app", copyFirst: true },
+            ].map(({ label, url, copyFirst }) => {
+              const isCopied = copiedDestination === label;
+              return (
+                <button
+                  key={label}
+                  type="button"
+                  onClick={() => handleSendTo(label, url, copyFirst)}
+                  className="inline-flex items-center gap-2 font-sans text-[12px] tracking-wide transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
+                  style={{
+                    padding: "10px 18px",
+                    borderRadius: 6,
+                    border: `0.8px solid ${isCopied ? "#3D7FD4" : "#162D5A"}`,
+                    backgroundColor: isCopied ? "#1A4FC4" : "#143C6A",
+                    color: isCopied ? "#BCE5FF" : "#80AEE0",
+                    cursor: "pointer",
+                  }}
+                >
+                  {isCopied ? (
+                    <>
+                      <CheckIcon size={13} />
+                      COPIED — PASTE IN {label.toUpperCase()}
+                    </>
+                  ) : (
+                    <>{label} ›</>
+                  )}
+                </button>
+              );
+            })}
           </div>
+          {copyFailed && (
+            <p
+              className="font-sans text-[11px] mt-2"
+              style={{ color: "#E8634A" }}
+            >
+              Couldn&apos;t copy automatically — use Copy to Clipboard below, then paste it in
+              manually.
+            </p>
+          )}
         </div>
 
         <div className="flex justify-end mt-4">
