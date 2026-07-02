@@ -12,6 +12,7 @@ export default function PromptDisplay({
 }) {
   const [copied, setCopied] = useState(false);
   const [copiedDestination, setCopiedDestination] = useState<string | null>(null);
+  const [copyFailed, setCopyFailed] = useState(false);
 
   async function handleCopy() {
     try {
@@ -26,14 +27,24 @@ export default function PromptDisplay({
   // ChatGPT accepts the prompt as a "?q=" URL argument. Claude and Gemini have no
   // equivalent (Claude dropped it over prompt-injection concerns; Gemini never had
   // one), so those copy the prompt to the clipboard before opening the site.
+  //
+  // The write must be awaited and confirmed *before* opening the destination tab —
+  // window.open() shifts document focus away, and Chromium browsers silently fail
+  // any clipboard write that lands after focus has moved (NotAllowedError: Document
+  // is not focused). Doing the write first, while this document still has focus,
+  // avoids that race.
   async function handleSendTo(label: string, url: string, copyFirst: boolean) {
     if (copyFirst) {
       try {
         await navigator.clipboard.writeText(prompt);
         setCopiedDestination(label);
+        setCopyFailed(false);
         setTimeout(() => setCopiedDestination(null), 2000);
       } catch {
-        // Clipboard API unavailable — the destination still opens.
+        // Clipboard write was blocked (e.g. no active user-activation window,
+        // or an unsupported browser) — surface it instead of failing silently.
+        setCopyFailed(true);
+        setTimeout(() => setCopyFailed(false), 4000);
       }
     }
     window.open(url, "_blank", "noopener,noreferrer");
@@ -124,6 +135,15 @@ export default function PromptDisplay({
               );
             })}
           </div>
+          {copyFailed && (
+            <p
+              className="font-sans text-[11px] mt-2"
+              style={{ color: "#E8634A" }}
+            >
+              Couldn&apos;t copy automatically — use Copy to Clipboard below, then paste it in
+              manually.
+            </p>
+          )}
         </div>
 
         <div className="flex justify-end mt-4">
