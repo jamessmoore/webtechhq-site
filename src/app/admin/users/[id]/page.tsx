@@ -81,7 +81,7 @@ export default async function AdminUserDetailPage({
       <main className="px-8 py-8 max-w-5xl mx-auto">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 mb-6">
-          <Link href="/admin" className="font-sans text-[12px] transition-colors" style={{ color: "#5B90C8" }}>
+          <Link href="/admin/users" className="font-sans text-[12px] transition-colors" style={{ color: "#5B90C8" }}>
             ← All users
           </Link>
         </div>

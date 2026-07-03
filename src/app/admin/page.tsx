@@ -11,32 +11,12 @@ function requireAdmin(email: string | null | undefined): void {
   if (!email || email !== process.env.ADMIN_EMAIL) redirect("/signin");
 }
 
-function VerifiedBadge({ verified }: { verified: boolean }) {
-  const color = verified ? "#2ea043" : "#FBBC05";
-  const bg = verified ? "rgba(46,160,67,0.1)" : "rgba(251,188,5,0.1)";
-  return (
-    <span
-      className="font-sans text-[10px] tracking-widest px-2 py-0.5"
-      style={{ color, backgroundColor: bg, border: `0.8px solid ${color}`, borderRadius: "3px" }}
-    >
-      {verified ? "VERIFIED" : "UNVERIFIED"}
-    </span>
-  );
-}
-
-function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("en-US", {
-    month: "short", day: "numeric", year: "numeric",
-  });
-}
-
 export default async function AdminPage() {
   const session = await auth();
   requireAdmin(session?.user?.email);
 
   const users = getAllUsers();
   const submissions = getAllSubmissions();
-  const submissionByUserId = new Map(submissions.map((s) => [s.userId, s]));
 
   const total     = users.length;
   const verified  = users.filter((u) => u.emailVerified).length;
@@ -84,77 +64,24 @@ export default async function AdminPage() {
           ))}
         </div>
 
-        {/* Users table */}
-        <div style={{ backgroundColor: "#071525", border: "0.8px solid #162D5A", borderRadius: "4px" }}>
-          <div className="px-6 py-4" style={{ borderBottom: "0.8px solid #162D5A" }}>
-            <h2 className="font-sans font-bold text-[14px] tracking-widest" style={{ color: "#EEF6FF" }}>
+        {/* Sections */}
+        <Link
+          href="/admin/users"
+          className="flex items-center justify-between p-6 transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)]"
+          style={{ backgroundColor: "#071525", border: "0.8px solid #162D5A", borderRadius: "4px" }}
+        >
+          <div>
+            <h2 className="font-sans font-bold text-[14px] tracking-widest mb-1" style={{ color: "#EEF6FF" }}>
               USERS
             </h2>
-          </div>
-
-          {users.length === 0 ? (
-            <p className="px-6 py-10 font-sans text-[14px]">
-              No users yet.
+            <p className="font-sans text-[13px]" style={{ color: "#80AEE0" }}>
+              View sign-ups, questionnaire submissions, and prepared prompts. Delete accounts.
             </p>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr style={{ borderBottom: "0.8px solid #162D5A" }}>
-                    {["NAME", "EMAIL", "VERIFIED", "SIGNED UP", "BUSINESS", "SUBMITTED", ""].map((h) => (
-                      <th
-                        key={h}
-                        className="px-6 py-3 text-left font-sans text-[10px] tracking-widest"
-                        style={{ color: "#5B90C8" }}
-                      >
-                        {h}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.map((u, i) => {
-                    const submission = submissionByUserId.get(u.id);
-                    return (
-                      <tr
-                        key={u.id}
-                        style={{ borderBottom: i < users.length - 1 ? "0.8px solid #0E1F3A" : "none" }}
-                      >
-                        <td className="px-6 py-4 font-sans text-[13px]" style={{ color: "#EEF6FF", whiteSpace: "nowrap" }}>
-                          {u.firstName} {u.lastName}
-                        </td>
-                        <td className="px-6 py-4 font-sans text-[13px]" style={{ color: "#80AEE0" }}>
-                          {u.email}
-                        </td>
-                        <td className="px-6 py-4">
-                          <VerifiedBadge verified={u.emailVerified} />
-                        </td>
-                        <td className="px-6 py-4 font-sans text-[13px]" style={{ color: "#5B90C8", whiteSpace: "nowrap" }}>
-                          {formatDate(u.createdAt)}
-                        </td>
-                        <td className="px-6 py-4 font-sans text-[13px]" style={{ color: "#80AEE0", maxWidth: "180px" }}>
-                          <span className="block truncate">{submission?.businessType ?? "—"}</span>
-                        </td>
-                        <td className="px-6 py-4 font-sans text-[13px]" style={{ color: "#5B90C8", whiteSpace: "nowrap" }}>
-                          {submission ? formatDate(submission.submittedAt) : "Not yet"}
-                        </td>
-                        <td className="px-6 py-4">
-                          <Link
-                            href={`/admin/users/${u.id}`}
-                            className="font-sans text-[12px] tracking-widest transition-colors duration-150"
-                            style={{ color: "#89D4FF" }}
-                          >
-                            VIEW →
-                          </Link>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
+          </div>
+          <span className="font-sans text-[12px] tracking-widest" style={{ color: "#89D4FF" }}>
+            VIEW →
+          </span>
+        </Link>
       </main>
     </div>
   );
