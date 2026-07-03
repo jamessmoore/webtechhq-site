@@ -45,6 +45,18 @@ export function getUserById(id: string): User | null {
   return row ? rowToUser(row) : null;
 }
 
+export function getAllUsers(): User[] {
+  const db = getDb();
+  const rows = db.prepare("SELECT * FROM users ORDER BY created_at DESC").all() as UserRow[];
+  return rows.map(rowToUser);
+}
+
+/** Deletes the user; their submission is removed via ON DELETE CASCADE. */
+export function deleteUser(id: string): void {
+  const db = getDb();
+  db.prepare("DELETE FROM users WHERE id = ?").run(id);
+}
+
 export function getUserByEmail(email: string): User | null {
   const db = getDb();
   const row = db.prepare("SELECT * FROM users WHERE email = ?").get(email) as UserRow | undefined;

@@ -4,7 +4,6 @@ import {
   type Submission,
   type SubmissionRow,
   type SubmissionWithUser,
-  type ApprovalStatus,
   type ValidationFlag,
   rowToSubmission,
 } from "./types";
@@ -89,24 +88,6 @@ export function getSubmissionsByUser(userId: string): Submission[] {
   return rows.map(rowToSubmission);
 }
 
-export function getPendingSubmissions(): SubmissionWithUser[] {
-  const db = getDb();
-  const rows = db.prepare(`
-    SELECT
-      s.*,
-      u.first_name, u.last_name, u.email
-    FROM submissions s
-    JOIN users u ON u.id = s.user_id
-    WHERE s.approval_status = 'pending_review'
-    ORDER BY s.submitted_at ASC
-  `).all() as (SubmissionRow & { first_name: string; last_name: string; email: string })[];
-
-  return rows.map((row) => ({
-    ...rowToSubmission(row),
-    user: { firstName: row.first_name, lastName: row.last_name, email: row.email },
-  }));
-}
-
 export function getAllSubmissions(): SubmissionWithUser[] {
   const db = getDb();
   const rows = db.prepare(`
@@ -122,21 +103,6 @@ export function getAllSubmissions(): SubmissionWithUser[] {
     ...rowToSubmission(row),
     user: { firstName: row.first_name, lastName: row.last_name, email: row.email },
   }));
-}
-
-export function updateSubmissionStatus(
-  id: string,
-  status: ApprovalStatus,
-  approvedBy?: string,
-): void {
-  const db = getDb();
-  db.prepare(`
-    UPDATE submissions
-    SET approval_status = ?,
-        approved_by = ?,
-        approved_at = ?
-    WHERE id = ?
-  `).run(status, approvedBy ?? null, new Date().toISOString(), id);
 }
 
 export function updateSubmissionNotes(id: string, notes: string): void {
