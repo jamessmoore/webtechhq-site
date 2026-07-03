@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { getSubmissionById, updateSubmissionNotes } from "@/lib/submissions";
+import { getUserById, deleteUser } from "@/lib/users";
 
 function isAdmin(email: string | null | undefined): boolean {
   return !!email && email === process.env.ADMIN_EMAIL;
 }
 
-export async function PATCH(
+export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
@@ -16,16 +16,12 @@ export async function PATCH(
   }
 
   const { id } = await params;
-  const submission = getSubmissionById(id);
-  if (!submission) {
+  const user = getUserById(id);
+  if (!user) {
     return NextResponse.json({ error: "Not found." }, { status: 404 });
   }
 
-  const body = (await request.json()) as { notes?: string };
-
-  if (body.notes !== undefined) {
-    updateSubmissionNotes(id, body.notes);
-  }
+  deleteUser(id);
 
   return NextResponse.json({ success: true });
 }
