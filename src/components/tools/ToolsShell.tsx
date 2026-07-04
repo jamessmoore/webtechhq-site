@@ -4,6 +4,7 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Sidebar from "./Sidebar";
 import TopBar from "./TopBar";
+import HexMark from "@/components/HexMark";
 
 interface ToolsUser {
   firstName: string;
@@ -47,9 +48,17 @@ export default function ToolsShell({ user, toolStatus, signOutButton, children }
         onClose={() => setSidebarOpen(false)}
         signOutButton={signOutButton}
       />
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 relative overflow-hidden">
+        <div
+          className="absolute opacity-[0.065] pointer-events-none select-none"
+          style={{ top: "50%", left: 0, transform: "translateY(-50%)" }}
+        >
+          <div className="hex-watermark-drift">
+            <HexMark size={280} />
+          </div>
+        </div>
         <TopBar kicker={kicker} title={title} user={user} onOpenMobileMenu={() => setSidebarOpen(true)} />
-        <main className="flex-1 overflow-y-auto br-grid-dense" style={{ backgroundColor: "#030B18" }}>
+        <main className="relative z-[1] flex-1 overflow-y-auto br-grid-dense">
           {children}
         </main>
       </div>

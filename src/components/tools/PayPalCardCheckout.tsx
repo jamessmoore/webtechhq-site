@@ -4,7 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import type { Product } from "@/lib/products";
 
 interface PayPalCardFieldsSession {
-  createCardFieldsComponent(options: { type: "number" | "expiry" | "cvv"; placeholder?: string }): Node;
+  createCardFieldsComponent(options: {
+    type: "number" | "expiry" | "cvv";
+    placeholder?: string;
+    style?: Record<string, React.CSSProperties>;
+  }): Node;
   submit(orderId: string): Promise<{ state: "succeeded" | "canceled" | "failed" | string }>;
 }
 
@@ -58,6 +62,17 @@ const fieldContainerStyle: React.CSSProperties = {
   height: 40,
 };
 
+const cardFieldStyle = {
+  input: {
+    background: "transparent",
+    border: "none",
+    color: "#89D4FF",
+    fontFamily: "Arial, sans-serif",
+    fontSize: "14px",
+    padding: "0",
+  },
+};
+
 type SdkStatus = "loading" | "ready" | "ineligible" | "load_error";
 
 export default function PayPalCardCheckout({
@@ -102,9 +117,21 @@ export default function PayPalCardCheckout({
         sessionRef.current = cardSession;
 
         if (numberRef.current && expiryRef.current && cvvRef.current) {
-          const numberField = cardSession.createCardFieldsComponent({ type: "number", placeholder: "Card number" });
-          const expiryField = cardSession.createCardFieldsComponent({ type: "expiry", placeholder: "MM/YY" });
-          const cvvField = cardSession.createCardFieldsComponent({ type: "cvv", placeholder: "CVV" });
+          const numberField = cardSession.createCardFieldsComponent({
+            type: "number",
+            placeholder: "Card number",
+            style: cardFieldStyle,
+          });
+          const expiryField = cardSession.createCardFieldsComponent({
+            type: "expiry",
+            placeholder: "MM/YY",
+            style: cardFieldStyle,
+          });
+          const cvvField = cardSession.createCardFieldsComponent({
+            type: "cvv",
+            placeholder: "CVV",
+            style: cardFieldStyle,
+          });
           numberRef.current.replaceChildren(numberField);
           expiryRef.current.replaceChildren(expiryField);
           cvvRef.current.replaceChildren(cvvField);
