@@ -3,12 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import type { Product } from "@/lib/products";
 
-interface PayPalCardFieldsComponent {
-  render(container: HTMLElement): Promise<void>;
-}
-
 interface PayPalCardFieldsSession {
-  createCardFieldsComponent(options: { type: "number" | "expiry" | "cvv" }): PayPalCardFieldsComponent;
+  createCardFieldsComponent(options: { type: "number" | "expiry" | "cvv"; placeholder?: string }): Node;
   submit(orderId: string): Promise<{ state: "succeeded" | "canceled" | "failed" | string }>;
 }
 
@@ -106,11 +102,12 @@ export default function PayPalCardCheckout({
         sessionRef.current = cardSession;
 
         if (numberRef.current && expiryRef.current && cvvRef.current) {
-          await Promise.all([
-            cardSession.createCardFieldsComponent({ type: "number" }).render(numberRef.current),
-            cardSession.createCardFieldsComponent({ type: "expiry" }).render(expiryRef.current),
-            cardSession.createCardFieldsComponent({ type: "cvv" }).render(cvvRef.current),
-          ]);
+          const numberField = cardSession.createCardFieldsComponent({ type: "number", placeholder: "Card number" });
+          const expiryField = cardSession.createCardFieldsComponent({ type: "expiry", placeholder: "MM/YY" });
+          const cvvField = cardSession.createCardFieldsComponent({ type: "cvv", placeholder: "CVV" });
+          numberRef.current.replaceChildren(numberField);
+          expiryRef.current.replaceChildren(expiryField);
+          cvvRef.current.replaceChildren(cvvField);
         }
 
         if (!cancelled) setSdkStatus("ready");
