@@ -109,6 +109,16 @@ function migrate(db: Database.Database): void {
     CREATE INDEX IF NOT EXISTS idx_prompt_template_eval_template_id
       ON prompt_template_eval (template_id);
 
+    CREATE TABLE IF NOT EXISTS agent_prompt_config (
+      id                TEXT PRIMARY KEY,
+      config_key        TEXT NOT NULL UNIQUE,
+      version           INTEGER NOT NULL DEFAULT 1,
+      system_prompt     TEXT NOT NULL,
+      tool_schema_json  TEXT NOT NULL,
+      created_at        TEXT NOT NULL,
+      updated_at        TEXT NOT NULL
+    );
+
     CREATE TABLE IF NOT EXISTS purchases (
       id                 TEXT PRIMARY KEY,
       user_id            TEXT NOT NULL REFERENCES users (id) ON DELETE CASCADE,

@@ -14,9 +14,10 @@ The dev db lives at `data/submissions.db` (SQLite, gitignored — safe to destro
 ```bash
 rm -f data/submissions.db data/submissions.db-shm data/submissions.db-wal
 npm run seed:prompt-templates
+npm run seed:agent-prompt-config
 ```
 
-`seed:prompt-templates` recreates the `prompt_template`/`prompt_template_eval` tables from `data/seeds/prompt-templates.local.json`. The `users`/`submissions` tables are created lazily by `migrate()` in `src/lib/db.ts` on first app request — that's expected, not a bug.
+`seed:prompt-templates` recreates the `prompt_template`/`prompt_template_eval` tables from `data/seeds/prompt-templates.local.json`. `seed:agent-prompt-config` recreates `agent_prompt_config` (the Business Audit generator's system prompt and tool schema) from `data/seeds/agent-prompt-config.local.json` — needed if you're exercising Business Audit report generation, not just the Opportunity Finder. The `users`/`submissions` tables are created lazily by `migrate()` in `src/lib/db.ts` on first app request — that's expected, not a bug.
 
 **Gotcha — restart the dev server after resetting.** `better-sqlite3` keeps its file descriptor open even after the underlying file is deleted (Linux allows this: the process keeps talking to the now-unlinked inode). If a `next dev` process was already running, it will keep serving the *old* database — including old accounts — until it's restarted. Symptom: signup fails with "An account with this email already exists" right after a reset that should have produced an empty db.
 
