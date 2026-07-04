@@ -6,6 +6,7 @@ import { getUserById } from "@/lib/users";
 import { getSubmissionsByUser } from "@/lib/submissions";
 import { hasPurchased } from "@/lib/purchases";
 import { getProduct } from "@/lib/products";
+import { getLatestAuditReportForUser } from "@/lib/auditReports";
 
 export const metadata: Metadata = { title: "Business Audit | Moore Solutions" };
 
@@ -21,10 +22,17 @@ export default async function BusinessAuditPage() {
 
   const hasSubmission = getSubmissionsByUser(user.id).length > 0;
   const alreadyPurchased = hasPurchased(user.id, product.id);
+  const reportRecord = alreadyPurchased ? getLatestAuditReportForUser(user.id, product.id) : null;
 
   return (
     <div style={{ maxWidth: 760, margin: "0 auto", padding: "clamp(24px,4vw,34px) clamp(18px,4vw,44px) 80px" }}>
-      <BusinessAuditFlow product={product} hasSubmission={hasSubmission} alreadyPurchased={alreadyPurchased} />
+      <BusinessAuditFlow
+        product={product}
+        hasSubmission={hasSubmission}
+        alreadyPurchased={alreadyPurchased}
+        initialReportStatus={reportRecord?.status ?? null}
+        initialReport={reportRecord?.report ?? null}
+      />
     </div>
   );
 }

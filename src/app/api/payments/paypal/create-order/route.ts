@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "User not found." }, { status: 401 });
   }
 
-  const body = (await request.json()) as { productId?: string };
+  const body = (await request.json()) as { productId?: string; businessName?: string };
   const product = body.productId ? getProduct(body.productId) : null;
   if (!product) {
     return NextResponse.json({ error: "Unknown product." }, { status: 400 });
@@ -34,11 +34,17 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "You already own this." }, { status: 409 });
   }
 
+  const businessName = body.businessName?.trim();
+  if (product.id === "business_audit" && !businessName) {
+    return NextResponse.json({ error: "Business name is required." }, { status: 400 });
+  }
+
   const purchase = createPurchase({
     userId: user.id,
     productId: product.id,
     amountCents: product.priceCents,
     currency: product.currency,
+    businessName,
   });
 
   const order = await createOrder({ amountCents: product.priceCents, currency: product.currency });

@@ -174,6 +174,7 @@ export interface Purchase {
   paypalOrderId?: string;
   payerEmail?: string;
   rawCaptureJson?: string;
+  businessName?: string;
   createdAt: string;
   capturedAt?: string;
 }
@@ -188,6 +189,7 @@ export interface PurchaseRow {
   paypal_order_id: string | null;
   payer_email: string | null;
   raw_capture_json: string | null;
+  business_name: string | null;
   created_at: string;
   captured_at: string | null;
 }
@@ -203,7 +205,74 @@ export function rowToPurchase(row: PurchaseRow): Purchase {
     paypalOrderId: row.paypal_order_id ?? undefined,
     payerEmail: row.payer_email ?? undefined,
     rawCaptureJson: row.raw_capture_json ?? undefined,
+    businessName: row.business_name ?? undefined,
     createdAt: row.created_at,
     capturedAt: row.captured_at ?? undefined,
+  };
+}
+
+// ─── Audit Reports ────────────────────────────────────────────────────────────
+
+export interface AuditOpportunity {
+  rank: number;
+  title: string;
+  whatsHappeningNow: string;
+  aiSolution: string;
+  setupFeeCents: number;
+  monthlyFeeCents: number;
+  timeSavedLabel: string;
+  monthlyValueLabel: string;
+}
+
+export interface AuditReport {
+  businessName: string;
+  ownerFirstName: string;
+  auditDate: string;
+  openingNote: string;
+  opportunities: AuditOpportunity[];
+  totalTimeSavedLabel: string;
+  totalMonthlyValueLabel: string;
+  recommendedOpportunityRank: number;
+  recommendedReasoning: string;
+  questionsRaised: string[];
+}
+
+export type AuditReportStatus = "generating" | "ready" | "failed";
+
+export interface AuditReportRecord {
+  id: string;
+  purchaseId: string;
+  userId: string;
+  productId: string;
+  status: AuditReportStatus;
+  report?: AuditReport;
+  errorMessage?: string;
+  createdAt: string;
+  completedAt?: string;
+}
+
+export interface AuditReportRow {
+  id: string;
+  purchase_id: string;
+  user_id: string;
+  product_id: string;
+  status: AuditReportStatus;
+  report_json: string | null;
+  error_message: string | null;
+  created_at: string;
+  completed_at: string | null;
+}
+
+export function rowToAuditReport(row: AuditReportRow): AuditReportRecord {
+  return {
+    id: row.id,
+    purchaseId: row.purchase_id,
+    userId: row.user_id,
+    productId: row.product_id,
+    status: row.status,
+    report: row.report_json ? (JSON.parse(row.report_json) as AuditReport) : undefined,
+    errorMessage: row.error_message ?? undefined,
+    createdAt: row.created_at,
+    completedAt: row.completed_at ?? undefined,
   };
 }

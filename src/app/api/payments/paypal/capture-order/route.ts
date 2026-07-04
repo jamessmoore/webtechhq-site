@@ -3,6 +3,9 @@ import { auth } from "@/auth";
 import { getUserById } from "@/lib/users";
 import { getPurchaseByOrderId, markPurchaseCaptured, markPurchaseFailed } from "@/lib/purchases";
 import { captureOrder } from "@/lib/paypal";
+import { getSubmissionsByUser } from "@/lib/submissions";
+import { createPendingAuditReport, markAuditReportReady, markAuditReportFailed } from "@/lib/auditReports";
+import { generateAuditReport } from "@/lib/tools/auditReportGenerator";
 
 export async function POST(request: NextRequest) {
   const session = await auth();
@@ -39,6 +42,27 @@ export async function POST(request: NextRequest) {
     payerEmail: capture.payer?.email_address,
     rawCaptureJson: JSON.stringify(capture),
   });
+
+  if (purchase.productId === "business_audit") {
+    const submission = getSubmissionsByUser(user.id)[0];
+    if (submission) {
+      const reportRecord = createPendingAuditReport({
+        purchaseId: purchase.id,
+        userId: user.id,
+        productId: purchase.productId,
+      });
+      generateAuditReport({
+        submission,
+        businessName: purchase.businessName ?? user.firstName,
+        ownerFirstName: user.firstName,
+      })
+        .then((report) => markAuditReportReady(reportRecord.id, report))
+        .catch((err) => {
+          console.error("Audit report generation failed", err);
+          markAuditReportFailed(reportRecord.id, String(err));
+        });
+    }
+  }
 
   return NextResponse.json({ success: true, amountCents: purchase.amountCents });
 }

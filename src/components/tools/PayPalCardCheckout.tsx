@@ -78,9 +78,13 @@ type SdkStatus = "loading" | "ready" | "ineligible" | "load_error";
 export default function PayPalCardCheckout({
   product,
   onPaid,
+  orderExtras,
+  disabled,
 }: {
   product: Product;
   onPaid: (amountCents: number) => void;
+  orderExtras?: Record<string, unknown>;
+  disabled?: boolean;
 }) {
   const [sdkStatus, setSdkStatus] = useState<SdkStatus>("loading");
   const [submitting, setSubmitting] = useState(false);
@@ -150,7 +154,7 @@ export default function PayPalCardCheckout({
   }, []);
 
   async function handlePay() {
-    if (!sessionRef.current || submitting) return;
+    if (!sessionRef.current || submitting || disabled) return;
     setSubmitting(true);
     setSubmitError(null);
 
@@ -158,7 +162,7 @@ export default function PayPalCardCheckout({
       const createRes = await fetch("/api/payments/paypal/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productId: product.id }),
+        body: JSON.stringify({ productId: product.id, ...orderExtras }),
       });
       const createData = (await createRes.json()) as { orderId?: string; error?: string };
       if (!createRes.ok || !createData.orderId) {
@@ -252,7 +256,7 @@ export default function PayPalCardCheckout({
       <button
         type="button"
         onClick={handlePay}
-        disabled={sdkStatus !== "ready" || submitting}
+        disabled={sdkStatus !== "ready" || submitting || disabled}
         className="transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] disabled:opacity-60 disabled:pointer-events-none"
         style={{
           marginTop: 20,

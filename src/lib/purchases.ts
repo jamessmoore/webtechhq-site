@@ -7,15 +7,16 @@ export function createPurchase(data: {
   productId: string;
   amountCents: number;
   currency: string;
+  businessName?: string;
 }): Purchase {
   const db = getDb();
   const id = randomUUID();
   const now = new Date().toISOString();
 
   db.prepare(`
-    INSERT INTO purchases (id, user_id, product_id, status, amount_cents, currency, created_at)
-    VALUES (?, ?, ?, 'created', ?, ?, ?)
-  `).run(id, data.userId, data.productId, data.amountCents, data.currency, now);
+    INSERT INTO purchases (id, user_id, product_id, status, amount_cents, currency, business_name, created_at)
+    VALUES (?, ?, ?, 'created', ?, ?, ?, ?)
+  `).run(id, data.userId, data.productId, data.amountCents, data.currency, data.businessName ?? null, now);
 
   return getPurchaseById(id)!;
 }
