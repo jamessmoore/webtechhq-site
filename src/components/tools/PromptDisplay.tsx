@@ -5,26 +5,23 @@ import { CheckIcon, CopyIcon } from "./icons";
 
 const BRAND_COLORS: Record<
   string,
-  { brand: string; restingBg: string; restingText: string; copiedBorder: string; copiedText: string }
+  { brand: string; restingBg: string; copiedBorder: string; copiedText: string }
 > = {
   Claude: {
     brand: "#D97757",
     restingBg: "#5A2D1E",
-    restingText: "#E8A78F",
     copiedBorder: "#E8916F",
     copiedText: "#FFE8DC",
   },
   ChatGPT: {
     brand: "#10A37F",
     restingBg: "#0F3D30",
-    restingText: "#7FD9BE",
     copiedBorder: "#4FCBA8",
     copiedText: "#DFFFF3",
   },
   Gemini: {
     brand: "#8E75B2",
     restingBg: "#352C43",
-    restingText: "#C9B8E8",
     copiedBorder: "#B79EDD",
     copiedText: "#F2EAFB",
   },
@@ -82,7 +79,7 @@ export default function PromptDisplay({
       <h2
         style={{
           margin: 0,
-          font: '400 clamp(21px,4vw,27px)/1.2 "Courier New", monospace',
+          font: '400 clamp(23px,4vw,29px)/1.2 "Courier New", monospace',
           color: "var(--brand-blue)",
           letterSpacing: "0.01em",
         }}
@@ -92,7 +89,7 @@ export default function PromptDisplay({
       <p
         style={{
           margin: "11px 0 0",
-          font: "400 clamp(14px,2.4vw,15.5px)/1.6 Arial, sans-serif",
+          font: "400 clamp(16px,2.4vw,17.5px)/1.6 Arial, sans-serif",
           color: "var(--brand-white)",
         }}
       >
@@ -106,7 +103,7 @@ export default function PromptDisplay({
         <textarea
           readOnly
           value={prompt}
-          rows={16}
+          rows={8}
           onFocus={(e) => e.currentTarget.select()}
           className="w-full px-3 py-3 font-sans text-[13px] leading-relaxed focus:outline-none resize-y"
           style={{
@@ -142,7 +139,7 @@ export default function PromptDisplay({
               const palette = BRAND_COLORS[label];
               const border = isCopied ? palette.copiedBorder : palette.restingBg;
               const background = isCopied ? palette.brand : palette.restingBg;
-              const color = isCopied ? palette.copiedText : palette.restingText;
+              const color = isCopied ? palette.copiedText : "#FFFFFF";
               return (
                 <button
                   key={label}
