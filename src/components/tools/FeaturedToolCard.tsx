@@ -1,21 +1,28 @@
 import Link from "next/link";
-import { SparkleIcon, ArrowRightIcon } from "./icons";
+import { ArrowRightIcon } from "./icons";
+
+export type ToolCardStatus = "not_started" | "completed" | "locked" | "purchased";
 
 interface FeaturedToolCardProps {
-  status: "not_started" | "completed";
+  title: string;
+  description: string;
+  status: ToolCardStatus;
+  href: string;
+  icon: React.ReactNode;
+  metaItems?: string[];
+  primaryLabel: string;
 }
 
-const STATUS_CONFIG = {
+const STATUS_CONFIG: Record<
+  ToolCardStatus,
+  { pillLabel: string; dotColor: string; pillBg: string; pillBorder: string; pillText: string }
+> = {
   not_started: {
     pillLabel: "NOT STARTED",
     dotColor: "#5B7BA5",
     pillBg: "#0A1A2E",
     pillBorder: "#162D5A",
     pillText: "#80AEE0",
-    primaryLabel: "START THE QUESTIONNAIRE",
-    primaryHref: "/tools/opportunity-finder",
-    secondaryLabel: null as string | null,
-    secondaryHref: null as string | null,
   },
   completed: {
     pillLabel: "COMPLETED",
@@ -23,14 +30,32 @@ const STATUS_CONFIG = {
     pillBg: "#16A34A",
     pillBorder: "#16A34A",
     pillText: "#FFFFFF",
-    primaryLabel: "SEE RESULTS",
-    primaryHref: "/tools/opportunity-finder",
-    secondaryLabel: null as string | null,
-    secondaryHref: null as string | null,
+  },
+  locked: {
+    pillLabel: "LOCKED",
+    dotColor: "#5B7BA5",
+    pillBg: "#0A1A2E",
+    pillBorder: "#162D5A",
+    pillText: "#5B7BA5",
+  },
+  purchased: {
+    pillLabel: "PURCHASED",
+    dotColor: "#FFFFFF",
+    pillBg: "#16A34A",
+    pillBorder: "#16A34A",
+    pillText: "#FFFFFF",
   },
 };
 
-export default function FeaturedToolCard({ status }: FeaturedToolCardProps) {
+export default function FeaturedToolCard({
+  title,
+  description,
+  status,
+  href,
+  icon,
+  metaItems,
+  primaryLabel,
+}: FeaturedToolCardProps) {
   const cfg = STATUS_CONFIG[status];
 
   return (
@@ -48,14 +73,14 @@ export default function FeaturedToolCard({ status }: FeaturedToolCardProps) {
           className="flex-none flex items-center justify-center"
           style={{ width: 58, height: 58, backgroundColor: "#0A1832", border: "0.8px solid #3D7FD4", borderRadius: 4 }}
         >
-          <SparkleIcon size={28} style={{ color: "#89D4FF" } as React.CSSProperties} />
+          {icon}
         </div>
         <div className="flex-1" style={{ minWidth: 240 }}>
           <div className="flex items-center gap-[11px] flex-wrap">
             <h2
               style={{ margin: 0, font: '700 clamp(17px,3vw,20px) "Courier New", monospace', color: "#EEF6FF", letterSpacing: "0.02em" }}
             >
-              Opportunity Finder
+              {title}
             </h2>
             <span
               className="inline-flex items-center gap-[7px]"
@@ -74,25 +99,28 @@ export default function FeaturedToolCard({ status }: FeaturedToolCardProps) {
             </span>
           </div>
           <p style={{ margin: "11px 0 0", font: "400 14px/1.6 Arial, sans-serif", maxWidth: 520 }}>
-            Answer a few plain-English questions about how you work. We&apos;ll build you a custom
-            prompt to run in Claude, ChatGPT, or Gemini, pointing straight at the AI moves that
-            would save you the most time and money. No jargon, no fluff.
+            {description}
           </p>
-          <div className="flex gap-5 flex-wrap" style={{ margin: "18px 0 22px" }}>
-            <div
-              className="flex items-center gap-2"
-              style={{ font: '400 12px "Courier New", monospace', letterSpacing: "0.03em", color: "#80AEE0" }}
-            >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#89D4FF" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M9 11l3 3L22 4" />
-                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
-              </svg>
-              4 QUICK SECTIONS
+          {metaItems && metaItems.length > 0 && (
+            <div className="flex gap-5 flex-wrap" style={{ margin: "18px 0 22px" }}>
+              {metaItems.map((item) => (
+                <div
+                  key={item}
+                  className="flex items-center gap-2"
+                  style={{ font: '400 12px "Courier New", monospace', letterSpacing: "0.03em", color: "#80AEE0" }}
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#89D4FF" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M9 11l3 3L22 4" />
+                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                  </svg>
+                  {item}
+                </div>
+              ))}
             </div>
-          </div>
+          )}
           <div className="flex gap-3 items-center flex-wrap">
             <Link
-              href={cfg.primaryHref}
+              href={href}
               className="inline-flex items-center gap-[9px] transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
               style={{
                 padding: "12px 20px",
@@ -104,26 +132,9 @@ export default function FeaturedToolCard({ status }: FeaturedToolCardProps) {
                 letterSpacing: "0.1em",
               }}
             >
-              {cfg.primaryLabel}
+              {primaryLabel}
               <ArrowRightIcon size={16} />
             </Link>
-            {cfg.secondaryLabel && cfg.secondaryHref && (
-              <Link
-                href={cfg.secondaryHref}
-                className="transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
-                style={{
-                  padding: "12px 18px",
-                  borderRadius: 6,
-                  border: "0.8px solid #162D5A",
-                  backgroundColor: "transparent",
-                  color: "#EEF6FF",
-                  font: '400 12px "Courier New", monospace',
-                  letterSpacing: "0.1em",
-                }}
-              >
-                {cfg.secondaryLabel}
-              </Link>
-            )}
           </div>
         </div>
       </div>
