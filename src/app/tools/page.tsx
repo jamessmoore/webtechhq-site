@@ -6,8 +6,10 @@ import { getSubmissionsByUser } from "@/lib/submissions";
 import { hasPurchased } from "@/lib/purchases";
 import FeaturedToolCard, { type ToolCardStatus } from "@/components/tools/FeaturedToolCard";
 import ToolPlaceholderCard from "@/components/tools/ToolPlaceholderCard";
+import TestAccountResetButton from "@/components/tools/TestAccountResetButton";
 import { SparkleIcon, ShieldIcon } from "@/components/tools/icons";
 import { COMING_SOON_TOOLS } from "@/lib/tools/reportData";
+import { isGoldStandardTestAccount } from "@/lib/testAccount";
 
 export const metadata: Metadata = { title: "Dashboard | Moore Solutions" };
 
@@ -17,6 +19,8 @@ export default async function ToolsDashboardPage() {
 
   const user = getUserById(session.user.id);
   if (!user) redirect("/signup");
+
+  const isTestAccount = isGoldStandardTestAccount(user.email);
 
   const submissions = getSubmissionsByUser(user.id);
   const hasSubmission = submissions.length > 0;
@@ -34,11 +38,14 @@ export default async function ToolsDashboardPage() {
       ? "FINISH THE OPPORTUNITY FINDER FIRST"
       : businessAuditStatus === "purchased"
         ? "VIEW YOUR AUDIT"
-        : "GET YOUR AUDIT, $50";
+        : isTestAccount
+          ? "RUN YOUR AUDIT (TEST — NO CHARGE)"
+          : "GET YOUR AUDIT, $50";
   const businessAuditHref = businessAuditStatus === "locked" ? "/tools/opportunity-finder" : "/tools/business-audit";
 
   return (
     <div style={{ maxWidth: 1040, margin: "0 auto", padding: "clamp(24px,4vw,40px) clamp(18px,4vw,44px) 64px" }}>
+      {isTestAccount && <TestAccountResetButton />}
       <h1
         style={{ margin: 0, font: '400 clamp(23px,4.4vw,32px)/1.15 "Courier New", monospace', letterSpacing: "0.01em" }}
       >

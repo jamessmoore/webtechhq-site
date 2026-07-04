@@ -18,18 +18,45 @@ export default function BusinessAuditFlow({
   alreadyPurchased,
   initialReportStatus,
   initialReport,
+  isTestAccount = false,
 }: {
   product: Product;
   hasSubmission: boolean;
   alreadyPurchased: boolean;
   initialReportStatus?: AuditReportStatus | null;
   initialReport?: AuditReport | null;
+  isTestAccount?: boolean;
 }) {
   const [justConfirmed, setJustConfirmed] = useState(false);
   const [purchased, setPurchased] = useState(alreadyPurchased);
   const [businessName, setBusinessName] = useState("");
   const [reportStatus, setReportStatus] = useState<AuditReportStatus | null>(initialReportStatus ?? null);
   const [report, setReport] = useState<AuditReport | null>(initialReport ?? null);
+  const [runningTest, setRunningTest] = useState(false);
+  const [testRunError, setTestRunError] = useState<string | null>(null);
+
+  async function handleTestRun() {
+    setRunningTest(true);
+    setTestRunError(null);
+    try {
+      const res = await fetch("/api/tools/business-audit/run-test", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ businessName: businessName.trim() }),
+      });
+      if (!res.ok) {
+        const d = (await res.json()) as { error?: string };
+        setTestRunError(d.error ?? "Something went wrong.");
+        setRunningTest(false);
+        return;
+      }
+      setPurchased(true);
+      setReportStatus("generating");
+    } catch {
+      setTestRunError("Network error.");
+      setRunningTest(false);
+    }
+  }
 
   useEffect(() => {
     if (!justConfirmed) return;
@@ -125,6 +152,74 @@ export default function BusinessAuditFlow({
             </Link>{" "}
             and he&apos;ll get it sorted directly.
           </p>
+        </div>
+      );
+    }
+
+    if (!reportStatus && isTestAccount) {
+      return (
+        <div
+          className="relative overflow-hidden card-accent featured"
+          style={{ border: "0.8px solid #3D7FD4", backgroundColor: "#071525", borderRadius: 6, padding: "clamp(22px,3.5vw,30px)" }}
+        >
+          <span className="br-corner-tr" />
+          <div
+            className="flex-none flex items-center justify-center"
+            style={{ width: 48, height: 48, backgroundColor: "#0A1832", border: "0.8px solid #3D7FD4", borderRadius: 4, marginBottom: 18 }}
+          >
+            <ShieldIcon size={22} style={{ color: "#89D4FF" } as React.CSSProperties} />
+          </div>
+          <h1 style={{ margin: 0, font: '400 clamp(21px,4vw,27px)/1.2 "Courier New", monospace', color: "#EEF6FF", letterSpacing: "0.01em" }}>
+            Run your audit
+          </h1>
+          <p style={{ margin: "11px 0 0", font: "400 14px/1.6 Arial, sans-serif", maxWidth: 480 }}>
+            This account is already marked as purchased. Enter a business name and run the
+            report generation again.
+          </p>
+          <div style={{ margin: "18px 0" }}>
+            <div style={{ marginBottom: 6, font: '400 11px "Courier New", monospace', letterSpacing: "0.1em", color: "#5B7BA5" }}>
+              BUSINESS NAME
+            </div>
+            <input
+              type="text"
+              value={businessName}
+              onChange={(e) => setBusinessName(e.target.value)}
+              placeholder="e.g. Desert Bloom Plumbing & Drain"
+              style={{
+                width: "100%",
+                backgroundColor: "#143C6A",
+                border: "0.8px solid #162D5A",
+                borderRadius: 2,
+                padding: "9px 12px",
+                height: 40,
+                color: "#EEF6FF",
+                font: "400 14px Arial, sans-serif",
+              }}
+            />
+          </div>
+          <button
+            type="button"
+            onClick={handleTestRun}
+            disabled={businessName.trim().length === 0 || runningTest}
+            className="transition-all duration-200 disabled:opacity-40 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
+            style={{
+              padding: "12px 20px",
+              borderRadius: 6,
+              border: "0.8px solid #3D7FD4",
+              backgroundColor: "#1A4FC4",
+              color: "#EEF6FF",
+              font: '400 12px "Courier New", monospace',
+              letterSpacing: "0.1em",
+              cursor: runningTest ? "not-allowed" : "pointer",
+            }}
+          >
+            {runningTest ? "STARTING…" : "RUN AUDIT — TEST ACCOUNT, NO CHARGE"}
+          </button>
+          {testRunError && (
+            <p style={{ margin: "10px 0 0", font: "400 12px/1.5 Arial, sans-serif", color: "#E0556F" }}>
+              {testRunError}
+            </p>
+          )}
         </div>
       );
     }
@@ -249,12 +344,40 @@ export default function BusinessAuditFlow({
         />
       </div>
 
-      <PayPalCardCheckout
-        product={product}
-        onPaid={() => setJustConfirmed(true)}
-        orderExtras={{ businessName: businessName.trim() }}
-        disabled={businessName.trim().length === 0}
-      />
+      {isTestAccount ? (
+        <>
+          <button
+            type="button"
+            onClick={handleTestRun}
+            disabled={businessName.trim().length === 0 || runningTest}
+            className="transition-all duration-200 disabled:opacity-40 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
+            style={{
+              padding: "12px 20px",
+              borderRadius: 6,
+              border: "0.8px solid #3D7FD4",
+              backgroundColor: "#1A4FC4",
+              color: "#EEF6FF",
+              font: '400 12px "Courier New", monospace',
+              letterSpacing: "0.1em",
+              cursor: runningTest ? "not-allowed" : "pointer",
+            }}
+          >
+            {runningTest ? "STARTING…" : "RUN AUDIT — TEST ACCOUNT, NO CHARGE"}
+          </button>
+          {testRunError && (
+            <p style={{ margin: "10px 0 0", font: "400 12px/1.5 Arial, sans-serif", color: "#E0556F" }}>
+              {testRunError}
+            </p>
+          )}
+        </>
+      ) : (
+        <PayPalCardCheckout
+          product={product}
+          onPaid={() => setJustConfirmed(true)}
+          orderExtras={{ businessName: businessName.trim() }}
+          disabled={businessName.trim().length === 0}
+        />
+      )}
     </div>
   );
 }

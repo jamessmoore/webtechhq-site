@@ -48,6 +48,10 @@ The `/tools` dashboard currently ships one real tool (Opportunity Finder) plus t
 
 7. **Report/results sub-route (if applicable):** if the tool produces a persisted result the user revisits later (like the orphaned `/tools/opportunity-finder/report` demo page), decide whether it's a real linked page or another example-only page reachable by direct URL — see that route's history for precedent (kept unlinked intentionally per James's instruction).
 
+8. **Gold-standard test account (`test.account@webtechhq.com`, see CLAUDE.md):**
+   - If the tool has its own per-user result table, add a `DELETE FROM <table> WHERE user_id = ?` line to `resetAllToolDataForUser()` in `src/lib/testAccount.ts` so the reset button on `/tools` clears it too.
+   - If the tool is paid, gate access with `isGoldStandardTestAccount(user.email) || hasPurchased(...)` instead of `hasPurchased` alone, and give this account a way to trigger generation without a real payment (see `ensureComplimentaryPurchase` in `src/lib/purchases.ts` and `/api/tools/business-audit/run-test` for the reference pattern).
+
 ## Verifying
 
 Use the `preview-component` skill to screenshot the new dashboard card and flow states without needing a fresh signup each time. Run `npm run lint`, `npm run typecheck`, and exercise the real auth-gated route in the browser tool (the dev session in this repo commonly already has a signed-in cookie — check before assuming a fresh signup is needed).

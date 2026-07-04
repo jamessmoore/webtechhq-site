@@ -76,3 +76,32 @@ export function hasPurchased(userId: string, productId: string): boolean {
     .get(userId, productId);
   return row !== undefined;
 }
+
+/**
+ * Provisions a zero-cost, already-captured purchase so the gold-standard
+ * test account can run paid tools without a real PayPal charge. Idempotent -
+ * returns the existing captured purchase for this user/product if one is
+ * already on file, rather than creating a duplicate.
+ */
+export function ensureComplimentaryPurchase(data: {
+  userId: string;
+  productId: string;
+  currency: string;
+  businessName?: string;
+}): Purchase {
+  const existing = getPurchasesByUser(data.userId).find(
+    (p) => p.productId === data.productId && p.status === "captured",
+  );
+  if (existing) return existing;
+
+  const db = getDb();
+  const id = randomUUID();
+  const now = new Date().toISOString();
+
+  db.prepare(`
+    INSERT INTO purchases (id, user_id, product_id, status, amount_cents, currency, business_name, created_at, captured_at)
+    VALUES (?, ?, ?, 'captured', 0, ?, ?, ?, ?)
+  `).run(id, data.userId, data.productId, data.currency, data.businessName ?? null, now, now);
+
+  return getPurchaseById(id)!;
+}
