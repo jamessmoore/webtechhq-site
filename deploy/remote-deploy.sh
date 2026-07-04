@@ -14,7 +14,8 @@ REPO_URL="https://github.com/jamessmoore/webtechhq-site.git"
 APP_DIR="/srv/webtechhq"
 RELEASES_DIR="$APP_DIR/releases"
 CURRENT="$APP_DIR/current"
-KEEP_RELEASES=5
+KEEP_RELEASES=3
+MIN_FREE_KB=1572864 # 1.5G — a build needs roughly this much headroom
 
 mkdir -p "$RELEASES_DIR"
 
@@ -53,7 +54,28 @@ if [ ! -L "$CURRENT" ] && [ -d "$APP_DIR/.git" ]; then
   ln -sfn "$LEGACY" "$CURRENT"
 fi
 
+echo "==> Checking free disk space"
+FREE_KB=$(df -k --output=avail "$APP_DIR" | tail -n1)
+if [ "$FREE_KB" -lt "$MIN_FREE_KB" ]; then
+  echo "Only ${FREE_KB}KB free on $APP_DIR, need at least ${MIN_FREE_KB}KB — aborting before clone/build" >&2
+  exit 1
+fi
+
 RELEASE="$RELEASES_DIR/$(date +%Y%m%d%H%M%S)"
+
+# Remove this release on any failure from here on (failed clone, npm ci,
+# npm run build, or a failed health check below) so a bad deploy never
+# leaves a partial multi-hundred-MB build sitting on disk — see the
+# prune_old_releases comment above for the incident this class of bug caused.
+cleanup_failed_release() {
+  rc=$?
+  if [ "$rc" -ne 0 ] && [ -d "$RELEASE" ]; then
+    echo "==> Deploy failed, removing incomplete release $RELEASE"
+    rm -rf "$RELEASE"
+  fi
+}
+trap cleanup_failed_release EXIT
+
 echo "==> Cloning $BRANCH into $RELEASE"
 git clone --depth 1 --branch "$BRANCH" "$REPO_URL" "$RELEASE"
 
