@@ -59,20 +59,6 @@ h1, h2, h3, h4, h5, h6 {
   background-size: 58px 44px;
 }
 
-/* Active nav underline */
-.nav-active {
-  position: relative;
-}
-.nav-active::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 0;
-  right: 0;
-  height: 1.5px;
-  background: var(--brand-blue);
-}
-
 /* Card top accent */
 .card-accent {
   position: relative;

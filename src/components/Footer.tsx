@@ -78,12 +78,12 @@ export default function Footer() {
 
         {/* Links row */}
         <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-          <nav className="hidden sm:flex flex-wrap gap-5">
+          <nav className="hidden sm:flex flex-wrap gap-2">
             {footerLinks.map(({ href, label }) => (
               <Link
                 key={href}
                 href={href}
-                className="font-sans text-[12.5px] tracking-widest transition-all duration-200 text-[#EEF6FF] hover:text-[#89D4FF] hover:[text-shadow:0_0_6px_#89D4FF,0_0_14px_#3D9FFF]"
+                className="font-sans text-[12.5px] tracking-widest px-3 py-1.5 border-[0.6px] border-transparent rounded-[6px] text-[#EEF6FF] transition-all duration-200 hover:bg-[#071830] hover:border-[#1A3D7A] hover:!text-white hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)]"
               >
                 {label}
               </Link>

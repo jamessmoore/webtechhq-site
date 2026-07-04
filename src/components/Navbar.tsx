@@ -34,15 +34,15 @@ export default function Navbar() {
       />
 
       {/* Nav links */}
-      <div className="hidden sm:flex items-center gap-6">
+      <div className="hidden sm:flex items-center gap-2">
         {navLinks.map(({ href, label }) => {
           const active = pathname === href || (href !== '/' && pathname.startsWith(href))
           return (
             <Link
               key={href}
               href={href}
-              className={`font-sans text-[12.5px] tracking-widest transition-colors duration-150 relative hover:text-[#89D4FF] ${
-                active ? 'nav-active text-[#89D4FF]' : 'text-[#EEF6FF]'
+              className={`font-sans text-[12.5px] tracking-widest px-3 py-1.5 border-[0.6px] border-transparent rounded-[6px] transition-all duration-200 hover:bg-[#071830] hover:border-[#1A3D7A] hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white ${
+                active ? 'text-[#89D4FF]' : 'text-[#EEF6FF]'
               }`}
             >
               {label}
@@ -87,7 +87,7 @@ export default function Navbar() {
       {/* Mobile dropdown panel */}
       {open && (
         <div
-          className="sm:hidden absolute left-0 right-0 top-full flex flex-col"
+          className="sm:hidden absolute left-0 right-0 top-full flex flex-col gap-2 p-3"
           style={{ backgroundColor: '#030B18', borderBottom: '0.5px solid #162D5A' }}
         >
           {navLinks.map(({ href, label }) => {
@@ -97,10 +97,9 @@ export default function Navbar() {
                 key={href}
                 href={href}
                 onClick={() => setOpen(false)}
-                className={`font-sans text-[12.5px] tracking-widest px-6 py-3 transition-colors duration-150 ${
+                className={`font-sans text-[12.5px] tracking-widest px-4 py-3 text-center border-[0.6px] border-transparent rounded-[6px] transition-all duration-200 hover:bg-[#071830] hover:border-[#1A3D7A] hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white ${
                   active ? 'text-[#89D4FF]' : 'text-[#EEF6FF]'
                 }`}
-                style={{ borderTop: '0.5px solid #162D5A' }}
               >
                 {label}
               </Link>
@@ -112,8 +111,9 @@ export default function Navbar() {
             className="font-sans text-[12.5px] tracking-widest px-6 py-3 text-center transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
             style={{
               background: 'linear-gradient(180deg, #1A4FC4, #0E3A9A)',
+              border: '1px solid #3D7FD4',
               color: '#89D4FF',
-              borderTop: '0.5px solid #162D5A',
+              borderRadius: '6px',
             }}
           >
             LET&apos;S GO ›
