@@ -79,6 +79,20 @@ Apply the graduated scale by default to any new boxy element rather than leaving
 
 **Exception — functional/semantic color stays:** colors that carry meaning (form error banners, the reCAPTCHA-not-configured warning, success/error confirmation text, status-coded values like the admin KPI tiles or the use-cases page's green "Result" line) are left as their deliberate color, not flattened to white. If a paragraph's color is telling the user something (error, warning, success, a status value), keep it; if it's just muted body copy for visual hierarchy, let it be white.
 
+## Gold-standard test account — applies to every tool, present and future
+
+`test.account@webtechhq.com` (override with `TEST_ACCOUNT_EMAIL`) is the one account allowed to bypass payment gates and reset its own tool output in production, so the full signup → tool → paid-tool funnel can be exercised repeatedly without creating throwaway accounts or paying real money. All of this logic lives in `src/lib/testAccount.ts`.
+
+**Every future paid tool must:**
+- Check access with `isGoldStandardTestAccount(user.email) || hasPurchased(...)` (or an equivalent bypass) rather than gating on `hasPurchased`/a real payment alone.
+- Provision an `ensureComplimentaryPurchase`-style zero-cost, already-captured purchase row (see `src/lib/purchases.ts`) if the tool needs a purchase record to hang its own tables off, instead of routing the test account through the real payment provider.
+- Offer a way to run/regenerate its output without payment for this account (see `/api/tools/business-audit/run-test` for the pattern), since real generation is normally only triggered by a captured payment.
+
+**Every future tool with its own per-user result table must:**
+- Add a `DELETE FROM <table> WHERE user_id = ?` line to `resetAllToolDataForUser()` in `src/lib/testAccount.ts`, unless the table cascades from `purchases` or another table already covered there.
+
+The dashboard (`/tools`) renders a `TestAccountResetButton` only for this account, which calls `POST /api/tools/test-reset` to wipe all tool output at once. Don't build a new one-off reset mechanism per tool - extend the shared reset function instead.
+
 ## Commit messages
 
 Follow the existing log style: short, imperative, capitalized summary line (e.g. "Fix hero CTA links blocked by fixed-background scroll wrapper"). No conventional-commit prefixes (`feat:`, `fix:`, etc.).

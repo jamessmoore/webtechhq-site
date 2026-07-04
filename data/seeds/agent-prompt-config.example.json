@@ -1,0 +1,71 @@
+{
+  "_comment": "Structure reference only — placeholder copy, safe to commit. Copy this file to agent-prompt-config.local.json (gitignored) and replace system_prompt / tool_schema descriptions with real copy before running `npm run seed:agent-prompt-config`.",
+  "configs": [
+    {
+      "config_key": "business_audit_report",
+      "version": 1,
+      "system_prompt": "PLACEHOLDER: system prompt describing voice, constraints, and report structure for the Business Audit generator.",
+      "tool_schema": {
+        "name": "submit_audit_report",
+        "description": "PLACEHOLDER: describe the tool call purpose.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "openingNote": {
+              "type": "string",
+              "description": "PLACEHOLDER description."
+            },
+            "opportunities": {
+              "type": "array",
+              "minItems": 3,
+              "maxItems": 3,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "rank": { "type": "integer" },
+                  "title": { "type": "string", "description": "PLACEHOLDER description." },
+                  "whatsHappeningNow": { "type": "string", "description": "PLACEHOLDER description." },
+                  "aiSolution": { "type": "string", "description": "PLACEHOLDER description." },
+                  "setupFeeCents": { "type": "integer" },
+                  "monthlyFeeCents": { "type": "integer" },
+                  "timeSavedLabel": { "type": "string", "description": "PLACEHOLDER description." },
+                  "monthlyValueLabel": { "type": "string", "description": "PLACEHOLDER description." }
+                },
+                "required": [
+                  "rank",
+                  "title",
+                  "whatsHappeningNow",
+                  "aiSolution",
+                  "setupFeeCents",
+                  "monthlyFeeCents",
+                  "timeSavedLabel",
+                  "monthlyValueLabel"
+                ]
+              }
+            },
+            "totalTimeSavedLabel": { "type": "string", "description": "PLACEHOLDER description." },
+            "totalMonthlyValueLabel": { "type": "string", "description": "PLACEHOLDER description." },
+            "recommendedOpportunityRank": { "type": "integer", "description": "PLACEHOLDER description." },
+            "recommendedReasoning": { "type": "string", "description": "PLACEHOLDER description." },
+            "questionsRaised": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 4,
+              "items": { "type": "string" },
+              "description": "PLACEHOLDER description."
+            }
+          },
+          "required": [
+            "openingNote",
+            "opportunities",
+            "totalTimeSavedLabel",
+            "totalMonthlyValueLabel",
+            "recommendedOpportunityRank",
+            "recommendedReasoning",
+            "questionsRaised"
+          ]
+        }
+      }
+    }
+  ]
+}

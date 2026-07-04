@@ -108,6 +108,54 @@ function migrate(db: Database.Database): void {
 
     CREATE INDEX IF NOT EXISTS idx_prompt_template_eval_template_id
       ON prompt_template_eval (template_id);
+
+    CREATE TABLE IF NOT EXISTS agent_prompt_config (
+      id                TEXT PRIMARY KEY,
+      config_key        TEXT NOT NULL UNIQUE,
+      version           INTEGER NOT NULL DEFAULT 1,
+      system_prompt     TEXT NOT NULL,
+      tool_schema_json  TEXT NOT NULL,
+      created_at        TEXT NOT NULL,
+      updated_at        TEXT NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS purchases (
+      id                 TEXT PRIMARY KEY,
+      user_id            TEXT NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+      product_id         TEXT NOT NULL,
+      status             TEXT NOT NULL DEFAULT 'created',
+      amount_cents       INTEGER NOT NULL,
+      currency           TEXT NOT NULL DEFAULT 'USD',
+      paypal_order_id    TEXT UNIQUE,
+      payer_email        TEXT,
+      raw_capture_json   TEXT,
+      created_at         TEXT NOT NULL,
+      captured_at        TEXT
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_purchases_user_id
+      ON purchases (user_id);
+
+    CREATE INDEX IF NOT EXISTS idx_purchases_user_product
+      ON purchases (user_id, product_id);
+
+    CREATE INDEX IF NOT EXISTS idx_purchases_paypal_order_id
+      ON purchases (paypal_order_id);
+
+    CREATE TABLE IF NOT EXISTS audit_reports (
+      id             TEXT PRIMARY KEY,
+      purchase_id    TEXT NOT NULL UNIQUE REFERENCES purchases (id) ON DELETE CASCADE,
+      user_id        TEXT NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+      product_id     TEXT NOT NULL,
+      status         TEXT NOT NULL DEFAULT 'generating',
+      report_json    TEXT,
+      error_message  TEXT,
+      created_at     TEXT NOT NULL,
+      completed_at   TEXT
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_audit_reports_user_product
+      ON audit_reports (user_id, product_id);
   `);
 
   // Backfill reset_token columns for databases created before they existed.
@@ -126,5 +174,12 @@ function migrate(db: Database.Database): void {
   const submissionColumnNames = new Set(submissionColumns.map((c) => c.name));
   if (!submissionColumnNames.has("rendered_prompt")) {
     db.exec("ALTER TABLE submissions ADD COLUMN rendered_prompt TEXT");
+  }
+
+  // Backfill business_name for purchases created before it existed.
+  const purchaseColumns = db.prepare("PRAGMA table_info(purchases)").all() as { name: string }[];
+  const purchaseColumnNames = new Set(purchaseColumns.map((c) => c.name));
+  if (!purchaseColumnNames.has("business_name")) {
+    db.exec("ALTER TABLE purchases ADD COLUMN business_name TEXT");
   }
 }

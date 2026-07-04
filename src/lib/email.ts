@@ -147,6 +147,40 @@ export async function sendContactFormEmail(params: {
   });
 }
 
+export async function sendAuditReportEmail(
+  to: string,
+  firstName: string,
+  businessName: string,
+  pdfBuffer: Buffer,
+): Promise<void> {
+  const sg = getSendGrid();
+
+  await sg.send({
+    to,
+    from: { email: FROM, name: "Moore Solutions" },
+    trackingSettings: { clickTracking: { enable: false } },
+    subject: `Your Business Audit for ${businessName}`,
+    html: `
+      <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;color:#0F0F0F">
+        <h2 style="margin-bottom:8px">Hi ${firstName},</h2>
+        <p style="margin-bottom:20px">
+          Attached is your Business Audit for ${businessName}, built from your Opportunity Finder
+          answers. You can also view it anytime from your Client Tools dashboard.
+        </p>
+        <p style="margin-top:24px;font-size:13px;color:#6B6660">James Moore, Moore Solutions</p>
+      </div>
+    `,
+    attachments: [
+      {
+        content: pdfBuffer.toString("base64"),
+        filename: `Business Audit - ${businessName}.pdf`,
+        type: "application/pdf",
+        disposition: "attachment",
+      },
+    ],
+  });
+}
+
 export async function sendGoogleAccountNoticeEmail(
   to: string,
   firstName: string,

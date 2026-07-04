@@ -10,10 +10,12 @@
     "typecheck": "tsc --noEmit",
     "test:e2e": "playwright test",
     "seed:prompt-templates": "node scripts/seed-prompt-templates.js",
+    "seed:agent-prompt-config": "node scripts/seed-agent-prompt-config.js",
     "seed:fake-admin-data": "node scripts/seed-fake-admin-data.js"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.108.0",
+    "@anthropic-ai/bedrock-sdk": "^0.32.0",
+    "@react-pdf/renderer": "^4.5.1",
     "@sendgrid/mail": "^8.1.6",
     "bcryptjs": "^3.0.3",
     "better-sqlite3": "^12.11.1",
