@@ -9,19 +9,19 @@ const BRAND_COLORS: Record<
 > = {
   Claude: {
     brand: "#D97757",
-    restingBg: "#5A2D1E",
+    restingBg: "#7B574B",
     copiedBorder: "#E8916F",
     copiedText: "#FFE8DC",
   },
   ChatGPT: {
     brand: "#10A37F",
-    restingBg: "#0F3D30",
+    restingBg: "#3F6459",
     copiedBorder: "#4FCBA8",
     copiedText: "#DFFFF3",
   },
   Gemini: {
     brand: "#8E75B2",
-    restingBg: "#352C43",
+    restingBg: "#5D5669",
     copiedBorder: "#B79EDD",
     copiedText: "#F2EAFB",
   },
@@ -79,8 +79,8 @@ export default function PromptDisplay({
       <h2
         style={{
           margin: 0,
-          font: '400 clamp(23px,4vw,29px)/1.2 "Courier New", monospace',
-          color: "var(--brand-blue)",
+          font: '400 clamp(26px,4vw,32px)/1.2 "Courier New", monospace',
+          color: "var(--brand-sky)",
           letterSpacing: "0.01em",
         }}
       >
@@ -89,7 +89,7 @@ export default function PromptDisplay({
       <p
         style={{
           margin: "11px 0 0",
-          font: "400 clamp(16px,2.4vw,17.5px)/1.6 Arial, sans-serif",
+          font: "400 clamp(19px,2.4vw,20.5px)/1.6 Arial, sans-serif",
           color: "var(--brand-white)",
         }}
       >
@@ -109,7 +109,7 @@ export default function PromptDisplay({
           style={{
             backgroundColor: "#071525",
             border: "0.8px solid #162D5A",
-            color: "#89D4FF",
+            color: "var(--brand-sky)",
             borderRadius: "2px",
             fontFamily: '"Courier New", monospace',
           }}
@@ -145,7 +145,7 @@ export default function PromptDisplay({
                   key={label}
                   type="button"
                   onClick={() => handleSendTo(label, url, copyFirst)}
-                  className="inline-flex items-center gap-2 font-sans text-[12px] tracking-wide transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(255,255,255,0.45),0_0_24px_6px_rgba(255,255,255,0.25)] hover:!text-white"
+                  className="inline-flex items-center gap-2 font-sans text-[15px] tracking-wide transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(255,255,255,0.45),0_0_24px_6px_rgba(255,255,255,0.25)] hover:!text-white"
                   style={{
                     padding: "10px 18px",
                     borderRadius: 6,
@@ -188,7 +188,7 @@ export default function PromptDisplay({
               borderRadius: 6,
               border: `0.8px solid ${copied ? "#3D7FD4" : "#162D5A"}`,
               backgroundColor: copied ? "#1A4FC4" : "#143C6A",
-              color: copied ? "#BCE5FF" : "#80AEE0",
+              color: copied ? "#BCE5FF" : "var(--brand-sky)",
               font: '400 12px "Courier New", monospace',
               letterSpacing: "0.08em",
               cursor: "pointer",
