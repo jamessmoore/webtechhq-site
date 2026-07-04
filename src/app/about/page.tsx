@@ -36,7 +36,7 @@ export default function Page() {
 
             {/* Sub-headline */}
             <p className="font-sans text-[12px] tracking-widest" style={{ color: 'var(--brand-blue)' }}>
-              AI INNOVATOR · AGENTIC CURATOR · ENTREPRENEUR
+              FOUNDER · ENTREPRENEUR · AGENTIC CURATOR
             </p>
           </div>
         </section>
@@ -46,18 +46,27 @@ export default function Page() {
           <div className="max-w-3xl mx-auto flex flex-col gap-6">
             <p className="font-sans text-[21px] leading-relaxed">
               If your business is running on sticky notes, spreadsheets, and hope, you&apos;re in
-              the right place. I&apos;m an AI/ML engineer with a senior SRE background: 20+ years
+              the right place. I&apos;m the founder of Moore Solutions, backed by 20+ years
               building, scaling, and automating production systems for everyone from scrappy
-              startups to Fortune 500s. These days most of that experience goes toward a different
-              kind of client: local service businesses, retailers and restaurants, and solo
-              professionals who know AI could help but aren&apos;t sure where to start.
+              startups to Fortune 500s. These days that experience goes toward a different kind of
+              client: local service businesses, retailers and restaurants, and solo professionals
+              who know AI could help but aren&apos;t sure where to start.
             </p>
             <p className="font-sans text-[21px] leading-relaxed">
-              The way in is simple: a flat-rate AI Business Audit (a working session plus a
-              written report on where AI could actually save you time or make you money), no hype
-              attached. From there, the most common next step is an AI assistant trained on your
-              business that handles inquiries and follow-ups while you sleep. See what that looks
-              like in the{' '}
+              The way in is simple: start with the free{' '}
+              <Link
+                href="/signup"
+                className="underline transition-all duration-200 hover:text-[#BCE5FF] hover:[text-shadow:0_0_6px_#BCE5FF,0_0_14px_#3D9FFF] active:!text-white"
+                style={{ color: '#BCE5FF' }}
+              >
+                Opportunity Finder
+              </Link>
+              , answer a few quick questions and walk away with a custom AI prompt built around
+              your business. From there, most people move into the full Business Audit, a
+              flat-rate written report on exactly where AI could save you time or make you money,
+              no hype attached. The next step after that is usually an AI assistant trained on
+              your business that handles inquiries and follow-ups while you sleep. See what that
+              looks like in the{' '}
               <Link
                 href="/use-cases"
                 className="underline transition-all duration-200 hover:text-[#BCE5FF] hover:[text-shadow:0_0_6px_#BCE5FF,0_0_14px_#3D9FFF] active:!text-white"

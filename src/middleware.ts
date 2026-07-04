@@ -20,7 +20,7 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  if (pathname.startsWith("/ai-business-audit") || pathname.startsWith("/tools")) {
+  if (pathname.startsWith("/business-audit") || pathname.startsWith("/tools")) {
     if (!hasSession(request)) {
       return NextResponse.redirect(new URL("/signup", request.url));
     }
@@ -30,5 +30,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/ai-business-audit/:path*", "/admin/:path*", "/tools/:path*"],
+  matcher: ["/business-audit/:path*", "/admin/:path*", "/tools/:path*"],
 };

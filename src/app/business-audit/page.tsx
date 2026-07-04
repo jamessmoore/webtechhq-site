@@ -8,7 +8,7 @@ import { getUserById } from "@/lib/users";
 import { getSubmissionsByUser } from "@/lib/submissions";
 
 export const metadata: Metadata = {
-  title: "AI Business Audit | Moore Solutions",
+  title: "Business Audit | Moore Solutions",
   description:
     "Answer a few questions about your biggest operational headaches. I'll identify your top AI opportunities and deliver your report within 48 hours.",
 };
@@ -39,7 +39,7 @@ export default async function QuestionnairePage() {
               className="font-sans font-black leading-tight mb-4"
               style={{ fontSize: "2rem", color: "#EEF6FF" }}
             >
-              AI Business Audit.
+              Business Audit.
             </h1>
             {!alreadySubmitted && user.emailVerified && (
               <p
@@ -47,7 +47,7 @@ export default async function QuestionnairePage() {
                 style={{ color: "#80AEE0" }}
               >
                 Hi {user.firstName}, answer four quick sections and I&apos;ll
-                send your personalized AI Opportunity Report within 48 hours.
+                send your personalized Opportunity Report within 48 hours.
               </p>
             )}
           </div>

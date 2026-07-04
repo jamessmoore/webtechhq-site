@@ -21,9 +21,9 @@ export default function Hero() {
       <div className="relative z-10 px-6 sm:px-10 py-10 sm:py-20 max-w-2xl">
         {/* Headline */}
         <h1 className="font-sans font-black leading-tight mb-2 text-[1.75rem] sm:text-[2.4rem]">
-          <span style={{ color: '#EEF6FF' }}>I help businesses</span>
+          <span style={{ color: '#EEF6FF' }}>You focus on your growth.</span>
           <br />
-          <span style={{ color: '#89D4FF' }}>solve problems with AI.</span>
+          <span style={{ color: '#89D4FF' }}>I handle the noise.</span>
         </h1>
 
         {/* Rule */}
@@ -35,8 +35,9 @@ export default function Hero() {
           style={{ color: '#D3D3D3' }}
         >
           20+ years building and running infrastructure at scale. Now applying
-          that same battle-tested rigor to solutions for small business owners.
-          I build and deploy independently, no hand-holding, just results.
+          that same battle-tested rigor to build AI solutions for small
+          business owners. I build and deploy independently, no hand-holding,
+          just results.
         </p>
 
         {/* Credential chips */}
