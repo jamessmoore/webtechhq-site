@@ -27,6 +27,9 @@ function pageMeta(pathname: string): { kicker: string; title: string } {
   if (pathname.startsWith("/tools/opportunity-finder")) {
     return { kicker: "AI TOOLS", title: "Opportunity Finder" };
   }
+  if (pathname.startsWith("/tools/business-audit")) {
+    return { kicker: "AI TOOLS", title: "Business Audit" };
+  }
   return { kicker: "CLIENT TOOLS", title: "Dashboard" };
 }
 
