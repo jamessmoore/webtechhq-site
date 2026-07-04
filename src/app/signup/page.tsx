@@ -7,7 +7,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Get Started | Moore Solutions",
   description:
-    "Create a free account to start your AI Business Audit questionnaire.",
+    "Create a free account to start your Business Audit questionnaire.",
 };
 
 const PROOF_POINTS = [

@@ -2,14 +2,14 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Moore Solutions | James S. Moore · AI · SRE · Cloud',
+  title: 'Moore Solutions | James S. Moore · Founder & Entrepreneur',
   description:
-    'I help businesses solve problems with AI. Senior AI/ML Engineer, SRE, and Cloud Architect with 20+ years of experience. Phoenix, AZ.',
-  keywords: ['AI consulting', 'SRE', 'DevOps', 'cloud engineering', 'MCP', 'agentic AI', 'James Moore'],
+    'James S. Moore, founder of Moore Solutions. I help small businesses cut the noise and get real results with AI, backed by 20+ years building and scaling production systems. Phoenix, AZ.',
+  keywords: ['AI consulting', 'business automation', 'entrepreneur', 'founder', 'Moore Solutions', 'James Moore'],
   authors: [{ name: 'James S. Moore' }],
   openGraph: {
     title: 'Moore Solutions | James S. Moore',
-    description: 'I help businesses solve problems with AI.',
+    description: 'You focus on your growth. I handle the noise.',
     url: 'https://webtechhq.com',
     siteName: 'Moore Solutions',
     type: 'website',

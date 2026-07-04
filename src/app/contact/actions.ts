@@ -1,6 +1,6 @@
 'use server'
 
-import nodemailer from 'nodemailer'
+import { sendContactFormEmail } from '@/lib/email'
 
 export type ContactFormState = {
   status: 'idle' | 'success' | 'error'
@@ -27,11 +27,11 @@ export async function sendContactMessage(
 ): Promise<ContactFormState> {
   const name = formData.get('name')?.toString().trim() ?? ''
   const email = formData.get('email')?.toString().trim() ?? ''
-  const interest = formData.get('interest')?.toString().trim() ?? ''
+  const subject = formData.get('subject')?.toString().trim() ?? ''
   const message = formData.get('message')?.toString().trim() ?? ''
   const recaptchaToken = formData.get('recaptchaToken')?.toString() ?? ''
 
-  if (!name || !email || !message) {
+  if (!name || !email || !subject || !message) {
     return { status: 'error', message: 'Please fill out all fields.' }
   }
 
@@ -40,22 +40,8 @@ export async function sendContactMessage(
     return { status: 'error', message: 'CAPTCHA verification failed. Please try again.' }
   }
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.GMAIL_USER,
-      pass: process.env.GMAIL_APP_PASSWORD,
-    },
-  })
-
   try {
-    await transporter.sendMail({
-      from: process.env.GMAIL_USER,
-      to: process.env.CONTACT_EMAIL ?? process.env.GMAIL_USER,
-      replyTo: email,
-      subject: `New contact form message from ${name}`,
-      text: `From: ${name} <${email}>\nInterested in: ${interest || 'Not specified'}\n\n${message}`,
-    })
+    await sendContactFormEmail({ name, email, subject, message })
 
     return { status: 'success', message: "Thanks, I'll get back to you soon." }
   } catch (err) {

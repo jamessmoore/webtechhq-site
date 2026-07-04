@@ -1,45 +1,46 @@
 import Link from 'next/link'
 
-const services = [
+const tools = [
   {
-    title: 'BUSINESS ANALYTICS',
-    subtitle: 'METRICS & INSIGHT',
+    title: 'OPPORTUNITY FINDER',
+    subtitle: 'START HERE · FREE',
+    badge: 'MOST POPULAR',
     description:
-      'Finding the metrics that actually predict outcomes, then building the dashboards and reports that make the next decision easy.',
-    href: '/services#business-analytics',
-    featured: false,
-  },
-  {
-    title: 'AI CONSULTING',
-    subtitle: '& AGENT DEV',
-    badge: 'MOST REQUESTED',
-    description:
-      'Mapping where AI actually moves the needle in your business, then shipping it: agents, MCP servers, and integrations that do real work.',
-    href: '/services#ai-consulting',
+      "Answer a few plain-English questions about how your business runs. In minutes you'll get a custom AI action plan pointing straight at your biggest time and money wins.",
+    href: '/tools',
     featured: true,
   },
   {
-    title: 'INTELLIGENT',
-    subtitle: 'AUTOMATION',
+    title: 'BUSINESS AUDIT',
+    subtitle: 'GO DEEPER',
+    badge: 'FOUNDING RATE',
     description:
-      "Repetitive manual work is a system waiting to be built. I find where your team is doing it by hand and replace it with one that isn't.",
-    href: '/services#automation',
+      "A fully automated deep-dive that builds you a complete opportunity report for your operations. The audit fee credits in full toward any work you take on from it.",
+    href: '/tools',
     featured: false,
   },
   {
-    title: 'DEVOPS & CLOUD',
-    subtitle: 'INFRA AUDITS',
+    title: 'CONTENT ASSISTANT',
+    subtitle: 'COMING SOON',
     description:
-      "AWS, Kubernetes, Terraform: a senior SRE's read on what's fragile, overpriced, or quietly one bad deploy from taking down production.",
-    href: '/services/technical#devops',
+      "Draft social posts, emails, and customer replies in your own voice, in seconds. No more staring at a blank page before the workday even starts.",
+    href: '/tools',
+    featured: false,
+  },
+  {
+    title: 'REVIEW RESPONDER',
+    subtitle: 'COMING SOON',
+    description:
+      "Friendly, on-brand replies to every review you get, drafted for you and ready to post. Turn feedback into relationships without the back-and-forth.",
+    href: '/tools',
     featured: false,
   },
 ]
 
-export default function Services() {
+export default function Tools() {
   return (
     <section
-      id="services"
+      id="tools"
       className="py-16 px-6"
       style={{ backgroundColor: '#030912', borderTop: '0.5px solid #162D5A' }}
     >
@@ -50,44 +51,44 @@ export default function Services() {
             className="font-sans font-bold tracking-[0.3em]"
             style={{ fontSize: '1.75em', color: '#071830' }}
           >
-            SERVICES
+            TOOLS
           </span>
           <div style={{ height: '0.5px', backgroundColor: '#162D5A', width: '80px', marginTop: '4px' }} />
         </div>
 
         {/* Cards grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {services.map((s) => (
+          {tools.map((t) => (
             <Link
-              key={s.title}
-              href={s.href}
-              className={`card-accent${s.featured ? ' featured' : ''} group relative flex flex-col p-5 transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)]`}
+              key={t.title}
+              href={t.href}
+              className={`card-accent${t.featured ? ' featured' : ''} group relative flex flex-col p-5 transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)]`}
               style={{
-                backgroundColor: s.featured ? '#071830' : '#071525',
-                border: s.featured ? '1px solid #3D7FD4' : '0.8px solid #162D5A',
+                backgroundColor: t.featured ? '#071830' : '#071525',
+                border: t.featured ? '1px solid #3D7FD4' : '0.8px solid #162D5A',
                 borderRadius: '2px',
                 minHeight: '200px',
               }}
             >
-              {s.badge && (
+              {t.badge && (
                 <span
                   className="font-sans text-[7px] tracking-widest mb-2 block transition-all duration-200 group-active:!text-white"
                   style={{ color: '#2D5A9E' }}
                 >
-                  {s.badge}
+                  {t.badge}
                 </span>
               )}
               <h3
                 className="font-sans font-bold text-[10px] tracking-widest mb-1 transition-all duration-200 group-hover:[text-shadow:0_0_6px_#89D4FF,0_0_14px_#3D9FFF]"
                 style={{ color: '#89D4FF' }}
               >
-                {s.title}
+                {t.title}
               </h3>
               <p className="font-sans text-[8px] tracking-widest mb-4">
-                {s.subtitle}
+                {t.subtitle}
               </p>
               <p className="font-sans text-[19px] leading-relaxed flex-1 text-white">
-                {s.description}
+                {t.description}
               </p>
               <span
                 className="font-sans text-[9px] tracking-widest mt-5 block transition-all duration-200 group-hover:text-brand-blue group-hover:[text-shadow:0_0_6px_#3D7FD4,0_0_14px_#3D9FFF]"

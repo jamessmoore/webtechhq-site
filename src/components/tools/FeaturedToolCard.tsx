@@ -13,7 +13,7 @@ const STATUS_CONFIG = {
     pillBorder: "#162D5A",
     pillText: "#80AEE0",
     primaryLabel: "START THE QUESTIONNAIRE",
-    primaryHref: "/tools/ai-opportunity-finder",
+    primaryHref: "/tools/opportunity-finder",
     secondaryLabel: null as string | null,
     secondaryHref: null as string | null,
   },
@@ -24,7 +24,7 @@ const STATUS_CONFIG = {
     pillBorder: "#16A34A",
     pillText: "#FFFFFF",
     primaryLabel: "SEE RESULTS",
-    primaryHref: "/tools/ai-opportunity-finder",
+    primaryHref: "/tools/opportunity-finder",
     secondaryLabel: null as string | null,
     secondaryHref: null as string | null,
   },
@@ -55,7 +55,7 @@ export default function FeaturedToolCard({ status }: FeaturedToolCardProps) {
             <h2
               style={{ margin: 0, font: '700 clamp(17px,3vw,20px) "Courier New", monospace', color: "#EEF6FF", letterSpacing: "0.02em" }}
             >
-              AI Opportunity Finder
+              Opportunity Finder
             </h2>
             <span
               className="inline-flex items-center gap-[7px]"

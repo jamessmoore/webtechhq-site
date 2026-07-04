@@ -5,7 +5,7 @@ import { auth } from "@/auth";
 import { getUserById } from "@/lib/users";
 import { getSubmissionsByUser } from "@/lib/submissions";
 
-export const metadata: Metadata = { title: "AI Opportunity Finder | Moore Solutions" };
+export const metadata: Metadata = { title: "Opportunity Finder | Moore Solutions" };
 
 export default async function ToolsQuestionnairePage() {
   const session = await auth();

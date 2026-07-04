@@ -1,10 +1,10 @@
 import HexMark from './HexMark'
 
 const credentials = [
-  'ANTHROPIC CLAUDE',
-  'AMAZON BEDROCK',
-  'MCP BUILDER',
-  '48 PUBLIC REPOS',
+  'FLAT-RATE, NO SURPRISES',
+  'AUDIT FEE CREDITED TO YOUR BUILD',
+  '48-HOUR TURNAROUND',
+  'DIRECT TO THE FOUNDER, NOT A CALL CENTER',
 ]
 
 export default function ProofBar() {
@@ -21,7 +21,7 @@ export default function ProofBar() {
         className="font-sans text-[11px] tracking-[0.2em]"
         style={{ color: '#A9CFFA' }}
       >
-        CERTIFIED:
+        WHY IT WORKS:
       </span>
       {credentials.map((c, i) => (
         <span key={c} className="flex items-center gap-4">

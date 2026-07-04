@@ -15,7 +15,7 @@ export default function Page() {
               Let&apos;s go.
             </h1>
             <p className="font-sans text-[21px] leading-relaxed">
-              Please send me a note. I make every effort to reply within 24 hours.
+              Please send me a note.
             </p>
           </div>
         </section>

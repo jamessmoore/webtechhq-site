@@ -83,20 +83,20 @@ export async function sendPromptEmail(
   to: string,
   firstName: string,
 ): Promise<void> {
-  const toolUrl = `${BASE_URL}/tools/ai-opportunity-finder`;
+  const toolUrl = `${BASE_URL}/tools/opportunity-finder`;
   const sg = getSendGrid();
 
   await sg.send({
     to,
     from: { email: FROM, name: "Moore Solutions" },
     trackingSettings: { clickTracking: { enable: false } },
-    subject: "Your AI Opportunity Finder prompt is ready",
+    subject: "Your Opportunity Finder prompt is ready",
     html: `
       <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;color:#0F0F0F">
         <h2 style="margin-bottom:8px">Hi ${firstName},</h2>
         <p style="margin-bottom:16px">
           Based on what you shared, we've built a prompt specifically for your business.
-          Head back to the AI Opportunity Finder to view and copy it, then paste it into the
+          Head back to the Opportunity Finder to view and copy it, then paste it into the
           AI chat tool of your choice (ChatGPT, Claude, Gemini, or whatever you already use)
           to start exploring where AI could help.
         </p>
@@ -106,6 +106,42 @@ export async function sendPromptEmail(
           View my prompt
         </a>
         <p style="margin-top:24px;font-size:13px;color:#6B6660">James Moore, Moore Solutions</p>
+      </div>
+    `,
+  });
+}
+
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+export async function sendContactFormEmail(params: {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}): Promise<void> {
+  const { name, email, subject, message } = params;
+  const sg = getSendGrid();
+
+  await sg.send({
+    to: process.env.CONTACT_EMAIL ?? FROM,
+    from: { email: FROM, name: "Moore Solutions" },
+    replyTo: email,
+    trackingSettings: { clickTracking: { enable: false } },
+    subject,
+    text: `From: ${name} <${email}>\n\n${message}`,
+    html: `
+      <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;color:#0F0F0F">
+        <p style="margin-bottom:16px">
+          <strong>From:</strong> ${escapeHtml(name)} &lt;${escapeHtml(email)}&gt;
+        </p>
+        <p style="white-space:pre-wrap;margin-bottom:16px">${escapeHtml(message)}</p>
       </div>
     `,
   });
