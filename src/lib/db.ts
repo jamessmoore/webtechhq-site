@@ -108,6 +108,29 @@ function migrate(db: Database.Database): void {
 
     CREATE INDEX IF NOT EXISTS idx_prompt_template_eval_template_id
       ON prompt_template_eval (template_id);
+
+    CREATE TABLE IF NOT EXISTS purchases (
+      id                 TEXT PRIMARY KEY,
+      user_id            TEXT NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+      product_id         TEXT NOT NULL,
+      status             TEXT NOT NULL DEFAULT 'created',
+      amount_cents       INTEGER NOT NULL,
+      currency           TEXT NOT NULL DEFAULT 'USD',
+      paypal_order_id    TEXT UNIQUE,
+      payer_email        TEXT,
+      raw_capture_json   TEXT,
+      created_at         TEXT NOT NULL,
+      captured_at        TEXT
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_purchases_user_id
+      ON purchases (user_id);
+
+    CREATE INDEX IF NOT EXISTS idx_purchases_user_product
+      ON purchases (user_id, product_id);
+
+    CREATE INDEX IF NOT EXISTS idx_purchases_paypal_order_id
+      ON purchases (paypal_order_id);
   `);
 
   // Backfill reset_token columns for databases created before they existed.

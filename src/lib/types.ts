@@ -159,3 +159,51 @@ export function rowToSubmission(row: SubmissionRow): Submission {
 export interface SubmissionWithUser extends Submission {
   user: Pick<User, "firstName" | "lastName" | "email">;
 }
+
+// ─── Purchases ────────────────────────────────────────────────────────────────
+
+export type PurchaseStatus = "created" | "approved" | "captured" | "failed" | "refunded";
+
+export interface Purchase {
+  id: string;
+  userId: string;
+  productId: string;
+  status: PurchaseStatus;
+  amountCents: number;
+  currency: string;
+  paypalOrderId?: string;
+  payerEmail?: string;
+  rawCaptureJson?: string;
+  createdAt: string;
+  capturedAt?: string;
+}
+
+export interface PurchaseRow {
+  id: string;
+  user_id: string;
+  product_id: string;
+  status: PurchaseStatus;
+  amount_cents: number;
+  currency: string;
+  paypal_order_id: string | null;
+  payer_email: string | null;
+  raw_capture_json: string | null;
+  created_at: string;
+  captured_at: string | null;
+}
+
+export function rowToPurchase(row: PurchaseRow): Purchase {
+  return {
+    id: row.id,
+    userId: row.user_id,
+    productId: row.product_id,
+    status: row.status,
+    amountCents: row.amount_cents,
+    currency: row.currency,
+    paypalOrderId: row.paypal_order_id ?? undefined,
+    payerEmail: row.payer_email ?? undefined,
+    rawCaptureJson: row.raw_capture_json ?? undefined,
+    createdAt: row.created_at,
+    capturedAt: row.captured_at ?? undefined,
+  };
+}
