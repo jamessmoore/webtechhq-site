@@ -22,7 +22,7 @@ export default async function ToolsReportPage() {
   if (!user) redirect("/signup");
 
   const submissions = getSubmissionsByUser(user.id);
-  if (submissions.length === 0) redirect("/tools/ai-opportunity-finder");
+  if (submissions.length === 0) redirect("/tools/opportunity-finder");
 
   return (
     <div style={{ maxWidth: 920, margin: "0 auto", padding: "clamp(24px,4vw,40px) clamp(18px,4vw,44px) 70px" }}>
@@ -74,7 +74,7 @@ export default async function ToolsReportPage() {
 
       <div className="flex gap-3 justify-center flex-wrap" style={{ marginTop: 20 }}>
         <Link
-          href="/tools/ai-opportunity-finder"
+          href="/tools/opportunity-finder"
           className="transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
           style={{
             padding: "11px 18px",

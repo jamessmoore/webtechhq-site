@@ -83,20 +83,20 @@ export async function sendPromptEmail(
   to: string,
   firstName: string,
 ): Promise<void> {
-  const toolUrl = `${BASE_URL}/tools/ai-opportunity-finder`;
+  const toolUrl = `${BASE_URL}/tools/opportunity-finder`;
   const sg = getSendGrid();
 
   await sg.send({
     to,
     from: { email: FROM, name: "Moore Solutions" },
     trackingSettings: { clickTracking: { enable: false } },
-    subject: "Your AI Opportunity Finder prompt is ready",
+    subject: "Your Opportunity Finder prompt is ready",
     html: `
       <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;color:#0F0F0F">
         <h2 style="margin-bottom:8px">Hi ${firstName},</h2>
         <p style="margin-bottom:16px">
           Based on what you shared, we've built a prompt specifically for your business.
-          Head back to the AI Opportunity Finder to view and copy it, then paste it into the
+          Head back to the Opportunity Finder to view and copy it, then paste it into the
           AI chat tool of your choice (ChatGPT, Claude, Gemini, or whatever you already use)
           to start exploring where AI could help.
         </p>

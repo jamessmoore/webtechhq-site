@@ -21,11 +21,11 @@ interface ToolsShellProps {
 
 function pageMeta(pathname: string): { kicker: string; title: string } {
   if (pathname === "/tools") return { kicker: "CLIENT TOOLS", title: "Dashboard" };
-  if (pathname.startsWith("/tools/ai-opportunity-finder/report")) {
-    return { kicker: "AI OPPORTUNITY FINDER", title: "Your Opportunity Report" };
+  if (pathname.startsWith("/tools/opportunity-finder/report")) {
+    return { kicker: "OPPORTUNITY FINDER", title: "Your Opportunity Report" };
   }
-  if (pathname.startsWith("/tools/ai-opportunity-finder")) {
-    return { kicker: "AI TOOLS", title: "AI Opportunity Finder" };
+  if (pathname.startsWith("/tools/opportunity-finder")) {
+    return { kicker: "AI TOOLS", title: "Opportunity Finder" };
   }
   return { kicker: "CLIENT TOOLS", title: "Dashboard" };
 }

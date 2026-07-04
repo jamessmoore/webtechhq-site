@@ -28,7 +28,7 @@ function initialsOf(user: ToolsUser): string {
 export default function Sidebar({ user, mobileOpen, onClose, signOutButton }: SidebarProps) {
   const pathname = usePathname();
   const isDashActive = pathname === "/tools";
-  const isToolActive = pathname.startsWith("/tools/ai-opportunity-finder");
+  const isToolActive = pathname.startsWith("/tools/opportunity-finder");
 
   const navBase: React.CSSProperties = {
     display: "flex",
@@ -116,13 +116,13 @@ export default function Sidebar({ user, mobileOpen, onClose, signOutButton }: Si
           </div>
 
           <Link
-            href="/tools/ai-opportunity-finder"
+            href="/tools/opportunity-finder"
             onClick={onClose}
             className="transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)]"
             style={{ ...navBase, ...(isToolActive ? navActive : {}), borderRadius: 6 }}
           >
             <SparkleIcon size={17} />
-            <span style={{ flex: 1 }}>AI Opportunity Finder</span>
+            <span style={{ flex: 1 }}>Opportunity Finder</span>
             <HexMark size={14} />
           </Link>
         </nav>

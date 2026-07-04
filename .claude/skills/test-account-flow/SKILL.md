@@ -1,6 +1,6 @@
 ---
 name: test-account-flow
-description: Reset the local SQLite dev database and drive a real signup through email verification, sign-in, and the AI Opportunity Finder using the browser tool. Use when asked to test the account/signup flow, verify a copy or UI change on signup/tools pages end-to-end, or reset local test data.
+description: Reset the local SQLite dev database and drive a real signup through email verification, sign-in, and the Opportunity Finder using the browser tool. Use when asked to test the account/signup flow, verify a copy or UI change on signup/tools pages end-to-end, or reset local test data.
 ---
 
 # Test Account Flow
@@ -61,7 +61,7 @@ Navigate the browser to `http://localhost:3000/api/verify/<token>` — it redire
 
 ## Step 4 — Sign in and exercise the tool
 
-Navigate to `/signin`, sign in with the test account's email/password, then to `/tools/ai-opportunity-finder` to confirm the questionnaire loads and (if testing that far) that a submission renders a prompt via `PromptDisplay`.
+Navigate to `/signin`, sign in with the test account's email/password, then to `/tools/opportunity-finder` to confirm the questionnaire loads and (if testing that far) that a submission renders a prompt via `PromptDisplay`.
 
 Check submission rows directly when needed instead of guessing from the UI:
 ```bash
