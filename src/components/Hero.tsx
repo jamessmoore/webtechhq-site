@@ -41,7 +41,7 @@ export default function Hero() {
 
         {/* Credential chips */}
         <div className="flex flex-wrap justify-center gap-2 mb-4 sm:mb-10">
-          {['20+ YRS EXP', 'ANTHROPIC CERTIFIED', 'MCP BUILDER', 'AWS · GCP · K8S'].map((chip) => (
+          {['FOUNDER-LED', '100% U.S.-BASED', 'FLAT-RATE PRICING', 'NO LONG CONTRACTS'].map((chip) => (
             <span
               key={chip}
               className="font-sans text-[10px] tracking-widest px-3 py-1"

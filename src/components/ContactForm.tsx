@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useRef, useState } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { sendContactMessage, type ContactFormState } from '@/app/contact/actions'
+import { CheckIcon } from '@/components/tools/icons'
 
 const initialState: ContactFormState = { status: 'idle' }
 
@@ -36,6 +37,28 @@ export default function ContactForm() {
     }
   }, [state.status])
 
+  if (state.status === 'success') {
+    return (
+      <div
+        className="flex flex-col items-center text-center gap-4 py-16 px-6"
+        style={{ backgroundColor: '#071525', border: '0.8px solid #162D5A', borderRadius: '4px' }}
+      >
+        <div
+          className="flex items-center justify-center"
+          style={{ width: 56, height: 56, backgroundColor: '#0A1832', border: '0.8px solid #3D7FD4', borderRadius: '50%' }}
+        >
+          <CheckIcon size={26} style={{ color: '#89D4FF' } as React.CSSProperties} />
+        </div>
+        <p className="font-sans font-black leading-tight" style={{ fontSize: '2rem', color: '#89D4FF' }}>
+          Message sent.
+        </p>
+        <p className="font-sans text-[19px] leading-relaxed max-w-md">
+          {state.message}
+        </p>
+      </div>
+    )
+  }
+
   return (
     <form action={formAction} className="flex flex-col gap-[5px]">
       <div>
@@ -67,26 +90,17 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="interest" className="font-sans text-[10px] md:text-[15px] tracking-widest mb-2 block" style={labelStyle}>
-          WHAT ARE YOU MOST INTERESTED IN?
+        <label htmlFor="subject" className="font-sans text-[15px] tracking-widest mb-2 block" style={labelStyle}>
+          SUBJECT
         </label>
-        <select
-          id="interest"
-          name="interest"
-          defaultValue=""
+        <input
+          id="subject"
+          name="subject"
+          type="text"
+          required
           className="w-full px-3 py-2 font-sans text-[14px] focus:outline-none"
           style={fieldStyle}
-        >
-          <option value="">Select one…</option>
-          <option value="Business Analytics">Business Analytics</option>
-          <option value="AI Consulting & Agent Development">AI Consulting &amp; Agent Development</option>
-          <option value="Intelligent Automation">Intelligent Automation</option>
-          <option value="DevOps & Cloud Infrastructure Audits">DevOps &amp; Cloud Infrastructure Audits</option>
-          <option value="SaaS Development">SaaS Development</option>
-          <option value="Cloud Management">Cloud Management</option>
-          <option value="SRE Contract (Remote, Senior)">SRE Contract (Remote, Senior)</option>
-          <option value="Something else">Something else</option>
-        </select>
+        />
       </div>
 
       <div>
@@ -127,10 +141,10 @@ export default function ContactForm() {
         {pending ? 'SENDING…' : 'SEND MESSAGE ›'}
       </button>
 
-      {state.status !== 'idle' && (
+      {state.status === 'error' && (
         <p
           className="font-sans text-[11px] leading-relaxed"
-          style={{ color: state.status === 'success' ? '#89D4FF' : '#E0556F' }}
+          style={{ color: '#E0556F' }}
         >
           {state.message}
         </p>

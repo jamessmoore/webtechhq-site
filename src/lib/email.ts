@@ -111,6 +111,42 @@ export async function sendPromptEmail(
   });
 }
 
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+export async function sendContactFormEmail(params: {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}): Promise<void> {
+  const { name, email, subject, message } = params;
+  const sg = getSendGrid();
+
+  await sg.send({
+    to: process.env.CONTACT_EMAIL ?? FROM,
+    from: { email: FROM, name: "Moore Solutions" },
+    replyTo: email,
+    trackingSettings: { clickTracking: { enable: false } },
+    subject,
+    text: `From: ${name} <${email}>\n\n${message}`,
+    html: `
+      <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;color:#0F0F0F">
+        <p style="margin-bottom:16px">
+          <strong>From:</strong> ${escapeHtml(name)} &lt;${escapeHtml(email)}&gt;
+        </p>
+        <p style="white-space:pre-wrap;margin-bottom:16px">${escapeHtml(message)}</p>
+      </div>
+    `,
+  });
+}
+
 export async function sendGoogleAccountNoticeEmail(
   to: string,
   firstName: string,
