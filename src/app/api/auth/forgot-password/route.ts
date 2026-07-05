@@ -4,10 +4,6 @@ import { generateResetToken } from "@/lib/tokens";
 import { sendPasswordResetEmail, sendGoogleAccountNoticeEmail } from "@/lib/email";
 import { verifyRecaptcha } from "@/lib/recaptcha";
 
-// Always returns a generic success response so this endpoint can't be used
-// to enumerate which email addresses have an account.
-const GENERIC_RESPONSE = NextResponse.json({ success: true });
-
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -42,9 +38,9 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    return GENERIC_RESPONSE;
+    return NextResponse.json({ success: true });
   } catch (err) {
     console.error("Forgot password error:", err);
-    return GENERIC_RESPONSE;
+    return NextResponse.json({ success: true });
   }
 }

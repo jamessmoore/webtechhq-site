@@ -27,6 +27,7 @@ Run the same checks CI runs so failures are caught early:
 npm run lint
 npm run build
 npm run typecheck
+npm run test:unit
 npm run test:e2e
 ```
 
@@ -35,6 +36,7 @@ npm run test:e2e
 ```
 src/app/          # Routes (App Router): page.tsx, layout.tsx, services/, portfolio/, about/, contact/
 src/components/   # Shared components (Navbar, Hero, Footer, etc.)
+tests/unit/        # Vitest unit/integration tests (lib + API routes, real sqlite temp DB per file)
 tests/e2e/         # Playwright specs
 ```
 

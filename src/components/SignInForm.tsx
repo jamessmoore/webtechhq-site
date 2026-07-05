@@ -26,6 +26,28 @@ export default function SignInForm() {
     setLoading(true);
     setError(null);
 
+    // NextAuth collapses every credentials `authorize()` failure (wrong
+    // password, unverified email, etc.) into the same generic
+    // "CredentialsSignin" error client-side, so unverified-email has to be
+    // detected before calling signIn() to show its own message.
+    const emailStatus = await fetch("/api/auth/email-status", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    })
+      .then((res) => res.json())
+      .catch(() => ({ needsVerification: false }));
+
+    if (emailStatus.needsVerification) {
+      setLoading(false);
+      recaptchaRef.current?.reset();
+      setRecaptchaToken("");
+      setError(
+        "Please verify your email before signing in. Check your inbox for a verification link.",
+      );
+      return;
+    }
+
     const result = await signIn("credentials", {
       email,
       password,
@@ -35,19 +57,10 @@ export default function SignInForm() {
 
     setLoading(false);
 
-    if (!result?.ok) {
+    if (result?.error) {
       recaptchaRef.current?.reset();
       setRecaptchaToken("");
-
-      if (result?.error === "EMAIL_NOT_VERIFIED") {
-        setError(
-          "Please verify your email before signing in. Check your inbox for a verification link.",
-        );
-      } else if (result?.error === "RECAPTCHA_FAILED") {
-        setError("reCAPTCHA verification failed. Please try again.");
-      } else {
-        setError("Incorrect email or password.");
-      }
+      setError("Incorrect email or password.");
       return;
     }
 
