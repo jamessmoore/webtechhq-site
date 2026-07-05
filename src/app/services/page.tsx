@@ -1,15 +1,9 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
 const sections = [
-  {
-    id: 'business-analytics',
-    title: 'BUSINESS ANALYTICS',
-    image: '/images/services/business-analytics.jpg',
-    content:
-      'Eliminate the noise and make informed decisions based on your data. I help you identify the right metrics, surface the right insights and act on them.',
-  },
   {
     id: 'ai-consulting',
     altId: 'ai-integration',
@@ -24,6 +18,13 @@ const sections = [
     image: '/images/services/automation.jpg',
     content:
       "If a human on your team is doing something repeatedly, a system should probably be doing it instead. Let's find those gaps and reduce your operational costs.",
+  },
+  {
+    id: 'business-analytics',
+    title: 'BUSINESS ANALYTICS',
+    image: '/images/services/business-analytics.jpg',
+    content:
+      'Eliminate the noise and make informed decisions based on your data. I help you identify the right metrics, surface the right insights and act on them.',
   },
 ]
 
@@ -84,6 +85,26 @@ export default function Page() {
             </div>
           </section>
         ))}
+
+        {/* Closing CTA */}
+        <section className="px-10 py-16" style={{ borderTop: '0.5px solid #162D5A' }}>
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="font-sans font-black leading-tight mb-4" style={{ fontSize: '1.75rem', color: '#EEF6FF' }}>
+              Not sure where to start?
+            </h2>
+            <p className="font-sans text-[20px] leading-relaxed mb-8">
+              Run the free Opportunity Finder and get a custom AI prompt built around your
+              business, no meetings, no sales pitch.
+            </p>
+            <Link
+              href="/signup"
+              className="inline-block font-sans font-bold text-[15px] tracking-widest px-7 py-3 transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
+              style={{ background: 'linear-gradient(180deg, #1A4FC4, #0E3A9A)', border: '1px solid #3D7FD4', color: '#89D4FF', borderRadius: '6px' }}
+            >
+              TRY THE OPPORTUNITY FINDER ›
+            </Link>
+          </div>
+        </section>
       </main>
       <Footer />
     </>
