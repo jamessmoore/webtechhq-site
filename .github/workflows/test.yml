@@ -6,6 +6,12 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      # NextAuth refuses every request (including credentials sign-in) with a
+      # generic "Configuration" error if no secret is set — this repo has no
+      # CI secrets configured, so a throwaway value is fine here.
+      NEXTAUTH_URL: http://localhost:3000
+      NEXTAUTH_SECRET: ci-test-secret-not-used-in-production
     steps:
       - uses: actions/checkout@v6
 
