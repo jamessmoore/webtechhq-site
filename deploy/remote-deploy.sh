@@ -14,7 +14,7 @@ REPO_URL="https://github.com/jamessmoore/webtechhq-site.git"
 APP_DIR="/srv/webtechhq"
 RELEASES_DIR="$APP_DIR/releases"
 CURRENT="$APP_DIR/current"
-KEEP_RELEASES=3
+KEEP_RELEASES=2
 MIN_FREE_KB=1572864 # 1.5G — a build needs roughly this much headroom
 
 mkdir -p "$RELEASES_DIR"
