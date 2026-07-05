@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import HexMark from "@/components/HexMark";
-import { GridIcon, SparkleIcon, ShieldIcon, CloseIcon } from "./icons";
+import { GridIcon, TelescopeIcon, SearchIcon, ShieldIcon, CloseIcon } from "./icons";
 
 interface ToolsUser {
   firstName: string;
@@ -122,7 +122,7 @@ export default function Sidebar({ user, mobileOpen, onClose, signOutButton }: Si
             className="transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)]"
             style={{ ...navBase, ...(isToolActive ? navActive : {}), borderRadius: 6 }}
           >
-            <SparkleIcon size={17} />
+            <TelescopeIcon size={17} />
             <span style={{ flex: 1 }}>Opportunity Finder</span>
             <HexMark size={14} />
           </Link>
@@ -133,8 +133,9 @@ export default function Sidebar({ user, mobileOpen, onClose, signOutButton }: Si
             className="transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)]"
             style={{ ...navBase, ...(isBusinessAuditActive ? navActive : {}), borderRadius: 6 }}
           >
-            <ShieldIcon size={17} />
+            <SearchIcon size={17} />
             <span style={{ flex: 1 }}>Business Audit</span>
+            <HexMark size={14} />
           </Link>
         </nav>
 

@@ -98,6 +98,25 @@ export function ShieldIcon({ size = 13, className, style }: IconProps) {
   );
 }
 
+export function TelescopeIcon({ size = 17, className, style }: IconProps) {
+  return (
+    <svg {...base(size, 1.5)} className={className} style={style}>
+      <path d="M5.3 17.2 L16.8 3.7 L21.2 8.4 L6.8 18.8 Z" />
+      <path d="M9.1 12.7 L11.6 15.3 M13 8.2 L16.4 11.8" />
+      <circle cx="6" cy="18" r="1.3" />
+    </svg>
+  );
+}
+
+export function SearchIcon({ size = 17, className, style }: IconProps) {
+  return (
+    <svg {...base(size, 1.8)} className={className} style={style}>
+      <circle cx="10.5" cy="10.5" r="6.5" />
+      <path d="M20 20l-4.6-4.6" />
+    </svg>
+  );
+}
+
 export function HelpCircleIcon({ size = 14, className, style }: IconProps) {
   return (
     <svg {...base(size, 1.7)} className={className} style={style}>
