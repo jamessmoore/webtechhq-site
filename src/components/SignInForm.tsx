@@ -44,9 +44,10 @@ export default function SignInForm() {
       .catch(() => ({ needsVerification: false }));
 
     if (emailStatus.needsVerification) {
+      // Keep the just-solved reCAPTCHA token intact (it hasn't been consumed
+      // yet) so the "Resend verification email" button below is immediately
+      // clickable instead of appearing dead until the user re-solves it.
       setLoading(false);
-      recaptchaRef.current?.reset();
-      setRecaptchaToken("");
       setNeedsVerification(true);
       setError(
         "Please verify your email before signing in. Check your inbox for a verification link.",
