@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 import { randomUUID } from 'crypto'
-import { createVerifiedUser } from './helpers/testUser'
+import { createCompletedUser } from './helpers/testUser'
 import { getResetTokenByEmail } from './helpers/db'
 
 // Functional auth flow — no need to repeat across every responsive viewport.
@@ -18,7 +18,7 @@ test.describe('forgot password', () => {
   })
 
   test('sends a reset link for a known account and completes the password reset', async ({ page, request }) => {
-    const user = await createVerifiedUser(request)
+    const user = await createCompletedUser(request)
 
     await page.goto('/forgot-password')
     await page.getByLabel('Email').fill(user.email)

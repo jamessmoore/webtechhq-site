@@ -106,7 +106,7 @@ export default async function AdminUsersPage() {
                         style={{ borderBottom: i < users.length - 1 ? "0.8px solid #0E1F3A" : "none" }}
                       >
                         <td className="px-6 py-4 font-sans text-[13px]" style={{ color: "#EEF6FF", whiteSpace: "nowrap" }}>
-                          {u.firstName} {u.lastName}
+                          {u.firstName}{u.lastName ? ` ${u.lastName}` : ""}
                         </td>
                         <td className="px-6 py-4 font-sans text-[13px]" style={{ color: "#80AEE0" }}>
                           {u.email}

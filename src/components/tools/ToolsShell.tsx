@@ -8,7 +8,7 @@ import HexMark from "@/components/HexMark";
 
 interface ToolsUser {
   firstName: string;
-  lastName: string;
+  lastName?: string;
   email: string;
   businessType?: string;
 }

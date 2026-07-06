@@ -1,15 +1,29 @@
-import { beforeAll, afterAll, describe, it, expect } from "vitest";
+import { beforeAll, afterAll, beforeEach, describe, it, expect, vi } from "vitest";
 import { NextRequest } from "next/server";
 import { useTestDatabase } from "../testDb";
+
+// The route auto-logs the user in via next-auth's signIn() once verification
+// succeeds. Real signIn() throws a special NEXT_REDIRECT digest error that
+// only Next.js's own runtime knows how to turn into a redirect response —
+// there's no such runtime here, so we mock it out and assert on the call
+// instead of the (unreachable-in-tests) real redirect it would trigger.
+vi.mock("next-auth", () => ({ AuthError: class AuthError extends Error {} }));
+vi.mock("@/auth", () => ({ signIn: vi.fn().mockResolvedValue(undefined) }));
 
 let cleanup: () => void;
 let GET: typeof import("../../../src/app/api/verify/[token]/route").GET;
 let users: typeof import("@/lib/users");
+let auth: { signIn: ReturnType<typeof vi.fn> };
 
 beforeAll(async () => {
   ({ cleanup } = useTestDatabase());
   ({ GET } = await import("@/app/api/verify/[token]/route"));
   users = await import("@/lib/users");
+  auth = (await import("@/auth")) as unknown as typeof auth;
+});
+
+beforeEach(() => {
+  auth.signIn.mockClear();
 });
 
 afterAll(() => cleanup());
@@ -40,7 +54,7 @@ describe("GET /api/verify/[token]", () => {
     expect(res.headers.get("location")).toMatch(/\/verify\?error=expired$/);
   });
 
-  it("verifies the user and redirects to /verify?success=1", async () => {
+  it("verifies the user and auto-logs them in via signIn", async () => {
     const user = users.createUser({
       firstName: "Good",
       lastName: "Verify",
@@ -49,8 +63,17 @@ describe("GET /api/verify/[token]", () => {
       verificationExpiresAt: new Date(Date.now() + 60_000).toISOString(),
     });
 
+    // signIn() is mocked to resolve instead of throwing its real NEXT_REDIRECT
+    // digest error, so the route falls through to its own fallback redirect
+    // here — in production, signIn() throwing is what actually redirects the
+    // browser straight to /tools/opportunity-finder instead.
     const res = await request("good-verify-tok");
     expect(res.headers.get("location")).toMatch(/\/verify\?success=1$/);
     expect(users.getUserById(user.id)!.emailVerified).toBe(true);
+
+    expect(auth.signIn).toHaveBeenCalledWith(
+      "verified-login",
+      expect.objectContaining({ token: expect.any(String), redirectTo: "/tools/opportunity-finder" }),
+    );
   });
 });

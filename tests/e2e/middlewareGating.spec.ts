@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { createVerifiedUser } from './helpers/testUser'
+import { createCompletedUser } from './helpers/testUser'
 
 // Functional auth flow — no need to repeat across every responsive viewport.
 test.beforeEach(({}, testInfo) => {
@@ -25,7 +25,7 @@ test.describe('middleware gating (signed out)', () => {
 
 test.describe('middleware gating (signed in)', () => {
   test('an authenticated user reaches /tools without being redirected', async ({ page, request }) => {
-    const user = await createVerifiedUser(request)
+    const user = await createCompletedUser(request)
 
     await page.goto('/signin')
     await page.getByLabel('Email').fill(user.email)

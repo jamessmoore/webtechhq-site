@@ -4,7 +4,7 @@ import { type User, type UserRow, rowToUser } from "./types";
 
 export function createUser(data: {
   firstName: string;
-  lastName: string;
+  lastName?: string;
   email: string;
   passwordHash?: string;
   googleId?: string;
@@ -26,7 +26,7 @@ export function createUser(data: {
   `).run(
     id,
     data.firstName,
-    data.lastName,
+    data.lastName ?? null,
     data.email,
     data.passwordHash ?? null,
     data.googleId ?? null,
@@ -37,6 +37,28 @@ export function createUser(data: {
   );
 
   return getUserById(id)!;
+}
+
+/** An account is only "complete" once it can authenticate on its own -
+ * either a password was set, or it's linked to Google. Accounts created
+ * via the lightweight Opportunity Finder request form have neither yet. */
+export function isAccountCompleted(user: Pick<User, "passwordHash" | "googleId">): boolean {
+  return Boolean(user.passwordHash || user.googleId);
+}
+
+/** Sets the password (completing the account) and optionally the last name. */
+export function completeAccountSignup(
+  userId: string,
+  passwordHash: string,
+  lastName?: string,
+): void {
+  const db = getDb();
+  db.prepare(`
+    UPDATE users
+    SET password_hash = ?,
+        last_name = COALESCE(?, last_name)
+    WHERE id = ?
+  `).run(passwordHash, lastName ?? null, userId);
 }
 
 export function getUserById(id: string): User | null {
@@ -124,6 +146,29 @@ export function setPasswordResetToken(
     expiresAt,
     userId,
   );
+}
+
+export function setLoginToken(userId: string, token: string, expiresAt: string): void {
+  const db = getDb();
+  db.prepare(
+    "UPDATE users SET login_token = ?, login_token_expires_at = ? WHERE id = ?",
+  ).run(token, expiresAt, userId);
+}
+
+export function getUserByLoginToken(token: string): User | null {
+  const db = getDb();
+  const row = db.prepare("SELECT * FROM users WHERE login_token = ?").get(token) as
+    | UserRow
+    | undefined;
+  return row ? rowToUser(row) : null;
+}
+
+/** Single-use: clears the login token once it's been consumed by authorize(). */
+export function clearLoginToken(userId: string): void {
+  const db = getDb();
+  db.prepare(
+    "UPDATE users SET login_token = NULL, login_token_expires_at = NULL WHERE id = ?",
+  ).run(userId);
 }
 
 export function getUserByResetToken(token: string): User | null {

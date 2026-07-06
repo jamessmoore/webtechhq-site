@@ -4,12 +4,13 @@ import { useState } from "react";
 import Questionnaire from "@/components/Questionnaire";
 import PromptDisplay from "@/components/tools/PromptDisplay";
 
-export default function AiOpportunityFinderFlow({
+export default function OpportunityFinderFlow({
   firstName,
   email,
   emailVerified,
   alreadySubmitted,
   initialPrompt,
+  accountCompleted,
 }: {
   firstName: string;
   email: string;
@@ -17,6 +18,7 @@ export default function AiOpportunityFinderFlow({
   alreadySubmitted: boolean;
   /** The stored prompt from a prior submission, if any. */
   initialPrompt: string | null;
+  accountCompleted: boolean;
 }) {
   const [prompt, setPrompt] = useState<string | null>(initialPrompt);
   // Tracks "a submission now exists" separately from `prompt` so that if
@@ -31,7 +33,13 @@ export default function AiOpportunityFinderFlow({
   }
 
   if (prompt) {
-    return <PromptDisplay firstName={firstName} prompt={prompt} />;
+    return (
+      <PromptDisplay
+        firstName={firstName}
+        prompt={prompt}
+        accountCompleted={accountCompleted}
+      />
+    );
   }
 
   return (
@@ -44,7 +52,7 @@ export default function AiOpportunityFinderFlow({
           letterSpacing: "0.01em",
         }}
       >
-        Let&apos;s find your best AI opportunities
+        Let&apos;s find your best opportunities
       </h1>
       <p
         style={{

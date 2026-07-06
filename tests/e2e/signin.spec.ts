@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { createVerifiedUser, signupTestUser } from './helpers/testUser'
+import { createCompletedUser, signupTestUser } from './helpers/testUser'
 
 // Functional auth flow — no need to repeat across every responsive viewport.
 test.beforeEach(({}, testInfo) => {
@@ -8,7 +8,7 @@ test.beforeEach(({}, testInfo) => {
 
 test.describe('signin', () => {
   test('signs in with valid credentials and reaches /tools', async ({ page, request }) => {
-    const user = await createVerifiedUser(request)
+    const user = await createCompletedUser(request)
 
     await page.goto('/signin')
     await page.getByLabel('Email').fill(user.email)
@@ -19,7 +19,7 @@ test.describe('signin', () => {
   })
 
   test('shows an error for the wrong password', async ({ page, request }) => {
-    const user = await createVerifiedUser(request)
+    const user = await createCompletedUser(request)
 
     await page.goto('/signin')
     await page.getByLabel('Email').fill(user.email)

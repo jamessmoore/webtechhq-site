@@ -33,26 +33,18 @@ function signupRequest(body: unknown) {
 }
 
 const validBody = {
-  firstName: "Ada",
-  lastName: "Lovelace",
+  name: "Ada Lovelace",
   email: "ada.signup@example.com",
-  password: "supersecret1",
   recaptchaToken: "irrelevant-when-unconfigured",
 };
 
 describe("POST /api/auth/signup", () => {
   it("rejects missing required fields", async () => {
-    const res = await POST(signupRequest({ ...validBody, firstName: "" }));
+    const res = await POST(signupRequest({ ...validBody, name: "" }));
     expect(res.status).toBe(400);
   });
 
-  it("rejects short passwords", async () => {
-    const res = await POST(signupRequest({ ...validBody, email: "short@example.com", password: "short" }));
-    expect(res.status).toBe(400);
-    expect((await res.json()).error).toMatch(/at least 8 characters/);
-  });
-
-  it("creates a user, hashes the password, and sends a verification email", async () => {
+  it("creates a lightweight user (no password) and sends a verification email", async () => {
     const res = await POST(signupRequest(validBody));
     expect(res.status).toBe(200);
     expect((await res.json()).success).toBe(true);
@@ -60,12 +52,12 @@ describe("POST /api/auth/signup", () => {
     const user = users.getUserByEmail("ada.signup@example.com")!;
     expect(user).not.toBeNull();
     expect(user.emailVerified).toBe(false);
-    expect(user.passwordHash).not.toBe(validBody.password);
+    expect(user.passwordHash).toBeFalsy();
     expect(user.verificationToken).toBeTruthy();
 
     expect(email.sendVerificationEmail).toHaveBeenCalledWith(
       "ada.signup@example.com",
-      "Ada",
+      "Ada Lovelace",
       user.verificationToken,
     );
   });
@@ -75,12 +67,40 @@ describe("POST /api/auth/signup", () => {
     expect(users.getUserByEmail("mixed.case@example.com")).not.toBeNull();
   });
 
-  it("rejects signup for an email that already has an account", async () => {
-    const first = await POST(signupRequest({ ...validBody, email: "dupe.signup@example.com" }));
+  it("rejects signup for an email that already has a completed account", async () => {
+    const email1 = "completed.signup@example.com";
+    const first = await POST(signupRequest({ ...validBody, email: email1 }));
     expect(first.status).toBe(200);
 
-    const second = await POST(signupRequest({ ...validBody, email: "dupe.signup@example.com" }));
+    const user = users.getUserByEmail(email1)!;
+    users.completeAccountSignup(user.id, "hashed-password");
+
+    const second = await POST(signupRequest({ ...validBody, email: email1 }));
     expect(second.status).toBe(409);
+  });
+
+  it("resets an incomplete account when the same email signs up again", async () => {
+    const email1 = "incomplete.signup@example.com";
+    const first = await POST(signupRequest({ ...validBody, email: email1 }));
+    expect(first.status).toBe(200);
+    const firstUser = users.getUserByEmail(email1)!;
+
+    const second = await POST(signupRequest({ ...validBody, email: email1, name: "New Name" }));
+    expect(second.status).toBe(200);
+    const secondUser = users.getUserByEmail(email1)!;
+    expect(secondUser.id).not.toBe(firstUser.id);
+    expect(secondUser.firstName).toBe("New Name");
+  });
+
+  it("blocks further requests once the retry cap is reached", async () => {
+    const email1 = "capped.signup@example.com";
+    for (let i = 0; i < 5; i++) {
+      const res = await POST(signupRequest({ ...validBody, email: email1 }));
+      expect(res.status).toBe(200);
+    }
+
+    const res = await POST(signupRequest({ ...validBody, email: email1 }));
+    expect(res.status).toBe(429);
   });
 
   it("does not fail the request if the verification email fails to send", async () => {

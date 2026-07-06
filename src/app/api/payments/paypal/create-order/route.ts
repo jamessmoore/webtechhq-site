@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { getUserById } from "@/lib/users";
+import { getUserById, isAccountCompleted } from "@/lib/users";
 import { getSubmissionsByUser } from "@/lib/submissions";
 import { getProduct } from "@/lib/products";
 import { createPurchase, hasPurchased, updatePurchaseOrderId } from "@/lib/purchases";
@@ -26,6 +26,13 @@ export async function POST(request: NextRequest) {
   if (getSubmissionsByUser(user.id).length === 0) {
     return NextResponse.json(
       { error: "Complete the Opportunity Finder before purchasing this tool." },
+      { status: 403 },
+    );
+  }
+
+  if (!isAccountCompleted(user)) {
+    return NextResponse.json(
+      { error: "Finish creating your account before purchasing this tool." },
       { status: 403 },
     );
   }

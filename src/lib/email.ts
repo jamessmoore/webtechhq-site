@@ -27,8 +27,8 @@ export async function sendVerificationEmail(
       <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;color:#0F0F0F">
         <h2 style="margin-bottom:8px">Hi ${firstName},</h2>
         <p style="margin-bottom:20px">
-          Click below to verify your email and access your AI Opportunity questionnaire.
-          This link expires in 24 hours.
+          Click below to verify your email and jump straight into your Opportunity Finder
+          questionnaire. This link expires in 24 hours.
         </p>
         <a href="${verifyUrl}"
            style="display:inline-block;padding:12px 28px;background:#1A4FC4;color:#fff;
@@ -82,8 +82,10 @@ export async function sendPasswordResetEmail(
 export async function sendPromptEmail(
   to: string,
   firstName: string,
+  prompt: string,
 ): Promise<void> {
   const toolUrl = `${BASE_URL}/tools/opportunity-finder`;
+  const finishSignupUrl = `${BASE_URL}/tools/finish-signup`;
   const sg = getSendGrid();
 
   await sg.send({
@@ -96,14 +98,34 @@ export async function sendPromptEmail(
         <h2 style="margin-bottom:8px">Hi ${firstName},</h2>
         <p style="margin-bottom:16px">
           Based on what you shared, we've built a prompt specifically for your business.
-          Head back to the Opportunity Finder to view and copy it, then paste it into the
-          AI chat tool of your choice (ChatGPT, Claude, Gemini, or whatever you already use)
-          to start exploring where AI could help.
+          Copy it below and paste it into the AI chat tool of your choice (ChatGPT, Claude,
+          Gemini, or whatever you already use) to start exploring where AI could help.
         </p>
+        <pre style="white-space:pre-wrap;font-family:'Courier New',monospace;font-size:13px;
+                    background:#F4F6FA;border:1px solid #D8DEE9;border-radius:4px;
+                    padding:16px;margin-bottom:20px">${escapeHtml(prompt)}</pre>
         <a href="${toolUrl}"
            style="display:inline-block;padding:12px 28px;background:#1A4FC4;color:#fff;
                   text-decoration:none;border-radius:4px;font-weight:bold">
           View my prompt
+        </a>
+        <hr style="margin:28px 0;border:none;border-top:1px solid #E5E5E5" />
+        <p style="margin-bottom:12px;font-weight:bold">Want the full picture?</p>
+        <p style="margin-bottom:16px">
+          The Opportunity Finder is just a starting point. The full Business Audit takes your
+          answers further: a ranked breakdown of your best opportunities, what each one is
+          worth, and a concrete plan to act on it.
+        </p>
+        <p style="margin-bottom:20px">
+          To move forward with the Business Audit, you'll need to finish creating your account
+          by setting a password. Until you do, this result isn't saved anywhere. If you come
+          back later without finishing account creation, you'll need to answer the
+          questionnaire again from scratch.
+        </p>
+        <a href="${finishSignupUrl}"
+           style="display:inline-block;padding:12px 28px;background:#238636;color:#fff;
+                  text-decoration:none;border-radius:4px;font-weight:bold">
+          Finish creating my account
         </a>
         <p style="margin-top:24px;font-size:13px;color:#6B6660">James Moore, Moore Solutions</p>
       </div>

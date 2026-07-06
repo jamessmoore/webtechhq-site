@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import BusinessAuditFlow from "@/components/tools/BusinessAuditFlow";
 import { auth } from "@/auth";
-import { getUserById } from "@/lib/users";
+import { getUserById, isAccountCompleted } from "@/lib/users";
 import { getSubmissionsByUser } from "@/lib/submissions";
 import { hasPurchased } from "@/lib/purchases";
 import { getProduct } from "@/lib/products";
@@ -31,6 +31,7 @@ export default async function BusinessAuditPage() {
       <BusinessAuditFlow
         product={product}
         hasSubmission={hasSubmission}
+        accountCompleted={isAccountCompleted(user)}
         alreadyPurchased={alreadyPurchased}
         initialReportStatus={reportRecord?.status ?? null}
         initialReport={reportRecord?.report ?? null}

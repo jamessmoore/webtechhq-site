@@ -62,7 +62,7 @@ export default async function ToolsDashboardPage() {
       </p>
 
       <FeaturedToolCard
-        title="AI Opportunity Finder"
+        title="Opportunity Finder"
         description="Answer a few plain-English questions about how you work. We'll build you a custom prompt to run in Claude, ChatGPT, or Gemini, pointing straight at the AI moves that would save you the most time and money. No jargon, no fluff."
         status={opportunityFinderStatus}
         href="/tools/opportunity-finder"
