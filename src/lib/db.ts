@@ -51,9 +51,6 @@ function migrate(db: Database.Database): void {
     CREATE INDEX IF NOT EXISTS idx_users_reset_token
       ON users (reset_token);
 
-    CREATE INDEX IF NOT EXISTS idx_users_login_token
-      ON users (login_token);
-
     CREATE TABLE IF NOT EXISTS signup_attempts (
       email          TEXT PRIMARY KEY,
       attempt_count  INTEGER NOT NULL DEFAULT 0,
@@ -221,11 +218,13 @@ function migrate(db: Database.Database): void {
   }
   if (!columnNames.has("login_token")) {
     db.exec("ALTER TABLE users ADD COLUMN login_token TEXT");
-    db.exec("CREATE INDEX IF NOT EXISTS idx_users_login_token ON users (login_token)");
   }
   if (!columnNames.has("login_token_expires_at")) {
     db.exec("ALTER TABLE users ADD COLUMN login_token_expires_at TEXT");
   }
+  // Created here (rather than in the schema block above) so it works whether
+  // login_token was just added by the ALTER above or already existed.
+  db.exec("CREATE INDEX IF NOT EXISTS idx_users_login_token ON users (login_token)");
 
   // Backfill rendered_prompt for databases created before it existed.
   const submissionColumns = db.prepare("PRAGMA table_info(submissions)").all() as { name: string }[];
