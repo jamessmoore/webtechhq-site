@@ -80,7 +80,7 @@ export default function PromptDisplay({
         style={{
           margin: 0,
           font: '400 clamp(26px,4vw,32px)/1.2 "Courier New", monospace',
-          color: "var(--brand-sky)",
+          color: "#89D4FF",
           letterSpacing: "0.01em",
         }}
       >
@@ -89,8 +89,8 @@ export default function PromptDisplay({
       <p
         style={{
           margin: "11px 0 0",
-          font: "400 clamp(19px,2.4vw,20.5px)/1.6 Arial, sans-serif",
-          color: "var(--brand-white)",
+          font: "400 21px/1.6 Arial, sans-serif",
+          color: "#FFFFFF",
         }}
       >
         Here&apos;s a prompt built specifically for your business. Click a button below and

@@ -71,7 +71,20 @@ export default function ForgotPasswordForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="space-y-4">
+    <>
+      <div className="mb-7">
+        <h1
+          className="text-2xl font-bold mb-2"
+          style={{ color: "#EEF6FF", fontFamily: "'Courier New', monospace" }}
+        >
+          Forgot your password?
+        </h1>
+        <p className="text-sm">
+          Enter your email and we&apos;ll send you a reset link.
+        </p>
+      </div>
+
+      <form onSubmit={handleSubmit} noValidate className="space-y-4">
       <div>
         <label
           htmlFor="forgot-email"
@@ -148,6 +161,7 @@ export default function ForgotPasswordForm() {
           Sign in
         </a>
       </p>
-    </form>
+      </form>
+    </>
   );
 }

@@ -40,18 +40,6 @@ export default function ForgotPasswordPage() {
             border: "1px solid #162D5A",
           }}
         >
-          <div className="mb-7">
-            <h1
-              className="text-2xl font-bold mb-2"
-              style={{ color: "#EEF6FF", fontFamily: "'Courier New', monospace" }}
-            >
-              Forgot your password?
-            </h1>
-            <p className="text-sm">
-              Enter your email and we&apos;ll send you a reset link.
-            </p>
-          </div>
-
           <ForgotPasswordForm />
         </div>
 

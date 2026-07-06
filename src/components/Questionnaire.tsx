@@ -510,15 +510,15 @@ function SuccessScreen({ firstName }: { firstName: string }) {
     <StatusCard>
       <h2
         className="font-sans font-bold text-[20px] mb-3"
-        style={{ color: "#BCE5FF" }}
+        style={{ color: "#89D4FF" }}
       >
         Got it, {firstName}.
       </h2>
-      <p className="font-sans text-[15px] leading-relaxed mb-2">
+      <p className="font-sans text-[21px] leading-relaxed mb-2" style={{ color: "#FFFFFF" }}>
         Your answers are in. I&apos;ll review them and build your personalized
         Opportunity Report.
       </p>
-      <p className="font-sans text-[15px]">
+      <p className="font-sans text-[21px]" style={{ color: "#FFFFFF" }}>
         Expect it in your inbox within{" "}
         <span style={{ color: "#89D4FF" }}>48 hours</span>.
       </p>
@@ -662,11 +662,11 @@ export default function Questionnaire({
       <StatusCard>
         <h2
           className="font-sans font-bold text-[20px] mb-3"
-          style={{ color: "#BCE5FF" }}
+          style={{ color: "#89D4FF" }}
         >
           You&apos;re already in the queue
         </h2>
-        <p className="font-sans text-[15px] leading-relaxed">
+        <p className="font-sans text-[21px] leading-relaxed" style={{ color: "#FFFFFF" }}>
           We received your questionnaire. Your Opportunity Report is being
           prepared. Watch your inbox at{" "}
           <span style={{ color: "#89D4FF" }}>{email}</span>.
@@ -680,11 +680,11 @@ export default function Questionnaire({
       <StatusCard>
         <h2
           className="font-sans font-bold text-[20px] mb-3"
-          style={{ color: "#BCE5FF" }}
+          style={{ color: "#89D4FF" }}
         >
           Verify your email first
         </h2>
-        <p className="font-sans text-[15px] leading-relaxed">
+        <p className="font-sans text-[21px] leading-relaxed" style={{ color: "#FFFFFF" }}>
           Check your inbox at{" "}
           <span style={{ color: "#89D4FF" }}>{email}</span> for a verification
           link. Once confirmed you can start the questionnaire.

@@ -102,6 +102,17 @@ export function getUserPasswordHash(email: string): string | null {
   return row?.password_hash ?? null;
 }
 
+export function setVerificationToken(
+  userId: string,
+  token: string,
+  expiresAt: string,
+): void {
+  const db = getDb();
+  db.prepare(
+    "UPDATE users SET verification_token = ?, verification_expires_at = ? WHERE id = ?",
+  ).run(token, expiresAt, userId);
+}
+
 export function setPasswordResetToken(
   userId: string,
   token: string,

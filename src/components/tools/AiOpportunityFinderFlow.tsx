@@ -40,7 +40,7 @@ export default function AiOpportunityFinderFlow({
         style={{
           margin: 0,
           font: '400 clamp(21px,4vw,27px)/1.2 "Courier New", monospace',
-          color: "#EEF6FF",
+          color: "#89D4FF",
           letterSpacing: "0.01em",
         }}
       >
@@ -49,8 +49,8 @@ export default function AiOpportunityFinderFlow({
       <p
         style={{
           margin: "11px 0 0",
-          font: "400 clamp(14px,2.4vw,15.5px)/1.6 Arial, sans-serif",
-          color: "#80AEE0",
+          font: "400 21px/1.6 Arial, sans-serif",
+          color: "#FFFFFF",
         }}
       >
         There are no wrong answers, just tell us how things really work today. The more honest
