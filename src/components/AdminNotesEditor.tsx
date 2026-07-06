@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 const fieldStyle: React.CSSProperties = {
   backgroundColor: "#071525",
-  border: "0.8px solid #162D5A",
+  border: "0.8px solid rgba(255,255,255,0.4)",
   color: "#EEF6FF",
   borderRadius: "2px",
   fontFamily: "inherit",

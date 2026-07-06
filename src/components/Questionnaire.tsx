@@ -74,7 +74,7 @@ const STEPS = [
 
 const fieldStyle: React.CSSProperties = {
   backgroundColor: "#143C6A",
-  border: "0.8px solid #162D5A",
+  border: "0.8px solid rgba(255,255,255,0.4)",
   color: "#EEF6FF",
   borderRadius: "2px",
 };

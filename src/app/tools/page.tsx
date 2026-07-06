@@ -68,7 +68,7 @@ export default async function ToolsDashboardPage() {
         href="/tools/opportunity-finder"
         icon={<TelescopeIcon size={28} style={{ color: "#89D4FF" } as React.CSSProperties} />}
         metaItems={["4 QUICK SECTIONS"]}
-        primaryLabel={opportunityFinderStatus === "completed" ? "SEE RESULTS" : "START THE QUESTIONNAIRE"}
+        primaryLabel={opportunityFinderStatus === "completed" ? "SEE RESULTS" : "START THE OPPORTUNITY FINDER"}
       />
 
       <FeaturedToolCard

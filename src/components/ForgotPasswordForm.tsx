@@ -103,13 +103,13 @@ export default function ForgotPasswordForm() {
           className="w-full px-3 py-2.5 text-sm outline-none transition-all duration-150"
           style={{
             background: "rgba(14,58,154,0.12)",
-            border: "1px solid #162D5A",
+            border: "1px solid rgba(255,255,255,0.4)",
             borderRadius: "6px",
             color: "#EEF6FF",
             fontFamily: "'Courier New', monospace",
           }}
           onFocus={(e) => (e.currentTarget.style.borderColor = "#3D7FD4")}
-          onBlur={(e) => (e.currentTarget.style.borderColor = "#162D5A")}
+          onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.4)")}
         />
       </div>
 

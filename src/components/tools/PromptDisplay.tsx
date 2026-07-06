@@ -108,7 +108,7 @@ export default function PromptDisplay({
           className="w-full px-3 py-3 font-sans text-[13px] leading-relaxed focus:outline-none resize-y"
           style={{
             backgroundColor: "#071525",
-            border: "0.8px solid #162D5A",
+            border: "0.8px solid rgba(255,255,255,0.4)",
             color: "var(--brand-sky)",
             borderRadius: "2px",
             fontFamily: '"Courier New", monospace',

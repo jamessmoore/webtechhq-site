@@ -75,6 +75,16 @@ Every non-layout "boxy" element (cards, panels, icon squares, badges/tags/pills)
 
 Apply the graduated scale by default to any new boxy element rather than leaving corners sharp — don't wait to be asked per-component. Only use `6px` outside of buttons if it's a Tools dashboard element following the exception above, or if explicitly requested.
 
+## Text field borders — default styling
+
+Every text-entry field (`<input>` of type text/email/password/number, `<textarea>`, `<select>`) gets a thin white border by default: `border: "0.8px solid rgba(255,255,255,0.4)"` (or `1px` where a component already used `1px`, e.g. the auth forms). Keep each field's existing background, radius, and color; only the border color changes.
+
+For fields that swap border color on focus via inline `onFocus`/`onBlur` handlers (the auth forms — `SignInForm.tsx`, `SignUpForm.tsx`, `ForgotPasswordForm.tsx`, `ResetPasswordForm.tsx`), the focus color stays `#3D7FD4`, but `onBlur` must reset to `rgba(255,255,255,0.4)`, not the old `#162D5A`.
+
+This is already the pattern in `Questionnaire.tsx`'s shared `fieldStyle`, `ContactForm.tsx`, `AdminNotesEditor.tsx`, `PromptDisplay.tsx`'s prompt textarea, the business-name inputs in `BusinessAuditFlow.tsx`, and all four auth forms. Apply it to any new text field rather than reusing the old `#162D5A` border.
+
+**Excluded:** buttons, dividers, card/panel borders, and segmented `ButtonGroup`-style selectors (e.g. the team-size / repetitive-task pickers in `Questionnaire.tsx`) — those aren't free-text fields and keep their own border rules (see Buttons & clickable links and Boxy elements above).
+
 ## Paragraph text color
 
 `globals.css` sets `p { color: var(--brand-white); }` — white is the site-wide default for every `<p>`. Don't add an inline/explicit color to a new paragraph just to match its neighbors; let it inherit.
