@@ -188,7 +188,7 @@ export default function BusinessAuditFlow({
               style={{
                 width: "100%",
                 backgroundColor: "#143C6A",
-                border: "0.8px solid #162D5A",
+                border: "0.8px solid rgba(255,255,255,0.4)",
                 borderRadius: 2,
                 padding: "9px 12px",
                 height: 40,
@@ -309,6 +309,21 @@ export default function BusinessAuditFlow({
         </span>
       </div>
 
+      <div
+        style={{
+          margin: "0 0 18px",
+          padding: "10px 14px",
+          borderRadius: 4,
+          border: "0.8px solid #3D7FD4",
+          backgroundColor: "rgba(61,127,212,0.12)",
+        }}
+      >
+        <p style={{ margin: 0, font: "700 13px/1.5 Arial, sans-serif", color: "#89D4FF" }}>
+          This $50 founding client rate is only available through July 2026. Starting August 1,
+          this audit is $300.
+        </p>
+      </div>
+
       <p style={{ margin: "0 0 12px", font: "700 13px/1.5 Arial, sans-serif", color: "#89D4FF" }}>
         As a founding client, you&apos;ll get extra perks and early offers that aren&apos;t available to standard
         clients.{" "}
@@ -334,7 +349,7 @@ export default function BusinessAuditFlow({
           style={{
             width: "100%",
             backgroundColor: "#143C6A",
-            border: "0.8px solid #162D5A",
+            border: "0.8px solid rgba(255,255,255,0.4)",
             borderRadius: 2,
             padding: "9px 12px",
             height: 40,
