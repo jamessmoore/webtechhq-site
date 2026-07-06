@@ -28,10 +28,10 @@ beforeEach(() => {
 
 afterAll(() => cleanup());
 
-function request(token: string) {
-  return GET(new NextRequest(`http://localhost:3000/api/verify/${token}`), {
-    params: Promise.resolve({ token }),
-  });
+function request(token: string, next?: string) {
+  const url = new URL(`http://localhost:3000/api/verify/${token}`);
+  if (next) url.searchParams.set("next", next);
+  return GET(new NextRequest(url), { params: Promise.resolve({ token }) });
 }
 
 describe("GET /api/verify/[token]", () => {
@@ -74,6 +74,40 @@ describe("GET /api/verify/[token]", () => {
     expect(auth.signIn).toHaveBeenCalledWith(
       "verified-login",
       expect.objectContaining({ token: expect.any(String), redirectTo: "/tools/opportunity-finder" }),
+    );
+  });
+
+  it("honors a ?next= override, e.g. to send the user straight to finish-signup", async () => {
+    users.createUser({
+      firstName: "Next",
+      lastName: "Verify",
+      email: "next.verify@example.com",
+      verificationToken: "next-verify-tok",
+      verificationExpiresAt: new Date(Date.now() + 60_000).toISOString(),
+    });
+
+    await request("next-verify-tok", "/tools/finish-signup");
+
+    expect(auth.signIn).toHaveBeenCalledWith(
+      "verified-login",
+      expect.objectContaining({ redirectTo: "/tools/finish-signup" }),
+    );
+  });
+
+  it("ignores a ?next= value that isn't a relative path, as an open-redirect guard", async () => {
+    users.createUser({
+      firstName: "Unsafe",
+      lastName: "Verify",
+      email: "unsafe.verify@example.com",
+      verificationToken: "unsafe-verify-tok",
+      verificationExpiresAt: new Date(Date.now() + 60_000).toISOString(),
+    });
+
+    await request("unsafe-verify-tok", "https://evil.example.com");
+
+    expect(auth.signIn).toHaveBeenCalledWith(
+      "verified-login",
+      expect.objectContaining({ redirectTo: "/tools/opportunity-finder" }),
     );
   });
 });

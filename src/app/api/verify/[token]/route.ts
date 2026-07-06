@@ -10,10 +10,12 @@ import { isTokenExpired, generateLoginToken } from "@/lib/tokens";
 const BASE_URL = process.env.NEXTAUTH_URL ?? "http://localhost:3000";
 
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ token: string }> },
 ) {
   const { token } = await params;
+  const next = request.nextUrl.searchParams.get("next");
+  const redirectTo = next && next.startsWith("/") ? next : "/tools/opportunity-finder";
 
   const user = getUserByVerificationToken(token);
 
@@ -27,7 +29,8 @@ export async function GET(
 
   verifyUserEmail(user.id);
 
-  // Auto-login straight into the Opportunity Finder questionnaire - this
+  // Auto-login straight into the Opportunity Finder questionnaire (or
+  // wherever the verification link points, e.g. finish-signup) - this
   // account has no password yet, so a normal credentials sign-in isn't
   // possible until they finish creating it.
   const { token: loginToken, expiresAt: loginExpiresAt } = generateLoginToken();
@@ -36,7 +39,7 @@ export async function GET(
   try {
     await signIn("verified-login", {
       token: loginToken,
-      redirectTo: "/tools/opportunity-finder",
+      redirectTo,
     });
   } catch (err) {
     // signIn() throws a NEXT_REDIRECT internally on success - rethrow so
