@@ -15,6 +15,7 @@ function formatWholeDollars(cents: number): string {
 export default function BusinessAuditFlow({
   product,
   hasSubmission,
+  accountCompleted,
   alreadyPurchased,
   initialReportStatus,
   initialReport,
@@ -22,6 +23,7 @@ export default function BusinessAuditFlow({
 }: {
   product: Product;
   hasSubmission: boolean;
+  accountCompleted: boolean;
   alreadyPurchased: boolean;
   initialReportStatus?: AuditReportStatus | null;
   initialReport?: AuditReport | null;
@@ -118,6 +120,47 @@ export default function BusinessAuditFlow({
           }}
         >
           START THE OPPORTUNITY FINDER
+          <ArrowRightIcon size={16} />
+        </Link>
+      </div>
+    );
+  }
+
+  if (!accountCompleted) {
+    return (
+      <div
+        className="relative overflow-hidden card-accent featured"
+        style={{ border: "0.8px solid #3D7FD4", backgroundColor: "#071525", borderRadius: 6, padding: "clamp(22px,3.5vw,30px)" }}
+      >
+        <span className="br-corner-tr" />
+        <div
+          className="flex-none flex items-center justify-center"
+          style={{ width: 48, height: 48, backgroundColor: "#0A1832", border: "0.8px solid #3D7FD4", borderRadius: 4, marginBottom: 18 }}
+        >
+          <ShieldIcon size={22} style={{ color: "#89D4FF" } as React.CSSProperties} />
+        </div>
+        <h1 style={{ margin: 0, font: '400 clamp(21px,4vw,27px)/1.2 "Courier New", monospace', color: "#89D4FF", letterSpacing: "0.01em" }}>
+          Finish creating your account first
+        </h1>
+        <p style={{ margin: "11px 0 0", font: "400 21px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 480 }}>
+          Your Opportunity Finder answers aren&apos;t saved to an account yet. Set a password to
+          lock them in permanently before moving on to the Business Audit.
+        </p>
+        <Link
+          href={`/tools/finish-signup?next=${encodeURIComponent("/tools/business-audit")}`}
+          className="inline-flex items-center gap-[9px] transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
+          style={{
+            marginTop: 22,
+            padding: "12px 20px",
+            borderRadius: 6,
+            border: "0.8px solid #3D7FD4",
+            backgroundColor: "#1A4FC4",
+            color: "#EEF6FF",
+            font: '400 12px "Courier New", monospace',
+            letterSpacing: "0.1em",
+          }}
+        >
+          FINISH CREATING MY ACCOUNT
           <ArrowRightIcon size={16} />
         </Link>
       </div>

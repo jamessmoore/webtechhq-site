@@ -24,7 +24,7 @@ function migrate(db: Database.Database): void {
     CREATE TABLE IF NOT EXISTS users (
       id                      TEXT PRIMARY KEY,
       first_name              TEXT NOT NULL,
-      last_name               TEXT NOT NULL,
+      last_name               TEXT,
       email                   TEXT NOT NULL UNIQUE,
       password_hash           TEXT,
       google_id               TEXT UNIQUE,
@@ -34,6 +34,8 @@ function migrate(db: Database.Database): void {
       verification_expires_at TEXT,
       reset_token             TEXT,
       reset_expires_at        TEXT,
+      login_token             TEXT,
+      login_token_expires_at  TEXT,
       created_at              TEXT NOT NULL
     );
 
@@ -48,6 +50,15 @@ function migrate(db: Database.Database): void {
 
     CREATE INDEX IF NOT EXISTS idx_users_reset_token
       ON users (reset_token);
+
+    CREATE INDEX IF NOT EXISTS idx_users_login_token
+      ON users (login_token);
+
+    CREATE TABLE IF NOT EXISTS signup_attempts (
+      email          TEXT PRIMARY KEY,
+      attempt_count  INTEGER NOT NULL DEFAULT 0,
+      updated_at     TEXT NOT NULL
+    );
 
     CREATE TABLE IF NOT EXISTS submissions (
       id                       TEXT PRIMARY KEY,
@@ -159,14 +170,61 @@ function migrate(db: Database.Database): void {
   `);
 
   // Backfill reset_token columns for databases created before they existed.
-  const columns = db.prepare("PRAGMA table_info(users)").all() as { name: string }[];
+  const columns = db.prepare("PRAGMA table_info(users)").all() as { name: string; notnull: number }[];
   const columnNames = new Set(columns.map((c) => c.name));
+
+  // Relax last_name to nullable for databases created before the Opportunity
+  // Finder could be requested with just a name and email. SQLite can't drop a
+  // NOT NULL constraint in place, so rebuild the table.
+  const lastNameCol = columns.find((c) => c.name === "last_name");
+  if (lastNameCol && lastNameCol.notnull === 1) {
+    db.pragma("foreign_keys = OFF");
+    db.exec(`
+      CREATE TABLE users_new (
+        id                      TEXT PRIMARY KEY,
+        first_name              TEXT NOT NULL,
+        last_name               TEXT,
+        email                   TEXT NOT NULL UNIQUE,
+        password_hash           TEXT,
+        google_id               TEXT UNIQUE,
+        email_verified          INTEGER NOT NULL DEFAULT 0,
+        email_verified_at       TEXT,
+        verification_token      TEXT,
+        verification_expires_at TEXT,
+        reset_token             TEXT,
+        reset_expires_at        TEXT,
+        created_at              TEXT NOT NULL
+      );
+
+      INSERT INTO users_new SELECT
+        id, first_name, last_name, email, password_hash, google_id,
+        email_verified, email_verified_at, verification_token, verification_expires_at,
+        reset_token, reset_expires_at, created_at
+      FROM users;
+
+      DROP TABLE users;
+      ALTER TABLE users_new RENAME TO users;
+
+      CREATE INDEX IF NOT EXISTS idx_users_email ON users (email);
+      CREATE INDEX IF NOT EXISTS idx_users_google_id ON users (google_id);
+      CREATE INDEX IF NOT EXISTS idx_users_token ON users (verification_token);
+      CREATE INDEX IF NOT EXISTS idx_users_reset_token ON users (reset_token);
+    `);
+    db.pragma("foreign_keys = ON");
+  }
   if (!columnNames.has("reset_token")) {
     db.exec("ALTER TABLE users ADD COLUMN reset_token TEXT");
     db.exec("CREATE INDEX IF NOT EXISTS idx_users_reset_token ON users (reset_token)");
   }
   if (!columnNames.has("reset_expires_at")) {
     db.exec("ALTER TABLE users ADD COLUMN reset_expires_at TEXT");
+  }
+  if (!columnNames.has("login_token")) {
+    db.exec("ALTER TABLE users ADD COLUMN login_token TEXT");
+    db.exec("CREATE INDEX IF NOT EXISTS idx_users_login_token ON users (login_token)");
+  }
+  if (!columnNames.has("login_token_expires_at")) {
+    db.exec("ALTER TABLE users ADD COLUMN login_token_expires_at TEXT");
   }
 
   // Backfill rendered_prompt for databases created before it existed.

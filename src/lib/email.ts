@@ -9,6 +9,20 @@ function getSendGrid() {
 
 const FROM = process.env.SENDGRID_FROM_EMAIL ?? "noreply@webtechhq.com";
 const BASE_URL = process.env.NEXTAUTH_URL ?? "http://localhost:3000";
+const LOGO_URL = `${BASE_URL}/images/email/moore-mark.png`;
+
+const EMAIL_FOOTER = `
+  <div style="margin-top:28px;padding-top:20px;border-top:1px solid #E5E5E5;text-align:center">
+    <a href="${BASE_URL}">
+      <img src="${LOGO_URL}" width="36" height="36" alt="Moore Solutions"
+           style="display:block;margin:0 auto 8px;border:0" />
+    </a>
+    <div style="font-family:Arial,Helvetica,sans-serif;font-size:13px;letter-spacing:1.5px">
+      <span style="font-weight:900;color:#0F0F0F">MOORE</span>
+      <span style="font-weight:700;color:#3D7FD4">SOLUTIONS</span>
+    </div>
+  </div>
+`;
 
 export async function sendVerificationEmail(
   to: string,
@@ -16,6 +30,9 @@ export async function sendVerificationEmail(
   token: string,
 ): Promise<void> {
   const verifyUrl = `${BASE_URL}/api/verify/${token}`;
+  const finishSignupUrl = `${BASE_URL}/api/verify/${token}?next=${encodeURIComponent(
+    "/tools/finish-signup",
+  )}`;
   const sg = getSendGrid();
 
   await sg.send({
@@ -27,7 +44,7 @@ export async function sendVerificationEmail(
       <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;color:#0F0F0F">
         <h2 style="margin-bottom:8px">Hi ${firstName},</h2>
         <p style="margin-bottom:20px">
-          Click below to verify your email and access your AI Opportunity questionnaire.
+          Click below to verify your email and jump straight into your Opportunity Finder.
           This link expires in 24 hours.
         </p>
         <a href="${verifyUrl}"
@@ -35,10 +52,26 @@ export async function sendVerificationEmail(
                   text-decoration:none;border-radius:4px;font-weight:bold">
           Verify my email
         </a>
-        <p style="margin-top:24px;font-size:13px;color:#6B6660">
-          If you didn't create an account, you can safely ignore this email.
+        <p style="margin-top:24px;margin-bottom:12px">
+          Already know you want the full picture? Skip ahead and lock in your account now.
         </p>
-        <p style="font-size:13px;color:#6B6660">James Moore, Moore Solutions</p>
+        <a href="${finishSignupUrl}"
+           style="display:inline-block;padding:12px 28px;background:#238636;color:#fff;
+                  text-decoration:none;border-radius:4px;font-weight:bold">
+          Finish creating my account &amp; save my data
+        </a>
+        <div style="margin-top:28px;padding:16px 20px;background:#F4F6FA;border:1px solid #D8DEE9;
+                    border-radius:4px">
+          <p style="margin:0 0 8px;font-weight:bold">Founding client rate ends this month</p>
+          <p style="margin:0">
+            Right now the full Business Audit is $50 (normally $300). This rate is only
+            available through July 2026: starting August 1, it goes back up to $300. The fee
+            credits in full toward any implementation you decide to move forward with, so
+            there's nothing to lose by claiming it early.
+          </p>
+        </div>
+        <p style="font-size:13px;color:#6B6660;margin-top:24px">Best regards,<br />James Moore, Moore Solutions</p>
+        ${EMAIL_FOOTER}
       </div>
     `,
   });
@@ -73,7 +106,8 @@ export async function sendPasswordResetEmail(
           If you didn't request this, you can safely ignore this email. Your password
           won't be changed.
         </p>
-        <p style="font-size:13px;color:#6B6660">James Moore, Moore Solutions</p>
+        <p style="font-size:13px;color:#6B6660">Best regards,<br />James Moore, Moore Solutions</p>
+        ${EMAIL_FOOTER}
       </div>
     `,
   });
@@ -82,8 +116,10 @@ export async function sendPasswordResetEmail(
 export async function sendPromptEmail(
   to: string,
   firstName: string,
+  prompt: string,
 ): Promise<void> {
   const toolUrl = `${BASE_URL}/tools/opportunity-finder`;
+  const finishSignupUrl = `${BASE_URL}/tools/finish-signup`;
   const sg = getSendGrid();
 
   await sg.send({
@@ -96,16 +132,37 @@ export async function sendPromptEmail(
         <h2 style="margin-bottom:8px">Hi ${firstName},</h2>
         <p style="margin-bottom:16px">
           Based on what you shared, we've built a prompt specifically for your business.
-          Head back to the Opportunity Finder to view and copy it, then paste it into the
-          AI chat tool of your choice (ChatGPT, Claude, Gemini, or whatever you already use)
-          to start exploring where AI could help.
+          Copy it below and paste it into the AI chat tool of your choice (ChatGPT, Claude,
+          Gemini, or whatever you already use) to start exploring where AI could help.
         </p>
+        <pre style="white-space:pre-wrap;font-family:'Courier New',monospace;font-size:13px;
+                    background:#F4F6FA;border:1px solid #D8DEE9;border-radius:4px;
+                    padding:16px;margin-bottom:20px">${escapeHtml(prompt)}</pre>
         <a href="${toolUrl}"
            style="display:inline-block;padding:12px 28px;background:#1A4FC4;color:#fff;
                   text-decoration:none;border-radius:4px;font-weight:bold">
           View my prompt
         </a>
-        <p style="margin-top:24px;font-size:13px;color:#6B6660">James Moore, Moore Solutions</p>
+        <hr style="margin:28px 0;border:none;border-top:1px solid #E5E5E5" />
+        <p style="margin-bottom:12px;font-weight:bold">Want the full picture?</p>
+        <p style="margin-bottom:16px">
+          The Opportunity Finder is just a starting point. The full Business Audit takes your
+          answers further: a ranked breakdown of your best opportunities, what each one is
+          worth, and a concrete plan to act on it.
+        </p>
+        <p style="margin-bottom:20px">
+          To move forward with the Business Audit, you'll need to finish creating your account
+          by setting a password. Until you do, this result isn't saved anywhere. If you come
+          back later without finishing account creation, you'll need to answer the
+          questionnaire again from scratch.
+        </p>
+        <a href="${finishSignupUrl}"
+           style="display:inline-block;padding:12px 28px;background:#238636;color:#fff;
+                  text-decoration:none;border-radius:4px;font-weight:bold">
+          Finish creating my account
+        </a>
+        <p style="margin-top:24px;font-size:13px;color:#6B6660">Best regards,<br />James Moore, Moore Solutions</p>
+        ${EMAIL_FOOTER}
       </div>
     `,
   });
@@ -167,7 +224,8 @@ export async function sendAuditReportEmail(
           Attached is your Business Audit for ${businessName}, built from your Opportunity Finder
           answers. You can also view it anytime from your Client Tools dashboard.
         </p>
-        <p style="margin-top:24px;font-size:13px;color:#6B6660">James Moore, Moore Solutions</p>
+        <p style="margin-top:24px;font-size:13px;color:#6B6660">Best regards,<br />James Moore, Moore Solutions</p>
+        ${EMAIL_FOOTER}
       </div>
     `,
     attachments: [
@@ -203,7 +261,8 @@ export async function sendGoogleAccountNoticeEmail(
         <p style="margin-top:24px;font-size:13px;color:#6B6660">
           If you didn't request this, you can safely ignore this email.
         </p>
-        <p style="font-size:13px;color:#6B6660">James Moore, Moore Solutions</p>
+        <p style="font-size:13px;color:#6B6660">Best regards,<br />James Moore, Moore Solutions</p>
+        ${EMAIL_FOOTER}
       </div>
     `,
   });

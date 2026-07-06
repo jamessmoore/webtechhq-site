@@ -3,7 +3,7 @@ import { MenuIcon, HelpCircleIcon } from "./icons";
 
 interface ToolsUser {
   firstName: string;
-  lastName: string;
+  lastName?: string;
   email: string;
   businessType?: string;
 }

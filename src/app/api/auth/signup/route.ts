@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import bcrypt from "bcryptjs";
-import { getUserByEmail, createUser } from "@/lib/users";
+import { getUserByEmail, createUser, deleteUser, isAccountCompleted } from "@/lib/users";
+import { getSignupAttemptCount, recordSignupAttempt, MAX_SIGNUP_ATTEMPTS } from "@/lib/signupAttempts";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/email";
 import { verifyRecaptcha } from "@/lib/recaptcha";
@@ -8,26 +8,17 @@ import { verifyRecaptcha } from "@/lib/recaptcha";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { firstName, lastName, email, password, recaptchaToken } =
-      body as {
-        firstName: string;
-        lastName: string;
-        email: string;
-        password: string;
-        recaptchaToken: string;
-      };
+    const { name, email, recaptchaToken } = body as {
+      name: string;
+      email: string;
+      recaptchaToken: string;
+    };
 
-    // Basic field validation
-    if (!firstName?.trim() || !lastName?.trim() || !email?.trim() || !password) {
+    // Basic field validation - the Opportunity Finder request only needs a
+    // name (whatever they give us, first/full/whatever) and a valid email.
+    if (!name?.trim() || !email?.trim()) {
       return NextResponse.json(
-        { error: "All fields are required." },
-        { status: 400 },
-      );
-    }
-
-    if (password.length < 8) {
-      return NextResponse.json(
-        { error: "Password must be at least 8 characters." },
+        { error: "Name and email are required." },
         { status: 400 },
       );
     }
@@ -40,25 +31,39 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check for existing account
-    const existing = getUserByEmail(email.toLowerCase().trim());
-    if (existing) {
+    const normalizedEmail = email.toLowerCase().trim();
+    const existing = getUserByEmail(normalizedEmail);
+
+    if (existing && isAccountCompleted(existing)) {
       return NextResponse.json(
         { error: "An account with this email already exists." },
         { status: 409 },
       );
     }
 
-    // Hash password + generate verification token
-    const passwordHash = await bcrypt.hash(password, 12);
+    if (existing) {
+      // Incomplete account (never finished signup with a password). Reusing
+      // the email resets it, unless they've already burned through the
+      // request cap for this address.
+      if (getSignupAttemptCount(normalizedEmail) >= MAX_SIGNUP_ATTEMPTS) {
+        return NextResponse.json(
+          {
+            error:
+              "You've reached the maximum number of requests for this email. Please contact us if you need help completing your account.",
+          },
+          { status: 429 },
+        );
+      }
+      deleteUser(existing.id);
+    }
+
+    recordSignupAttempt(normalizedEmail);
+
     const { token, expiresAt } = generateVerificationToken();
 
-    // Create user
     const user = createUser({
-      firstName: firstName.trim(),
-      lastName: lastName.trim(),
-      email: email.toLowerCase().trim(),
-      passwordHash,
+      firstName: name.trim(),
+      email: normalizedEmail,
       emailVerified: false,
       verificationToken: token,
       verificationExpiresAt: expiresAt,

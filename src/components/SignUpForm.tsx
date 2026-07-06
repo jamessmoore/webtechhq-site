@@ -5,18 +5,14 @@ import { signIn } from "next-auth/react";
 import ReCAPTCHA from "react-google-recaptcha";
 
 interface FormState {
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
-  password: string;
   tos: boolean;
 }
 
 const INITIAL: FormState = {
-  firstName: "",
-  lastName: "",
+  name: "",
   email: "",
-  password: "",
   tos: false,
 };
 
@@ -51,10 +47,8 @@ export default function SignUpForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          firstName: form.firstName,
-          lastName: form.lastName,
+          name: form.name,
           email: form.email,
-          password: form.password,
           recaptchaToken,
         }),
       });
@@ -100,7 +94,7 @@ export default function SignUpForm() {
         <p className="text-sm leading-relaxed">
           We sent a verification link to{" "}
           <span style={{ color: "#89D4FF" }}>{form.email}</span>.<br />
-          Click it to activate your account and start the questionnaire.
+          Click it to jump straight into your Opportunity Finder questionnaire.
         </p>
         <p className="mt-4 text-xs">
           Didn&apos;t get it? Check your spam folder or{" "}
@@ -120,42 +114,33 @@ export default function SignUpForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-4">
-      {/* Name row */}
-      <div className="grid grid-cols-2 gap-3">
-        {(
-          [
-            { field: "firstName", label: "First name", autoComplete: "given-name" },
-            { field: "lastName", label: "Last name", autoComplete: "family-name" },
-          ] as { field: keyof FormState; label: string; autoComplete: string }[]
-        ).map(({ field, label, autoComplete }) => (
-          <div key={field}>
-            <label
-              htmlFor={field}
-              className="block text-xs mb-1.5 tracking-wider"
-              style={{ color: "#FFFFFF" }}
-            >
-              {label.toUpperCase()}
-            </label>
-            <input
-              id={field}
-              type="text"
-              autoComplete={autoComplete}
-              required
-              value={form[field] as string}
-              onChange={(e) => set(field, e.target.value)}
-              className="w-full px-3 py-2.5 text-sm outline-none transition-all duration-150"
-              style={{
-                background: "rgba(14,58,154,0.12)",
-                border: "1px solid rgba(255,255,255,0.4)",
-                borderRadius: "6px",
-                color: "#EEF6FF",
-                fontFamily: "'Courier New', monospace",
-              }}
-              onFocus={(e) => (e.currentTarget.style.borderColor = "#3D7FD4")}
-              onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.4)")}
-            />
-          </div>
-        ))}
+      {/* Name */}
+      <div>
+        <label
+          htmlFor="name"
+          className="block text-xs mb-1.5 tracking-wider"
+          style={{ color: "#FFFFFF" }}
+        >
+          NAME
+        </label>
+        <input
+          id="name"
+          type="text"
+          autoComplete="name"
+          required
+          value={form.name}
+          onChange={(e) => set("name", e.target.value)}
+          className="w-full px-3 py-2.5 text-sm outline-none transition-all duration-150"
+          style={{
+            background: "rgba(14,58,154,0.12)",
+            border: "1px solid rgba(255,255,255,0.4)",
+            borderRadius: "6px",
+            color: "#EEF6FF",
+            fontFamily: "'Courier New', monospace",
+          }}
+          onFocus={(e) => (e.currentTarget.style.borderColor = "#3D7FD4")}
+          onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.4)")}
+        />
       </div>
 
       {/* Email */}
@@ -185,39 +170,6 @@ export default function SignUpForm() {
           onFocus={(e) => (e.currentTarget.style.borderColor = "#3D7FD4")}
           onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.4)")}
         />
-      </div>
-
-      {/* Password */}
-      <div>
-        <label
-          htmlFor="password"
-          className="block text-xs mb-1.5 tracking-wider"
-          style={{ color: "#FFFFFF" }}
-        >
-          PASSWORD
-        </label>
-        <input
-          id="password"
-          type="password"
-          autoComplete="new-password"
-          required
-          minLength={8}
-          value={form.password}
-          onChange={(e) => set("password", e.target.value)}
-          className="w-full px-3 py-2.5 text-sm outline-none transition-all duration-150"
-          style={{
-            background: "rgba(14,58,154,0.12)",
-            border: "1px solid rgba(255,255,255,0.4)",
-            borderRadius: "6px",
-            color: "#EEF6FF",
-            fontFamily: "'Courier New', monospace",
-          }}
-          onFocus={(e) => (e.currentTarget.style.borderColor = "#3D7FD4")}
-          onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.4)")}
-        />
-        <p className="mt-1 text-[13px]" style={{ color: "#89D4FF" }}>
-          At least 8 characters
-        </p>
       </div>
 
       {/* ToS checkbox */}
@@ -280,7 +232,7 @@ export default function SignUpForm() {
           cursor: loading ? "not-allowed" : "pointer",
         }}
       >
-        {loading ? "CREATING ACCOUNT…" : "GET STARTED ›"}
+        {loading ? "SENDING…" : "GET MY OPPORTUNITY FINDER ›"}
       </button>
 
       {/* Divider */}

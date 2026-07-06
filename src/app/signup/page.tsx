@@ -7,7 +7,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Get Started | Moore Solutions",
   description:
-    "Create a free account to start your Business Audit questionnaire.",
+    "Request your free Opportunity Finder with just your name and email.",
 };
 
 const PROOF_POINTS = [
@@ -60,7 +60,7 @@ export default function SignUpPage() {
         {/* Main copy */}
         <div className="relative z-10 max-w-[440px]">
           <p className="text-xs tracking-[0.2em] mb-4">
-            AI OPPORTUNITY FINDER
+            OPPORTUNITY FINDER
           </p>
           <h1
             className="text-3xl xl:text-4xl font-bold leading-tight mb-6"
@@ -128,10 +128,10 @@ export default function SignUpPage() {
               className="text-2xl font-bold mb-2"
               style={{ color: "#3D7FD4", fontFamily: "'Courier New', monospace" }}
             >
-              Create your account
+              Request your Opportunity Finder
             </h2>
             <p className="text-sm">
-              The finder is free. Takes about 5 minutes.
+              Just your name and email to get started. It&apos;s free and takes about 5 minutes.
             </p>
           </div>
 

@@ -90,7 +90,7 @@ export default async function AdminUserDetailPage({
         <div className="flex items-start justify-between mb-8 flex-wrap gap-4">
           <div>
             <h1 className="font-sans font-black text-[22px] mb-1" style={{ color: "#EEF6FF" }}>
-              {user.firstName} {user.lastName}
+              {user.firstName}{user.lastName ? ` ${user.lastName}` : ""}
             </h1>
             <p className="font-sans text-[13px]">
               {user.email} · Signed up {new Date(user.createdAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}

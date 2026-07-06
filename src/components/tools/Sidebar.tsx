@@ -7,7 +7,7 @@ import { GridIcon, TelescopeIcon, SearchIcon, ShieldIcon, CloseIcon } from "./ic
 
 interface ToolsUser {
   firstName: string;
-  lastName: string;
+  lastName?: string;
   email: string;
   businessType?: string;
 }

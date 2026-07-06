@@ -74,11 +74,11 @@ export function getSubmissionWithUser(id: string): SubmissionWithUser | null {
     FROM submissions s
     JOIN users u ON u.id = s.user_id
     WHERE s.id = ?
-  `).get(id) as (SubmissionRow & { first_name: string; last_name: string; email: string }) | undefined;
+  `).get(id) as (SubmissionRow & { first_name: string; last_name: string | null; email: string }) | undefined;
   if (!row) return null;
   return {
     ...rowToSubmission(row),
-    user: { firstName: row.first_name, lastName: row.last_name, email: row.email },
+    user: { firstName: row.first_name, lastName: row.last_name ?? undefined, email: row.email },
   };
 }
 
@@ -97,11 +97,11 @@ export function getAllSubmissions(): SubmissionWithUser[] {
     FROM submissions s
     JOIN users u ON u.id = s.user_id
     ORDER BY s.submitted_at DESC
-  `).all() as (SubmissionRow & { first_name: string; last_name: string; email: string })[];
+  `).all() as (SubmissionRow & { first_name: string; last_name: string | null; email: string })[];
 
   return rows.map((row) => ({
     ...rowToSubmission(row),
-    user: { firstName: row.first_name, lastName: row.last_name, email: row.email },
+    user: { firstName: row.first_name, lastName: row.last_name ?? undefined, email: row.email },
   }));
 }
 

@@ -14,6 +14,7 @@ let auth: { auth: ReturnType<typeof vi.fn> };
 let paypal: { createOrder: ReturnType<typeof vi.fn> };
 
 let userId: string;
+let incompleteUserId: string;
 
 beforeAll(async () => {
   ({ cleanup } = useTestDatabase());
@@ -24,7 +25,11 @@ beforeAll(async () => {
   auth = (await import("@/auth")) as unknown as typeof auth;
   paypal = (await import("@/lib/paypal")) as unknown as typeof paypal;
 
-  userId = users.createUser({ firstName: "Buyer", lastName: "Test", email: "buyer.create@example.com" }).id;
+  const buyer = users.createUser({ firstName: "Buyer", lastName: "Test", email: "buyer.create@example.com" });
+  users.completeAccountSignup(buyer.id, "hashed-password");
+  userId = buyer.id;
+
+  incompleteUserId = users.createUser({ firstName: "Incomplete", email: "incomplete.buyer@example.com" }).id;
 });
 
 afterAll(() => cleanup());
@@ -63,6 +68,14 @@ describe("POST /api/payments/paypal/create-order", () => {
 
   it("returns 403 when the user has no Opportunity Finder submission on file", async () => {
     auth.auth.mockResolvedValue({ user: { id: userId } });
+    const res = await POST(request({ productId: "business_audit", businessName: "Acme" }));
+    expect(res.status).toBe(403);
+  });
+
+  it("returns 403 when the account hasn't been completed with a password", async () => {
+    submissions.createSubmission({ userId: incompleteUserId });
+    auth.auth.mockResolvedValue({ user: { id: incompleteUserId } });
+
     const res = await POST(request({ productId: "business_audit", businessName: "Acme" }));
     expect(res.status).toBe(403);
   });

@@ -3,7 +3,7 @@
 export interface User {
   id: string;
   firstName: string;
-  lastName: string;
+  lastName?: string;
   email: string;
   passwordHash?: string;
   googleId?: string;
@@ -13,13 +13,15 @@ export interface User {
   verificationExpiresAt?: string;
   resetToken?: string;
   resetExpiresAt?: string;
+  loginToken?: string;
+  loginTokenExpiresAt?: string;
   createdAt: string;
 }
 
 export interface UserRow {
   id: string;
   first_name: string;
-  last_name: string;
+  last_name: string | null;
   email: string;
   password_hash: string | null;
   google_id: string | null;
@@ -29,6 +31,8 @@ export interface UserRow {
   verification_expires_at: string | null;
   reset_token: string | null;
   reset_expires_at: string | null;
+  login_token: string | null;
+  login_token_expires_at: string | null;
   created_at: string;
 }
 
@@ -36,7 +40,7 @@ export function rowToUser(row: UserRow): User {
   return {
     id: row.id,
     firstName: row.first_name,
-    lastName: row.last_name,
+    lastName: row.last_name ?? undefined,
     email: row.email,
     passwordHash: row.password_hash ?? undefined,
     googleId: row.google_id ?? undefined,
@@ -46,6 +50,8 @@ export function rowToUser(row: UserRow): User {
     verificationExpiresAt: row.verification_expires_at ?? undefined,
     resetToken: row.reset_token ?? undefined,
     resetExpiresAt: row.reset_expires_at ?? undefined,
+    loginToken: row.login_token ?? undefined,
+    loginTokenExpiresAt: row.login_token_expires_at ?? undefined,
     createdAt: row.created_at,
   };
 }
