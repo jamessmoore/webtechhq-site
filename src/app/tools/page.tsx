@@ -7,7 +7,7 @@ import { hasPurchased } from "@/lib/purchases";
 import FeaturedToolCard, { type ToolCardStatus } from "@/components/tools/FeaturedToolCard";
 import ToolPlaceholderCard from "@/components/tools/ToolPlaceholderCard";
 import TestAccountResetButton from "@/components/tools/TestAccountResetButton";
-import { SparkleIcon, ShieldIcon } from "@/components/tools/icons";
+import { TelescopeIcon, SearchIcon } from "@/components/tools/icons";
 import { COMING_SOON_TOOLS } from "@/lib/tools/reportData";
 import { isGoldStandardTestAccount } from "@/lib/testAccount";
 
@@ -47,11 +47,16 @@ export default async function ToolsDashboardPage() {
     <div style={{ maxWidth: 1040, margin: "0 auto", padding: "clamp(24px,4vw,40px) clamp(18px,4vw,44px) 64px" }}>
       {isTestAccount && <TestAccountResetButton />}
       <h1
-        style={{ margin: 0, font: '400 clamp(23px,4.4vw,32px)/1.15 "Courier New", monospace', letterSpacing: "0.01em" }}
+        style={{
+          margin: 0,
+          font: '400 clamp(23px,4.4vw,32px)/1.15 "Courier New", monospace',
+          color: "#89D4FF",
+          letterSpacing: "0.01em",
+        }}
       >
         Welcome back, {user.firstName}.
       </h1>
-      <p style={{ margin: "11px 0 0", font: "400 clamp(14px,2.4vw,15.5px)/1.6 Arial, sans-serif", maxWidth: 560 }}>
+      <p style={{ margin: "11px 0 0", font: "400 21px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 560 }}>
         Your AI toolkit lives here. Run a tool, get clear results, and put your time back where
         it belongs, running the business.
       </p>
@@ -61,7 +66,7 @@ export default async function ToolsDashboardPage() {
         description="Answer a few plain-English questions about how you work. We'll build you a custom prompt to run in Claude, ChatGPT, or Gemini, pointing straight at the AI moves that would save you the most time and money. No jargon, no fluff."
         status={opportunityFinderStatus}
         href="/tools/opportunity-finder"
-        icon={<SparkleIcon size={28} style={{ color: "#89D4FF" } as React.CSSProperties} />}
+        icon={<TelescopeIcon size={28} style={{ color: "#89D4FF" } as React.CSSProperties} />}
         metaItems={["4 QUICK SECTIONS"]}
         primaryLabel={opportunityFinderStatus === "completed" ? "SEE RESULTS" : "START THE QUESTIONNAIRE"}
       />
@@ -71,7 +76,7 @@ export default async function ToolsDashboardPage() {
         description="A personalized audit of your business, built from your Opportunity Finder answers. Get a clear breakdown of what to automate first and what it's worth."
         status={businessAuditStatus}
         href={businessAuditHref}
-        icon={<ShieldIcon size={28} style={{ color: "#89D4FF" } as React.CSSProperties} />}
+        icon={<SearchIcon size={28} style={{ color: "#89D4FF" } as React.CSSProperties} />}
         metaItems={["FOUNDING CLIENT RATE", "ONE-TIME PURCHASE"]}
         primaryLabel={businessAuditPrimaryLabel}
       />

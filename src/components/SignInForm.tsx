@@ -16,6 +16,9 @@ export default function SignInForm() {
   const [loading, setLoading] = useState(false);
   const [recaptchaToken, setRecaptchaToken] = useState("");
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
+  const [needsVerification, setNeedsVerification] = useState(false);
+  const [resending, setResending] = useState(false);
+  const [resent, setResent] = useState(false);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -25,6 +28,8 @@ export default function SignInForm() {
     }
     setLoading(true);
     setError(null);
+    setNeedsVerification(false);
+    setResent(false);
 
     // NextAuth collapses every credentials `authorize()` failure (wrong
     // password, unverified email, etc.) into the same generic
@@ -42,6 +47,7 @@ export default function SignInForm() {
       setLoading(false);
       recaptchaRef.current?.reset();
       setRecaptchaToken("");
+      setNeedsVerification(true);
       setError(
         "Please verify your email before signing in. Check your inbox for a verification link.",
       );
@@ -71,6 +77,26 @@ export default function SignInForm() {
     await signIn("google", { callbackUrl });
   }
 
+  async function handleResend() {
+    if (!recaptchaToken && process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) {
+      setError("Please complete the reCAPTCHA check before continuing.");
+      return;
+    }
+    setResending(true);
+    try {
+      await fetch("/api/auth/resend-verification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, recaptchaToken }),
+      });
+      setResent(true);
+    } finally {
+      setResending(false);
+      recaptchaRef.current?.reset();
+      setRecaptchaToken("");
+    }
+  }
+
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-4">
       {/* Email */}
@@ -88,7 +114,7 @@ export default function SignInForm() {
           autoComplete="email"
           required
           value={email}
-          onChange={(e) => { setEmail(e.target.value); setError(null); }}
+          onChange={(e) => { setEmail(e.target.value); setError(null); setNeedsVerification(false); setResent(false); }}
           className="w-full px-3 py-2.5 text-sm outline-none transition-all duration-150"
           style={{
             background: "rgba(14,58,154,0.12)",
@@ -126,7 +152,7 @@ export default function SignInForm() {
           autoComplete="current-password"
           required
           value={password}
-          onChange={(e) => { setPassword(e.target.value); setError(null); }}
+          onChange={(e) => { setPassword(e.target.value); setError(null); setNeedsVerification(false); setResent(false); }}
           className="w-full px-3 py-2.5 text-sm outline-none transition-all duration-150"
           style={{
             background: "rgba(14,58,154,0.12)",
@@ -167,6 +193,25 @@ export default function SignInForm() {
         >
           {error}
         </p>
+      )}
+
+      {/* Resend verification */}
+      {needsVerification && (
+        resent ? (
+          <p className="text-xs" style={{ color: "#89D4FF" }}>
+            Verification email sent. Check your inbox.
+          </p>
+        ) : (
+          <button
+            type="button"
+            onClick={handleResend}
+            disabled={resending || (!!process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && !recaptchaToken)}
+            className="text-xs underline hover:no-underline disabled:opacity-60"
+            style={{ color: "#89D4FF" }}
+          >
+            {resending ? "Sending…" : "Resend verification email"}
+          </button>
+        )
       )}
 
       {/* Submit */}

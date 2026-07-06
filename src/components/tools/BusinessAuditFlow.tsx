@@ -96,15 +96,15 @@ export default function BusinessAuditFlow({
         >
           <ShieldIcon size={22} style={{ color: "#89D4FF" } as React.CSSProperties} />
         </div>
-        <h1 style={{ margin: 0, font: '400 clamp(21px,4vw,27px)/1.2 "Courier New", monospace', color: "#EEF6FF", letterSpacing: "0.01em" }}>
+        <h1 style={{ margin: 0, font: '400 clamp(21px,4vw,27px)/1.2 "Courier New", monospace', color: "#89D4FF", letterSpacing: "0.01em" }}>
           Finish the Opportunity Finder first
         </h1>
-        <p style={{ margin: "11px 0 0", font: "400 14px/1.6 Arial, sans-serif", maxWidth: 480 }}>
+        <p style={{ margin: "11px 0 0", font: "400 21px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 480 }}>
           Your Business Audit is built from your Opportunity Finder answers, so we need those
           first. It only takes a few minutes.
         </p>
         <Link
-          href="/tools/ai-opportunity-finder"
+          href="/tools/opportunity-finder"
           className="inline-flex items-center gap-[9px] transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
           style={{
             marginTop: 22,
@@ -117,7 +117,7 @@ export default function BusinessAuditFlow({
             letterSpacing: "0.1em",
           }}
         >
-          START THE QUESTIONNAIRE
+          START THE OPPORTUNITY FINDER
           <ArrowRightIcon size={16} />
         </Link>
       </div>
@@ -142,10 +142,10 @@ export default function BusinessAuditFlow({
           >
             <ShieldIcon size={22} style={{ color: "#89D4FF" } as React.CSSProperties} />
           </div>
-          <h1 style={{ margin: 0, font: '400 clamp(21px,4vw,27px)/1.2 "Courier New", monospace', color: "#EEF6FF", letterSpacing: "0.01em" }}>
+          <h1 style={{ margin: 0, font: '400 clamp(21px,4vw,27px)/1.2 "Courier New", monospace', color: "#89D4FF", letterSpacing: "0.01em" }}>
             Something went wrong preparing your audit
           </h1>
-          <p style={{ margin: "11px 0 0", font: "400 14px/1.6 Arial, sans-serif", maxWidth: 480 }}>
+          <p style={{ margin: "11px 0 0", font: "400 21px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 480 }}>
             Your payment went through, but we hit a snag putting the report together.{" "}
             <Link href="/contact" style={{ color: "#89D4FF", textDecoration: "underline" }}>
               Message James
@@ -169,10 +169,10 @@ export default function BusinessAuditFlow({
           >
             <ShieldIcon size={22} style={{ color: "#89D4FF" } as React.CSSProperties} />
           </div>
-          <h1 style={{ margin: 0, font: '400 clamp(21px,4vw,27px)/1.2 "Courier New", monospace', color: "#EEF6FF", letterSpacing: "0.01em" }}>
+          <h1 style={{ margin: 0, font: '400 clamp(21px,4vw,27px)/1.2 "Courier New", monospace', color: "#89D4FF", letterSpacing: "0.01em" }}>
             Run your audit
           </h1>
-          <p style={{ margin: "11px 0 0", font: "400 14px/1.6 Arial, sans-serif", maxWidth: 480 }}>
+          <p style={{ margin: "11px 0 0", font: "400 21px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 480 }}>
             This account is already marked as purchased. Enter a business name and run the
             report generation again.
           </p>
@@ -236,10 +236,10 @@ export default function BusinessAuditFlow({
         >
           <ShieldIcon size={22} style={{ color: "#89D4FF" } as React.CSSProperties} />
         </div>
-        <h1 style={{ margin: 0, font: '400 clamp(21px,4vw,27px)/1.2 "Courier New", monospace', color: "#EEF6FF", letterSpacing: "0.01em" }}>
+        <h1 style={{ margin: 0, font: '400 clamp(21px,4vw,27px)/1.2 "Courier New", monospace', color: "#89D4FF", letterSpacing: "0.01em" }}>
           Your audit is being prepared
         </h1>
-        <p style={{ margin: "11px 0 0", font: "400 14px/1.6 Arial, sans-serif", maxWidth: 480 }}>
+        <p style={{ margin: "11px 0 0", font: "400 21px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 480 }}>
           Thanks for the purchase. We&apos;re putting your Business Audit together from your
           Opportunity Finder answers. This usually takes about a minute, this page will update
           automatically.
@@ -279,10 +279,10 @@ export default function BusinessAuditFlow({
       style={{ border: "0.8px solid #3D7FD4", backgroundColor: "#071525", borderRadius: 6, padding: "clamp(22px,3.5vw,30px)" }}
     >
       <span className="br-corner-tr" />
-      <h1 style={{ margin: 0, font: '400 clamp(21px,4vw,27px)/1.2 "Courier New", monospace', color: "#EEF6FF", letterSpacing: "0.01em" }}>
+      <h1 style={{ margin: 0, font: '400 clamp(21px,4vw,27px)/1.2 "Courier New", monospace', color: "#89D4FF", letterSpacing: "0.01em" }}>
         Get your Business Audit
       </h1>
-      <p style={{ margin: "11px 0 0", font: "400 14px/1.6 Arial, sans-serif", maxWidth: 480 }}>
+      <p style={{ margin: "11px 0 0", font: "400 21px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 480 }}>
         {product.description} One-time purchase, no subscription.
       </p>
 
