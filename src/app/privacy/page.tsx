@@ -126,8 +126,8 @@ export default function PrivacyPage() {
         <h2>7. Your Rights &amp; Choices</h2>
         <p>
           You may request that we delete your personal data at any time
-          by contacting us using the information in Section 13. We will
-          honor such requests except where we are legally required to
+          by contacting us using the information in Section 13. I will
+          honor such requests except where I am legally required to
           retain certain records (e.g., for tax or contractual purposes).
         </p>
 

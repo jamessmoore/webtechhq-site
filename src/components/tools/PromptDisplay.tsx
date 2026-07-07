@@ -98,7 +98,7 @@ export default function PromptDisplay({
         }}
       >
         Here&apos;s a prompt built specifically for your business. Click a button below and
-        we&apos;ll open Claude, ChatGPT, or Gemini with the prompt ready to go: copied to your
+        I&apos;ll open Claude, ChatGPT, or Gemini with the prompt ready to go: copied to your
         clipboard or pre-filled, depending on the tool. Or copy it yourself and paste it into
         whatever AI chat tool you already prefer.
       </p>

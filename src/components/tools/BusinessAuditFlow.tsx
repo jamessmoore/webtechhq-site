@@ -283,7 +283,7 @@ export default function BusinessAuditFlow({
           Your audit is being prepared
         </h1>
         <p style={{ margin: "11px 0 0", font: "400 21px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 480 }}>
-          Thanks for the purchase. We&apos;re putting your Business Audit together from your
+          Thanks for the purchase. I&apos;m putting your Business Audit together from your
           Opportunity Finder answers. This usually takes about a minute, this page will update
           automatically.
         </p>
