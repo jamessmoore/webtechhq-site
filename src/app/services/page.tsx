@@ -41,12 +41,13 @@ export default function Page() {
             </span>
             <div style={{ height: '0.5px', backgroundColor: '#162D5A', width: '80px', marginTop: '4px', marginBottom: '24px' }} />
             <h1 className="font-sans font-black leading-tight mb-4" style={{ fontSize: '2rem', color: '#EEF6FF' }}>
-              Senior-level execution. No hand-holding required.
+              Professional execution. No hand-holding required.
             </h1>
             <p className="font-sans text-[24px] leading-relaxed">
-              Every engagement below draws on the same foundation: 20+ years running production
-              systems, plus hands-on experience building real AI agents and MCP integrations. Pick
-              the lane that fits or combine them. Either way, you get a senior engineer who delivers a robust solution.
+              Every engagement below draws on the same foundation: 20+ years keeping real business
+              systems running, plus hands-on experience building AI tools that actually work. Pick
+              the lane that fits or combine them. Either way, you get a professional who delivers a
+              solution built to last.
             </p>
           </div>
         </section>
