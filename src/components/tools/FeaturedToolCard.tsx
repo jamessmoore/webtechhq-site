@@ -78,7 +78,7 @@ export default function FeaturedToolCard({
         <div className="flex-1" style={{ minWidth: 240 }}>
           <div className="flex items-center gap-[11px] flex-wrap">
             <h2
-              style={{ margin: 0, font: '700 clamp(17px,3vw,20px) "Courier New", monospace', color: "#EEF6FF", letterSpacing: "0.02em" }}
+              style={{ margin: 0, font: '700 clamp(19px,3vw,22px) "Courier New", monospace', color: "#89D4FF", letterSpacing: "0.02em" }}
             >
               {title}
             </h2>

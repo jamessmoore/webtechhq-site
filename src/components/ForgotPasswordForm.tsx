@@ -80,7 +80,7 @@ export default function ForgotPasswordForm() {
           Forgot your password?
         </h1>
         <p className="text-sm">
-          Enter your email and we&apos;ll send you a reset link.
+          Enter your email and I&apos;ll send you a reset link.
         </p>
       </div>
 

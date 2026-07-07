@@ -63,10 +63,10 @@ export default async function ToolsDashboardPage() {
 
       <FeaturedToolCard
         title="Opportunity Finder"
-        description="Answer a few plain-English questions about how you work. We'll build you a custom prompt to run in Claude, ChatGPT, or Gemini, pointing straight at the AI moves that would save you the most time and money. No jargon, no fluff."
+        description="Answer a few plain-English questions about how you work. I'll build you a custom prompt to run in Claude, ChatGPT, or Gemini, pointing straight at the AI moves that would save you the most time and money. No jargon, no fluff."
         status={opportunityFinderStatus}
         href="/tools/opportunity-finder"
-        icon={<TelescopeIcon size={28} style={{ color: "#89D4FF" } as React.CSSProperties} />}
+        icon={<TelescopeIcon size={42} style={{ color: "#89D4FF" } as React.CSSProperties} />}
         metaItems={["4 QUICK SECTIONS"]}
         primaryLabel={opportunityFinderStatus === "completed" ? "SEE RESULTS" : "START THE OPPORTUNITY FINDER"}
       />
@@ -76,7 +76,7 @@ export default async function ToolsDashboardPage() {
         description="A personalized audit of your business, built from your Opportunity Finder answers. Get a clear breakdown of what to automate first and what it's worth."
         status={businessAuditStatus}
         href={businessAuditHref}
-        icon={<SearchIcon size={28} style={{ color: "#89D4FF" } as React.CSSProperties} />}
+        icon={<SearchIcon size={42} style={{ color: "#89D4FF" } as React.CSSProperties} />}
         metaItems={["FOUNDING CLIENT RATE", "ONE-TIME PURCHASE"]}
         primaryLabel={businessAuditPrimaryLabel}
       />

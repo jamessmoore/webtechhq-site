@@ -38,7 +38,7 @@ export default function Sidebar({ user, mobileOpen, onClose, signOutButton }: Si
     padding: "10px 12px",
     borderRadius: 2,
     fontFamily: "var(--font-mono, 'Courier New', monospace)",
-    fontSize: 13.5,
+    fontSize: 15.5,
     letterSpacing: "0.03em",
     cursor: "pointer",
     color: "#80AEE0",
@@ -106,7 +106,7 @@ export default function Sidebar({ user, mobileOpen, onClose, signOutButton }: Si
             className="transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)]"
             style={{ ...navBase, ...(isDashActive ? navActive : {}), borderRadius: 6 }}
           >
-            <GridIcon />
+            <GridIcon size={21} />
             <span>Dashboard</span>
           </Link>
 
@@ -122,7 +122,7 @@ export default function Sidebar({ user, mobileOpen, onClose, signOutButton }: Si
             className="transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)]"
             style={{ ...navBase, ...(isToolActive ? navActive : {}), borderRadius: 6 }}
           >
-            <TelescopeIcon size={17} />
+            <TelescopeIcon size={21} />
             <span style={{ flex: 1 }}>Opportunity Finder</span>
             <HexMark size={14} />
           </Link>
@@ -133,7 +133,7 @@ export default function Sidebar({ user, mobileOpen, onClose, signOutButton }: Si
             className="transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)]"
             style={{ ...navBase, ...(isBusinessAuditActive ? navActive : {}), borderRadius: 6 }}
           >
-            <SearchIcon size={17} />
+            <SearchIcon size={21} />
             <span style={{ flex: 1 }}>Business Audit</span>
             <HexMark size={14} />
           </Link>
