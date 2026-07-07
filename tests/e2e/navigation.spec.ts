@@ -2,7 +2,7 @@ import { test, expect, type Page } from '@playwright/test'
 
 const PAGES = [
   { path: '/', heading: 'I handle the noise' },
-  { path: '/services', heading: 'Senior-level execution. No hand-holding required.' },
+  { path: '/services', heading: 'Professional execution. No hand-holding required.' },
   { path: '/portfolio', heading: 'Recent builds, open for review.' },
   { path: '/about', heading: "Hi, I'm James Moore." },
   { path: '/contact', heading: "Let's go." },
