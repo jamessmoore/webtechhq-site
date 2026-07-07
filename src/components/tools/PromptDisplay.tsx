@@ -41,7 +41,6 @@ export default function PromptDisplay({
   const [copied, setCopied] = useState(false);
   const [copiedDestination, setCopiedDestination] = useState<string | null>(null);
   const [copyFailed, setCopyFailed] = useState(false);
-  const [emailedDismissed, setEmailedDismissed] = useState(false);
 
   async function handleCopy() {
     try {
@@ -224,9 +223,9 @@ export default function PromptDisplay({
             }}
           >
             <p className="font-sans text-[15px] leading-relaxed" style={{ color: "#FFFFFF" }}>
-              We&apos;ve also emailed this prompt to you. To save it permanently and unlock the
-              full Business Audit, finish setting up your account with a password. Skip it and
-              you&apos;ll need to redo the questionnaire next time.
+              To save it permanently and unlock the full Business Audit, finish setting up your
+              account with a password. Skip it and you&apos;ll need to redo the questionnaire
+              next time.
             </p>
             <div className="flex flex-wrap gap-3 mt-4">
               <button
@@ -244,24 +243,48 @@ export default function PromptDisplay({
               >
                 Complete account signup ›
               </button>
-              <button
-                type="button"
-                onClick={() => setEmailedDismissed(true)}
-                className="inline-flex items-center gap-2 font-sans text-[15px] tracking-wide transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
-                style={{
-                  padding: "10px 18px",
-                  borderRadius: 6,
-                  border: "0.8px solid rgba(255,255,255,0.4)",
-                  backgroundColor: "transparent",
-                  color: "#FFFFFF",
-                  cursor: "pointer",
-                }}
-              >
-                {emailedDismissed ? "Sent to your inbox ✓" : "Just email it to me"}
-              </button>
             </div>
           </div>
         )}
+
+        <div
+          style={{
+            marginTop: 20,
+            padding: "18px 20px",
+            border: "0.8px solid rgba(255,255,255,0.4)",
+            borderRadius: 4,
+            backgroundColor: "#0A1B33",
+          }}
+        >
+          <p
+            className="font-sans text-[15px] font-bold"
+            style={{ color: "#FFFFFF", marginBottom: 8 }}
+          >
+            Want the full picture?
+          </p>
+          <p className="font-sans text-[15px] leading-relaxed" style={{ color: "#FFFFFF" }}>
+            The Opportunity Finder is just a starting point. The full Business Audit takes your
+            answers further: a ranked breakdown of your best opportunities, what each one is
+            worth, and a concrete plan to act on it.
+          </p>
+          <div className="flex flex-wrap gap-3 mt-4">
+            <button
+              type="button"
+              onClick={() => router.push("/tools/business-audit")}
+              className="inline-flex items-center gap-2 font-sans text-[15px] font-bold tracking-wide transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
+              style={{
+                padding: "10px 18px",
+                borderRadius: 6,
+                border: "1px solid #1A4FC4",
+                backgroundColor: "#1A4FC4",
+                color: "#FFFFFF",
+                cursor: "pointer",
+              }}
+            >
+              Start my Business Audit ›
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
