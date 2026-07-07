@@ -12,6 +12,7 @@ import {
 } from "@/lib/users";
 import { verifyRecaptcha } from "@/lib/recaptcha";
 import { isTokenExpired } from "@/lib/tokens";
+import { sendSlackNotification } from "@/lib/slack";
 
 function fullName(firstName: string, lastName?: string): string {
   return lastName ? `${firstName} ${lastName}` : firstName;
@@ -104,6 +105,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             googleId,
             emailVerified: true,
           });
+          sendSlackNotification(`New signup: ${fullName(dbUser.firstName, dbUser.lastName)} <${email}>`).catch(
+            (err) => {
+              console.error("Slack notification failed:", err);
+            },
+          );
         } else if (!dbUser.googleId) {
           linkGoogleAccount(dbUser.id, googleId);
         }
