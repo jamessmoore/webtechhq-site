@@ -23,7 +23,7 @@ const CONTENT: Record<
     iconColor: "#89D4FF",
     iconBg: "rgba(61,127,212,0.15)",
     heading: "Email verified",
-    body: "Your account is active. You can now sign in and start your Opportunity Finder questionnaire.",
+    body: "Your account is active. You can now sign in and start your Opportunity Finder.",
     cta: { label: "Sign in →", href: "/signin" },
   },
   expired: {

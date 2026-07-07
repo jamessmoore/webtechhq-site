@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import PayPalCardCheckout from "./PayPalCardCheckout";
 import BusinessAuditReport from "./BusinessAuditReport";
-import { ShieldIcon, CheckIcon, ArrowRightIcon } from "./icons";
+import { ShieldIcon, SearchIcon, CheckIcon, ArrowRightIcon } from "./icons";
 import type { Product } from "@/lib/products";
 import type { AuditReport, AuditReportStatus } from "@/lib/types";
 
@@ -220,9 +220,9 @@ export default function BusinessAuditFlow({
             report generation again.
           </p>
           <div style={{ margin: "18px 0" }}>
-            <div style={{ marginBottom: 6, font: '400 11px "Courier New", monospace', letterSpacing: "0.1em", color: "#5B7BA5" }}>
+            <label className="font-sans text-[16px] tracking-widest mb-2 block" style={{ color: "#FFFFFF" }}>
               BUSINESS NAME
-            </div>
+            </label>
             <input
               type="text"
               value={businessName}
@@ -277,7 +277,7 @@ export default function BusinessAuditFlow({
           className="flex-none flex items-center justify-center"
           style={{ width: 48, height: 48, backgroundColor: "#0A1832", border: "0.8px solid #3D7FD4", borderRadius: 4, marginBottom: 18 }}
         >
-          <ShieldIcon size={22} style={{ color: "#89D4FF" } as React.CSSProperties} />
+          <SearchIcon size={22} style={{ color: "#89D4FF" } as React.CSSProperties} />
         </div>
         <h1 style={{ margin: 0, font: '400 clamp(21px,4vw,27px)/1.2 "Courier New", monospace', color: "#89D4FF", letterSpacing: "0.01em" }}>
           Your audit is being prepared
@@ -333,7 +333,7 @@ export default function BusinessAuditFlow({
         <span style={{ font: '700 32px "Courier New", monospace', color: "#EEF6FF" }}>
           {formatWholeDollars(product.priceCents)}
         </span>
-        <span style={{ font: '400 16px "Courier New", monospace', color: "#5B7BA5", textDecoration: "line-through" }}>
+        <span style={{ font: '400 17px "Courier New", monospace', color: "#5B7BA5", textDecoration: "line-through" }}>
           {formatWholeDollars(product.regularPriceCents)}
         </span>
         <span
@@ -361,13 +361,13 @@ export default function BusinessAuditFlow({
           backgroundColor: "rgba(61,127,212,0.12)",
         }}
       >
-        <p style={{ margin: 0, font: "700 13px/1.5 Arial, sans-serif", color: "#89D4FF" }}>
+        <p style={{ margin: 0, font: "700 19px/1.6 Arial, sans-serif", color: "#89D4FF" }}>
           This $50 founding client rate is only available through July 2026. Starting August 1,
           this audit is $300.
         </p>
       </div>
 
-      <p style={{ margin: "0 0 12px", font: "700 13px/1.5 Arial, sans-serif", color: "#89D4FF" }}>
+      <p style={{ margin: "0 0 12px", font: "700 19px/1.6 Arial, sans-serif", color: "#89D4FF" }}>
         As a founding client, you&apos;ll get extra perks and early offers that aren&apos;t available to standard
         clients.{" "}
         <Link href="/contact" style={{ color: "#89D4FF", textDecoration: "underline" }}>
@@ -376,14 +376,14 @@ export default function BusinessAuditFlow({
         with what you&apos;d like those to be.
       </p>
 
-      <p style={{ margin: "0 0 22px", font: "400 12.5px/1.5 Arial, sans-serif", color: "#5B7BA5" }}>
+      <p style={{ margin: "0 0 22px", font: "400 17.5px/1.5 Arial, sans-serif", color: "#5B7BA5" }}>
         This fee credits in full toward any implementation you engage from your audit.
       </p>
 
       <div style={{ marginBottom: 18 }}>
-        <div style={{ marginBottom: 6, font: '400 11px "Courier New", monospace', letterSpacing: "0.1em", color: "#5B7BA5" }}>
+        <label className="font-sans text-[16px] tracking-widest mb-2 block" style={{ color: "#FFFFFF" }}>
           BUSINESS NAME
-        </div>
+        </label>
         <input
           type="text"
           value={businessName}

@@ -29,7 +29,7 @@ export default function PrivacyPage() {
           <li>
             <strong>Contact information</strong> you provide directly,
             such as name, email address, and phone number, when you fill
-            out a contact form, questionnaire, or otherwise reach out.
+            out a contact form, use the Opportunity Finder, or otherwise reach out.
           </li>
           <li>
             <strong>Questionnaire responses</strong>, including business
@@ -52,8 +52,8 @@ export default function PrivacyPage() {
         <ul>
           <li>Respond to inquiries and provide the Services you request.</li>
           <li>
-            Generate personalized responses to your lead-qualification
-            questionnaire using AI (see Section 4 below).
+            Generate personalized responses to your Opportunity Finder
+            submission using AI (see Section 4 below).
           </li>
           <li>
             Communicate with you about your project, consultation, or
@@ -74,7 +74,7 @@ export default function PrivacyPage() {
 
         <h2>4. AI Processing Disclosure</h2>
         <p>
-          When you submit information through our questionnaire form, it
+          When you submit information through our Opportunity Finder, it
           is processed using Anthropic&apos;s Claude AI models, accessed
           via Amazon Web Services (AWS) Bedrock, to generate a
           personalized lead-qualification response that is emailed back
@@ -117,7 +117,7 @@ export default function PrivacyPage() {
 
         <h2>6. Data Retention</h2>
         <p>
-          We retain questionnaire submissions, AI-generated responses, and
+          We retain Opportunity Finder submissions, AI-generated responses, and
           related communications indefinitely for business recordkeeping
           and follow-up purposes, unless you request deletion (see
           Section 8).

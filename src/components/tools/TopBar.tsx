@@ -66,11 +66,11 @@ export default function TopBar({ kicker, title, user, onOpenMobileMenu }: TopBar
             border: "0.8px solid #162D5A",
             backgroundColor: "transparent",
             color: "#80AEE0",
-            font: '400 11px "Courier New", monospace',
+            font: '400 15.5px "Courier New", monospace',
             letterSpacing: "0.08em",
           }}
         >
-          <HelpCircleIcon size={14} />
+          <HelpCircleIcon size={21} />
           HELP
         </Link>
         <div

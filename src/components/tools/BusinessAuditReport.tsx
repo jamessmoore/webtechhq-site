@@ -221,7 +221,7 @@ export default function BusinessAuditReport({ report }: { report: AuditReport })
         </ul>
         <p style={{ margin: "18px 0 0", font: "italic 400 14.5px/1.6 Arial, sans-serif", color: "#5B7BA5" }}>
           A note on these estimates: figures above are based on the volume and patterns you shared
-          in your questionnaire, not a guarantee of results. They are meant to give you a realistic,
+          in your Opportunity Finder answers, not a guarantee of results. They are meant to give you a realistic,
           defensible sense of scale, actual savings depend on adoption and final scope.
         </p>
       </div>

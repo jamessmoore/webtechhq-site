@@ -45,8 +45,8 @@ export default function TermsPage() {
         </p>
         <ul>
           <li>
-            <strong>Lead Qualification Questionnaire:</strong> When you
-            submit information through our questionnaire form, your
+            <strong>Opportunity Finder:</strong> When you
+            submit information through our Opportunity Finder, your
             responses are processed using Anthropic&apos;s Claude models via
             Amazon Web Services (AWS) Bedrock to generate a personalized
             response, which is sent to you via email. This form will be
