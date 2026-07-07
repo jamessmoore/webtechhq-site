@@ -94,7 +94,7 @@ export default function SignUpForm() {
         <p className="text-sm leading-relaxed">
           We sent a verification link to{" "}
           <span style={{ color: "#89D4FF" }}>{form.email}</span>.<br />
-          Click it to jump straight into your Opportunity Finder questionnaire.
+          Click it to jump straight into your Opportunity Finder.
         </p>
         <p className="mt-4 text-xs">
           Didn&apos;t get it? Check your spam folder or{" "}

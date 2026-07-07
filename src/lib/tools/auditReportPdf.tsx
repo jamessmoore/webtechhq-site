@@ -145,7 +145,7 @@ function AuditReportDocument({ report }: { report: AuditReport }) {
           ))}
           <Text style={styles.italic}>
             A note on these estimates: figures above are based on the volume and patterns you shared
-            in your questionnaire, not a guarantee of results. They are meant to give you a
+            in your Opportunity Finder answers, not a guarantee of results. They are meant to give you a
             realistic, defensible sense of scale, actual savings depend on adoption and final scope.
           </Text>
         </View>

@@ -224,7 +224,7 @@ export default function PromptDisplay({
           >
             <p className="font-sans text-[15px] leading-relaxed" style={{ color: "#FFFFFF" }}>
               To save it permanently and unlock the full Business Audit, finish setting up your
-              account with a password. Skip it and you&apos;ll need to redo the questionnaire
+              account with a password. Skip it and you&apos;ll need to redo the Opportunity Finder
               next time.
             </p>
             <div className="flex flex-wrap gap-3 mt-4">
