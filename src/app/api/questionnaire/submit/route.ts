@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 import { getUserById } from "@/lib/users";
 import { createSubmission, getSubmissionsByUser } from "@/lib/submissions";
 import { renderPromptTemplate } from "@/lib/tools/promptTemplates";
+import { sendSlackNotification } from "@/lib/slack";
 import type {
   TeamSize,
   RepetitiveAnswer,
@@ -116,6 +117,12 @@ export async function POST(request: NextRequest) {
       layer3Data: body.layer3Data,
       additionalNotes: body.additionalNotes?.trim(),
       renderedPrompt: renderedPrompt ?? undefined,
+    });
+
+    sendSlackNotification(
+      `Opportunity Finder submitted: ${user.firstName} <${user.email}> (${body.businessType?.trim()})`,
+    ).catch((err) => {
+      console.error("Slack notification failed:", err);
     });
 
     return NextResponse.json({ success: true, id: submission.id, renderedPrompt });

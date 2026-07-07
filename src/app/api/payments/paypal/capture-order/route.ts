@@ -6,6 +6,7 @@ import { captureOrder } from "@/lib/paypal";
 import { getSubmissionsByUser } from "@/lib/submissions";
 import { createPendingAuditReport, markAuditReportReady, markAuditReportFailed } from "@/lib/auditReports";
 import { generateAuditReport } from "@/lib/tools/auditReportGenerator";
+import { sendSlackNotification } from "@/lib/slack";
 
 export async function POST(request: NextRequest) {
   const session = await auth();
@@ -44,6 +45,14 @@ export async function POST(request: NextRequest) {
   });
 
   if (purchase.productId === "business_audit") {
+    const businessName = purchase.businessName ?? user.firstName;
+
+    sendSlackNotification(
+      `Business Audit purchased: ${user.firstName} <${user.email}> for ${businessName} ($${(purchase.amountCents / 100).toFixed(2)})`,
+    ).catch((err) => {
+      console.error("Slack notification failed:", err);
+    });
+
     const submission = getSubmissionsByUser(user.id)[0];
     if (submission) {
       const reportRecord = createPendingAuditReport({
@@ -53,10 +62,17 @@ export async function POST(request: NextRequest) {
       });
       generateAuditReport({
         submission,
-        businessName: purchase.businessName ?? user.firstName,
+        businessName,
         ownerFirstName: user.firstName,
       })
-        .then((report) => markAuditReportReady(reportRecord.id, report))
+        .then((report) => {
+          markAuditReportReady(reportRecord.id, report);
+          sendSlackNotification(
+            `Business Audit ready: ${user.firstName} <${user.email}> for ${businessName}`,
+          ).catch((err) => {
+            console.error("Slack notification failed:", err);
+          });
+        })
         .catch((err) => {
           console.error("Audit report generation failed", err);
           markAuditReportFailed(reportRecord.id, String(err));

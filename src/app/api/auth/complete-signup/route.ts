@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { auth } from "@/auth";
 import { getUserById, completeAccountSignup, isAccountCompleted } from "@/lib/users";
+import { sendSlackNotification } from "@/lib/slack";
 
 export async function POST(request: NextRequest) {
   try {
@@ -31,6 +32,11 @@ export async function POST(request: NextRequest) {
 
     const passwordHash = await bcrypt.hash(password, 12);
     completeAccountSignup(user.id, passwordHash, lastName?.trim() || undefined);
+
+    const fullName = lastName?.trim() ? `${user.firstName} ${lastName.trim()}` : user.firstName;
+    sendSlackNotification(`New signup: ${fullName} <${user.email}>`).catch((err) => {
+      console.error("Slack notification failed:", err);
+    });
 
     return NextResponse.json({ success: true });
   } catch (err) {
