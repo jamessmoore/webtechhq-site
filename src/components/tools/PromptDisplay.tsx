@@ -121,7 +121,7 @@ export default function PromptDisplay({
 
         <div style={{ marginTop: 16 }}>
           <p
-            className="font-sans text-[11px] tracking-widest mb-2"
+            className="font-sans text-[13px] tracking-widest mb-2"
             style={{ color: "var(--brand-white)" }}
           >
             COPY TO CLIPBOARD AND OPEN:
@@ -257,12 +257,12 @@ export default function PromptDisplay({
           }}
         >
           <p
-            className="font-sans text-[15px] font-bold"
+            className="font-sans text-[21px] font-bold"
             style={{ color: "#FFFFFF", marginBottom: 8 }}
           >
             Want the full picture?
           </p>
-          <p className="font-sans text-[15px] leading-relaxed" style={{ color: "#FFFFFF" }}>
+          <p className="font-sans text-[20px] leading-relaxed" style={{ color: "#FFFFFF" }}>
             The Opportunity Finder is just a starting point. The full Business Audit takes your
             answers further: a ranked breakdown of your best opportunities, what each one is
             worth, and a concrete plan to act on it.
@@ -276,7 +276,7 @@ export default function PromptDisplay({
               backgroundColor: "rgba(61,127,212,0.12)",
             }}
           >
-            <p style={{ margin: 0, font: "700 13px/1.5 Arial, sans-serif", color: "#89D4FF" }}>
+            <p style={{ margin: 0, font: "700 18px/1.5 Arial, sans-serif", color: "#89D4FF" }}>
               Limited-time founding client rate: $50 for your Business Audit (regularly $300).
               This rate is only available through July 2026, and it credits in full toward any
               implementation you engage from your report.

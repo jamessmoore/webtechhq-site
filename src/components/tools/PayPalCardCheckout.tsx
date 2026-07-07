@@ -56,7 +56,7 @@ function loadPayPalSdk(): Promise<void> {
 
 const fieldContainerStyle: React.CSSProperties = {
   backgroundColor: "#143C6A",
-  border: "0.8px solid #162D5A",
+  border: "0.8px solid rgba(255,255,255,0.4)",
   borderRadius: 2,
   padding: "9px 12px",
   height: 40,
@@ -228,21 +228,21 @@ export default function PayPalCardCheckout({
     <div>
       <div className="grid gap-3" style={{ gridTemplateColumns: "1fr 100px 80px" }}>
         <div>
-          <div style={{ marginBottom: 6, font: '400 11px "Courier New", monospace', letterSpacing: "0.1em", color: "#5B7BA5" }}>
+          <label className="font-sans text-[16px] tracking-widest mb-2 block" style={{ color: "#FFFFFF" }}>
             CARD NUMBER
-          </div>
+          </label>
           <div ref={numberRef} style={fieldContainerStyle} />
         </div>
         <div>
-          <div style={{ marginBottom: 6, font: '400 11px "Courier New", monospace', letterSpacing: "0.1em", color: "#5B7BA5" }}>
+          <label className="font-sans text-[16px] tracking-widest mb-2 block" style={{ color: "#FFFFFF" }}>
             EXPIRY
-          </div>
+          </label>
           <div ref={expiryRef} style={fieldContainerStyle} />
         </div>
         <div>
-          <div style={{ marginBottom: 6, font: '400 11px "Courier New", monospace', letterSpacing: "0.1em", color: "#5B7BA5" }}>
+          <label className="font-sans text-[16px] tracking-widest mb-2 block" style={{ color: "#FFFFFF" }}>
             CVV
-          </div>
+          </label>
           <div ref={cvvRef} style={fieldContainerStyle} />
         </div>
       </div>

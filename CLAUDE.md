@@ -85,6 +85,10 @@ This is already the pattern in `Questionnaire.tsx`'s shared `fieldStyle`, `Conta
 
 **Excluded:** buttons, dividers, card/panel borders, and segmented `ButtonGroup`-style selectors (e.g. the team-size / repetitive-task pickers in `Questionnaire.tsx`) — those aren't free-text fields and keep their own border rules (see Buttons & clickable links and Boxy elements above).
 
+### Field labels
+
+Every field label (the small caption above an input/textarea/select) gets: `className="font-sans text-[16px] tracking-widest mb-2 block"`, `color: "#FFFFFF"`. This is the `Questionnaire.tsx`/Opportunity Finder `FieldLabel` pattern, also applied to the Business Audit page's "BUSINESS NAME" label and `PayPalCardCheckout.tsx`'s "CARD NUMBER" / "EXPIRY" / "CVV" labels. Don't use the old small `11px "Courier New", monospace` all-caps gray label style for form field labels going forward; that style remains fine for non-field meta captions (card meta info, section eyebrow labels) but not for a label sitting directly above a text field.
+
 ## Paragraph text color
 
 `globals.css` sets `p { color: var(--brand-white); }` — white is the site-wide default for every `<p>`. Don't add an inline/explicit color to a new paragraph just to match its neighbors; let it inherit.
