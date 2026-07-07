@@ -3,7 +3,6 @@ import { auth } from "@/auth";
 import { getUserById } from "@/lib/users";
 import { createSubmission, getSubmissionsByUser } from "@/lib/submissions";
 import { renderPromptTemplate } from "@/lib/tools/promptTemplates";
-import { sendPromptEmail } from "@/lib/email";
 import type {
   TeamSize,
   RepetitiveAnswer,
@@ -118,13 +117,6 @@ export async function POST(request: NextRequest) {
       additionalNotes: body.additionalNotes?.trim(),
       renderedPrompt: renderedPrompt ?? undefined,
     });
-
-    if (renderedPrompt) {
-      // Non-blocking — don't fail the submission if email delivery fails.
-      sendPromptEmail(user.email, user.firstName, renderedPrompt).catch((err) => {
-        console.error("Prompt email failed:", err);
-      });
-    }
 
     return NextResponse.json({ success: true, id: submission.id, renderedPrompt });
   } catch (err: unknown) {
