@@ -1,17 +1,16 @@
 import { getDb } from "./db";
 
-const DEFAULT_TEST_ACCOUNT_EMAIL = "test.account@webtechhq.com";
-
 /**
  * The "gold standard" test account is the one account allowed to bypass
  * payment gates and reset its own tool output in production, so the full
  * signup -> tool -> paid-tool funnel can be exercised repeatedly without
- * creating throwaway accounts or paying real money. Override the email with
- * TEST_ACCOUNT_EMAIL if needed; every other account is treated normally.
+ * creating throwaway accounts or paying real money. The email is private
+ * data set via TEST_ACCOUNT_EMAIL only - no default, so it's never
+ * hardcoded in committed code. Unset means the bypass matches no one.
  */
 export function isGoldStandardTestAccount(email: string | null | undefined): boolean {
-  const testEmail = process.env.TEST_ACCOUNT_EMAIL ?? DEFAULT_TEST_ACCOUNT_EMAIL;
-  return !!email && email.toLowerCase() === testEmail.toLowerCase();
+  const testEmail = process.env.TEST_ACCOUNT_EMAIL;
+  return !!email && !!testEmail && email.toLowerCase() === testEmail.toLowerCase();
 }
 
 /**

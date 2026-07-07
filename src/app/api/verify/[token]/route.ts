@@ -3,6 +3,7 @@ import { AuthError } from "next-auth";
 import { signIn } from "@/auth";
 import { getUserByVerificationToken, verifyUserEmail, setLoginToken } from "@/lib/users";
 import { isTokenExpired, generateLoginToken } from "@/lib/tokens";
+import { sendSlackNotification } from "@/lib/slack";
 
 // Built from NEXTAUTH_URL rather than the incoming request URL: behind the
 // Nginx reverse proxy, request.url resolves to the internal localhost:3000
@@ -28,6 +29,10 @@ export async function GET(
   }
 
   verifyUserEmail(user.id);
+
+  sendSlackNotification(`Email verified: ${user.firstName} <${user.email}>`).catch((err) => {
+    console.error("Slack notification failed:", err);
+  });
 
   // Auto-login straight into the Opportunity Finder questionnaire (or
   // wherever the verification link points, e.g. finish-signup) - this

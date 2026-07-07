@@ -111,7 +111,7 @@ This is already the pattern in `AiOpportunityFinderFlow.tsx`, `PromptDisplay.tsx
 
 ## Gold-standard test account — applies to every tool, present and future
 
-`test.account@webtechhq.com` (override with `TEST_ACCOUNT_EMAIL`) is the one account allowed to bypass payment gates and reset its own tool output in production, so the full signup → tool → paid-tool funnel can be exercised repeatedly without creating throwaway accounts or paying real money. All of this logic lives in `src/lib/testAccount.ts`.
+The account configured via `TEST_ACCOUNT_EMAIL` (private data, set only in `.env.local`/production env, never hardcoded in code) is the one account allowed to bypass payment gates and reset its own tool output in production, so the full signup → tool → paid-tool funnel can be exercised repeatedly without creating throwaway accounts or paying real money. All of this logic lives in `src/lib/testAccount.ts`.
 
 **Every future paid tool must:**
 - Check access with `isGoldStandardTestAccount(user.email) || hasPurchased(...)` (or an equivalent bypass) rather than gating on `hasPurchased`/a real payment alone.
@@ -122,6 +122,14 @@ This is already the pattern in `AiOpportunityFinderFlow.tsx`, `PromptDisplay.tsx
 - Add a `DELETE FROM <table> WHERE user_id = ?` line to `resetAllToolDataForUser()` in `src/lib/testAccount.ts`, unless the table cascades from `purchases` or another table already covered there.
 
 The dashboard (`/tools`) renders a `TestAccountResetButton` only for this account, which calls `POST /api/tools/test-reset` to wipe all tool output at once. Don't build a new one-off reset mechanism per tool - extend the shared reset function instead.
+
+## No real account emails in publicly-presentable files
+
+`.env.example`, `CLAUDE.md`, `README.md`, and everything under `.claude/**` are committed to this public repo. None of them may contain a real, resolvable email address for a specific account, especially one that designates a privileged identity (admin login, test-account payment bypass, protected-account lists, etc). Use a placeholder on `example.com`/`.org`/`.net`, or `test.local` for local-only test fixtures. Real values live only in `.env.local` (gitignored) or the production host's env, referenced by env var name in docs, never spelled out.
+
+This also applies to code: don't hardcode a real privileged-account email as a fallback default (see `isGoldStandardTestAccount` in `src/lib/testAccount.ts` - no default, the env var is required). Ordinary functional addresses that are meant to be public by design (e.g. the `/privacy` and `/terms` contact addresses, the SendGrid "from" fallback in `src/lib/email.ts`) are not "accounts" in this sense and are fine to keep real in source.
+
+`npm run lint` runs `scripts/check-example-emails.js`, which fails the build if a non-allowlisted email address shows up in any of the files above. Add new example/doc files to that script's `TARGET_FILES`/`TARGET_DIRS` if they should be covered too.
 
 ## Commit messages
 

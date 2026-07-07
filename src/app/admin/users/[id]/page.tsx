@@ -5,6 +5,7 @@ import { getUserById } from "@/lib/users";
 import { getSubmissionsByUser } from "@/lib/submissions";
 import AdminNotesEditor from "@/components/AdminNotesEditor";
 import DeleteAccountButton from "@/components/DeleteAccountButton";
+import { isProtectedAccount } from "@/lib/protectedAccounts";
 
 function requireAdmin(email: string | null | undefined): void {
   if (!email || email !== process.env.ADMIN_EMAIL) redirect("/signin");
@@ -230,7 +231,7 @@ export default async function AdminUserDetailPage({
             )}
 
             <Card>
-              <DeleteAccountButton userId={user.id} />
+              <DeleteAccountButton userId={user.id} protectedAccount={isProtectedAccount(user.email)} />
             </Card>
           </div>
         </div>
