@@ -267,6 +267,21 @@ export default function PromptDisplay({
             answers further: a ranked breakdown of your best opportunities, what each one is
             worth, and a concrete plan to act on it.
           </p>
+          <div
+            style={{
+              marginTop: 14,
+              padding: "10px 14px",
+              borderRadius: 4,
+              border: "0.8px solid #3D7FD4",
+              backgroundColor: "rgba(61,127,212,0.12)",
+            }}
+          >
+            <p style={{ margin: 0, font: "700 13px/1.5 Arial, sans-serif", color: "#89D4FF" }}>
+              Limited-time founding client rate: $50 for your Business Audit (regularly $300).
+              This rate is only available through July 2026, and it credits in full toward any
+              implementation you engage from your report.
+            </p>
+          </div>
           <div className="flex flex-wrap gap-3 mt-4">
             <button
               type="button"

@@ -165,7 +165,7 @@ export default function Page() {
                 style={{ backgroundColor: '#071525', border: '0.8px solid #162D5A', borderRadius: '2px' }}
               >
                 <div className="mb-4">
-                  <span className="font-sans text-[16px] tracking-widest block mb-1" style={{ color: '#2D5A9E' }}>
+                  <span className="font-sans text-[16px] tracking-widest block mb-1" style={{ color: '#BCE5FF' }}>
                     THE PROBLEM
                   </span>
                   <p className="font-sans text-[21px] leading-relaxed">
@@ -174,7 +174,7 @@ export default function Page() {
                 </div>
 
                 <div className="mb-4">
-                  <span className="font-sans text-[16px] tracking-widest block mb-1" style={{ color: '#2D5A9E' }}>
+                  <span className="font-sans text-[16px] tracking-widest block mb-1" style={{ color: '#BCE5FF' }}>
                     THE SOLUTION
                   </span>
                   <p className="font-sans text-[21px] leading-relaxed">

@@ -16,7 +16,7 @@ export default function Page() {
             </span>
             <div style={{ height: '0.5px', backgroundColor: '#162D5A', width: '80px', marginTop: '4px', marginBottom: '24px' }} />
             <h1 className="font-sans font-black leading-tight mb-4" style={{ fontSize: '2rem', color: '#EEF6FF' }}>
-              Hi, I&apos;m James Moore.
+              Hi, I&apos;m <span style={{ color: '#BCE5FF' }}>James Moore</span>.
             </h1>
 
             <div
@@ -51,7 +51,7 @@ export default function Page() {
               building, scaling, and automating production systems for everyone from scrappy
               startups to Fortune 500s. These days that experience goes toward a different kind of
               client: local service businesses, retailers and restaurants, and solo professionals
-              who want results without becoming the person who has to manage the tech.
+              who want <span className="font-bold" style={{ color: '#BCE5FF' }}>results without becoming the person who has to manage the tech</span>.
             </p>
             <p className="font-sans text-[21px] leading-relaxed">
               The way in is simple: start with the free{' '}
@@ -63,9 +63,16 @@ export default function Page() {
                 Opportunity Finder
               </Link>
               , answer a few quick questions and walk away with a custom AI prompt built around
-              your business. From there, most people move into the full Business Audit, a
-              flat-rate written report on exactly where AI could save you time or make you money,
-              no hype attached. The next step after that is usually an AI assistant trained on
+              your business. From there, most people move into the full{' '}
+              <Link
+                href="/tools/business-audit"
+                className="underline transition-all duration-200 hover:text-[#BCE5FF] hover:[text-shadow:0_0_6px_#BCE5FF,0_0_14px_#3D9FFF] active:!text-white"
+                style={{ color: '#BCE5FF' }}
+              >
+                Business Audit
+              </Link>
+              , a flat-rate written report on exactly where AI could save you time or make you
+              money, no hype attached. The next step after that is usually an AI assistant trained on
               your business that handles inquiries and follow-ups while you sleep. See what that
               looks like in the{' '}
               <Link
