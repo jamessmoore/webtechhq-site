@@ -3,7 +3,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function DeleteAccountButton({ userId }: { userId: string }) {
+export default function DeleteAccountButton({
+  userId,
+  protectedAccount = false,
+}: {
+  userId: string;
+  protectedAccount?: boolean;
+}) {
   const router = useRouter();
   const [confirming, setConfirming] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -36,7 +42,11 @@ export default function DeleteAccountButton({ userId }: { userId: string }) {
       >
         DANGER ZONE
       </p>
-      {!confirming ? (
+      {protectedAccount ? (
+        <p className="font-sans text-[12px]" style={{ color: "#5B90C8" }}>
+          This is a protected system account and cannot be deleted.
+        </p>
+      ) : !confirming ? (
         <button
           type="button"
           onClick={() => setConfirming(true)}

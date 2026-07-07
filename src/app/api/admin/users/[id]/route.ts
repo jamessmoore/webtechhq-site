@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { getUserById, deleteUser } from "@/lib/users";
+import { isProtectedAccount } from "@/lib/protectedAccounts";
 
 function isAdmin(email: string | null | undefined): boolean {
   return !!email && email === process.env.ADMIN_EMAIL;
@@ -19,6 +20,10 @@ export async function DELETE(
   const user = getUserById(id);
   if (!user) {
     return NextResponse.json({ error: "Not found." }, { status: 404 });
+  }
+
+  if (isProtectedAccount(user.email)) {
+    return NextResponse.json({ error: "This account cannot be deleted." }, { status: 403 });
   }
 
   deleteUser(id);
