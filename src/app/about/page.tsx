@@ -45,12 +45,13 @@ export default function Page() {
         <section className="px-10 py-[15px]" style={{ borderTop: '0.5px solid #162D5A' }}>
           <div className="max-w-3xl mx-auto flex flex-col gap-6">
             <p className="font-sans text-[21px] leading-relaxed">
-              If your business is running on sticky notes, spreadsheets, and hope, you&apos;re in
-              the right place. I&apos;m the founder of Moore Solutions, backed by 20+ years
+              Most small business owners know AI could help, they just don&apos;t have time to
+              figure out where to start. That&apos;s where I come in. I&apos;m the founder of Moore
+              Solutions, backed by 20+ years
               building, scaling, and automating production systems for everyone from scrappy
               startups to Fortune 500s. These days that experience goes toward a different kind of
               client: local service businesses, retailers and restaurants, and solo professionals
-              who know AI could help but aren&apos;t sure where to start.
+              who want results without becoming the person who has to manage the tech.
             </p>
             <p className="font-sans text-[21px] leading-relaxed">
               The way in is simple: start with the free{' '}
