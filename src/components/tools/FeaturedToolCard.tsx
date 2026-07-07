@@ -98,7 +98,7 @@ export default function FeaturedToolCard({
               {cfg.pillLabel}
             </span>
           </div>
-          <p style={{ margin: "11px 0 0", font: "400 14px/1.6 Arial, sans-serif", maxWidth: 520 }}>
+          <p style={{ margin: "11px 0 0", font: "400 21px/1.6 Arial, sans-serif", maxWidth: 520 }}>
             {description}
           </p>
           {metaItems && metaItems.length > 0 && (
