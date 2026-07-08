@@ -99,5 +99,5 @@ jobs:
           fi
 
           curl -sS -X POST -H 'Content-type: application/json' \
-            --data "{\"attachments\":[{\"color\":\"$COLOR\",\"text\":\"$TEXT\",\"fields\":[{\"title\":\"Repo\",\"value\":\"${{ github.repository }}\",\"short\":true},{\"title\":\"Commit\",\"value\":\"<${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>\",\"short\":true},{\"title\":\"Run\",\"value\":\"<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View run>\",\"short\":false}]}]}" \
+            --data "{\"attachments\":[{\"color\":\"$COLOR\",\"text\":\"$TEXT\",\"fields\":[{\"title\":\"Deploy #\",\"value\":\"${{ github.run_number }}\",\"short\":true},{\"title\":\"Repo\",\"value\":\"${{ github.repository }}\",\"short\":true},{\"title\":\"Commit\",\"value\":\"<${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>\",\"short\":true},{\"title\":\"Run\",\"value\":\"<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View run>\",\"short\":false}]}]}" \
             "${{ secrets.SLACK_WEBHOOK_URL }}"
