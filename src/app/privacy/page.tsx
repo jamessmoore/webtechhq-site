@@ -41,9 +41,10 @@ export default function PrivacyPage() {
             exchanged during the course of a consultation or engagement.
           </li>
           <li>
-            <strong>Basic technical data</strong>, such as IP address,
-            browser type, and general usage patterns, if and when
-            analytics tools are added to the Site.
+            <strong>Basic technical data</strong> collected through Google
+            Analytics, including general location derived from IP address,
+            browser and device type, pages visited, and the referrer or
+            campaign source that brought you to the Site.
           </li>
         </ul>
 
