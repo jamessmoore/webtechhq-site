@@ -18,7 +18,12 @@ const fieldStyle = {
   borderRadius: '2px',
 }
 
-export default function ContactForm() {
+type ContactFormProps = {
+  defaultName?: string
+  defaultEmail?: string
+}
+
+export default function ContactForm({ defaultName = '', defaultEmail = '' }: ContactFormProps) {
   const [state, formAction, pending] = useActionState(sendContactMessage, initialState)
   const recaptchaRef = useRef<ReCAPTCHA>(null)
   const [recaptchaToken, setRecaptchaToken] = useState('')
@@ -70,6 +75,7 @@ export default function ContactForm() {
           name="name"
           type="text"
           required
+          defaultValue={defaultName}
           className="w-full px-3 py-2 font-sans text-[14px] focus:outline-none"
           style={fieldStyle}
         />
@@ -84,6 +90,7 @@ export default function ContactForm() {
           name="email"
           type="email"
           required
+          defaultValue={defaultEmail}
           className="w-full px-3 py-2 font-sans text-[14px] focus:outline-none"
           style={fieldStyle}
         />

@@ -2,8 +2,15 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import ContactForm from '@/components/ContactForm'
 import HexMark from '@/components/HexMark'
+import { auth } from '@/auth'
+import { getUserById } from '@/lib/users'
 
-export default function Page() {
+export default async function Page() {
+  const session = await auth()
+  const user = session?.user?.id ? getUserById(session.user.id) : null
+  const defaultName = user ? [user.firstName, user.lastName].filter(Boolean).join(' ') : ''
+  const defaultEmail = user?.email ?? ''
+
   return (
     <>
       <Navbar />
@@ -31,7 +38,7 @@ export default function Page() {
               <HexMark size={320} />
             </div>
             <div className="relative z-10 grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-10">
-              <ContactForm />
+              <ContactForm defaultName={defaultName} defaultEmail={defaultEmail} />
 
               <div
                 className="flex flex-col gap-3 p-5 self-start"
