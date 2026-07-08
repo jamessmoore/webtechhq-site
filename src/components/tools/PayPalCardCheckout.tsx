@@ -226,24 +226,26 @@ export default function PayPalCardCheckout({
 
   return (
     <div>
-      <div className="grid gap-3" style={{ gridTemplateColumns: "1fr 100px 80px" }}>
+      <div className="flex flex-col gap-3">
         <div>
           <label className="font-sans text-[16px] tracking-widest mb-2 block" style={{ color: "#FFFFFF" }}>
             CARD NUMBER
           </label>
           <div ref={numberRef} style={fieldContainerStyle} />
         </div>
-        <div>
-          <label className="font-sans text-[16px] tracking-widest mb-2 block" style={{ color: "#FFFFFF" }}>
-            EXPIRY
-          </label>
-          <div ref={expiryRef} style={fieldContainerStyle} />
-        </div>
-        <div>
-          <label className="font-sans text-[16px] tracking-widest mb-2 block" style={{ color: "#FFFFFF" }}>
-            CVV
-          </label>
-          <div ref={cvvRef} style={fieldContainerStyle} />
+        <div className="grid gap-3" style={{ gridTemplateColumns: "100px 80px" }}>
+          <div>
+            <label className="font-sans text-[16px] tracking-widest mb-2 block" style={{ color: "#FFFFFF" }}>
+              EXPIRY
+            </label>
+            <div ref={expiryRef} style={fieldContainerStyle} />
+          </div>
+          <div>
+            <label className="font-sans text-[16px] tracking-widest mb-2 block" style={{ color: "#FFFFFF" }}>
+              CVV
+            </label>
+            <div ref={cvvRef} style={fieldContainerStyle} />
+          </div>
         </div>
       </div>
 

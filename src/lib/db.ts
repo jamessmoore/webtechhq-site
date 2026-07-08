@@ -3,7 +3,7 @@ import path from "path";
 import fs from "fs";
 
 const DB_PATH = process.env.DATABASE_PATH ?? "./data/submissions.db";
-const resolved = path.resolve(process.cwd(), DB_PATH);
+const resolved = path.resolve(/* turbopackIgnore: true */ process.cwd(), DB_PATH);
 
 fs.mkdirSync(path.dirname(resolved), { recursive: true });
 
