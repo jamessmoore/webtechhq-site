@@ -1,5 +1,6 @@
 'use server'
 
+import { auth } from '@/auth'
 import { sendContactFormEmail } from '@/lib/email'
 
 export type ContactFormState = {
@@ -41,7 +42,9 @@ export async function sendContactMessage(
   }
 
   try {
-    await sendContactFormEmail({ name, email, subject, message })
+    const session = await auth()
+    const isRegisteredUser = Boolean(session?.user?.id)
+    await sendContactFormEmail({ name, email, subject, message, isRegisteredUser })
 
     return { status: 'success', message: "Thanks, I'll get back to you soon." }
   } catch (err) {

@@ -130,9 +130,21 @@ export async function sendContactFormEmail(params: {
   email: string;
   subject: string;
   message: string;
+  isRegisteredUser: boolean;
 }): Promise<void> {
-  const { name, email, subject, message } = params;
+  const { name, email, subject, message, isRegisteredUser } = params;
   const sg = getSendGrid();
+
+  const registeredUserNote = isRegisteredUser
+    ? "This message was sent by a logged-in website user.\n\n"
+    : "";
+  const registeredUserBadge = isRegisteredUser
+    ? `
+        <p style="display:inline-block;margin-bottom:16px;padding:4px 10px;background:#E8F2FF;color:#0E3A9A;border-radius:4px;font-size:12px;font-weight:700;letter-spacing:0.5px">
+          SENT BY A LOGGED-IN WEBSITE USER
+        </p>
+      `
+    : "";
 
   await sg.send({
     to: process.env.CONTACT_EMAIL ?? FROM,
@@ -140,9 +152,10 @@ export async function sendContactFormEmail(params: {
     replyTo: email,
     trackingSettings: { clickTracking: { enable: false } },
     subject,
-    text: `From: ${name} <${email}>\n\n${message}`,
+    text: `${registeredUserNote}From: ${name} <${email}>\n\n${message}`,
     html: `
       <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;color:#0F0F0F">
+        ${registeredUserBadge}
         <p style="margin-bottom:16px">
           <strong>From:</strong> ${escapeHtml(name)} &lt;${escapeHtml(email)}&gt;
         </p>
