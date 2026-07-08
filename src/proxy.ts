@@ -26,9 +26,15 @@ export function proxy(request: NextRequest) {
     }
   }
 
+  if (pathname === "/signin") {
+    if (hasSession(request)) {
+      return NextResponse.redirect(new URL("/tools", request.url));
+    }
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/business-audit/:path*", "/admin/:path*", "/tools/:path*"],
+  matcher: ["/business-audit/:path*", "/admin/:path*", "/tools/:path*", "/signin"],
 };
