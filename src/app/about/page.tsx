@@ -94,7 +94,7 @@ export default function Page() {
             </p>
             <p className="font-sans text-[21px] leading-relaxed">
               Whether you&apos;re a plumber tired of missing after-hours calls, a coach who can&apos;t
-              scale discovery calls, or a founder who wants senior-level technical judgment without
+              scale discovery calls, or a founder who wants professional technical judgment without
               hiring a team, I work remotely, I move fast, and I build things that last. Take a
               look around, and if something resonates,{' '}
               <Link
