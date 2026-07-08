@@ -9,7 +9,10 @@ function getSendGrid() {
 
 const FROM = process.env.SENDGRID_FROM_EMAIL ?? "noreply@webtechhq.com";
 const BASE_URL = process.env.NEXTAUTH_URL ?? "http://localhost:3000";
-const LOGO_URL = `${BASE_URL}/images/email/moore-mark.png`;
+// Always points at production: the logo is a static asset served from the live
+// site regardless of which environment sends the email, and BASE_URL is
+// unreachable to the recipient's inbox when it's localhost (dev/test sends).
+const LOGO_URL = "https://webtechhq.com/images/email/moore-mark.png";
 
 const EMAIL_FOOTER = `
   <div style="margin-top:28px;padding-top:20px;border-top:1px solid #E5E5E5;text-align:center">
