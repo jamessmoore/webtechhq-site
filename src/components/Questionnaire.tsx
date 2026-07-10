@@ -667,7 +667,7 @@ export default function Questionnaire({
           You&apos;re already in the queue
         </h2>
         <p className="font-sans text-[21px] leading-relaxed" style={{ color: "#FFFFFF" }}>
-          We received your questionnaire. Your Opportunity Report is being
+          We received your answers. Your Opportunity Report is being
           prepared. Watch your inbox at{" "}
           <span style={{ color: "#89D4FF" }}>{email}</span>.
         </p>
@@ -687,7 +687,7 @@ export default function Questionnaire({
         <p className="font-sans text-[21px] leading-relaxed" style={{ color: "#FFFFFF" }}>
           Check your inbox at{" "}
           <span style={{ color: "#89D4FF" }}>{email}</span> for a verification
-          link. Once confirmed you can start the questionnaire.
+          link. Once confirmed you can get started.
         </p>
       </StatusCard>
     );
