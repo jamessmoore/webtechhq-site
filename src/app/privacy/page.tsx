@@ -114,10 +114,13 @@ export default function PrivacyPage() {
         <p>The only exceptions are:</p>
         <ul>
           <li>
-            Service providers strictly necessary to operate our business
-            (e.g., AWS for hosting and AI processing, email providers for
-            communication), who are contractually or by policy restricted
-            from using your data for their own purposes.
+            Service providers strictly necessary to operate our business,
+            who are contractually or by policy restricted from using your
+            data for their own purposes. These include AWS for hosting
+            and AI processing, PayPal for payment processing, SendGrid
+            for email delivery, and Slack for internal business
+            notifications (e.g., alerting James when a purchase or form
+            submission comes in).
           </li>
           <li>Disclosure required by law, subpoena, or valid legal process.</li>
         </ul>

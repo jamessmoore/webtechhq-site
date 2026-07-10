@@ -247,7 +247,7 @@ export default function BusinessAuditReport({ report }: { report: AuditReport })
           {emailState === "sending"
             ? "SENDING…"
             : emailState === "sent"
-              ? "SENT — CHECK YOUR EMAIL"
+              ? "SENT: CHECK YOUR EMAIL"
               : "EMAIL ME A PDF"}
         </button>
         {emailState === "error" && (

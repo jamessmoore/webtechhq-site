@@ -256,7 +256,7 @@ export default function BusinessAuditFlow({
               cursor: runningTest ? "not-allowed" : "pointer",
             }}
           >
-            {runningTest ? "STARTING…" : "RUN AUDIT — TEST ACCOUNT, NO CHARGE"}
+            {runningTest ? "STARTING…" : "RUN AUDIT (TEST ACCOUNT, NO CHARGE)"}
           </button>
           {testRunError && (
             <p style={{ margin: "10px 0 0", font: "400 12px/1.5 Arial, sans-serif", color: "#E0556F" }}>
@@ -409,7 +409,12 @@ export default function BusinessAuditFlow({
         <Link href="/privacy" style={{ color: "#89D4FF", textDecoration: "underline" }}>
           Privacy Policy
         </Link>
-        .
+        . Sales are final once your report is generated; if generation fails after payment,
+        you&apos;ll get a full refund. See my{" "}
+        <Link href="/terms" style={{ color: "#89D4FF", textDecoration: "underline" }}>
+          Terms of Service
+        </Link>{" "}
+        for details.
       </p>
 
       {isTestAccount ? (
@@ -430,7 +435,7 @@ export default function BusinessAuditFlow({
               cursor: runningTest ? "not-allowed" : "pointer",
             }}
           >
-            {runningTest ? "STARTING…" : "RUN AUDIT — TEST ACCOUNT, NO CHARGE"}
+            {runningTest ? "STARTING…" : "RUN AUDIT (TEST ACCOUNT, NO CHARGE)"}
           </button>
           {testRunError && (
             <p style={{ margin: "10px 0 0", font: "400 12px/1.5 Arial, sans-serif", color: "#E0556F" }}>
