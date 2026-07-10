@@ -39,7 +39,7 @@ export default async function ToolsDashboardPage() {
       : businessAuditStatus === "purchased"
         ? "VIEW YOUR AUDIT"
         : isTestAccount
-          ? "RUN YOUR AUDIT (TEST — NO CHARGE)"
+          ? "RUN YOUR AUDIT (TEST, NO CHARGE)"
           : "GET YOUR AUDIT, $50";
   const businessAuditHref = businessAuditStatus === "locked" ? "/tools/opportunity-finder" : "/tools/business-audit";
 

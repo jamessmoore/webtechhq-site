@@ -11,7 +11,7 @@ export default function TermsPage() {
     <LegalLayout
       eyebrow="LEGAL"
       title="Terms of Service"
-      lastUpdated="Effective Date: June 30, 2026 · Last Updated: June 30, 2026"
+      lastUpdated="Effective Date: June 30, 2026 · Last Updated: July 10, 2026"
     >
       <div className="legal-content">
         <h2>1. Introduction &amp; Acceptance</h2>
@@ -32,10 +32,14 @@ export default function TermsPage() {
 
         <h2>2. Description of Services</h2>
         <p>
-          Moore Solutions provides AI integration and agent development, AI
-          strategy consulting, intelligent automation, DevOps and cloud
-          infrastructure auditing, SaaS/cloud application development, and
-          senior site reliability engineering (SRE) contracting services.
+          Moore Solutions provides the free Opportunity Finder, a
+          form-driven tool that generates a prompt template highlighting
+          potential AI opportunities for your business, and the Business
+          Audit, a paid, fully automated report generated using AI (see
+          Section 3 below). For clients who choose to move forward on
+          findings from either tool, Moore Solutions also provides custom
+          automation, AI integration, and implementation engagements,
+          scoped and agreed separately with each client.
         </p>
 
         <h2>3. AI-Generated Content &amp; Automated Tools</h2>
@@ -45,14 +49,21 @@ export default function TermsPage() {
         </p>
         <ul>
           <li>
-            <strong>Opportunity Finder:</strong> When you
-            submit information through our Opportunity Finder, your
-            responses are processed using Anthropic&apos;s Claude models via
-            Amazon Web Services (AWS) Bedrock to generate a personalized
-            response, which is sent to you via email. This form will be
-            clearly labeled as AI-powered at the point of submission.
+            <strong>Business Audit:</strong>{" "}When you purchase a Business
+            Audit, your responses are processed using
+            Anthropic&apos;s Claude models via Amazon Web Services (AWS)
+            Bedrock to generate your personalized Business Audit report,
+            which is stored on the Site and emailed to you as a link.
+            This step is clearly labeled as AI-powered before you submit
+            your responses.
           </li>
         </ul>
+        <p>
+          The free Opportunity Finder does not use AI to generate its
+          result. Your responses are used to populate a prompt template
+          that is displayed back to you; no AI model is called as part
+          of that submission.
+        </p>
         <p>You acknowledge that:</p>
         <ul>
           <li>
@@ -76,17 +87,38 @@ export default function TermsPage() {
           </li>
         </ul>
 
-        <h2>4. No Sale or Sharing of Personal Data</h2>
+        <h2>4. Payments &amp; Refunds</h2>
+        <p>
+          Business Audit purchases are processed through PayPal at the
+          time of purchase. Your personalized report is generated
+          automatically, typically within a few minutes.
+        </p>
+        <p>
+          Because the Business Audit is an automated digital product
+          delivered immediately after purchase, all sales are final once
+          your report has been successfully generated. If your payment is
+          captured but report generation fails, contact me at{" "}
+          <a href="mailto:termsofservice@webtechhq.com">
+            termsofservice@webtechhq.com
+          </a>{" "}
+          and you will receive a full refund.
+        </p>
+        <p>
+          The Business Audit fee is credited in full toward the cost of
+          any implementation engagement you begin with Moore Solutions.
+        </p>
+
+        <h2>5. No Sale or Sharing of Personal Data</h2>
         <p>
           Moore Solutions does not sell, rent, or share personal data
           collected through the Site or in the course of providing
           Services with third parties for marketing or any other purpose
           outside of direct service delivery and communication with you.
-          See our <Link href="/privacy">Privacy Policy</Link> for full
+          See my <Link href="/privacy">Privacy Policy</Link> for full
           details.
         </p>
 
-        <h2>5. User Responsibilities</h2>
+        <h2>6. User Responsibilities</h2>
         <p>You agree to:</p>
         <ul>
           <li>
@@ -100,7 +132,7 @@ export default function TermsPage() {
           </li>
         </ul>
 
-        <h2>6. Intellectual Property</h2>
+        <h2>7. Intellectual Property</h2>
         <p>
           All content on the Site, including the Moore Solutions name,
           &quot;M Shield&quot; logo, wordmark, and original written
@@ -116,7 +148,7 @@ export default function TermsPage() {
           this general provision.
         </p>
 
-        <h2>7. Disclaimers</h2>
+        <h2>8. Disclaimers</h2>
         <p>
           THE SITE AND ANY GENERAL INFORMATION PROVIDED THROUGH IT ARE
           PROVIDED &quot;AS IS&quot; WITHOUT WARRANTIES OF ANY KIND,
@@ -127,7 +159,7 @@ export default function TermsPage() {
           WHICH MAY INCLUDE ADDITIONAL OR DIFFERENT WARRANTIES.
         </p>
 
-        <h2>8. Limitation of Liability</h2>
+        <h2>9. Limitation of Liability</h2>
         <p>
           To the maximum extent permitted under Arizona law, James S.
           Moore d/b/a Moore Solutions shall not be liable for any
@@ -137,7 +169,7 @@ export default function TermsPage() {
           such damages.
         </p>
 
-        <h2>9. Governing Law &amp; Jurisdiction</h2>
+        <h2>10. Governing Law &amp; Jurisdiction</h2>
         <p>
           These Terms are governed by the laws of the State of Arizona,
           without regard to its conflict of law principles. Any disputes
@@ -146,7 +178,7 @@ export default function TermsPage() {
           consent to personal jurisdiction therein.
         </p>
 
-        <h2>10. Changes to These Terms</h2>
+        <h2>11. Changes to These Terms</h2>
         <p>
           Moore Solutions may update these Terms from time to time.
           Continued use of the Site after changes are posted constitutes
@@ -154,7 +186,7 @@ export default function TermsPage() {
           date above reflects the most recent revision.
         </p>
 
-        <h2>11. Contact</h2>
+        <h2>12. Contact</h2>
         <p>
           Questions about these Terms can be directed to:
           <br />
