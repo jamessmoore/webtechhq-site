@@ -11,7 +11,7 @@ export default function TermsPage() {
     <LegalLayout
       eyebrow="LEGAL"
       title="Terms of Service"
-      lastUpdated="Effective Date: June 30, 2026 · Last Updated: June 30, 2026"
+      lastUpdated="Effective Date: June 30, 2026 · Last Updated: July 10, 2026"
     >
       <div className="legal-content">
         <h2>1. Introduction &amp; Acceptance</h2>
@@ -45,14 +45,21 @@ export default function TermsPage() {
         </p>
         <ul>
           <li>
-            <strong>Opportunity Finder:</strong> When you
-            submit information through our Opportunity Finder, your
-            responses are processed using Anthropic&apos;s Claude models via
-            Amazon Web Services (AWS) Bedrock to generate a personalized
-            response, which is sent to you via email. This form will be
-            clearly labeled as AI-powered at the point of submission.
+            <strong>Business Audit:</strong>{" "}When you purchase a Business
+            Audit, your questionnaire responses are processed using
+            Anthropic&apos;s Claude models via Amazon Web Services (AWS)
+            Bedrock to generate your personalized Business Audit report,
+            which is stored on the Site and emailed to you as a link.
+            This step is clearly labeled as AI-powered before you submit
+            your responses.
           </li>
         </ul>
+        <p>
+          The free Opportunity Finder does not use AI to generate its
+          result. Your responses are used to populate a prompt template
+          that is displayed back to you; no AI model is called as part
+          of that submission.
+        </p>
         <p>You acknowledge that:</p>
         <ul>
           <li>
@@ -82,7 +89,7 @@ export default function TermsPage() {
           collected through the Site or in the course of providing
           Services with third parties for marketing or any other purpose
           outside of direct service delivery and communication with you.
-          See our <Link href="/privacy">Privacy Policy</Link> for full
+          See my <Link href="/privacy">Privacy Policy</Link> for full
           details.
         </p>
 
