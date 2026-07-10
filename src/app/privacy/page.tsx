@@ -32,9 +32,8 @@ export default function PrivacyPage() {
             out a contact form, use the Opportunity Finder, or otherwise reach out.
           </li>
           <li>
-            <strong>Questionnaire responses</strong>, including business
-            details you submit through the Opportunity Finder or the
-            Business Audit.
+            <strong>Form responses</strong>, including business details you
+            submit through the Opportunity Finder or the Business Audit.
           </li>
           <li>
             <strong>Communications</strong>, including emails or messages
@@ -75,8 +74,8 @@ export default function PrivacyPage() {
 
         <h2>4. AI Processing Disclosure</h2>
         <p>
-          When you purchase a Business Audit, your questionnaire
-          responses are processed using Anthropic&apos;s Claude AI
+          When you purchase a Business Audit, your responses
+          are processed using Anthropic&apos;s Claude AI
           models, accessed via Amazon Web Services (AWS) Bedrock, to
           generate your personalized Business Audit report. The report
           is stored on our Site and you are emailed a link to view it.

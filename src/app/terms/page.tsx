@@ -46,7 +46,7 @@ export default function TermsPage() {
         <ul>
           <li>
             <strong>Business Audit:</strong>{" "}When you purchase a Business
-            Audit, your questionnaire responses are processed using
+            Audit, your responses are processed using
             Anthropic&apos;s Claude models via Amazon Web Services (AWS)
             Bedrock to generate your personalized Business Audit report,
             which is stored on the Site and emailed to you as a link.
