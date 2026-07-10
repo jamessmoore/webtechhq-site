@@ -32,10 +32,14 @@ export default function TermsPage() {
 
         <h2>2. Description of Services</h2>
         <p>
-          Moore Solutions provides AI integration and agent development, AI
-          strategy consulting, intelligent automation, DevOps and cloud
-          infrastructure auditing, SaaS/cloud application development, and
-          senior site reliability engineering (SRE) contracting services.
+          Moore Solutions provides the free Opportunity Finder, a
+          form-driven tool that generates a prompt template highlighting
+          potential AI opportunities for your business, and the Business
+          Audit, a paid, fully automated report generated using AI (see
+          Section 3 below). For clients who choose to move forward on
+          findings from either tool, Moore Solutions also provides custom
+          automation, AI integration, and implementation engagements,
+          scoped and agreed separately with each client.
         </p>
 
         <h2>3. AI-Generated Content &amp; Automated Tools</h2>
