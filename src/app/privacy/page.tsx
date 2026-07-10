@@ -10,7 +10,7 @@ export default function PrivacyPage() {
     <LegalLayout
       eyebrow="LEGAL"
       title="Privacy Policy"
-      lastUpdated="Effective Date: June 30, 2026 · Last Updated: June 30, 2026"
+      lastUpdated="Effective Date: June 30, 2026 · Last Updated: July 10, 2026"
     >
       <div className="legal-content">
         <h2>1. Introduction</h2>
@@ -33,8 +33,8 @@ export default function PrivacyPage() {
           </li>
           <li>
             <strong>Questionnaire responses</strong>, including business
-            details you submit through our AI-powered lead qualification
-            form.
+            details you submit through the Opportunity Finder or the
+            Business Audit.
           </li>
           <li>
             <strong>Communications</strong>, including emails or messages
@@ -53,8 +53,8 @@ export default function PrivacyPage() {
         <ul>
           <li>Respond to inquiries and provide the Services you request.</li>
           <li>
-            Generate personalized responses to your Opportunity Finder
-            submission using AI (see Section 4 below).
+            Generate your Business Audit report using AI (see Section 4
+            below).
           </li>
           <li>
             Communicate with you about your project, consultation, or
@@ -75,12 +75,19 @@ export default function PrivacyPage() {
 
         <h2>4. AI Processing Disclosure</h2>
         <p>
-          When you submit information through our Opportunity Finder, it
-          is processed using Anthropic&apos;s Claude AI models, accessed
-          via Amazon Web Services (AWS) Bedrock, to generate a
-          personalized lead-qualification response that is emailed back
-          to you. This form is clearly labeled as AI-powered before you
-          submit it.
+          When you purchase a Business Audit, your questionnaire
+          responses are processed using Anthropic&apos;s Claude AI
+          models, accessed via Amazon Web Services (AWS) Bedrock, to
+          generate your personalized Business Audit report. The report
+          is stored on our Site and you are emailed a link to view it.
+          This step is clearly labeled as AI-powered before you submit
+          your responses.
+        </p>
+        <p>
+          The free Opportunity Finder does not use AI to generate its
+          result. Your responses are used to populate a prompt template
+          that is displayed back to you; no AI model is called as part
+          of that submission.
         </p>
         <p>
           Per Anthropic&apos;s and AWS&apos;s respective data handling
@@ -118,9 +125,10 @@ export default function PrivacyPage() {
 
         <h2>6. Data Retention</h2>
         <p>
-          We retain Opportunity Finder submissions, AI-generated responses, and
-          related communications indefinitely for business recordkeeping
-          and follow-up purposes, unless you request deletion (see
+          We retain Opportunity Finder submissions, Business Audit
+          submissions and AI-generated reports, and related
+          communications indefinitely for business recordkeeping and
+          follow-up purposes, unless you request deletion (see
           Section 8).
         </p>
 

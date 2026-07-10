@@ -402,6 +402,16 @@ export default function BusinessAuditFlow({
         />
       </div>
 
+      <p style={{ margin: "0 0 18px", font: "400 12px/1.6 Arial, sans-serif", color: "#5B7BA5" }}>
+        <strong style={{ color: "#80AEE0" }}>Heads up:</strong> Once you purchase, your answers
+        are processed using AI (Claude, via AWS Bedrock) to generate your personalized Business
+        Audit report. Your answers are never sold or shared. Read my{" "}
+        <Link href="/privacy" style={{ color: "#89D4FF", textDecoration: "underline" }}>
+          Privacy Policy
+        </Link>
+        .
+      </p>
+
       {isTestAccount ? (
         <>
           <button
