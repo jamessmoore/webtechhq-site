@@ -1,11 +1,13 @@
 ---
 name: test-webkit-docker
-description: Run the WebKit-backed Playwright e2e projects (iPhone SE, iPhone 14, iPad Mini, iPad Pro 11 landscape) in the official Playwright Docker image. Use when native `npx playwright test` fails on this host with a "Host system is missing dependencies to run browsers" error for WebKit, or when asked to run WebKit/Safari e2e tests locally.
+description: Fallback for running the WebKit-backed Playwright e2e projects (iPhone SE, iPhone 14, iPad Mini, iPad Pro 11 landscape) in the official Playwright Docker image, for use only if native `npx playwright test` fails on this host with a "Host system is missing dependencies to run browsers" error for WebKit. As of 2026-07-10, native WebKit runs fine on this host — try `npm run test:e2e` / native `npx playwright test` first.
 ---
 
-# Test WebKit via Docker
+# Test WebKit via Docker (fallback)
 
-This host (Arch Linux) can't satisfy WebKit's native system dependencies (`libicu74`, `libxml2`, `libflite1`, etc. — the `sudo apt-get`/`install-deps` remedy Playwright suggests doesn't apply on Arch). The fix is to run the WebKit projects inside the official Playwright Docker image instead, pointed at the dev server already running on the host via `--network host`.
+**Status as of 2026-07-10: not currently needed.** This host's Arch package updates since this skill was written brought in newer `libicu`/`libxml2` than the versions Playwright originally complained about missing, and native WebKit now launches and passes the full e2e suite directly (`npm run test:e2e` ran all four WebKit-backed projects — iPhone SE, iPhone 14, iPad Mini, iPad Pro 11 landscape — with real passing assertions, no Docker involved). `libflite1` is still absent on this host but apparently isn't required for these specs. Always try native first; only fall back to the Docker approach below if native WebKit throws the "Host system is missing dependencies to run browsers" error again (e.g. after a future system change reintroduces the gap).
+
+Originally: this host (Arch Linux) couldn't satisfy WebKit's native system dependencies (`libicu74`, `libxml2`, `libflite1`, etc. — the `sudo apt-get`/`install-deps` remedy Playwright suggests doesn't apply on Arch). The fix was to run the WebKit projects inside the official Playwright Docker image instead, pointed at the dev server already running on the host via `--network host`. Keep this fallback below in case that regresses.
 
 Chromium/Android-emulated projects (`Pixel 7`, `Galaxy S8`, `Desktop 1280/1440/1920`) don't need this — run those natively with `npx playwright test --project=...` (add `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=1` if the host-requirements check itself complains).
 
