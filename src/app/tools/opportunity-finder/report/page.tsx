@@ -12,7 +12,7 @@ import ReadinessBars from "@/components/tools/ReadinessBars";
 import CtaBanner from "@/components/tools/CtaBanner";
 import { REPORT_SCORE, KPIS, OPPORTUNITIES, READINESS_BARS } from "@/lib/tools/reportData";
 
-export const metadata: Metadata = { title: "Your Opportunity Report | Moore Solutions" };
+export const metadata: Metadata = { title: "Opportunity Finder | Moore Solutions" };
 
 export default async function ToolsReportPage() {
   const session = await auth();
@@ -31,7 +31,7 @@ export default async function ToolsReportPage() {
         style={{ font: '400 11px "Courier New", monospace', letterSpacing: "0.16em", color: "#89D4FF", marginBottom: 16 }}
       >
         <SparkleIcon size={14} />
-        YOUR PERSONALIZED REPORT
+        OPPORTUNITY FINDER
       </div>
 
       <div className="flex items-center flex-wrap" style={{ gap: "clamp(20px,4vw,30px)" }}>

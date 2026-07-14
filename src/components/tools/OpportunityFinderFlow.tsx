@@ -62,7 +62,7 @@ export default function OpportunityFinderFlow({
         }}
       >
         There are no wrong answers, just tell us how things really work today. The more honest
-        you are, the sharper your report.
+        you are, the sharper your results.
       </p>
 
       <div style={{ marginTop: 32 }}>

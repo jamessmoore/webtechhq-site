@@ -17,7 +17,7 @@ test.describe('signup', () => {
     await page.getByLabel('Email').fill(`e2e-${randomUUID()}@example.com`)
     await page.getByLabel(/agree to the/i).check()
 
-    await page.getByRole('button', { name: /get my opportunity finder/i }).click()
+    await page.getByRole('button', { name: /try opportunity finder/i }).click()
 
     await expect(page.getByText('Name and email are required.')).toBeVisible()
   })
@@ -30,7 +30,7 @@ test.describe('signup', () => {
     await page.getByLabel('Email').fill(email)
     await page.getByLabel(/agree to the/i).check()
 
-    await page.getByRole('button', { name: /get my opportunity finder/i }).click()
+    await page.getByRole('button', { name: /try opportunity finder/i }).click()
 
     await expect(page.getByRole('heading', { name: 'Check your inbox' })).toBeVisible()
     await expect(page.getByText(email)).toBeVisible()
@@ -44,7 +44,7 @@ test.describe('signup', () => {
     await page.getByLabel('Email').fill(existing.email)
     await page.getByLabel(/agree to the/i).check()
 
-    await page.getByRole('button', { name: /get my opportunity finder/i }).click()
+    await page.getByRole('button', { name: /try opportunity finder/i }).click()
 
     await expect(page.getByText('An account with this email already exists.')).toBeVisible()
   })

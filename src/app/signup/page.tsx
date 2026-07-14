@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const PROOF_POINTS = [
   "A custom AI prompt built around your business, not a generic template",
   "Send it straight to Claude, ChatGPT, or Gemini in one click",
-  "Get your answers in minutes, not days",
+  "Get your answers immediately",
 ];
 
 export default function SignUpPage() {
@@ -128,7 +128,7 @@ export default function SignUpPage() {
               className="text-2xl font-bold mb-2"
               style={{ color: "#3D7FD4", fontFamily: "'Courier New', monospace" }}
             >
-              Request your Opportunity Finder
+              Try the free Opportunity Finder
             </h2>
             <p className="text-sm">
               Just your name and email to get started. It&apos;s free and takes about 5 minutes.
