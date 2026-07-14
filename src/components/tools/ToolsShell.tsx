@@ -23,7 +23,7 @@ interface ToolsShellProps {
 function pageMeta(pathname: string): { kicker: string; title: string } {
   if (pathname === "/tools") return { kicker: "CLIENT TOOLS", title: "Dashboard" };
   if (pathname.startsWith("/tools/opportunity-finder/report")) {
-    return { kicker: "OPPORTUNITY FINDER", title: "Your Opportunity Report" };
+    return { kicker: "OPPORTUNITY FINDER", title: "Opportunity Finder" };
   }
   if (pathname.startsWith("/tools/opportunity-finder")) {
     return { kicker: "AI TOOLS", title: "Opportunity Finder" };
