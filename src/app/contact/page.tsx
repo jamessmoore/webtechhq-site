@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import ContactForm from '@/components/ContactForm'
@@ -40,25 +41,46 @@ export default async function Page() {
             <div className="relative z-10 grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-10">
               <ContactForm defaultName={defaultName} defaultEmail={defaultEmail} />
 
-              <div
-                className="flex flex-col gap-3 p-5 self-start"
-                style={{ backgroundColor: '#071525', border: '0.8px solid #162D5A', borderRadius: '2px' }}
-              >
-                <h2 className="font-sans font-bold text-[12px] tracking-widest" style={{ color: '#BCE5FF' }}>
-                  PREFER LINKEDIN?
-                </h2>
-                <p className="font-sans text-[15px] leading-relaxed">
-                  Connect or send a message directly through LinkedIn.
-                </p>
-                <a
-                  href="https://linkedin.com/in/thejamesmoore"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-sans text-[12.5px] tracking-widest px-5 py-2 text-center transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
-                  style={{ background: 'linear-gradient(180deg, #1A4FC4, #0E3A9A)', border: '1px solid #3D7FD4', color: '#BCE5FF', borderRadius: '6px' }}
+              <div className="flex flex-col gap-6 self-start">
+                <div
+                  className="flex flex-col gap-3 p-5"
+                  style={{ backgroundColor: '#071525', border: '0.8px solid #162D5A', borderRadius: '2px' }}
                 >
-                  VIEW LINKEDIN PROFILE ›
-                </a>
+                  <h2 className="font-sans font-bold text-[12px] tracking-widest" style={{ color: '#BCE5FF' }}>
+                    PREFER LINKEDIN?
+                  </h2>
+                  <p className="font-sans text-[15px] leading-relaxed">
+                    Connect or send a message directly through LinkedIn.
+                  </p>
+                  <a
+                    href="https://linkedin.com/in/thejamesmoore"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-sans text-[12.5px] tracking-widest px-5 py-2 text-center transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
+                    style={{ background: 'linear-gradient(180deg, #1A4FC4, #0E3A9A)', border: '1px solid #3D7FD4', color: '#BCE5FF', borderRadius: '6px' }}
+                  >
+                    VIEW LINKEDIN PROFILE ›
+                  </a>
+                </div>
+
+                <div
+                  className="flex flex-col gap-3 p-5"
+                  style={{ backgroundColor: '#071525', border: '0.8px solid #162D5A', borderRadius: '2px' }}
+                >
+                  <h2 className="font-sans font-bold text-[12px] tracking-widest" style={{ color: '#BCE5FF' }}>
+                    SHARING THIS SITE?
+                  </h2>
+                  <p className="font-sans text-[15px] leading-relaxed">
+                    Grab a QR code that opens webtechhq.com on any phone.
+                  </p>
+                  <Link
+                    href="/share"
+                    className="font-sans text-[12.5px] tracking-widest px-5 py-2 text-center transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
+                    style={{ background: 'linear-gradient(180deg, #1A4FC4, #0E3A9A)', border: '1px solid #3D7FD4', color: '#BCE5FF', borderRadius: '6px' }}
+                  >
+                    GET SHAREABLE QR CODE ›
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
