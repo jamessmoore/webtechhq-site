@@ -57,7 +57,7 @@ const iconLinks = [
   },
 ]
 
-export default function Footer({ hideSocialLinks = false }: { hideSocialLinks?: boolean }) {
+export default function Footer() {
   return (
     <footer style={{ backgroundColor: '#020810', borderTop: '0.5px solid #162D5A' }}>
       <div className="max-w-5xl mx-auto px-6 pt-8 pb-4">
@@ -98,24 +98,22 @@ export default function Footer({ hideSocialLinks = false }: { hideSocialLinks?: 
               </Link>
             ))}
           </nav>
-          {!hideSocialLinks && (
-            <div className="flex items-center gap-2">
-              {iconLinks.map(({ href, label, icon }) => (
-                <a
-                  key={href}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  title={label}
-                  className="flex items-center justify-center w-7 h-7 border-[0.6px] border-[#1A3D7A] text-[#3A6AAA] transition-colors duration-150 hover:border-[#3D7FD4] hover:text-[#89D4FF]"
-                  style={{ backgroundColor: '#071830', borderRadius: '6px' }}
-                >
-                  {icon}
-                </a>
-              ))}
-            </div>
-          )}
+          <div className="flex items-center gap-2">
+            {iconLinks.map(({ href, label, icon }) => (
+              <a
+                key={href}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                title={label}
+                className="flex items-center justify-center w-7 h-7 border-[0.6px] border-[#1A3D7A] text-[#3A6AAA] transition-colors duration-150 hover:border-[#3D7FD4] hover:text-[#89D4FF]"
+                style={{ backgroundColor: '#071830', borderRadius: '6px' }}
+              >
+                {icon}
+              </a>
+            ))}
+          </div>
         </div>
 
         {/* Divider */}

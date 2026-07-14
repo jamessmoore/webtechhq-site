@@ -119,7 +119,7 @@ export default function Page() {
           </div>
         </section>
       </main>
-      <Footer hideSocialLinks />
+      <Footer />
     </>
   )
 }
