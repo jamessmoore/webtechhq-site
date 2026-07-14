@@ -232,7 +232,7 @@ export default function SignUpForm() {
           cursor: loading ? "not-allowed" : "pointer",
         }}
       >
-        {loading ? "SENDING…" : "GET MY OPPORTUNITY FINDER ›"}
+        {loading ? "SENDING…" : "TRY OPPORTUNITY FINDER ›"}
       </button>
 
       {/* Divider */}
