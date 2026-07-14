@@ -128,7 +128,9 @@ export default function SignUpPage() {
               className="text-2xl font-bold mb-2"
               style={{ color: "#3D7FD4", fontFamily: "'Courier New', monospace" }}
             >
-              Try the free Opportunity Finder
+              Try the free
+              <br />
+              Opportunity Finder
             </h2>
             <p className="text-sm">
               Just your name and email to get started. It&apos;s free and takes about 5 minutes.
