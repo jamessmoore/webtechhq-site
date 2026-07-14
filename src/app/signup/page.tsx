@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const PROOF_POINTS = [
   "A custom AI prompt built around your business, not a generic template",
   "Send it straight to Claude, ChatGPT, or Gemini in one click",
-  "Get your answers in minutes, not days",
+  "Get your answers immediately",
 ];
 
 export default function SignUpPage() {
