@@ -17,19 +17,20 @@ Moore Solutions personal brand site (webtechhq.com) — Next.js 16 (App Router),
 5. Only merge the PR into `master` after all required checks pass.
 6. After a successful merge, delete the local feature branch (`git branch -d <branch>`) and run `git fetch --prune`. The remote branch is deleted automatically on merge (repo setting `delete_branch_on_merge`). Skip local deletion for any branch backing an active worktree.
 
-Never commit directly to `master`, never push directly to `master`, and never merge a PR with failing or pending checks. Since merging to `master` triggers a production deploy, treat PR merges as a deploy action — confirm with the user before merging unless they've explicitly asked for the merge.
+Never commit directly to `master`, never push directly to `master`, and never merge a PR with failing or pending checks. Merging to `master` triggers a production deploy — do not merge, under any circumstance, without a fresh, explicit go-ahead from the user for that specific PR. Being asked to open or update the PR is not that go-ahead.
 
 ## Local verification before opening/updating a PR
 
-Run the same checks CI runs so failures are caught early:
+Run everything that actually runs locally on this machine, matching what CI runs:
 
 ```bash
 npm run lint
 npm run build
 npm run typecheck
 npm run test:unit
-npm run test:e2e
 ```
+
+`npm run test:e2e` is not run locally here — Playwright's browser install is blocked on this machine. CI's required `test / test` check is the real e2e gate; never report or imply e2e passed locally when it didn't.
 
 ## Project structure
 
