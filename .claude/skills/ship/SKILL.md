@@ -13,14 +13,16 @@ Automates the workflow required by this repo's `CLAUDE.md`: feature branch → l
 
 2. **Check for uncommitted changes.** Run `git status`. If there are staged/unstaged changes, follow the standard commit process: review the diff, draft a concise imperative commit message matching the existing log style (no `feat:`/`fix:` prefixes), stage specific files by name (never `-A`/`.`), and commit. Skip this step if the working tree is already clean.
 
-3. **Run local verification**, matching CI exactly:
+3. **Run local verification** for everything that actually runs on this machine:
    ```bash
    npm run lint
    npm run build
    npm run typecheck
-   npm run test:e2e
+   npm run test:unit
    ```
    If any step fails, stop and fix the underlying issue before continuing — don't push broken code to open a PR.
+
+   `npm run test:e2e` is **not run locally** — Playwright's browser install is blocked on this machine. CI is the real e2e gate: the required `test / test` check runs it on every PR. Never report or imply e2e ran locally when it didn't.
 
 4. **Push the branch:**
    ```bash
@@ -35,10 +37,10 @@ Automates the workflow required by this repo's `CLAUDE.md`: feature branch → l
    ```
    or repeated `gh pr checks <pr-number>` if `--watch` isn't available.
 
-7. **Report status and stop.** Once checks pass (or fail), tell the user the result and the PR URL. Do **not** merge — merging triggers a production deploy per `CLAUDE.md`, and requires explicit user confirmation even after checks pass, unless they've already asked for the merge in this request.
+7. **Report status and stop.** Once checks pass (or fail), tell the user the result and the PR URL. Do **not** merge, under any circumstance. Merging triggers a production deploy per `CLAUDE.md`, and is never part of shipping.
 
 ## Notes
 
-- If the user only asks to "open a PR" without mentioning merge, stop after step 7.
+- Stop after step 7, always. Merging is a separate action, decided and executed by someone else, never this skill.
 - If CI fails, diagnose from the `gh pr checks` output / linked run logs, fix on the same branch, commit, push again, and re-watch — don't skip hooks or disable checks to force it through.
-- Respect the repo's standing instruction: only commit/push when the user has given explicit go-ahead. Being asked to run this skill counts as that go-ahead for the steps above, but merging is a separate action requiring its own confirmation.
+- Respect the repo's standing instruction: only commit/push when the user has given explicit go-ahead. Running this skill covers commit/push/PR — it never covers merge.
