@@ -49,18 +49,19 @@ export default async function AdminPage() {
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
           {[
-            { label: "TOTAL USERS",            value: total,     color: "#89D4FF" },
-            { label: "VERIFIED",                value: verified,  color: "#2ea043" },
-            { label: "SUBMITTED QUESTIONNAIRE", value: submitted, color: "#FBBC05" },
-          ].map(({ label, value, color }) => (
-            <div
+            { label: "TOTAL USERS",            value: total,     color: "#89D4FF", href: "/admin/users" },
+            { label: "VERIFIED",                value: verified,  color: "#2ea043", href: "/admin/users?filter=verified" },
+            { label: "SUBMITTED QUESTIONNAIRE", value: submitted, color: "#FBBC05", href: "/admin/users?filter=submitted" },
+          ].map(({ label, value, color, href }) => (
+            <Link
               key={label}
-              className="p-5"
+              href={href}
+              className="block p-5 transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)]"
               style={{ backgroundColor: "#071525", border: "0.8px solid #162D5A", borderRadius: "4px" }}
             >
               <p className="font-sans text-[10px] tracking-widest mb-1">{label}</p>
               <p className="font-sans font-black text-[32px] leading-none" style={{ color }}>{value}</p>
-            </div>
+            </Link>
           ))}
         </div>
 
