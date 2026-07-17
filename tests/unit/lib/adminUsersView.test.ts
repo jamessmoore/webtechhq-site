@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getAdminUsersView } from "@/lib/adminUsersView";
+import { getAdminUsersView, formatSignedUpDate } from "@/lib/adminUsersView";
 import type { User } from "@/lib/types";
 
 function makeUser(overrides: Partial<User> & { id: string }): User {
@@ -175,5 +175,81 @@ describe("getAdminUsersView - pagination", () => {
   it("treats a page of 0 or a negative page as page 1", () => {
     expect(getAdminUsersView(buildUsers(5), noSubmissions, { page: 0 }).page).toBe(1);
     expect(getAdminUsersView(buildUsers(5), noSubmissions, { page: -3 }).page).toBe(1);
+  });
+});
+
+describe("getAdminUsersView - per-column regex search", () => {
+  const users: User[] = [
+    makeUser({ id: "1", firstName: "Charlie", lastName: "Brown", email: "charlie@example.com", emailVerified: true, createdAt: "2026-01-03T00:00:00.000Z" }),
+    makeUser({ id: "2", firstName: "alice", lastName: "Adams", email: "Alice@example.com", emailVerified: false, createdAt: "2026-01-01T00:00:00.000Z" }),
+    makeUser({ id: "3", firstName: "Bob", lastName: "Zephyr", email: "bob@example.com", emailVerified: true, createdAt: "2026-01-02T00:00:00.000Z" }),
+  ];
+  const submittedUserIds = new Set(["3"]);
+
+  it("returns everyone with empty/absent search values", () => {
+    const result = getAdminUsersView(users, submittedUserIds, {});
+    expect(result.totalCount).toBe(3);
+    expect(result.search).toEqual({ name: "", email: "", verified: "", signedUp: "" });
+    expect(result.invalidSearch).toEqual({ name: false, email: false, verified: false, signedUp: false });
+  });
+
+  it("matches a single column by regex, case-insensitively", () => {
+    const result = getAdminUsersView(users, submittedUserIds, { searchName: "charlie" });
+    expect(result.users.map((u) => u.id)).toEqual(["1"]);
+    expect(result.search.name).toBe("charlie");
+  });
+
+  it("matches EMAIL against the raw email string", () => {
+    const result = getAdminUsersView(users, submittedUserIds, { searchEmail: "^bob@" });
+    expect(result.users.map((u) => u.id)).toEqual(["3"]);
+  });
+
+  it("matches VERIFIED against the literal displayed badge text", () => {
+    const verified = getAdminUsersView(users, submittedUserIds, { searchVerified: "^VERIFIED$" });
+    expect(verified.users.map((u) => u.id).sort()).toEqual(["1", "3"]);
+
+    const unverified = getAdminUsersView(users, submittedUserIds, { searchVerified: "^UNVERIFIED$" });
+    expect(unverified.users.map((u) => u.id)).toEqual(["2"]);
+  });
+
+  it("matches SIGNED UP against the formatted display date, not the raw ISO timestamp", () => {
+    const displayDate = formatSignedUpDate(users[2].createdAt); // id "3", e.g. "Jan 2, 2026"
+    const result = getAdminUsersView(users, submittedUserIds, { searchSignedUp: displayDate });
+    expect(result.users.map((u) => u.id)).toEqual(["3"]);
+
+    const noMatch = getAdminUsersView(users, submittedUserIds, { searchSignedUp: "2026-01-02" });
+    expect(noMatch.users).toEqual([]);
+  });
+
+  it("ANDs multiple active column searches together", () => {
+    // "a" (case-insensitive) matches "Charlie Brown" and "alice Adams" but not "Bob Zephyr".
+    // "^VERIFIED$" matches ids 1 and 3. The AND of both narrows to just id 1.
+    const result = getAdminUsersView(users, submittedUserIds, {
+      searchName: "a",
+      searchVerified: "^VERIFIED$",
+    });
+    expect(result.users.map((u) => u.id)).toEqual(["1"]);
+  });
+
+  it("falls back to matching everything for an invalid regex, without throwing", () => {
+    const result = getAdminUsersView(users, submittedUserIds, { searchName: "(unclosed" });
+    expect(result.totalCount).toBe(3);
+    expect(result.invalidSearch.name).toBe(true);
+    expect(result.invalidSearch.email).toBe(false);
+  });
+
+  it("combines search with the dashboard-tile filter param (AND)", () => {
+    const result = getAdminUsersView(users, submittedUserIds, {
+      filter: "verified",
+      searchName: "bob",
+    });
+    expect(result.users.map((u) => u.id)).toEqual(["3"]);
+    expect(result.filter).toBe("verified");
+  });
+
+  it("trims whitespace from search values before compiling", () => {
+    const result = getAdminUsersView(users, submittedUserIds, { searchName: "  charlie  " });
+    expect(result.search.name).toBe("charlie");
+    expect(result.users.map((u) => u.id)).toEqual(["1"]);
   });
 });
