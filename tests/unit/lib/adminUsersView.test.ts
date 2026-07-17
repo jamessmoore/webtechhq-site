@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getAdminUsersView } from "@/lib/adminUsersView";
+import { getAdminUsersView, formatSignedUpDate } from "@/lib/adminUsersView";
 import type { User } from "@/lib/types";
 
 function makeUser(overrides: Partial<User> & { id: string }): User {
@@ -175,5 +175,134 @@ describe("getAdminUsersView - pagination", () => {
   it("treats a page of 0 or a negative page as page 1", () => {
     expect(getAdminUsersView(buildUsers(5), noSubmissions, { page: 0 }).page).toBe(1);
     expect(getAdminUsersView(buildUsers(5), noSubmissions, { page: -3 }).page).toBe(1);
+  });
+});
+
+describe("getAdminUsersView - per-column regex search", () => {
+  const users: User[] = [
+    makeUser({ id: "1", firstName: "Charlie", lastName: "Brown", email: "charlie@example.com", emailVerified: true, createdAt: "2026-01-03T00:00:00.000Z" }),
+    makeUser({ id: "2", firstName: "alice", lastName: "Adams", email: "Alice@example.com", emailVerified: false, createdAt: "2026-01-01T00:00:00.000Z" }),
+    makeUser({ id: "3", firstName: "Bob", lastName: "Zephyr", email: "bob@example.com", emailVerified: true, createdAt: "2026-01-02T00:00:00.000Z" }),
+  ];
+  const submittedUserIds = new Set(["3"]);
+
+  it("returns everyone with empty/absent search values", () => {
+    const result = getAdminUsersView(users, submittedUserIds, {});
+    expect(result.totalCount).toBe(3);
+    expect(result.search).toEqual({ name: "", email: "", verified: "", signedUp: "" });
+    expect(result.invalidSearch).toEqual({ name: false, email: false, verified: false, signedUp: false });
+  });
+
+  it("matches a single column by regex, case-insensitively", () => {
+    const result = getAdminUsersView(users, submittedUserIds, { searchName: "charlie" });
+    expect(result.users.map((u) => u.id)).toEqual(["1"]);
+    expect(result.search.name).toBe("charlie");
+  });
+
+  it("matches EMAIL against the raw email string", () => {
+    const result = getAdminUsersView(users, submittedUserIds, { searchEmail: "^bob@" });
+    expect(result.users.map((u) => u.id)).toEqual(["3"]);
+  });
+
+  it("matches VERIFIED against the literal displayed badge text", () => {
+    const verified = getAdminUsersView(users, submittedUserIds, { searchVerified: "^VERIFIED$" });
+    expect(verified.users.map((u) => u.id).sort()).toEqual(["1", "3"]);
+
+    const unverified = getAdminUsersView(users, submittedUserIds, { searchVerified: "^UNVERIFIED$" });
+    expect(unverified.users.map((u) => u.id)).toEqual(["2"]);
+  });
+
+  it("matches SIGNED UP against the formatted display date, not the raw ISO timestamp", () => {
+    const displayDate = formatSignedUpDate(users[2].createdAt); // id "3", e.g. "Jan 2, 2026"
+    const result = getAdminUsersView(users, submittedUserIds, { searchSignedUp: displayDate });
+    expect(result.users.map((u) => u.id)).toEqual(["3"]);
+
+    const noMatch = getAdminUsersView(users, submittedUserIds, { searchSignedUp: "2026-01-02" });
+    expect(noMatch.users).toEqual([]);
+  });
+
+  it("ANDs multiple active column searches together", () => {
+    // "a" (case-insensitive) matches "Charlie Brown" and "alice Adams" but not "Bob Zephyr".
+    // "^VERIFIED$" matches ids 1 and 3. The AND of both narrows to just id 1.
+    const result = getAdminUsersView(users, submittedUserIds, {
+      searchName: "a",
+      searchVerified: "^VERIFIED$",
+    });
+    expect(result.users.map((u) => u.id)).toEqual(["1"]);
+  });
+
+  it("falls back to matching everything for an invalid regex, without throwing", () => {
+    const result = getAdminUsersView(users, submittedUserIds, { searchName: "(unclosed" });
+    expect(result.totalCount).toBe(3);
+    expect(result.invalidSearch.name).toBe(true);
+    expect(result.invalidSearch.email).toBe(false);
+  });
+
+  it("combines search with the dashboard-tile filter param (AND)", () => {
+    const result = getAdminUsersView(users, submittedUserIds, {
+      filter: "verified",
+      searchName: "bob",
+    });
+    expect(result.users.map((u) => u.id)).toEqual(["3"]);
+    expect(result.filter).toBe("verified");
+  });
+
+  it("trims whitespace from search values before compiling", () => {
+    const result = getAdminUsersView(users, submittedUserIds, { searchName: "  charlie  " });
+    expect(result.search.name).toBe("charlie");
+    expect(result.users.map((u) => u.id)).toEqual(["1"]);
+  });
+
+  it("rejects an overlong search pattern as invalid without compiling it, even if it's syntactically valid regex", () => {
+    // A pattern shaped for catastrophic backtracking (e.g. `(a+)+$`) is still
+    // valid regex syntax, so this must be caught by a length cap before
+    // `new RegExp()` + `.test()` ever run against every row, not by the
+    // existing try/catch (which only catches SyntaxErrors).
+    const overlong = "a".repeat(101);
+    const result = getAdminUsersView(users, submittedUserIds, { searchName: overlong });
+    expect(result.totalCount).toBe(3);
+    expect(result.invalidSearch.name).toBe(true);
+  });
+
+  it("still compiles a search pattern at exactly the length cap", () => {
+    const exactly100 = "charlie" + "x".repeat(93);
+    const result = getAdminUsersView(users, submittedUserIds, { searchName: exactly100 });
+    expect(result.invalidSearch.name).toBe(false);
+    expect(result.users).toEqual([]); // valid pattern, just doesn't match any name
+  });
+
+  // Regression test for Argus's ReDoS finding: a short, syntactically valid,
+  // catastrophic-backtracking pattern (well under MAX_SEARCH_PATTERN_LENGTH,
+  // so the length cap alone does nothing here) matched against a haystack
+  // shaped to trigger exponential backtracking. Unpatched, this exact
+  // regex/haystack pair hangs a plain `regex.test()` call for 150+ seconds:
+  //   const re = new RegExp("(a+)+$", "i");
+  //   re.test("a".repeat(35) + "!"); // ~154672ms
+  // The fix (safeRegexTest's vm-based hard timeout) must return well within
+  // a request-reasonable window regardless, treating the timed-out match as
+  // "no match" rather than letting it hang the whole process.
+  it("bounds match time against a catastrophic-backtracking pattern instead of hanging (ReDoS)", () => {
+    const poisonedUsers: User[] = [
+      makeUser({
+        id: "redos",
+        firstName: "a".repeat(35) + "!",
+        lastName: undefined,
+        email: "redos-target@example.com",
+      }),
+    ];
+
+    const start = Date.now();
+    const result = getAdminUsersView(poisonedUsers, new Set(), { searchName: "(a+)+$" });
+    const elapsedMs = Date.now() - start;
+
+    // Generous ceiling: real observed cost is ~50ms (the hard per-match
+    // timeout), vs. 150,000+ms unpatched. 5 seconds gives ample headroom for
+    // a slow CI machine while still failing hard if the fix regresses to
+    // "no bound at all".
+    expect(elapsedMs).toBeLessThan(5000);
+    // A timed-out match is treated as "no match" (safe default): the
+    // poisoned row is excluded, not included or 500ing.
+    expect(result.users).toEqual([]);
+    expect(result.invalidSearch.name).toBe(false); // pattern itself compiled fine
   });
 });
