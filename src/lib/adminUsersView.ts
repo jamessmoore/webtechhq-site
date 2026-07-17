@@ -1,3 +1,4 @@
+import * as vm from "node:vm";
 import type { User } from "./types";
 
 export type AdminUsersSortColumn = "name" | "email" | "verified" | "signedUp";
@@ -30,14 +31,63 @@ const NO_INVALID_SEARCH: AdminUsersInvalidSearch = {
 };
 
 /**
- * Hard cap on search pattern length. Patterns are compiled with `new RegExp()`
- * and `.test()`'d against every row on every request; an unbounded pattern
- * (e.g. a catastrophic-backtracking shape like `(a+)+$`) can stall the whole
- * single-threaded Node process, not just this page. A short cap keeps any
- * single match cheap regardless of pattern shape, without pulling in a new
- * dependency for a safe-regex check.
+ * Soft cap on search pattern length. This is defense in depth only, NOT the
+ * ReDoS fix: catastrophic-backtracking regex shapes are short (`(a+)+$` is 6
+ * chars), so a pattern-length cap does nothing to bound the actual blowup,
+ * which depends on the length/shape of the *haystack* (firstName/lastName/
+ * email), not the pattern. See `safeRegexTest` below for the real fix.
  */
 const MAX_SEARCH_PATTERN_LENGTH = 100;
+
+/**
+ * Hard wall-clock budget for a single regex match. Chosen to be well above
+ * any legitimate match (sub-millisecond in practice) but far below anything
+ * a human waiting on a page load would tolerate, so a worst-case pattern hits
+ * this ceiling on every row rather than compounding into a multi-minute
+ * stall.
+ */
+const SEARCH_MATCH_TIMEOUT_MS = 50;
+
+/**
+ * Reused vm context/script for `safeRegexTest`. Created once at module load
+ * so per-match overhead is just a property assignment + `runInContext` call,
+ * not a fresh context/script compile on every row.
+ */
+interface RegexTestSandbox {
+  regex: RegExp | null;
+  haystack: string;
+}
+const regexTestSandbox: RegexTestSandbox = { regex: null, haystack: "" };
+const regexTestContext = vm.createContext(regexTestSandbox);
+const regexTestScript = new vm.Script("regex.test(haystack)");
+
+/**
+ * Tests `regex` against `haystack` with a hard timeout, so a
+ * catastrophic-backtracking pattern (still valid regex syntax - not caught
+ * by the try/catch in `compileColumnRegexes`, which only catches
+ * SyntaxErrors at *compile* time) can't stall the single-threaded Node
+ * process regardless of how long the match itself runs. Runs the test
+ * inside a `vm` context specifically because `Script#runInContext`'s
+ * `timeout` option can forcibly terminate synchronous JS mid-execution
+ * (verified against Argus's exact repro: `(a+)+$` against a 35-char
+ * haystack, which hangs for 150+ seconds with a plain `regex.test()` call,
+ * returns in ~50ms here) - a plain try/catch around `regex.test()` cannot do
+ * this, since nothing throws until the (possibly minutes-long) synchronous
+ * call returns.
+ *
+ * A timed-out (or otherwise erroring) test is treated as "no match": the
+ * row is safely excluded from the result set rather than the request
+ * hanging or 500ing.
+ */
+function safeRegexTest(regex: RegExp, haystack: string): boolean {
+  regexTestSandbox.regex = regex;
+  regexTestSandbox.haystack = haystack;
+  try {
+    return Boolean(regexTestScript.runInContext(regexTestContext, { timeout: SEARCH_MATCH_TIMEOUT_MS }));
+  } catch {
+    return false;
+  }
+}
 
 export interface AdminUsersViewParams {
   sort?: string | null;
@@ -214,7 +264,7 @@ export function getAdminUsersView(
     for (const column of ADMIN_USERS_SORT_COLUMNS) {
       const regex = regexes[column];
       if (!regex) continue; // no pattern, or pattern failed to compile: inactive
-      if (!regex.test(fieldTextForColumn(u, column))) return false;
+      if (!safeRegexTest(regex, fieldTextForColumn(u, column))) return false;
     }
 
     return true;

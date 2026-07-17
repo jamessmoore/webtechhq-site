@@ -13,6 +13,7 @@ import {
   type AdminUsersFilter,
   type AdminUsersSearch,
 } from "@/lib/adminUsersView";
+import { isValidEmailFormat } from "@/lib/emailFormat";
 
 export const metadata: Metadata = { title: "Users | Admin | Moore Solutions" };
 
@@ -393,13 +394,34 @@ export default async function AdminUsersPage({
                         </span>
                       </td>
                       <td className="px-6 py-4 font-sans text-[13px]" style={{ color: "#80AEE0" }}>
-                        <a
-                          href={`mailto:${u.email}`}
-                          className="transition-colors"
-                          style={{ position: "relative", zIndex: 1, color: "#80AEE0" }}
-                        >
-                          {u.email}
-                        </a>
+                        {/*
+                          Defense in depth, not the only gate: signup validates
+                          email shape before storage (src/lib/emailFormat.ts),
+                          but a raw `mailto:${u.email}` href must never be
+                          trusted to be safe just because storage validated it
+                          - a row could pre-date that validation, or reach the
+                          DB some other way. Re-check the shape here and fall
+                          back to plain (non-link) text for anything that
+                          doesn't look like a real address, rather than ever
+                          interpolating an unvalidated string into a mailto
+                          href a browser will parse.
+                        */}
+                        {isValidEmailFormat(u.email) ? (
+                          <a
+                            href={`mailto:${u.email}`}
+                            className="transition-colors"
+                            style={{ position: "relative", zIndex: 1, color: "#80AEE0" }}
+                          >
+                            {u.email}
+                          </a>
+                        ) : (
+                          // No positioning/z-index here (unlike the mailto
+                          // link above): this cell isn't capturing clicks for
+                          // its own link anymore, so let the row's
+                          // stretched-link click-through behave the same as
+                          // any other non-interactive cell (e.g. NAME).
+                          <span>{u.email}</span>
+                        )}
                       </td>
                       <td className="px-6 py-4">
                         <VerifiedBadge verified={u.emailVerified} />

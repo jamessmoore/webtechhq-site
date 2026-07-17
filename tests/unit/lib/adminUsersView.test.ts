@@ -270,4 +270,39 @@ describe("getAdminUsersView - per-column regex search", () => {
     expect(result.invalidSearch.name).toBe(false);
     expect(result.users).toEqual([]); // valid pattern, just doesn't match any name
   });
+
+  // Regression test for Argus's ReDoS finding: a short, syntactically valid,
+  // catastrophic-backtracking pattern (well under MAX_SEARCH_PATTERN_LENGTH,
+  // so the length cap alone does nothing here) matched against a haystack
+  // shaped to trigger exponential backtracking. Unpatched, this exact
+  // regex/haystack pair hangs a plain `regex.test()` call for 150+ seconds:
+  //   const re = new RegExp("(a+)+$", "i");
+  //   re.test("a".repeat(35) + "!"); // ~154672ms
+  // The fix (safeRegexTest's vm-based hard timeout) must return well within
+  // a request-reasonable window regardless, treating the timed-out match as
+  // "no match" rather than letting it hang the whole process.
+  it("bounds match time against a catastrophic-backtracking pattern instead of hanging (ReDoS)", () => {
+    const poisonedUsers: User[] = [
+      makeUser({
+        id: "redos",
+        firstName: "a".repeat(35) + "!",
+        lastName: undefined,
+        email: "redos-target@example.com",
+      }),
+    ];
+
+    const start = Date.now();
+    const result = getAdminUsersView(poisonedUsers, new Set(), { searchName: "(a+)+$" });
+    const elapsedMs = Date.now() - start;
+
+    // Generous ceiling: real observed cost is ~50ms (the hard per-match
+    // timeout), vs. 150,000+ms unpatched. 5 seconds gives ample headroom for
+    // a slow CI machine while still failing hard if the fix regresses to
+    // "no bound at all".
+    expect(elapsedMs).toBeLessThan(5000);
+    // A timed-out match is treated as "no match" (safe default): the
+    // poisoned row is excluded, not included or 500ing.
+    expect(result.users).toEqual([]);
+    expect(result.invalidSearch.name).toBe(false); // pattern itself compiled fine
+  });
 });

@@ -4,16 +4,14 @@ import { getSignupAttemptCount, recordSignupAttempt, MAX_SIGNUP_ATTEMPTS } from 
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/email";
 import { verifyRecaptcha } from "@/lib/recaptcha";
+import { isValidEmailFormat } from "@/lib/emailFormat";
 
-// Standard local@domain.tld format check (the same character classes used by
-// the HTML5 <input type="email"> spec). Not RFC 5322-exhaustive, but the
-// domain half is restricted to DNS-label characters (letters, digits,
-// hyphens, dots) only - no "@", "?", "=", "&", whitespace, or control
-// characters - which rules out header/query-style mailto injection strings
-// before they're stored and later rendered as a raw `mailto:` href elsewhere
-// in the app.
-const EMAIL_FORMAT_REGEX =
-  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+// Defense in depth against a long user-supplied name: doesn't by itself
+// bound regex match time in the admin users search (see
+// `safeRegexTest` in `src/lib/adminUsersView.ts` for the actual fix), but
+// there's no legitimate reason a name needs to be longer than this, and it
+// shrinks the space of possible catastrophic-backtracking haystacks.
+const MAX_NAME_LENGTH = 100;
 
 export async function POST(request: NextRequest) {
   try {
@@ -33,7 +31,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!EMAIL_FORMAT_REGEX.test(email.trim())) {
+    if (name.trim().length > MAX_NAME_LENGTH) {
+      return NextResponse.json(
+        { error: `Name must be ${MAX_NAME_LENGTH} characters or fewer.` },
+        { status: 400 },
+      );
+    }
+
+    if (!isValidEmailFormat(email.trim())) {
       return NextResponse.json(
         { error: "Please enter a valid email address." },
         { status: 400 },

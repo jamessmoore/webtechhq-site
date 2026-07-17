@@ -57,6 +57,35 @@ describe("POST /api/auth/signup", () => {
     expect(users.getUserByEmail(malicious.toLowerCase())).toBeNull();
   });
 
+  // Single-@ mailto injection shapes: the local part is RFC 5322-legal but
+  // carries mailto: URI query syntax (?, &, =), which a browser's mailto:
+  // parser splits on when the address is later rendered as a raw
+  // `mailto:${email}` href in the admin users table.
+  it("rejects a single-@ email whose local part smuggles mailto subject/body params", async () => {
+    const malicious = "victim?subject=Hi&body=whatever@x.com";
+    const res = await POST(signupRequest({ ...validBody, email: malicious }));
+    expect(res.status).toBe(400);
+    expect(users.getUserByEmail(malicious.toLowerCase())).toBeNull();
+  });
+
+  it("rejects a single-@ email whose local part smuggles a mailto cc param", async () => {
+    const malicious = "victim?cc=someone-else-entirely@x.com";
+    const res = await POST(signupRequest({ ...validBody, email: malicious }));
+    expect(res.status).toBe(400);
+    expect(users.getUserByEmail(malicious.toLowerCase())).toBeNull();
+  });
+
+  it("rejects a name longer than the length cap", async () => {
+    const res = await POST(signupRequest({ ...validBody, name: "a".repeat(101), email: "toolongname@example.com" }));
+    expect(res.status).toBe(400);
+    expect(users.getUserByEmail("toolongname@example.com")).toBeNull();
+  });
+
+  it("accepts a name at exactly the length cap", async () => {
+    const res = await POST(signupRequest({ ...validBody, name: "a".repeat(100), email: "exactlength@example.com" }));
+    expect(res.status).toBe(200);
+  });
+
   it("creates a lightweight user (no password) and sends a verification email", async () => {
     const res = await POST(signupRequest(validBody));
     expect(res.status).toBe(200);

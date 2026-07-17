@@ -4,6 +4,11 @@ import { auth } from "@/auth";
 import { getUserById, completeAccountSignup, isAccountCompleted } from "@/lib/users";
 import { sendSlackNotification } from "@/lib/slack";
 
+// Same defense-in-depth rationale as MAX_NAME_LENGTH in the signup route:
+// bounds the haystack half of the admin users search ReDoS surface, on top
+// of (not instead of) the timeout-based fix in `adminUsersView.ts`.
+const MAX_LAST_NAME_LENGTH = 100;
+
 export async function POST(request: NextRequest) {
   try {
     const session = await auth();
@@ -26,6 +31,13 @@ export async function POST(request: NextRequest) {
     if (!password || password.length < 8) {
       return NextResponse.json(
         { error: "Password must be at least 8 characters." },
+        { status: 400 },
+      );
+    }
+
+    if (lastName && lastName.trim().length > MAX_LAST_NAME_LENGTH) {
+      return NextResponse.json(
+        { error: `Last name must be ${MAX_LAST_NAME_LENGTH} characters or fewer.` },
         { status: 400 },
       );
     }
