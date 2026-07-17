@@ -5,6 +5,16 @@ import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/email";
 import { verifyRecaptcha } from "@/lib/recaptcha";
 
+// Standard local@domain.tld format check (the same character classes used by
+// the HTML5 <input type="email"> spec). Not RFC 5322-exhaustive, but the
+// domain half is restricted to DNS-label characters (letters, digits,
+// hyphens, dots) only - no "@", "?", "=", "&", whitespace, or control
+// characters - which rules out header/query-style mailto injection strings
+// before they're stored and later rendered as a raw `mailto:` href elsewhere
+// in the app.
+const EMAIL_FORMAT_REGEX =
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -19,6 +29,13 @@ export async function POST(request: NextRequest) {
     if (!name?.trim() || !email?.trim()) {
       return NextResponse.json(
         { error: "Name and email are required." },
+        { status: 400 },
+      );
+    }
+
+    if (!EMAIL_FORMAT_REGEX.test(email.trim())) {
+      return NextResponse.json(
+        { error: "Please enter a valid email address." },
         { status: 400 },
       );
     }

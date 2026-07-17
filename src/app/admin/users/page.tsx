@@ -388,7 +388,7 @@ export default async function AdminUsersPage({
                           style={{ zIndex: 0 }}
                           aria-label={`View ${u.firstName}${u.lastName ? ` ${u.lastName}` : ""}`}
                         />
-                        <span style={{ position: "relative" }}>
+                        <span>
                           {u.firstName}{u.lastName ? ` ${u.lastName}` : ""}
                         </span>
                       </td>

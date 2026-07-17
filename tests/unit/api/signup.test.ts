@@ -44,6 +44,19 @@ describe("POST /api/auth/signup", () => {
     expect(res.status).toBe(400);
   });
 
+  it("rejects an email that fails basic format validation", async () => {
+    const res = await POST(signupRequest({ ...validBody, email: "not-an-email" }));
+    expect(res.status).toBe(400);
+    expect(users.getUserByEmail("not-an-email")).toBeNull();
+  });
+
+  it("rejects a mailto-injection-shaped email (extra @ used as a bcc target)", async () => {
+    const malicious = "real@x.com?bcc=attacker@evil.com&subject=hi";
+    const res = await POST(signupRequest({ ...validBody, email: malicious }));
+    expect(res.status).toBe(400);
+    expect(users.getUserByEmail(malicious.toLowerCase())).toBeNull();
+  });
+
   it("creates a lightweight user (no password) and sends a verification email", async () => {
     const res = await POST(signupRequest(validBody));
     expect(res.status).toBe(200);

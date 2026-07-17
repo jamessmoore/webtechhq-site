@@ -252,4 +252,22 @@ describe("getAdminUsersView - per-column regex search", () => {
     expect(result.search.name).toBe("charlie");
     expect(result.users.map((u) => u.id)).toEqual(["1"]);
   });
+
+  it("rejects an overlong search pattern as invalid without compiling it, even if it's syntactically valid regex", () => {
+    // A pattern shaped for catastrophic backtracking (e.g. `(a+)+$`) is still
+    // valid regex syntax, so this must be caught by a length cap before
+    // `new RegExp()` + `.test()` ever run against every row, not by the
+    // existing try/catch (which only catches SyntaxErrors).
+    const overlong = "a".repeat(101);
+    const result = getAdminUsersView(users, submittedUserIds, { searchName: overlong });
+    expect(result.totalCount).toBe(3);
+    expect(result.invalidSearch.name).toBe(true);
+  });
+
+  it("still compiles a search pattern at exactly the length cap", () => {
+    const exactly100 = "charlie" + "x".repeat(93);
+    const result = getAdminUsersView(users, submittedUserIds, { searchName: exactly100 });
+    expect(result.invalidSearch.name).toBe(false);
+    expect(result.users).toEqual([]); // valid pattern, just doesn't match any name
+  });
 });

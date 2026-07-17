@@ -29,6 +29,16 @@ const NO_INVALID_SEARCH: AdminUsersInvalidSearch = {
   signedUp: false,
 };
 
+/**
+ * Hard cap on search pattern length. Patterns are compiled with `new RegExp()`
+ * and `.test()`'d against every row on every request; an unbounded pattern
+ * (e.g. a catastrophic-backtracking shape like `(a+)+$`) can stall the whole
+ * single-threaded Node process, not just this page. A short cap keeps any
+ * single match cheap regardless of pattern shape, without pulling in a new
+ * dependency for a safe-regex check.
+ */
+const MAX_SEARCH_PATTERN_LENGTH = 100;
+
 export interface AdminUsersViewParams {
   sort?: string | null;
   order?: string | null;
@@ -150,8 +160,9 @@ function compareUsers(a: User, b: User, sort: AdminUsersSortColumn, order: SortO
 
 /**
  * Compiles each column's search pattern into a case-insensitive RegExp.
- * A pattern that fails to compile is reported as invalid and treated as
- * an inactive filter (excludes no rows) rather than throwing.
+ * A pattern that fails to compile, or exceeds MAX_SEARCH_PATTERN_LENGTH, is
+ * reported as invalid and treated as an inactive filter (excludes no rows)
+ * rather than throwing or being compiled/matched at all.
  */
 function compileColumnRegexes(
   search: AdminUsersSearch,
@@ -162,6 +173,10 @@ function compileColumnRegexes(
   for (const column of ADMIN_USERS_SORT_COLUMNS) {
     const pattern = search[column];
     if (!pattern) continue;
+    if (pattern.length > MAX_SEARCH_PATTERN_LENGTH) {
+      invalid[column] = true;
+      continue;
+    }
     try {
       regexes[column] = new RegExp(pattern, "i");
     } catch {
