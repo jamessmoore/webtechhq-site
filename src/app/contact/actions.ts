@@ -2,24 +2,11 @@
 
 import { auth } from '@/auth'
 import { sendContactFormEmail } from '@/lib/email'
+import { verifyRecaptcha } from '@/lib/recaptcha'
 
 export type ContactFormState = {
   status: 'idle' | 'success' | 'error'
   message?: string
-}
-
-async function verifyRecaptcha(token: string): Promise<boolean> {
-  const secret = process.env.RECAPTCHA_SECRET_KEY
-  if (!secret || !token) return false
-
-  const res = await fetch('https://www.google.com/recaptcha/api/siteverify', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({ secret, response: token }),
-  })
-
-  const data = await res.json()
-  return data.success === true
 }
 
 export async function sendContactMessage(
@@ -36,12 +23,12 @@ export async function sendContactMessage(
     return { status: 'error', message: 'Please fill out all fields.' }
   }
 
-  const recaptchaOk = await verifyRecaptcha(recaptchaToken)
-  if (!recaptchaOk) {
-    return { status: 'error', message: 'CAPTCHA verification failed. Please try again.' }
-  }
-
   try {
+    const recaptchaOk = await verifyRecaptcha(recaptchaToken)
+    if (!recaptchaOk) {
+      return { status: 'error', message: 'CAPTCHA verification failed. Please try again.' }
+    }
+
     const session = await auth()
     const isRegisteredUser = Boolean(session?.user?.id)
     await sendContactFormEmail({ name, email, subject, message, isRegisteredUser })
