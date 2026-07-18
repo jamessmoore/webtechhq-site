@@ -130,8 +130,13 @@ describe("POST /api/auth/signup", () => {
 
     const second = await POST(signupRequest({ ...validBody, email: email1, name: "New Name" }));
     expect(second.status).toBe(200);
-    const secondBody = (await second.json()) as { success?: boolean; resent?: boolean };
-    expect(secondBody.resent).toBe(true);
+    const secondBody = (await second.json()) as Record<string, unknown>;
+    // The client-visible response must be indistinguishable from a
+    // brand-new signup - no `resent` (or any other) field that would let
+    // an unauthenticated caller tell "new account created" apart from "we
+    // found your existing, unverified signup and resent the link". That
+    // distinction would let anyone enumerate an email's account status.
+    expect(secondBody).toEqual({ success: true });
 
     // Same underlying account - not deleted/recreated - and the original
     // name is left alone rather than being overwritten by the duplicate
@@ -152,6 +157,25 @@ describe("POST /api/auth/signup", () => {
     );
 
     expect(users.getAllUsers().filter((u) => u.email === email1)).toHaveLength(1);
+  });
+
+  it("returns byte-identical response bodies for a brand-new signup and a resend-to-existing-unverified signup (account enumeration guard)", async () => {
+    const freshEmail = "brand-new.signup@example.com";
+    const freshRes = await POST(signupRequest({ ...validBody, email: freshEmail }));
+    expect(freshRes.status).toBe(200);
+    const freshBody = await freshRes.json();
+
+    const existingEmail = "already-unverified.signup@example.com";
+    await POST(signupRequest({ ...validBody, email: existingEmail }));
+    const resendRes = await POST(signupRequest({ ...validBody, email: existingEmail }));
+    expect(resendRes.status).toBe(200);
+    const resendBody = await resendRes.json();
+
+    // An unauthenticated caller must not be able to distinguish "your
+    // account was just created" from "we found your existing, unverified
+    // signup and resent the link" - either response shape leaking that
+    // distinction would let anyone enumerate an email's account status.
+    expect(resendBody).toEqual(freshBody);
   });
 
   it("rejects signup and does not resend anything when the existing account has already verified its email (but never set a password)", async () => {

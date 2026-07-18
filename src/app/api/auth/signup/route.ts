@@ -95,7 +95,14 @@ export async function POST(request: NextRequest) {
         console.error("Verification email resend failed:", err);
       });
 
-      return NextResponse.json({ success: true, resent: true });
+      // Deliberately identical response shape to the brand-new-signup path
+      // below: an unauthenticated caller must not be able to tell "we just
+      // created your account" apart from "we found your existing,
+      // unverified signup and resent the link" - that distinction, layered
+      // on top of the already-accepted 409 reveal for verified/completed
+      // accounts, would let anyone fully enumerate an email's account
+      // status just by submitting the signup form.
+      return NextResponse.json({ success: true });
     }
 
     recordSignupAttempt(normalizedEmail);

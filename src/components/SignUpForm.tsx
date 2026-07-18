@@ -20,7 +20,6 @@ export default function SignUpForm() {
   const [form, setForm] = useState<FormState>(INITIAL);
   const [error, setError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
-  const [resent, setResent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [recaptchaToken, setRecaptchaToken] = useState("");
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
@@ -54,7 +53,7 @@ export default function SignUpForm() {
         }),
       });
 
-      const data = (await res.json()) as { success?: boolean; error?: string; resent?: boolean };
+      const data = (await res.json()) as { success?: boolean; error?: string };
 
       if (!res.ok) {
         setError(data.error ?? "Something went wrong. Please try again.");
@@ -63,7 +62,6 @@ export default function SignUpForm() {
         return;
       }
 
-      setResent(Boolean(data.resent));
       setSubmitted(true);
     } catch {
       setError("Network error. Please check your connection and try again.");
@@ -94,27 +92,15 @@ export default function SignUpForm() {
           Check your inbox
         </h2>
         <p className="text-sm leading-relaxed">
-          {resent ? (
-            <>
-              We found an existing, unverified signup for{" "}
-              <span style={{ color: "#89D4FF" }}>{form.email}</span> and sent a new
-              verification link to it.
-              <br />
-              Click it to jump straight into your Opportunity Finder.
-            </>
-          ) : (
-            <>
-              We sent a verification link to{" "}
-              <span style={{ color: "#89D4FF" }}>{form.email}</span>.<br />
-              Click it to jump straight into your Opportunity Finder.
-            </>
-          )}
+          We sent a verification link to{" "}
+          <span style={{ color: "#89D4FF" }}>{form.email}</span>.<br />
+          Click it to jump straight into your Opportunity Finder.
         </p>
         <p className="mt-4 text-xs">
           Didn&apos;t get it? Check your spam folder or{" "}
           <button
             type="button"
-            onClick={() => { setSubmitted(false); setResent(false); setForm(INITIAL); }}
+            onClick={() => { setSubmitted(false); setForm(INITIAL); }}
             className="underline hover:no-underline transition-all"
             style={{ color: "#89D4FF" }}
           >
