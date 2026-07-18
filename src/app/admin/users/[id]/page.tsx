@@ -42,10 +42,16 @@ function Card({ children, className = "" }: { children: React.ReactNode; classNa
   );
 }
 
+function first(value: string | string[] | undefined): string | undefined {
+  return Array.isArray(value) ? value[0] : value;
+}
+
 export default async function AdminUserDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const session = await auth();
   requireAdmin(session?.user?.email);
@@ -55,6 +61,15 @@ export default async function AdminUserDetailPage({
   if (!user) notFound();
 
   const submission = getSubmissionsByUser(user.id)[0];
+
+  // `from` carries the admin/users list's sort/order/page/filter/search query
+  // string forward from the row link (see buildHref/currentListQueryString in
+  // admin/users/page.tsx), so the "All users" breadcrumb below can round-trip
+  // back to that exact list state instead of always resetting to the bare,
+  // unfiltered list. Falls back to a plain link when absent (e.g. someone
+  // navigates to this URL directly rather than clicking a row).
+  const fromQuery = first((await searchParams).from);
+  const allUsersHref = fromQuery ? `/admin/users?${fromQuery}` : "/admin/users";
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#030B18" }}>
@@ -82,7 +97,7 @@ export default async function AdminUserDetailPage({
       <main className="px-8 py-8 max-w-5xl mx-auto">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 mb-6">
-          <Link href="/admin/users" className="font-sans text-[12px] transition-colors" style={{ color: "#5B90C8" }}>
+          <Link href={allUsersHref} className="font-sans text-[12px] transition-colors" style={{ color: "#5B90C8" }}>
             ← All users
           </Link>
         </div>
