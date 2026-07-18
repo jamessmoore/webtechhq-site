@@ -12,6 +12,10 @@ jobs:
       # CI secrets configured, so a throwaway value is fine here.
       NEXTAUTH_URL: http://localhost:3000
       NEXTAUTH_SECRET: ci-test-secret-not-used-in-production
+      # Lets tests/e2e/adminUsersColumnSearch.spec.ts sign up and sign in as
+      # an admin account (requireAdmin() in src/app/admin/**/page.tsx gates on
+      # an exact process.env.ADMIN_EMAIL match) to cover /admin/users e2e.
+      ADMIN_EMAIL: e2e-admin@test.local
     steps:
       - uses: actions/checkout@v6
 
