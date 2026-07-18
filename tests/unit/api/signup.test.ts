@@ -121,17 +121,84 @@ describe("POST /api/auth/signup", () => {
     expect(second.status).toBe(409);
   });
 
-  it("resets an incomplete account when the same email signs up again", async () => {
+  it("resends the verification email to the existing record instead of creating a duplicate when the same email (unverified, incomplete) signs up again", async () => {
     const email1 = "incomplete.signup@example.com";
     const first = await POST(signupRequest({ ...validBody, email: email1 }));
     expect(first.status).toBe(200);
     const firstUser = users.getUserByEmail(email1)!;
+    const firstToken = firstUser.verificationToken;
 
     const second = await POST(signupRequest({ ...validBody, email: email1, name: "New Name" }));
     expect(second.status).toBe(200);
+    const secondBody = (await second.json()) as Record<string, unknown>;
+    // The client-visible response must be indistinguishable from a
+    // brand-new signup - no `resent` (or any other) field that would let
+    // an unauthenticated caller tell "new account created" apart from "we
+    // found your existing, unverified signup and resent the link". That
+    // distinction would let anyone enumerate an email's account status.
+    expect(secondBody).toEqual({ success: true });
+
+    // Same underlying account - not deleted/recreated - and the original
+    // name is left alone rather than being overwritten by the duplicate
+    // request's payload.
     const secondUser = users.getUserByEmail(email1)!;
-    expect(secondUser.id).not.toBe(firstUser.id);
-    expect(secondUser.firstName).toBe("New Name");
+    expect(secondUser.id).toBe(firstUser.id);
+    expect(secondUser.firstName).toBe("Ada Lovelace");
+    expect(secondUser.emailVerified).toBe(false);
+
+    // A fresh token was issued and the (mocked) verification email was
+    // resent using it.
+    expect(secondUser.verificationToken).toBeTruthy();
+    expect(secondUser.verificationToken).not.toBe(firstToken);
+    expect(email.sendVerificationEmail).toHaveBeenCalledWith(
+      email1,
+      "Ada Lovelace",
+      secondUser.verificationToken,
+    );
+
+    expect(users.getAllUsers().filter((u) => u.email === email1)).toHaveLength(1);
+  });
+
+  it("returns byte-identical response bodies for a brand-new signup and a resend-to-existing-unverified signup (account enumeration guard)", async () => {
+    const freshEmail = "brand-new.signup@example.com";
+    const freshRes = await POST(signupRequest({ ...validBody, email: freshEmail }));
+    expect(freshRes.status).toBe(200);
+    const freshBody = await freshRes.json();
+
+    const existingEmail = "already-unverified.signup@example.com";
+    await POST(signupRequest({ ...validBody, email: existingEmail }));
+    const resendRes = await POST(signupRequest({ ...validBody, email: existingEmail }));
+    expect(resendRes.status).toBe(200);
+    const resendBody = await resendRes.json();
+
+    // An unauthenticated caller must not be able to distinguish "your
+    // account was just created" from "we found your existing, unverified
+    // signup and resent the link" - either response shape leaking that
+    // distinction would let anyone enumerate an email's account status.
+    expect(resendBody).toEqual(freshBody);
+  });
+
+  it("rejects signup and does not resend anything when the existing account has already verified its email (but never set a password)", async () => {
+    const email1 = "verified.incomplete.signup@example.com";
+    const first = await POST(signupRequest({ ...validBody, email: email1 }));
+    expect(first.status).toBe(200);
+
+    const user = users.getUserByEmail(email1)!;
+    // Simulate having clicked the verification link without yet finishing
+    // account setup (setting a password).
+    users.verifyUserEmail(user.id);
+
+    email.sendVerificationEmail.mockClear();
+
+    const second = await POST(signupRequest({ ...validBody, email: email1 }));
+    expect(second.status).toBe(409);
+    const secondBody = (await second.json()) as { error?: string };
+    expect(secondBody.error).toMatch(/already exists/i);
+
+    expect(email.sendVerificationEmail).not.toHaveBeenCalled();
+    const stillSameUser = users.getUserByEmail(email1)!;
+    expect(stillSameUser.id).toBe(user.id);
+    expect(users.getAllUsers().filter((u) => u.email === email1)).toHaveLength(1);
   });
 
   it("blocks further requests once the retry cap is reached", async () => {
