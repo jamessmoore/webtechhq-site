@@ -14,6 +14,9 @@ import {
   type AdminUsersSearch,
 } from "@/lib/adminUsersView";
 import { isValidEmailFormat } from "@/lib/emailFormat";
+import AdminUsersColumnSearch, {
+  type AdminUsersColumnSearchHiddenField,
+} from "@/components/AdminUsersColumnSearch";
 
 export const metadata: Metadata = { title: "Users | Admin | Moore Solutions" };
 
@@ -48,24 +51,6 @@ function VerifiedBadge({ verified }: { verified: boolean }) {
   );
 }
 
-function SearchIcon({ size = 12 }: { size?: number }) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="10.5" cy="10.5" r="6.5" />
-      <line x1="20" y1="20" x2="15.5" y2="15.5" />
-    </svg>
-  );
-}
-
 const COLUMNS: { key: AdminUsersSortColumn; label: string }[] = [
   { key: "name", label: "NAME" },
   { key: "email", label: "EMAIL" },
@@ -82,14 +67,16 @@ function first(value: string | string[] | undefined): string | undefined {
   return Array.isArray(value) ? value[0] : value;
 }
 
-function buildHref(query: {
+type AdminUsersQuery = {
   sort: string;
   order: string;
   page: number;
   pageSize: number;
   filter: AdminUsersFilter;
   search: AdminUsersSearch;
-}): string {
+};
+
+function buildSearchParams(query: AdminUsersQuery): URLSearchParams {
   const sp = new URLSearchParams();
   sp.set("sort", query.sort);
   sp.set("order", query.order);
@@ -100,7 +87,36 @@ function buildHref(query: {
     const value = query.search[column];
     if (value) sp.set(SEARCH_PARAM_NAMES[column], value);
   }
-  return `/admin/users?${sp.toString()}`;
+  return sp;
+}
+
+function buildHref(query: AdminUsersQuery): string {
+  return `/admin/users?${buildSearchParams(query).toString()}`;
+}
+
+/**
+ * Hidden fields for one column's search form: the fixed sort/order/pageSize/
+ * page(=1)/filter values plus every *other* column's active search value
+ * (mirrors `HiddenSearchInputs`, just as plain data instead of JSX so it can
+ * cross the server/client boundary into `AdminUsersColumnSearch`).
+ */
+function buildColumnSearchHiddenFields(
+  column: AdminUsersSortColumn,
+  view: { sort: string; order: string; pageSize: number; filter: AdminUsersFilter; search: AdminUsersSearch },
+): AdminUsersColumnSearchHiddenField[] {
+  const fields: AdminUsersColumnSearchHiddenField[] = [
+    { name: "sort", value: view.sort },
+    { name: "order", value: view.order },
+    { name: "pageSize", value: String(view.pageSize) },
+    { name: "page", value: "1" },
+  ];
+  if (view.filter) fields.push({ name: "filter", value: view.filter });
+  for (const c of ADMIN_USERS_SORT_COLUMNS) {
+    if (c !== column && view.search[c]) {
+      fields.push({ name: SEARCH_PARAM_NAMES[c], value: view.search[c] });
+    }
+  }
+  return fields;
 }
 
 /** Hidden inputs that carry forward every current search value except the column being edited. */
@@ -149,6 +165,18 @@ export default async function AdminUsersPage({
     : null;
   // CLEAR resets everything back to the unfiltered, unsearched, default-sorted list - not just the tile filter.
   const clearHref = buildHref({ sort: DEFAULT_SORT, order: DEFAULT_ORDER, page: 1, pageSize: view.pageSize, filter: null, search: EMPTY_SEARCH });
+
+  // Carried into each row's detail-page link (as `?from=`) so the detail page's "All Users"
+  // breadcrumb can round-trip back to this exact sort/order/page/filter/search state instead
+  // of always landing on the bare, unfiltered list.
+  const currentListQueryString = buildSearchParams({
+    sort: view.sort,
+    order: view.order,
+    page: view.page,
+    pageSize: view.pageSize,
+    filter: view.filter,
+    search: view.search,
+  }).toString();
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#030B18" }}>
@@ -322,50 +350,14 @@ export default async function AdminUsersPage({
                               visible without an extra click; a successful search just leaves the
                               icon highlighted (searchActive) and collapses the input.
                             */}
-                            <details open={searchInvalid} style={{ position: "relative" }}>
-                              <summary
-                                className={`cursor-pointer list-none inline-flex items-center justify-center p-1 rounded-[3px] ${HOVER_GLOW}`}
-                                style={{ color: searchActive || searchInvalid ? "#89D4FF" : "#5B90C8" }}
-                                aria-label={`Search ${col.label}`}
-                              >
-                                <SearchIcon />
-                              </summary>
-                              <form
-                                method="GET"
-                                action="/admin/users"
-                                className="absolute z-20 mt-1 flex flex-col gap-1 p-2"
-                                style={{ backgroundColor: "#0B1930", border: "0.8px solid #162D5A", borderRadius: "4px", top: "100%", left: 0 }}
-                              >
-                                <div className="flex items-center gap-1">
-                                  <input type="hidden" name="sort" value={view.sort} />
-                                  <input type="hidden" name="order" value={view.order} />
-                                  <input type="hidden" name="pageSize" value={view.pageSize} />
-                                  <input type="hidden" name="page" value="1" />
-                                  {view.filter && <input type="hidden" name="filter" value={view.filter} />}
-                                  <HiddenSearchInputs search={view.search} except={col.key} />
-                                  <input
-                                    type="text"
-                                    name={SEARCH_PARAM_NAMES[col.key]}
-                                    defaultValue={view.search[col.key]}
-                                    placeholder="regex"
-                                    className="font-sans text-[12px] px-2 py-1 focus:outline-none focus:[border-color:#3D7FD4] normal-case tracking-normal"
-                                    style={{ backgroundColor: "#030B18", border: "0.8px solid rgba(255,255,255,0.4)", borderRadius: "2px", color: "#EEF6FF", width: "120px" }}
-                                  />
-                                  <button
-                                    type="submit"
-                                    className={`font-sans text-[10px] tracking-widest px-2 py-1 rounded-[6px] ${HOVER_GLOW}`}
-                                    style={{ color: "#89D4FF", border: "0.8px solid #3D7FD4" }}
-                                  >
-                                    GO
-                                  </button>
-                                </div>
-                                {searchInvalid && (
-                                  <p className="font-sans text-[10px] normal-case tracking-normal" style={{ color: "#FBBC05" }}>
-                                    Invalid pattern, showing all rows
-                                  </p>
-                                )}
-                              </form>
-                            </details>
+                            <AdminUsersColumnSearch
+                              columnLabel={col.label}
+                              paramName={SEARCH_PARAM_NAMES[col.key]}
+                              searchValue={view.search[col.key]}
+                              searchActive={searchActive}
+                              searchInvalid={searchInvalid}
+                              hiddenFields={buildColumnSearchHiddenFields(col.key, view)}
+                            />
                           </div>
                         </th>
                       );
@@ -384,7 +376,7 @@ export default async function AdminUsersPage({
                     >
                       <td className="px-6 py-4 font-sans text-[13px]" style={{ color: "#EEF6FF", whiteSpace: "nowrap" }}>
                         <Link
-                          href={`/admin/users/${u.id}`}
+                          href={`/admin/users/${u.id}?from=${encodeURIComponent(currentListQueryString)}`}
                           className="absolute inset-0"
                           style={{ zIndex: 0 }}
                           aria-label={`View ${u.firstName}${u.lastName ? ` ${u.lastName}` : ""}`}
