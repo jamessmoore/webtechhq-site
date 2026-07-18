@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { consumeRowNavigationPending } from "@/lib/adminUsersRowNavigation";
 
 const HOVER_GLOW =
   "transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)]";
@@ -119,7 +120,21 @@ export default function AdminUsersColumnSearch({
   }
 
   function closePanel() {
-    flushPendingNavigate();
+    // A row click blurs this input as its first effect, which is what routes
+    // here. If that's what's happening, the row's own navigation should win
+    // outright rather than race a debounce-flush `replace()` against its
+    // `push()` (see src/lib/adminUsersRowNavigation.ts) - so drop the pending
+    // debounce instead of flushing it. Unmounting under the resulting route
+    // change would clear the timer anyway (see the effect above); clearing it
+    // here too in case that navigation doesn't end up completing.
+    if (consumeRowNavigationPending()) {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current);
+        debounceRef.current = null;
+      }
+    } else {
+      flushPendingNavigate();
+    }
     setOpen(false);
   }
 

@@ -17,6 +17,7 @@ import { isValidEmailFormat } from "@/lib/emailFormat";
 import AdminUsersColumnSearch, {
   type AdminUsersColumnSearchHiddenField,
 } from "@/components/AdminUsersColumnSearch";
+import AdminUsersRowLink from "@/components/AdminUsersRowLink";
 
 export const metadata: Metadata = { title: "Users | Admin | Moore Solutions" };
 
@@ -375,11 +376,9 @@ export default async function AdminUsersPage({
                       }}
                     >
                       <td className="px-6 py-4 font-sans text-[13px]" style={{ color: "#EEF6FF", whiteSpace: "nowrap" }}>
-                        <Link
+                        <AdminUsersRowLink
                           href={`/admin/users/${u.id}?from=${encodeURIComponent(currentListQueryString)}`}
-                          className="absolute inset-0"
-                          style={{ zIndex: 0 }}
-                          aria-label={`View ${u.firstName}${u.lastName ? ` ${u.lastName}` : ""}`}
+                          ariaLabel={`View ${u.firstName}${u.lastName ? ` ${u.lastName}` : ""}`}
                         />
                         <span>
                           {u.firstName}{u.lastName ? ` ${u.lastName}` : ""}
