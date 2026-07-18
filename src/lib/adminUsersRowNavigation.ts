@@ -54,15 +54,92 @@
  * needs to survive for its *own* same-gesture `consumeRowNavigationPending()`
  * call either: that call (via the blur handler's deferred check) always runs
  * to completion before any later `pointerdown` could even be queued.
+ *
+ * `pointerdown` alone only bounds *mouse/touch*-driven re-arming, though.
+ * A keyboard-only user never dispatches one at all: Tab to focus a column
+ * search's `<summary>`, Enter/Space to open it (native `<details>`
+ * activation - a `click`, not a pointer event), Tab into the input, type,
+ * Tab away. If a stale flag were left over from an earlier, unrelated mouse
+ * row click, that keyboard-only sequence would never clear it, and the
+ * resulting blur's `closePanel()` would wrongly read it as true and silently
+ * drop the debounce instead of flushing it - the same class of bug, just
+ * reached without a mouse. `focusin` (unlike `focus`, it bubbles and is
+ * composed, so it reaches a `document`-level listener) fires for *every*
+ * focus change regardless of what caused it - mouse click, Tab keypress, or
+ * a programmatic `.focus()` call - so it looks like the obvious way to close
+ * that gap: register the same clear function on it too.
+ *
+ * That obvious version is broken, though (caught by an e2e run, not by
+ * inspection - it reproduces every time, not a flake): a mouse click on the
+ * row `<Link>` *itself* fires a same-gesture `focusin`. Clicking a focusable
+ * element (an `<a>`, here) moves focus to it as part of `mousedown`'s own
+ * default action, and that focus change fires blur-on-the-old-element then
+ * focus/`focusin`-on-the-new-one - still all within the one synchronous
+ * `pointerdown -> mousedown -> blur/focusin -> mouseup -> click` cascade a
+ * single click dispatches, per the ordering this file already depends on.
+ * So an unconditional `focusin`-clears-it listener fires *after*
+ * `markRowNavigationPending()` (called from that same click's `pointerdown`,
+ * which always goes first) and immediately erases what that pointerdown just
+ * armed - before `AdminUsersColumnSearch`'s own deferred blur check ever gets
+ * a chance to consume it. That's the exact bug this whole module exists to
+ * prevent, just self-inflicted by the keyboard-gap fix instead of by a timer.
+ *
+ * The actual distinction that matters: a `focusin` that's a downstream side
+ * effect of a `pointerdown` this module *just* saw (same gesture) must not
+ * clear what that gesture may have armed; a `focusin` from anywhere else -
+ * in particular, a Tab keypress with no accompanying `pointerdown` at all -
+ * must. `withinPointerGesture` tracks that: the `pointerdown` listener sets
+ * it before running the shared clear.
+ *
+ * It's reset via `setTimeout(fn, 0)`, deliberately *not* `queueMicrotask`.
+ * The obvious-looking microtask version was tried first and is *also*
+ * broken, confirmed by instrumenting real event dispatch in a browser rather
+ * than by reasoning about it: per the HTML spec's "clean up after running
+ * script" step, a microtask checkpoint runs after *every individual*
+ * listener invocation, not just once at the end of a whole gesture - so a
+ * microtask queued from the `pointerdown` capture listener drains
+ * immediately, before dispatch even reaches that same event's own
+ * bubble-phase listener on the target, let alone the later `mousedown` ->
+ * focus-change -> `focusin` steps of the same click. It was back to `false`
+ * long before the `focusin` it was meant to guard against ever fired.
+ * `setTimeout(fn, 0)`, by contrast, is a full task, not a microtask - it only
+ * runs once *every* listener for pointerdown, mousedown, the resulting
+ * blur/focus/focusin, mouseup, and click has already finished (confirmed the
+ * same way), which covers this entire single-gesture cascade, while still
+ * resetting far sooner than any later, genuinely separate gesture -
+ * necessarily arriving after actual new input from the user - could occur.
  */
 let rowNavigationPending = false;
+let withinPointerGesture = false;
 
 function clearStaleRowNavigationPending(): void {
   rowNavigationPending = false;
 }
 
 if (typeof document !== "undefined") {
-  document.addEventListener("pointerdown", clearStaleRowNavigationPending, true);
+  document.addEventListener(
+    "pointerdown",
+    () => {
+      clearStaleRowNavigationPending();
+      withinPointerGesture = true;
+      setTimeout(() => {
+        withinPointerGesture = false;
+      }, 0);
+    },
+    true,
+  );
+  document.addEventListener(
+    "focusin",
+    () => {
+      // Skip the clear if this focusin is a same-gesture side effect of a
+      // pointerdown already handled above (see the doc comment) - that
+      // pointerdown's own clear-then-arm already resolved this gesture
+      // correctly, and clearing again here would erase it.
+      if (withinPointerGesture) return;
+      clearStaleRowNavigationPending();
+    },
+    true,
+  );
 }
 
 /** Called synchronously from a row link's pointerdown - before any blur it triggers can run. */

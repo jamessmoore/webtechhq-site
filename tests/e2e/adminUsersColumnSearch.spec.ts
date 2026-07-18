@@ -160,4 +160,54 @@ test.describe('admin users column search', () => {
 
     await expect(page).toHaveURL(new RegExp(`searchName=${targetName}`))
   })
+
+  test('typing a column search via keyboard only and tabbing away still commits after an earlier, unrelated mouse row click (regression test)', async ({ page, request }) => {
+    await signInAsAdmin(page, request)
+
+    // Arm the stale rowNavigationPending flag exactly like the previous test
+    // does - a plain mouse row click with no search open anywhere.
+    const firstClickName = `KeyboardPlainRowClick-${randomUUID().slice(0, 8)}`
+    await signupTestUser(request, { name: firstClickName })
+
+    const targetName = `KeyboardSearchAfterClick-${randomUUID().slice(0, 8)}`
+    await signupTestUser(request, { name: targetName })
+
+    await page.goto('/admin/users')
+
+    const firstRowLink = page.getByRole('link', { name: `View ${firstClickName}` })
+    await expect(firstRowLink).toBeVisible()
+    await firstRowLink.click({ position: { x: 20, y: 10 } })
+    await expect(page).not.toHaveURL(/\/admin\/users\/?(\?.*)?$/)
+
+    await page.goBack()
+    await expect(page).toHaveURL(/\/admin\/users\/?(\?.*)?$/)
+
+    // From here on, drive everything purely by keyboard - no further pointer
+    // interaction anywhere on the page. src/lib/adminUsersRowNavigation.ts's
+    // round-4 fix (a document-level, capture-phase `pointerdown` listener
+    // that clears the stale flag) only covers mouse-driven re-arming: a
+    // keyboard-only user who never dispatches a `pointerdown` at all - Tab to
+    // the summary, Enter to open it, type, Tab away - never clears the flag
+    // left over from the earlier row click, so `closePanel()` still reads it
+    // as true and silently drops the debounce instead of flushing it, with no
+    // error and no visual feedback. `.focus()` here (rather than fighting the
+    // page's full tab order to reach this exact column) is the standard way
+    // to enter a keyboard-navigation test at a specific element - like a real
+    // Tab keypress, it's a native DOM focus change that fires a real
+    // `focusin` event and dispatches no pointer event at all, which is
+    // precisely the property this test needs to exercise.
+    const nameColumn = page.getByRole('columnheader', { name: 'NAME' })
+    const summary = nameColumn.locator('summary[aria-label="Search NAME"]')
+    await summary.focus()
+    // Native `<details>`/`<summary>` keyboard activation - a `click`, not a
+    // pointer event.
+    await page.keyboard.press('Enter')
+
+    const input = nameColumn.getByPlaceholder('regex')
+    await expect(input).toBeFocused()
+    await page.keyboard.type(targetName)
+    await page.keyboard.press('Tab')
+
+    await expect(page).toHaveURL(new RegExp(`searchName=${targetName}`))
+  })
 })
