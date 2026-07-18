@@ -79,6 +79,45 @@ test.describe('admin users column search', () => {
     await expect(page.getByRole('heading', { level: 1 })).toContainText(targetName)
   })
 
+  test('clicking a row still navigates even when the search blur handler\'s deferred check is delayed past the old, now-removed TTL window (regression test)', async ({ page, request }) => {
+    await signInAsAdmin(page, request)
+
+    const targetName = `SlowBlurRace-${randomUUID().slice(0, 8)}`
+    await signupTestUser(request, { name: targetName })
+
+    // AdminUsersColumnSearch's onBlur defers its "did focus really end up
+    // outside the panel" check via `window.setTimeout(fn, 0)` (see
+    // AdminUsersColumnSearch.tsx). src/lib/adminUsersRowNavigation.ts used to
+    // bound its shared pending-navigation flag with a 200ms self-expiring
+    // timer; Argus flagged that a timer only guarantees a *minimum* delay,
+    // not a *maximum* one, so under real main-thread contention this deferred
+    // check could fire *after* that timer already cleared the flag,
+    // reintroducing the original row-click-vs-debounce-flush race. Reproduce
+    // exactly that contention deterministically - delay every zero-delay
+    // timeout well past the old 200ms window - so this test would have failed
+    // against that timer-based fix and must pass against the current one,
+    // which has no duration left to race against at all.
+    await page.addInitScript(() => {
+      const realSetTimeout = window.setTimeout.bind(window)
+      window.setTimeout = ((handler: TimerHandler, timeout?: number, ...args: unknown[]) => {
+        const delay = timeout === 0 || timeout === undefined ? 350 : timeout
+        return realSetTimeout(handler, delay, ...args)
+      }) as typeof window.setTimeout
+    })
+
+    await page.goto('/admin/users')
+    const rowLink = page.getByRole('link', { name: `View ${targetName}` })
+    await expect(rowLink).toBeVisible()
+
+    const nameColumn = page.getByRole('columnheader', { name: 'NAME' })
+    await nameColumn.locator('summary[aria-label="Search NAME"]').click()
+    await nameColumn.getByPlaceholder('regex').fill(targetName)
+    await rowLink.click({ position: { x: 20, y: 10 } })
+
+    await expect(page).not.toHaveURL(/\/admin\/users\/?(\?.*)?$/)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(targetName)
+  })
+
   test('typing a column search and clicking away still commits after an earlier, unrelated row click (regression test)', async ({ page, request }) => {
     await signInAsAdmin(page, request)
 

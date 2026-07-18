@@ -23,55 +23,56 @@
  * navigation is actually happening (the row's, or a plain "commit the search
  * and stay on the list" blur) wins outright rather than racing.
  *
- * Self-expiry: `consumeRowNavigationPending()` only ever runs from inside
- * `AdminUsersColumnSearch`'s own `closePanel()`, which only fires while a
- * search input currently has focus and loses it. An ordinary row click with
- * no search open anywhere - the overwhelmingly common case - never triggers
- * `closePanel()` at all, so nothing would ever consume (clear) the flag it
- * sets. Left unconditional, the flag stays armed after the *first* such
- * click for the rest of the page session, and gets wrongly read as "a row
- * navigation is in flight" by the *next*, completely unrelated
- * search-and-dismiss - silently dropping that pending debounce instead of
- * committing it (a real, observed regression). So `markRowNavigationPending`
- * also schedules an unconditional self-clear a short, bounded moment later:
- * generously longer than the real pointerdown -> blur -> closePanel() race
- * window (that's on the order of a single tick / animation frame), but far
- * too short for any later, independent interaction to ever observe it as
- * still `true`.
+ * Bounding the flag's lifetime - without a wall clock: `consumeRowNavigationPending()`
+ * only ever runs from inside `AdminUsersColumnSearch`'s own `closePanel()`,
+ * which only fires while a search input currently has focus and loses it. An
+ * ordinary row click with no search open anywhere - the overwhelmingly common
+ * case - never triggers `closePanel()` at all, so nothing would ever consume
+ * (clear) the flag it sets; left unbounded, it stays armed indefinitely and
+ * gets wrongly read as "a row navigation is in flight" by the next,
+ * completely unrelated search-and-dismiss (a real, observed regression). A
+ * prior version of this file bounded the flag with a 200ms self-expiring
+ * timer, but a timer only guarantees a *minimum* delay before clearing, not a
+ * *maximum* one before consumption - under real contention (a throttled or
+ * backgrounded tab, a slow device, a busy main thread), the blur handler's
+ * own deferred check can itself run *after* that timer already fired,
+ * wrongly reading the flag as `false` and reintroducing the original race,
+ * now load-dependent instead of deterministic.
+ *
+ * So instead of a duration, the flag is bounded by the next real
+ * `pointerdown` anywhere on the document - a `document`-level, capture-phase
+ * listener, registered once below, clears it unconditionally before that
+ * pointerdown's own bubble-phase handlers (including a fresh
+ * `markRowNavigationPending()` call, if this pointerdown is itself another
+ * row click) run. Capture phase always travels from `document` down to the
+ * target before bubble phase runs back up, so this ordering - "clear
+ * whatever's left over from the *previous* gesture, then let *this* gesture
+ * arm its own flag" - holds structurally, by the DOM event dispatch
+ * algorithm, not by however much wall-clock time has elapsed. And because a
+ * genuine second `pointerdown` can't be dispatched while JS from the first
+ * one is still synchronously running, this can't shrink the window a flag
+ * needs to survive for its *own* same-gesture `consumeRowNavigationPending()`
+ * call either: that call (via the blur handler's deferred check) always runs
+ * to completion before any later `pointerdown` could even be queued.
  */
 let rowNavigationPending = false;
-let rowNavigationExpiryTimer: ReturnType<typeof setTimeout> | null = null;
 
-/**
- * Upper bound on how long the flag may stay armed before self-clearing.
- * Comfortably larger than the observed pointerdown -> blur -> closePanel()
- * race window (a single tick) so it's still `true` for every real in-flight
- * row click, but short enough that no later, unrelated interaction can ever
- * read it as stale.
- */
-const PENDING_TTL_MS = 200;
+function clearStaleRowNavigationPending(): void {
+  rowNavigationPending = false;
+}
 
-function clearExpiryTimer(): void {
-  if (rowNavigationExpiryTimer !== null) {
-    clearTimeout(rowNavigationExpiryTimer);
-    rowNavigationExpiryTimer = null;
-  }
+if (typeof document !== "undefined") {
+  document.addEventListener("pointerdown", clearStaleRowNavigationPending, true);
 }
 
 /** Called synchronously from a row link's pointerdown - before any blur it triggers can run. */
 export function markRowNavigationPending(): void {
   rowNavigationPending = true;
-  clearExpiryTimer();
-  rowNavigationExpiryTimer = setTimeout(() => {
-    rowNavigationExpiryTimer = null;
-    rowNavigationPending = false;
-  }, PENDING_TTL_MS);
 }
 
 /** Reads and clears the flag in one step, so it only ever suppresses the one blur cycle it was set for. */
 export function consumeRowNavigationPending(): boolean {
   const pending = rowNavigationPending;
   rowNavigationPending = false;
-  clearExpiryTimer();
   return pending;
 }
