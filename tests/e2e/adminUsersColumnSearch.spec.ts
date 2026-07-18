@@ -1,6 +1,6 @@
-import { test, expect } from '@playwright/test'
 import { randomUUID } from 'crypto'
 import { createCompletedUser, signupTestUser } from './helpers/testUser'
+import { test, expect } from './helpers/fixtures'
 
 // Functional admin flow — no need to repeat across every responsive viewport.
 test.beforeEach(({}, testInfo) => {
