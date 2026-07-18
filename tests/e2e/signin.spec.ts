@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from './helpers/fixtures'
 import { createCompletedUser, signupTestUser } from './helpers/testUser'
 
 // Functional auth flow — no need to repeat across every responsive viewport.

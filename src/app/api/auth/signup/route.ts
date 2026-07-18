@@ -1,10 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getUserByEmail, createUser, isAccountCompleted, setVerificationToken } from "@/lib/users";
 import { getSignupAttemptCount, recordSignupAttempt, MAX_SIGNUP_ATTEMPTS } from "@/lib/signupAttempts";
+import {
+  getSignupIpAttemptCount,
+  recordSignupIpAttempt,
+  MAX_SIGNUP_IP_ATTEMPTS,
+} from "@/lib/signupIpAttempts";
+import { getClientIp } from "@/lib/requestIp";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/email";
 import { verifyRecaptcha } from "@/lib/recaptcha";
 import { isValidEmailFormat } from "@/lib/emailFormat";
+
+// Shown once a source IP has exhausted its signup-endpoint attempts (see
+// signupIpAttempts.ts) - distinct from and takes priority over the
+// per-email "already exists" response below, since the whole point is to
+// stop that response from being used to enumerate registered emails.
+const IP_RATE_LIMIT_MESSAGE = "Further retries are not allowed. Please contact us for assistance.";
 
 // Defense in depth against a long user-supplied name: doesn't by itself
 // bound regex match time in the admin users search (see
@@ -52,6 +64,20 @@ export async function POST(request: NextRequest) {
         { status: 400 },
       );
     }
+
+    // Per-source-IP cap, checked before anything below reveals whether this
+    // (or any) email already has an account - a per-email cap alone doesn't
+    // stop enumeration, since each candidate email only needs one attempt.
+    // Counts every attempt that reaches this point (new signup, resend, or
+    // an "already exists" block), not just ones that send an email.
+    const clientIp = getClientIp(request);
+    if (getSignupIpAttemptCount(clientIp) >= MAX_SIGNUP_IP_ATTEMPTS) {
+      return NextResponse.json(
+        { error: IP_RATE_LIMIT_MESSAGE, ipBlocked: true },
+        { status: 429 },
+      );
+    }
+    recordSignupIpAttempt(clientIp);
 
     const normalizedEmail = email.toLowerCase().trim();
     const existing = getUserByEmail(normalizedEmail);

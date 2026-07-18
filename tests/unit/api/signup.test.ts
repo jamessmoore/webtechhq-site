@@ -24,10 +24,15 @@ beforeEach(() => {
   email.sendVerificationEmail.mockClear();
 });
 
-function signupRequest(body: unknown) {
+// Each call gets its own default source IP unless a test explicitly passes
+// one, so pre-existing per-email tests below aren't incidentally affected
+// by the new per-IP cap (added by tests further down, which deliberately
+// reuse an `ip` across calls to exercise that cap).
+let ipCounter = 0;
+function signupRequest(body: unknown, ip: string = `10.0.0.${++ipCounter}`) {
   return new NextRequest("http://localhost:3000/api/auth/signup", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "x-forwarded-for": ip },
     body: JSON.stringify(body),
   });
 }
@@ -216,5 +221,106 @@ describe("POST /api/auth/signup", () => {
     email.sendVerificationEmail.mockRejectedValueOnce(new Error("SendGrid down"));
     const res = await POST(signupRequest({ ...validBody, email: "emailfails@example.com" }));
     expect(res.status).toBe(200);
+  });
+
+  describe("per-source-IP rate limiting", () => {
+    const IP_BLOCK_MESSAGE = "Further retries are not allowed. Please contact us for assistance.";
+
+    it("allows 3 attempts from one IP (mixing target emails) then blocks the 4th with the exact message", async () => {
+      const ip = "203.0.113.10";
+
+      const first = await POST(
+        signupRequest({ ...validBody, email: "ip-cap-1@example.com" }, ip),
+      );
+      expect(first.status).toBe(200);
+
+      const second = await POST(
+        signupRequest({ ...validBody, email: "ip-cap-2@example.com" }, ip),
+      );
+      expect(second.status).toBe(200);
+
+      // Same target email as the first attempt - still just counts as one
+      // more attempt from this IP, same as a different email would.
+      const third = await POST(
+        signupRequest({ ...validBody, email: "ip-cap-1@example.com" }, ip),
+      );
+      expect(third.status).toBe(200);
+
+      const fourth = await POST(
+        signupRequest({ ...validBody, email: "ip-cap-3@example.com" }, ip),
+      );
+      expect(fourth.status).toBe(429);
+      const fourthBody = (await fourth.json()) as { error?: string; ipBlocked?: boolean };
+      expect(fourthBody.error).toBe(IP_BLOCK_MESSAGE);
+      expect(fourthBody.ipBlocked).toBe(true);
+
+      // The blocked email was never touched.
+      expect(users.getUserByEmail("ip-cap-3@example.com")).toBeNull();
+    });
+
+    it("does not let one IP's attempts affect a different IP", async () => {
+      const busyIp = "203.0.113.20";
+      const otherIp = "203.0.113.21";
+
+      for (let i = 0; i < 3; i++) {
+        const res = await POST(
+          signupRequest({ ...validBody, email: `busy-ip-${i}@example.com` }, busyIp),
+        );
+        expect(res.status).toBe(200);
+      }
+      // busyIp is now capped.
+      const blocked = await POST(
+        signupRequest({ ...validBody, email: "busy-ip-4@example.com" }, busyIp),
+      );
+      expect(blocked.status).toBe(429);
+
+      // A fresh IP is unaffected by busyIp's count.
+      const unaffected = await POST(
+        signupRequest({ ...validBody, email: "other-ip-1@example.com" }, otherIp),
+      );
+      expect(unaffected.status).toBe(200);
+    });
+
+    it("shows the plain generic message (no retry language) for an already-verified account, unaffected by this IP's in-progress attempt count", async () => {
+      const ip = "203.0.113.30";
+      const targetEmail = "ip-verified-target@example.com";
+
+      // Attempt 1 on this IP: create + verify the account out of band.
+      const created = await POST(signupRequest({ ...validBody, email: targetEmail }, ip));
+      expect(created.status).toBe(200);
+      const user = users.getUserByEmail(targetEmail)!;
+      users.verifyUserEmail(user.id);
+
+      // Attempt 2 on this IP: still under the 3-attempt cap, so the
+      // verified-account block itself is untouched by the IP feature.
+      const res = await POST(signupRequest({ ...validBody, email: targetEmail }, ip));
+      expect(res.status).toBe(409);
+      const body = (await res.json()) as { error?: string; ipBlocked?: boolean };
+      expect(body.error).toBe("An account with this email already exists. Try signing in instead.");
+      expect(body.ipBlocked).toBeFalsy();
+      expect(body.error).not.toMatch(/retr(y|ies)/i);
+    });
+
+    it("blocks with the IP-cap message (not the verified-account message) once a capped IP retries against a verified email", async () => {
+      const ip = "203.0.113.31";
+      const targetEmail = "ip-capped-verified-target@example.com";
+
+      const created = await POST(signupRequest({ ...validBody, email: targetEmail }, ip));
+      expect(created.status).toBe(200);
+      const user = users.getUserByEmail(targetEmail)!;
+      users.verifyUserEmail(user.id);
+
+      // Attempt 2 and 3 use up the rest of this IP's cap.
+      await POST(signupRequest({ ...validBody, email: "ip-capped-filler-1@example.com" }, ip));
+      await POST(signupRequest({ ...validBody, email: "ip-capped-filler-2@example.com" }, ip));
+
+      // Attempt 4, against the verified email: the IP cap wins outright -
+      // the two block reasons are never conflated into a hybrid message.
+      const res = await POST(signupRequest({ ...validBody, email: targetEmail }, ip));
+      expect(res.status).toBe(429);
+      const body = (await res.json()) as { error?: string; ipBlocked?: boolean };
+      expect(body.error).toBe(IP_BLOCK_MESSAGE);
+      expect(body.ipBlocked).toBe(true);
+    });
   });
 });

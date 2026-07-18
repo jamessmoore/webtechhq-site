@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, FormEvent } from "react";
+import Link from "next/link";
 import { signIn } from "next-auth/react";
 import ReCAPTCHA from "react-google-recaptcha";
 
@@ -19,6 +20,7 @@ const INITIAL: FormState = {
 export default function SignUpForm() {
   const [form, setForm] = useState<FormState>(INITIAL);
   const [error, setError] = useState<string | null>(null);
+  const [ipBlocked, setIpBlocked] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [recaptchaToken, setRecaptchaToken] = useState("");
@@ -27,6 +29,7 @@ export default function SignUpForm() {
   function set(field: keyof FormState, value: string | boolean) {
     setForm((prev) => ({ ...prev, [field]: value }));
     setError(null);
+    setIpBlocked(false);
   }
 
   async function handleSubmit(e: FormEvent) {
@@ -41,6 +44,7 @@ export default function SignUpForm() {
     }
     setLoading(true);
     setError(null);
+    setIpBlocked(false);
 
     try {
       const res = await fetch("/api/auth/signup", {
@@ -53,10 +57,15 @@ export default function SignUpForm() {
         }),
       });
 
-      const data = (await res.json()) as { success?: boolean; error?: string };
+      const data = (await res.json()) as {
+        success?: boolean;
+        error?: string;
+        ipBlocked?: boolean;
+      };
 
       if (!res.ok) {
         setError(data.error ?? "Something went wrong. Please try again.");
+        setIpBlocked(Boolean(data.ipBlocked));
         recaptchaRef.current?.reset();
         setRecaptchaToken("");
         return;
@@ -215,7 +224,17 @@ export default function SignUpForm() {
           className="text-xs px-3 py-2 rounded"
           style={{ color: "#FF6B6B", background: "rgba(255,107,107,0.08)", border: "1px solid rgba(255,107,107,0.2)" }}
         >
-          {error}
+          {ipBlocked ? (
+            <>
+              Further retries are not allowed.{" "}
+              <Link href="/contact" style={{ color: "#89D4FF", textDecoration: "underline" }}>
+                Please contact us for assistance
+              </Link>
+              .
+            </>
+          ) : (
+            error
+          )}
         </p>
       )}
 

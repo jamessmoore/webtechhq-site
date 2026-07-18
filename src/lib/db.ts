@@ -57,6 +57,18 @@ function migrate(db: Database.Database): void {
       updated_at     TEXT NOT NULL
     );
 
+    -- Per-source-IP signup rate limiting (see src/lib/signupIpAttempts.ts).
+    -- Distinct from signup_attempts above: that's a lifetime cap keyed by
+    -- the *target* email, this is a fixed-window cap keyed by the
+    -- *requesting* IP, added specifically to stop using the signup
+    -- endpoint to enumerate which emails already have an account.
+    CREATE TABLE IF NOT EXISTS signup_ip_attempts (
+      ip_address         TEXT PRIMARY KEY,
+      attempt_count      INTEGER NOT NULL DEFAULT 0,
+      window_started_at  TEXT NOT NULL,
+      updated_at         TEXT NOT NULL
+    );
+
     CREATE TABLE IF NOT EXISTS submissions (
       id                       TEXT PRIMARY KEY,
       user_id                  TEXT NOT NULL REFERENCES users (id) ON DELETE CASCADE,
