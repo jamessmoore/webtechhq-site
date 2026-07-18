@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUserByEmail, createUser, deleteUser, isAccountCompleted } from "@/lib/users";
+import { getUserByEmail, createUser, isAccountCompleted, setVerificationToken } from "@/lib/users";
 import { getSignupAttemptCount, recordSignupAttempt, MAX_SIGNUP_ATTEMPTS } from "@/lib/signupAttempts";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/email";
@@ -56,17 +56,27 @@ export async function POST(request: NextRequest) {
     const normalizedEmail = email.toLowerCase().trim();
     const existing = getUserByEmail(normalizedEmail);
 
-    if (existing && isAccountCompleted(existing)) {
+    // A completed account (password set or Google-linked) is always also
+    // verified in real usage - completing signup requires having gone
+    // through the verified-login flow first. Checking both here (rather
+    // than emailVerified alone) also blocks the rarer edge case of an
+    // account that verified its email but never came back to set a
+    // password: either way, this address already has a real account and
+    // signing up again shouldn't touch it or leak which case it was.
+    if (existing && (existing.emailVerified || isAccountCompleted(existing))) {
       return NextResponse.json(
-        { error: "An account with this email already exists." },
+        { error: "An account with this email already exists. Try signing in instead." },
         { status: 409 },
       );
     }
 
     if (existing) {
-      // Incomplete account (never finished signup with a password). Reusing
-      // the email resets it, unless they've already burned through the
-      // request cap for this address.
+      // Exists, but never verified and never completed (the lightweight
+      // Opportunity Finder request form only collects name + email up
+      // front). Don't create a duplicate account - resend the verification
+      // email to this same record instead, subject to the same per-email
+      // request cap as new signups so this can't be used to spam an
+      // address with verification emails.
       if (getSignupAttemptCount(normalizedEmail) >= MAX_SIGNUP_ATTEMPTS) {
         return NextResponse.json(
           {
@@ -76,7 +86,16 @@ export async function POST(request: NextRequest) {
           { status: 429 },
         );
       }
-      deleteUser(existing.id);
+      recordSignupAttempt(normalizedEmail);
+
+      const { token, expiresAt } = generateVerificationToken();
+      setVerificationToken(existing.id, token, expiresAt);
+
+      sendVerificationEmail(existing.email, existing.firstName, token).catch((err) => {
+        console.error("Verification email resend failed:", err);
+      });
+
+      return NextResponse.json({ success: true, resent: true });
     }
 
     recordSignupAttempt(normalizedEmail);
