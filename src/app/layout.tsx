@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'Moore Solutions | James S. Moore · Founder & Entrepreneur',
   description:
     'James S. Moore, founder of Moore Solutions. I help small businesses cut the noise and get real results with AI, backed by 20+ years building and scaling production systems. Phoenix, AZ.',
-  keywords: ['AI consulting', 'business automation', 'entrepreneur', 'founder', 'Moore Solutions', 'James Moore'],
+  keywords: ['AI coaching', 'business automation', 'entrepreneur', 'founder', 'Moore Solutions', 'James Moore'],
   authors: [{ name: 'James S. Moore' }],
   openGraph: {
     title: 'Moore Solutions | James S. Moore',
