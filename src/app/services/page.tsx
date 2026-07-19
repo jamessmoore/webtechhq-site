@@ -7,7 +7,7 @@ const sections = [
   {
     id: 'ai-consulting',
     altId: 'ai-integration',
-    title: 'AI CONSULTING & AGENT DEVELOPMENT',
+    title: 'AI COACHING & AGENT DEVELOPMENT',
     image: '/images/services/ai-consulting.jpg',
     content:
       'I help you figure out where AI actually fits in your business, then I implement it, from strategy through working prototype.',
