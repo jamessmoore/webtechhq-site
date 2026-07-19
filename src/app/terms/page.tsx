@@ -18,7 +18,7 @@ export default function TermsPage() {
         <p>
           These Terms of Service (&quot;Terms&quot;) govern your access to
           and use of webtechhq.com (the &quot;Site&quot;) and the
-          consulting, automation, and AI-integration services
+          coaching, automation, and AI-integration services
           (collectively, the &quot;Services&quot;) offered by Moore
           Solutions, a sole proprietorship operated by James S. Moore
           (&quot;Moore Solutions,&quot; &quot;we,&quot; &quot;us,&quot; or
@@ -154,7 +154,7 @@ export default function TermsPage() {
           PROVIDED &quot;AS IS&quot; WITHOUT WARRANTIES OF ANY KIND,
           EXPRESS OR IMPLIED. MOORE SOLUTIONS DOES NOT WARRANT THAT
           AI-GENERATED CONTENT WILL BE ACCURATE, ERROR-FREE, OR SUITABLE
-          FOR ANY PARTICULAR PURPOSE. PAID CONSULTING AND DEVELOPMENT
+          FOR ANY PARTICULAR PURPOSE. PAID COACHING AND DEVELOPMENT
           SERVICES ARE GOVERNED BY SEPARATE SIGNED ENGAGEMENT AGREEMENTS,
           WHICH MAY INCLUDE ADDITIONAL OR DIFFERENT WARRANTIES.
         </p>
