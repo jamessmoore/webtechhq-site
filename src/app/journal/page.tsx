@@ -4,18 +4,30 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { getAllJournalEntries } from '@/lib/journal'
 
+// This page reads directly from the DB with no request-derived input, so
+// Next would otherwise prerender it once at build time. That's wrong here:
+// `npm run import:journal-entry` writes new/updated entries straight into
+// the production DB as a separate action from a code deploy (see
+// .claude/skills/import-journal-entry/SKILL.md), and the detail page at
+// /journal/[slug] already renders per-request. Force this index to match,
+// so a freshly imported entry shows up immediately instead of waiting for
+// the next deploy to regenerate the static snapshot.
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Journal | Moore Solutions',
   description:
     "James Moore's founder-journey journal: personal essays on building Moore Solutions, told from the actual stories behind each week's video.",
 }
 
-function monthKey(isoDate: string): string {
+// Exported (not just for this page's own use) so tests/unit can exercise
+// these pure helpers directly without rendering the server component.
+export function monthKey(isoDate: string): string {
   const [year, month] = isoDate.split('-')
   return `${year}-${month}`
 }
 
-function monthLabel(isoDate: string): string {
+export function monthLabel(isoDate: string): string {
   // Parse as UTC so the displayed month matches the YYYY-MM-DD folder name
   // regardless of the server's local timezone.
   const [year, month] = isoDate.split('-').map(Number)
@@ -24,7 +36,7 @@ function monthLabel(isoDate: string): string {
     .toUpperCase()
 }
 
-function firstSentenceOf(content: string): string {
+export function firstSentenceOf(content: string): string {
   const firstParagraph = content.split(/\n\s*\n/)[0]?.trim() ?? ''
   const sentenceMatch = firstParagraph.match(/^.*?[.!?](?=\s|$)/)
   const sentence = sentenceMatch ? sentenceMatch[0] : firstParagraph
@@ -38,7 +50,7 @@ type MonthGroup = {
   entries: ReturnType<typeof getAllJournalEntries>
 }
 
-function groupByMonth(entries: ReturnType<typeof getAllJournalEntries>): MonthGroup[] {
+export function groupByMonth(entries: ReturnType<typeof getAllJournalEntries>): MonthGroup[] {
   // Entries arrive sorted by entry_date DESC, so consecutive entries
   // sharing a key can just be appended to the running group.
   const groups: MonthGroup[] = []

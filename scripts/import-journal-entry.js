@@ -131,18 +131,43 @@ if (fs.existsSync(videoMetaPath)) {
 // Prefer video-meta.json's posted_at; fall back to the dated folder name
 // (accepts YYYY-MM-DD as-is, or YYYYMMDD normalized to ISO) if the video
 // hasn't been posted yet / video-meta.json doesn't exist.
+//
+// The public pages (src/app/journal/page.tsx's monthKey/monthLabel and
+// src/app/journal/[slug]/page.tsx's formatEntryDate) both trust entry_date
+// as a bare YYYY-MM-DD string and split it on "-" without validating the
+// shape. A full ISO timestamp (e.g. video-meta.json's posted_at written as
+// "2026-07-20T14:30:00Z" instead of "2026-07-20") would silently produce
+// "Invalid Date" on the live page instead of failing here at import time,
+// where it's actually catchable. Validate/normalize before it ever reaches
+// the DB.
+function isPlainIsoDate(value) {
+  return typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value);
+}
 function normalizeFolderDate(name) {
   if (/^\d{4}-\d{2}-\d{2}$/.test(name)) return name;
   const compact = name.match(/^(\d{4})(\d{2})(\d{2})$/);
   if (compact) return `${compact[1]}-${compact[2]}-${compact[3]}`;
   return null;
 }
-const entryDate = videoMeta?.posted_at ?? normalizeFolderDate(folderName);
-if (!entryDate) {
-  console.error(
-    `Folder name "${folderName}" isn't YYYY-MM-DD or YYYYMMDD, and no video-meta.json with posted_at exists, can't derive entry_date.`,
-  );
-  process.exit(1);
+let entryDate;
+if (videoMeta?.posted_at !== undefined) {
+  if (!isPlainIsoDate(videoMeta.posted_at)) {
+    console.error(
+      `${videoMetaPath}'s posted_at ("${videoMeta.posted_at}") isn't a plain "YYYY-MM-DD" date. ` +
+        `entry_date is stored and rendered as a bare date string (no time component) — a full ISO ` +
+        `timestamp would pass this script but silently render as "Invalid Date" on the live page.`,
+    );
+    process.exit(1);
+  }
+  entryDate = videoMeta.posted_at;
+} else {
+  entryDate = normalizeFolderDate(folderName);
+  if (!entryDate) {
+    console.error(
+      `Folder name "${folderName}" isn't YYYY-MM-DD or YYYYMMDD, and no video-meta.json with posted_at exists, can't derive entry_date.`,
+    );
+    process.exit(1);
+  }
 }
 
 // ─── youtube_url ───
