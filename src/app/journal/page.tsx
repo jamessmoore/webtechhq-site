@@ -99,6 +99,7 @@ export default function JournalIndexPage() {
                       {group.label}
                     </span>
                   </div>
+                  <div style={{ height: '0.5px', backgroundColor: '#162D5A', width: '100%', marginBottom: '16px' }} />
                   <div className="flex flex-col">
                     {group.entries.map((entry, i) => (
                       <Link
