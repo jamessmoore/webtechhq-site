@@ -100,37 +100,75 @@ export default function JournalIndexPage() {
                     </span>
                   </div>
                   <div style={{ height: '0.5px', backgroundColor: '#162D5A', width: '100%', marginBottom: '16px' }} />
-                  <div className="flex flex-col">
-                    {group.entries.map((entry, i) => (
-                      <Link
-                        key={entry.id}
-                        href={`/journal/${entry.slug}`}
-                        className={`group flex flex-col md:flex-row md:items-start gap-2 md:gap-8 py-4 ${i === group.entries.length - 1 ? 'pb-0' : ''}`}
-                      >
-                        <div className="flex items-center gap-3 md:w-[320px] md:shrink-0">
-                          <h2
-                            className="font-sans font-bold leading-snug text-left whitespace-nowrap overflow-hidden text-ellipsis transition-all duration-200 group-hover:[text-shadow:0_0_6px_#3D9FFF,0_0_14px_#3D9FFF]"
-                            style={{ fontSize: '1.05rem', color: '#FFFFFF' }}
-                          >
-                            {entry.title}
-                          </h2>
-                          {entry.entryType === 'monthly-recap' && (
-                            <span
-                              className="font-sans font-bold text-[11px] tracking-widest px-2 py-[2px]"
-                              style={{ color: '#89D4FF', border: '0.6px solid #1A3D7A', borderRadius: '3px' }}
-                            >
-                              MONTHLY RECAP
-                            </span>
-                          )}
-                        </div>
-                        <p
-                          className="font-sans text-left flex-1 transition-all duration-200 group-hover:[text-shadow:0_0_6px_#3D9FFF,0_0_14px_#3D9FFF]"
-                          style={{ color: '#A9CFFA' }}
+                  <div>
+                    <div className="md:hidden flex flex-col">
+                      {group.entries.map((entry, i) => (
+                        <Link
+                          key={entry.id}
+                          href={`/journal/${entry.slug}`}
+                          className={`group flex flex-col gap-2 py-4 ${i === group.entries.length - 1 ? 'pb-0' : ''}`}
                         >
-                          {firstSentenceOf(entry.content)}
-                        </p>
-                      </Link>
-                    ))}
+                          <div className="flex items-center gap-3">
+                            <h2
+                              className="font-sans font-bold leading-snug text-left whitespace-nowrap overflow-hidden text-ellipsis transition-all duration-200 group-hover:[text-shadow:0_0_6px_#3D9FFF,0_0_14px_#3D9FFF]"
+                              style={{ fontSize: '1.05rem', color: '#FFFFFF' }}
+                            >
+                              {entry.title}
+                            </h2>
+                            {entry.entryType === 'monthly-recap' && (
+                              <span
+                                className="font-sans font-bold text-[11px] tracking-widest px-2 py-[2px]"
+                                style={{ color: '#89D4FF', border: '0.6px solid #1A3D7A', borderRadius: '3px' }}
+                              >
+                                MONTHLY RECAP
+                              </span>
+                            )}
+                          </div>
+                          <p
+                            className="font-sans text-left transition-all duration-200 group-hover:[text-shadow:0_0_6px_#3D9FFF,0_0_14px_#3D9FFF]"
+                            style={{ color: '#A9CFFA' }}
+                          >
+                            {firstSentenceOf(entry.content)}
+                          </p>
+                        </Link>
+                      ))}
+                    </div>
+
+                    <div
+                      className="hidden md:grid md:items-start md:gap-x-10 md:gap-y-0"
+                      style={{ gridTemplateColumns: 'minmax(0, max-content) 1fr' }}
+                    >
+                      {group.entries.map((entry, i) => (
+                        <Link
+                          key={entry.id}
+                          href={`/journal/${entry.slug}`}
+                          className="group contents"
+                        >
+                          <div className={`flex items-center gap-3 py-4 max-w-[420px] ${i === group.entries.length - 1 ? 'pb-0' : ''}`}>
+                            <h2
+                              className="font-sans font-bold leading-snug text-left whitespace-nowrap overflow-hidden text-ellipsis transition-all duration-200 group-hover:[text-shadow:0_0_6px_#3D9FFF,0_0_14px_#3D9FFF]"
+                              style={{ fontSize: '1.05rem', color: '#FFFFFF' }}
+                            >
+                              {entry.title}
+                            </h2>
+                            {entry.entryType === 'monthly-recap' && (
+                              <span
+                                className="font-sans font-bold text-[11px] tracking-widest px-2 py-[2px] shrink-0"
+                                style={{ color: '#89D4FF', border: '0.6px solid #1A3D7A', borderRadius: '3px' }}
+                              >
+                                MONTHLY RECAP
+                              </span>
+                            )}
+                          </div>
+                          <p
+                            className={`font-sans text-left py-4 transition-all duration-200 group-hover:[text-shadow:0_0_6px_#3D9FFF,0_0_14px_#3D9FFF] ${i === group.entries.length - 1 ? 'pb-0' : ''}`}
+                            style={{ color: '#A9CFFA' }}
+                          >
+                            {firstSentenceOf(entry.content)}
+                          </p>
+                        </Link>
+                      ))}
+                    </div>
                   </div>
                 </div>
               ))}
