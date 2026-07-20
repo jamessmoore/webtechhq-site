@@ -6,6 +6,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Reset Password | Moore Solutions",
   description: "Choose a new password for your Moore Solutions account.",
+  robots: { index: false, follow: false },
 };
 
 export default async function ResetPasswordPage({

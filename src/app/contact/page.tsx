@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
@@ -5,6 +6,12 @@ import ContactForm from '@/components/ContactForm'
 import HexMark from '@/components/HexMark'
 import { auth } from '@/auth'
 import { getUserById } from '@/lib/users'
+
+export const metadata: Metadata = {
+  title: 'Contact | Moore Solutions',
+  description:
+    "Send James Moore a note, or connect on LinkedIn. No call required to get started, try the free Opportunity Finder first.",
+}
 
 export default async function Page() {
   const session = await auth()

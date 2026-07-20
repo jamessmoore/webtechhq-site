@@ -1,6 +1,13 @@
+import type { Metadata } from 'next'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import HexMark from '@/components/HexMark'
+
+export const metadata: Metadata = {
+  title: 'Portfolio | Moore Solutions',
+  description:
+    'Public GitHub repositories behind Moore Solutions: AI agents, MCP servers, an IoT telemetry pipeline, and the infrastructure and code running this site, all open for review.',
+}
 
 const projects = [
   {
