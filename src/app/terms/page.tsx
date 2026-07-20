@@ -4,6 +4,8 @@ import LegalLayout from "@/components/LegalLayout";
 
 export const metadata: Metadata = {
   title: "Terms of Service | Moore Solutions",
+  description:
+    "The terms governing use of webtechhq.com and the Opportunity Finder, Business Audit, and implementation Services offered by Moore Solutions.",
 };
 
 export default function TermsPage() {

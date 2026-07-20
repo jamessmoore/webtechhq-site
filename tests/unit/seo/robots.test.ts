@@ -16,12 +16,17 @@ describe("robots()", () => {
           "/admin",
           "/api",
           "/signin",
-          "/signup",
           "/forgot-password",
           "/reset-password",
           "/verify",
         ]),
       );
+    }
+  });
+
+  it("does not disallow /signup, since llms.txt links AI crawlers to it", () => {
+    for (const rule of rules) {
+      expect(rule.disallow).not.toContain("/signup");
     }
   });
 

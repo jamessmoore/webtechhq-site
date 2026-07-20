@@ -3,6 +3,8 @@ import LegalLayout from "@/components/LegalLayout";
 
 export const metadata: Metadata = {
   title: "Privacy Policy | Moore Solutions",
+  description:
+    "How Moore Solutions collects, uses, and protects information submitted through the Opportunity Finder, the Business Audit, and the contact form, including AI processing disclosures.",
 };
 
 export default function PrivacyPage() {
