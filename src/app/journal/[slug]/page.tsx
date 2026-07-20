@@ -52,44 +52,67 @@ export default async function JournalEntryPage({ params }: Props) {
     <>
       <Navbar />
       <main className="min-h-screen pt-[58px] br-grid" style={{ backgroundColor: '#040C1C' }}>
-        <article className="px-6 md:px-10 py-16 max-w-2xl mx-auto">
-          <Link
-            href="/journal"
-            className="font-sans font-bold tracking-widest text-[12px] inline-block mb-8"
-            style={{ color: '#3A6AAA' }}
-          >
-            &larr; BACK TO JOURNAL
-          </Link>
+        <article className="px-6 md:px-10 py-16 max-w-5xl mx-auto">
+          {/*
+            Two-column layout (desktop, md+):
+              row 1: Title              (col 1 only)
+              row 2: full-width divider (spans both columns)
+              row 3: Body (col 1)  |  Sidebar: Date, Watch Video, Back link, Share (col 2)
+            Mobile: single column, DOM order below (Title, Divider, Body, Sidebar)
+            handles the stacking automatically via flex-col.
 
-          <span className="font-sans text-[12px] tracking-widest block mb-3" style={{ color: '#A9CFFA' }}>
-            {formatEntryDate(entry.entryDate)}
-          </span>
-
-          <h1 className="font-sans font-black leading-tight mb-6" style={{ fontSize: '2rem', color: '#89D4FF' }}>
-            {entry.title}
-          </h1>
-
-          {entry.youtubeUrl && (
-            <a
-              href={entry.youtubeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block font-sans font-bold text-[13px] tracking-widest mb-10 transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)]"
-              style={{ color: '#040C1C', backgroundColor: '#89D4FF', borderRadius: '6px', padding: '10px 18px' }}
+            Sidebar is normal document flow (no sticky/fixed) so it scrolls
+            away with the rest of the page, same as the left column.
+          */}
+          <div className="flex flex-col gap-10 md:grid md:grid-cols-[2fr_1fr] md:gap-x-16 md:gap-y-10">
+            <h1
+              className="font-sans font-black leading-tight md:col-start-1 md:row-start-1"
+              style={{ fontSize: '2rem', color: '#89D4FF' }}
             >
-              WATCH THE VIDEO
-            </a>
-          )}
+              {entry.title}
+            </h1>
 
-          <div className="flex flex-col gap-5 mb-14">
-            {paragraphs.map((paragraph, i) => (
-              <p key={i} className="font-sans" style={{ fontSize: '17px', lineHeight: 1.7 }}>
-                {paragraph}
-              </p>
-            ))}
+            <div
+              className="md:col-start-1 md:col-span-2 md:row-start-2"
+              style={{ height: '0.5px', backgroundColor: '#162D5A', width: '100%' }}
+            />
+
+            <div className="flex flex-col gap-5 md:col-start-1 md:row-start-3">
+              {paragraphs.map((paragraph, i) => (
+                <p key={i} className="font-sans" style={{ fontSize: '17px', lineHeight: 1.7 }}>
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+
+            <aside className="flex flex-col gap-6 md:col-start-2 md:row-start-3 md:self-start">
+              <span className="font-sans text-[12px] tracking-widest" style={{ color: '#A9CFFA' }}>
+                {formatEntryDate(entry.entryDate)}
+              </span>
+
+              {entry.youtubeUrl && (
+                <a
+                  href={entry.youtubeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block text-center font-sans font-bold text-[13px] tracking-widest transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)]"
+                  style={{ color: '#040C1C', backgroundColor: '#89D4FF', borderRadius: '6px', padding: '10px 18px' }}
+                >
+                  WATCH THE VIDEO
+                </a>
+              )}
+
+              <Link
+                href="/journal"
+                className="font-sans font-bold tracking-widest text-[12px] inline-block"
+                style={{ color: '#3A6AAA' }}
+              >
+                &larr; BACK TO JOURNAL
+              </Link>
+
+              <ShareBar url={entryUrl} text={entry.title} />
+            </aside>
           </div>
-
-          <ShareBar url={entryUrl} text={entry.title} />
         </article>
       </main>
       <Footer />

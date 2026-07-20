@@ -54,7 +54,16 @@ const raw = fs.readFileSync(entryPath, "utf-8");
 // The real title lives in the "## Draft — ..." heading. Support either an
 // em-dash or hyphen between "Draft" and the quoted title, and either curly
 // or straight quotes, since these are hand-authored markdown files.
-const draftHeadingPattern = /^##\s*Draft\s*[-—]\s*["“]([^"”]+)["”]/m;
+//
+// The heading line itself doesn't end at the closing quote — it continues
+// with a "(~N words)" word-count suffix (e.g. `## Draft — "Not the Best
+// Barbecue" (~680 words)`). The trailing `.*` below consumes the rest of
+// that line so the word-count suffix isn't accidentally sliced into the
+// body as its own leading paragraph (and from there into the meta
+// description via excerptOf(), which takes the first paragraph). This bit
+// production data once already: got past lint/typecheck/build/tests
+// because "(~680 words)" is valid content, just wrong content.
+const draftHeadingPattern = /^##\s*Draft\s*[-—]\s*["“]([^"”]+)["”].*$/m;
 const draftMatch = raw.match(draftHeadingPattern);
 if (!draftMatch) {
   console.error(`Could not find a "## Draft — "<title>"" heading in ${entryPath}`);
@@ -62,9 +71,10 @@ if (!draftMatch) {
 }
 const title = draftMatch[1].trim();
 
-// Body is everything after the full Draft heading line, up to the next
-// top-level/second-level heading (if any) or end of file, stripped of the
-// leading/trailing whitespace the draft/word-count wrapper leaves behind.
+// Body is everything after the full Draft heading line (including its
+// word-count suffix), up to the next top-level/second-level heading (if
+// any) or end of file, stripped of the leading/trailing whitespace the
+// draft/word-count wrapper leaves behind.
 const bodyStart = draftMatch.index + draftMatch[0].length;
 const rest = raw.slice(bodyStart);
 const nextHeadingMatch = rest.match(/^\s*\n##\s/m);
