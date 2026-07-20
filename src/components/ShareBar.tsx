@@ -9,6 +9,8 @@ interface ShareBarProps {
   text: string;
   /** Optional label above the icon row. Defaults to "SHARE". */
   label?: string;
+  /** Optional subject line for the Email button. Defaults to `text` if not set. */
+  emailSubject?: string;
 }
 
 /**
@@ -20,7 +22,7 @@ interface ShareBarProps {
  * neither platform (nor "copy") has one — so both copy `url` to the
  * clipboard and show a brief toast confirmation instead of navigating out.
  */
-export default function ShareBar({ url, text, label = 'SHARE' }: ShareBarProps) {
+export default function ShareBar({ url, text, label = 'SHARE', emailSubject = text }: ShareBarProps) {
   const [toast, setToast] = useState<string | null>(null)
 
   async function copyLink(): Promise<boolean> {
@@ -116,7 +118,7 @@ export default function ShareBar({ url, text, label = 'SHARE' }: ShareBarProps) 
         </a>
 
         <a
-          href={`mailto:?subject=${encodeURIComponent(text)}&body=${encodeURIComponent(`${text}\n\n${url}`)}`}
+          href={`mailto:?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(`${text}\n\n${url}`)}`}
           aria-label="Share via Email"
           title="Share via Email"
           className={iconButtonClass}

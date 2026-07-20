@@ -48,7 +48,12 @@ export default function Page() {
               WEBTECHHQ.COM
             </p>
 
-            <ShareBar url={shareUrl} text={shareText} label="OR SHARE VIA" />
+            <ShareBar
+              url={shareUrl}
+              text={shareText}
+              label="OR SHARE VIA"
+              emailSubject="Check out Moore Solutions"
+            />
           </div>
         </section>
       </main>
