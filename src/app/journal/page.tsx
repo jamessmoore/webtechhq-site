@@ -73,10 +73,10 @@ export default function JournalIndexPage() {
           </div>
 
           <h1 className="font-sans font-black leading-tight mb-4" style={{ fontSize: '2rem', color: '#89D4FF' }}>
-            The founder journey, in writing
+            The Founder Journey
           </h1>
           <p className="font-sans mb-12" style={{ fontSize: '21px', color: '#FFFFFF' }}>
-            Personal essays behind the videos, in my own words.
+            My thoughts on AI and building a small business.
           </p>
 
           {entries.length === 0 ? (
@@ -106,10 +106,10 @@ export default function JournalIndexPage() {
                         href={`/journal/${entry.slug}`}
                         className={`group flex flex-col md:flex-row md:items-start gap-2 md:gap-8 py-4 ${i === group.entries.length - 1 ? 'pb-0' : ''}`}
                       >
-                        <div className="flex items-center gap-3 md:w-[240px] md:shrink-0">
+                        <div className="flex items-center gap-3 md:w-[320px] md:shrink-0">
                           <h2
-                            className="font-sans font-bold leading-snug text-left transition-all duration-200 group-hover:[text-shadow:0_0_6px_#3D9FFF,0_0_14px_#3D9FFF]"
-                            style={{ fontSize: '1.4rem', color: '#FFFFFF' }}
+                            className="font-sans font-bold leading-snug text-left whitespace-nowrap overflow-hidden text-ellipsis transition-all duration-200 group-hover:[text-shadow:0_0_6px_#3D9FFF,0_0_14px_#3D9FFF]"
+                            style={{ fontSize: '1.05rem', color: '#FFFFFF' }}
                           >
                             {entry.title}
                           </h2>
