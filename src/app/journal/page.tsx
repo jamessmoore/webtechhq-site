@@ -91,7 +91,7 @@ export default function JournalIndexPage() {
                   className={`p-5 transition-all duration-200 ${ENTRY_GLOW}`}
                   style={{ backgroundColor: '#071830', border: '0.8px solid #162D5A', borderRadius: '4px' }}
                 >
-                  <div className="text-right mb-4">
+                  <div className="text-right mb-2">
                     <span
                       className="font-sans font-bold text-[12px] tracking-widest"
                       style={{ color: '#A9CFFA' }}
@@ -99,7 +99,7 @@ export default function JournalIndexPage() {
                       {group.label}
                     </span>
                   </div>
-                  <div style={{ height: '0.5px', backgroundColor: '#162D5A', width: '100%', marginBottom: '16px' }} />
+                  <div style={{ height: '0.5px', backgroundColor: '#162D5A', width: '100%', marginBottom: '8px' }} />
                   <div>
                     <div className="md:hidden flex flex-col">
                       {group.entries.map((entry, i) => (
@@ -111,7 +111,7 @@ export default function JournalIndexPage() {
                           <div className="flex items-center gap-3">
                             <h2
                               className="font-sans font-bold leading-snug text-left whitespace-nowrap overflow-hidden text-ellipsis transition-all duration-200 group-hover:[text-shadow:0_0_6px_#3D9FFF,0_0_14px_#3D9FFF]"
-                              style={{ fontSize: '1.05rem', color: '#FFFFFF' }}
+                              style={{ fontSize: 'calc(1.05rem + 1px)', color: '#FFFFFF' }}
                             >
                               {entry.title}
                             </h2>
@@ -147,7 +147,7 @@ export default function JournalIndexPage() {
                           <div className={`flex items-center gap-3 py-4 max-w-[420px] ${i === group.entries.length - 1 ? 'pb-0' : ''}`}>
                             <h2
                               className="font-sans font-bold leading-snug text-left whitespace-nowrap overflow-hidden text-ellipsis transition-all duration-200 group-hover:[text-shadow:0_0_6px_#3D9FFF,0_0_14px_#3D9FFF]"
-                              style={{ fontSize: '1.05rem', color: '#FFFFFF' }}
+                              style={{ fontSize: 'calc(1.05rem + 1px)', color: '#FFFFFF' }}
                             >
                               {entry.title}
                             </h2>
