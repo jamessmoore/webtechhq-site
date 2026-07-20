@@ -122,7 +122,7 @@ export default function Page() {
                 WANT MORE OF THE STORY?
               </h2>
               <p className="font-sans text-[15px] leading-relaxed">
-                Read the Journal: personal essays behind the videos, in my own words.
+                The Founder Journey: my thoughts on AI and building a small business.
               </p>
               <Link
                 href="/journal"
