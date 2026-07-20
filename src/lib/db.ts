@@ -176,6 +176,30 @@ function migrate(db: Database.Database): void {
 
     CREATE INDEX IF NOT EXISTS idx_audit_reports_user_product
       ON audit_reports (user_id, product_id);
+
+    -- Founder-journey essay series (webtechhq.com/journal). Two categories
+    -- share this table via entry_type: 'weekly' (tied to the regular
+    -- flagship-video content, produced via the moore-journal HEIT pipeline)
+    -- and 'monthly-recap' (a founder-progress update; format/template not
+    -- yet decided as of this table's creation). Not enforced via CHECK
+    -- constraint, just documented convention.
+    CREATE TABLE IF NOT EXISTS journal_entries (
+      id           TEXT PRIMARY KEY,
+      slug         TEXT NOT NULL UNIQUE,
+      title        TEXT NOT NULL,
+      content      TEXT NOT NULL,
+      entry_date   TEXT NOT NULL,
+      entry_type   TEXT NOT NULL DEFAULT 'weekly',
+      youtube_url  TEXT,
+      created_at   TEXT NOT NULL,
+      updated_at   TEXT NOT NULL
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_journal_entries_slug
+      ON journal_entries (slug);
+
+    CREATE INDEX IF NOT EXISTS idx_journal_entries_entry_date
+      ON journal_entries (entry_date);
   `);
 
   // Backfill reset_token columns for databases created before they existed.
