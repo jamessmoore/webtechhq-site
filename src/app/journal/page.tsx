@@ -104,10 +104,9 @@ export default function JournalIndexPage() {
                       <Link
                         key={entry.id}
                         href={`/journal/${entry.slug}`}
-                        className={`block py-4 transition-all duration-200 ${ENTRY_GLOW} ${i === 0 ? 'pt-0' : ''} ${i === group.entries.length - 1 ? 'pb-0' : ''}`}
-                        style={i > 0 ? { borderTop: '0.5px solid #162D5A' } : undefined}
+                        className={`flex flex-col md:flex-row md:items-start gap-2 md:gap-8 py-4 transition-all duration-200 ${ENTRY_GLOW} ${i === group.entries.length - 1 ? 'pb-0' : ''}`}
                       >
-                        <div className="flex items-center gap-3 mb-2">
+                        <div className="flex items-center gap-3 md:w-[240px] md:shrink-0">
                           <h2 className="font-sans font-bold leading-snug text-left" style={{ fontSize: '1.4rem', color: '#FFFFFF' }}>
                             {entry.title}
                           </h2>
@@ -120,7 +119,7 @@ export default function JournalIndexPage() {
                             </span>
                           )}
                         </div>
-                        <p className="font-sans text-left" style={{ color: '#A9CFFA' }}>
+                        <p className="font-sans text-left flex-1" style={{ color: '#A9CFFA' }}>
                           {firstSentenceOf(entry.content)}
                         </p>
                       </Link>
