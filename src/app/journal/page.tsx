@@ -10,26 +10,55 @@ export const metadata: Metadata = {
     "James Moore's founder-journey journal: personal essays on building Moore Solutions, told from the actual stories behind each week's video.",
 }
 
-function formatEntryDate(isoDate: string): string {
-  // Parse as UTC so the displayed date matches the YYYY-MM-DD folder name
-  // regardless of the server's local timezone.
-  const [year, month, day] = isoDate.split('-').map(Number)
-  return new Date(Date.UTC(year, month - 1, day)).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    timeZone: 'UTC',
-  })
+function monthKey(isoDate: string): string {
+  const [year, month] = isoDate.split('-')
+  return `${year}-${month}`
 }
 
-function excerptOf(content: string): string {
-  const firstParagraph = content.split(/\n\s*\n/)[0]?.trim() ?? ''
-  if (firstParagraph.length <= 220) return firstParagraph
-  return `${firstParagraph.slice(0, 220).trimEnd()}...`
+function monthLabel(isoDate: string): string {
+  // Parse as UTC so the displayed month matches the YYYY-MM-DD folder name
+  // regardless of the server's local timezone.
+  const [year, month] = isoDate.split('-').map(Number)
+  return new Date(Date.UTC(year, month - 1, 1))
+    .toLocaleDateString('en-US', { year: 'numeric', month: 'long', timeZone: 'UTC' })
+    .toUpperCase()
 }
+
+function firstSentenceOf(content: string): string {
+  const firstParagraph = content.split(/\n\s*\n/)[0]?.trim() ?? ''
+  const sentenceMatch = firstParagraph.match(/^.*?[.!?](?=\s|$)/)
+  const sentence = sentenceMatch ? sentenceMatch[0] : firstParagraph
+  if (sentence.length <= 220) return sentence
+  return `${sentence.slice(0, 220).trimEnd()}...`
+}
+
+type MonthGroup = {
+  key: string
+  label: string
+  entries: ReturnType<typeof getAllJournalEntries>
+}
+
+function groupByMonth(entries: ReturnType<typeof getAllJournalEntries>): MonthGroup[] {
+  // Entries arrive sorted by entry_date DESC, so consecutive entries
+  // sharing a key can just be appended to the running group.
+  const groups: MonthGroup[] = []
+  for (const entry of entries) {
+    const key = monthKey(entry.entryDate)
+    const current = groups[groups.length - 1]
+    if (current && current.key === key) {
+      current.entries.push(entry)
+    } else {
+      groups.push({ key, label: monthLabel(entry.entryDate), entries: [entry] })
+    }
+  }
+  return groups
+}
+
+const ENTRY_GLOW = 'hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)]'
 
 export default function JournalIndexPage() {
   const entries = getAllJournalEntries()
+  const monthGroups = groupByMonth(entries)
 
   return (
     <>
@@ -55,40 +84,51 @@ export default function JournalIndexPage() {
               No entries yet. Check back soon.
             </p>
           ) : (
-            <ul className="flex flex-col gap-8">
-              {entries.map((entry) => (
-                <li key={entry.id}>
-                  <Link
-                    href={`/journal/${entry.slug}`}
-                    className="block p-5 transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)]"
-                    style={{ backgroundColor: '#071830', border: '0.8px solid #162D5A', borderRadius: '4px' }}
-                  >
-                    <div className="flex items-center gap-3 mb-2">
-                      <span
-                        className="font-sans text-[12px] tracking-widest"
-                        style={{ color: '#A9CFFA' }}
+            <div className="flex flex-col gap-8">
+              {monthGroups.map((group) => (
+                <div
+                  key={group.key}
+                  className={`p-5 transition-all duration-200 ${ENTRY_GLOW}`}
+                  style={{ backgroundColor: '#071830', border: '0.8px solid #162D5A', borderRadius: '4px' }}
+                >
+                  <div className="text-right mb-4">
+                    <span
+                      className="font-sans font-bold text-[12px] tracking-widest"
+                      style={{ color: '#A9CFFA' }}
+                    >
+                      {group.label}
+                    </span>
+                  </div>
+                  <div className="flex flex-col">
+                    {group.entries.map((entry, i) => (
+                      <Link
+                        key={entry.id}
+                        href={`/journal/${entry.slug}`}
+                        className={`block py-4 transition-all duration-200 ${ENTRY_GLOW} ${i === 0 ? 'pt-0' : ''} ${i === group.entries.length - 1 ? 'pb-0' : ''}`}
+                        style={i > 0 ? { borderTop: '0.5px solid #162D5A' } : undefined}
                       >
-                        {formatEntryDate(entry.entryDate)}
-                      </span>
-                      {entry.entryType === 'monthly-recap' && (
-                        <span
-                          className="font-sans font-bold text-[11px] tracking-widest px-2 py-[2px]"
-                          style={{ color: '#89D4FF', border: '0.6px solid #1A3D7A', borderRadius: '3px' }}
-                        >
-                          MONTHLY RECAP
-                        </span>
-                      )}
-                    </div>
-                    <h2 className="font-sans font-bold leading-snug mb-2" style={{ fontSize: '1.4rem', color: '#FFFFFF' }}>
-                      {entry.title}
-                    </h2>
-                    <p className="font-sans" style={{ color: '#A9CFFA' }}>
-                      {excerptOf(entry.content)}
-                    </p>
-                  </Link>
-                </li>
+                        <div className="flex items-center gap-3 mb-2">
+                          <h2 className="font-sans font-bold leading-snug text-left" style={{ fontSize: '1.4rem', color: '#FFFFFF' }}>
+                            {entry.title}
+                          </h2>
+                          {entry.entryType === 'monthly-recap' && (
+                            <span
+                              className="font-sans font-bold text-[11px] tracking-widest px-2 py-[2px]"
+                              style={{ color: '#89D4FF', border: '0.6px solid #1A3D7A', borderRadius: '3px' }}
+                            >
+                              MONTHLY RECAP
+                            </span>
+                          )}
+                        </div>
+                        <p className="font-sans text-left" style={{ color: '#A9CFFA' }}>
+                          {firstSentenceOf(entry.content)}
+                        </p>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
               ))}
-            </ul>
+            </div>
           )}
         </section>
       </main>

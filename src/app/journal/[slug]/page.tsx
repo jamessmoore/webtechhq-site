@@ -61,8 +61,9 @@ export default async function JournalEntryPage({ params }: Props) {
             Mobile: single column, DOM order below (Title, Divider, Body, Sidebar)
             handles the stacking automatically via flex-col.
 
-            Sidebar is normal document flow (no sticky/fixed) so it scrolls
-            away with the rest of the page, same as the left column.
+            Sidebar is sticky on desktop (md+) so it stays in view while the
+            body copy in the left column scrolls past it. top offset clears
+            the fixed 58px navbar plus a 20px gap.
           */}
           <div className="flex flex-col gap-10 md:grid md:grid-cols-[2fr_1fr] md:gap-x-16 md:gap-y-10">
             <h1
@@ -85,7 +86,7 @@ export default async function JournalEntryPage({ params }: Props) {
               ))}
             </div>
 
-            <aside className="flex flex-col gap-6 md:col-start-2 md:row-start-3 md:self-start">
+            <aside className="flex flex-col gap-6 md:col-start-2 md:row-start-3 md:self-start md:sticky md:top-[78px]">
               <span className="font-sans text-[12px] tracking-widest" style={{ color: '#A9CFFA' }}>
                 {formatEntryDate(entry.entryDate)}
               </span>
