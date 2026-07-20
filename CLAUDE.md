@@ -52,6 +52,18 @@ When editing on-page copy (Hero, Services, About, etc.), match the existing bran
 
 **No em dashes.** Don't use em dashes (`—`) in any user-facing copy. Split into two sentences, or use a comma, colon, or parentheses instead, whichever reads most naturally. Applies to new copy and to existing copy you touch; doesn't apply to code comments.
 
+### Also check the AEO/LLM-facing artifacts
+
+This site is actively optimized for discovery by AI answer engines (ChatGPT, Perplexity, Claude, Google AI Overviews), not just classic SEO. This applies to **new copy you're adding just as much as copy you're editing** — a brand-new page or section needs these artifacts from the day it ships, not as a follow-up later. Whenever you add or change copy that touches what a page says about itself (its headline/H1, the services or facts it states, or whether a route is public or gated), check whether these need updating in the same PR:
+
+- **That page's own `export const metadata`** (title/description in its `page.tsx`) — every new public page gets its own, written to match the copy actually on the page, not left to inherit the homepage's. On edits, don't let it drift into describing a version of the page that no longer exists.
+- **`src/app/sitemap.ts`** — add the route the moment a new public page ships; remove or reclassify it if you're removing a page or changing its public/gated status.
+- **`src/app/robots.ts`** — same, if a route's crawlability should change (e.g. a page that used to redirect-if-unauthenticated becomes genuinely public, or vice versa).
+- **`public/llms.txt`** — add a one-line description for a genuinely new public page; update an existing one if its purpose or content materially changed.
+- **JSON-LD structured data** (`Organization`/`Person` schema in `layout.tsx`, `Service` schema on `/services`) — update if the change touches a fact one of these schemas asserts (years of experience, service list, founder bio claims, pricing framing).
+
+Fold any needed update into the same PR as the copy change rather than leaving it for later. If a file listed above doesn't exist yet in the repo, skip that item, it's not a blocker, just check once it does.
+
 ## Buttons & clickable links — default styling
 
 Every button-like or link-like clickable element (CTAs, nav links, form submit buttons) gets these two treatments by default unless a component has an explicit reason not to (e.g. plain inline text links):
