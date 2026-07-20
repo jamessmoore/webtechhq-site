@@ -104,10 +104,13 @@ export default function JournalIndexPage() {
                       <Link
                         key={entry.id}
                         href={`/journal/${entry.slug}`}
-                        className={`flex flex-col md:flex-row md:items-start gap-2 md:gap-8 py-4 transition-all duration-200 ${ENTRY_GLOW} ${i === group.entries.length - 1 ? 'pb-0' : ''}`}
+                        className={`group flex flex-col md:flex-row md:items-start gap-2 md:gap-8 py-4 ${i === group.entries.length - 1 ? 'pb-0' : ''}`}
                       >
                         <div className="flex items-center gap-3 md:w-[240px] md:shrink-0">
-                          <h2 className="font-sans font-bold leading-snug text-left" style={{ fontSize: '1.4rem', color: '#FFFFFF' }}>
+                          <h2
+                            className="font-sans font-bold leading-snug text-left transition-all duration-200 group-hover:[text-shadow:0_0_6px_#3D9FFF,0_0_14px_#3D9FFF]"
+                            style={{ fontSize: '1.4rem', color: '#FFFFFF' }}
+                          >
                             {entry.title}
                           </h2>
                           {entry.entryType === 'monthly-recap' && (
@@ -119,7 +122,10 @@ export default function JournalIndexPage() {
                             </span>
                           )}
                         </div>
-                        <p className="font-sans text-left flex-1" style={{ color: '#A9CFFA' }}>
+                        <p
+                          className="font-sans text-left flex-1 transition-all duration-200 group-hover:[text-shadow:0_0_6px_#3D9FFF,0_0_14px_#3D9FFF]"
+                          style={{ color: '#A9CFFA' }}
+                        >
                           {firstSentenceOf(entry.content)}
                         </p>
                       </Link>
