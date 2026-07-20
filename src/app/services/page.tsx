@@ -1,7 +1,15 @@
+import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import { getServiceJsonLd } from '@/lib/structuredData'
+
+export const metadata: Metadata = {
+  title: 'Services | Moore Solutions',
+  description:
+    'AI coaching and agent development, intelligent automation, and business analytics, backed by 20+ years running production systems. Pick the lane that fits your business.',
+}
 
 const sections = [
   {
@@ -31,6 +39,10 @@ const sections = [
 export default function Page() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(getServiceJsonLd(sections)) }}
+      />
       <Navbar />
       <main className="min-h-screen pt-[58px]" style={{ backgroundColor: '#040C1C' }}>
         {/* Page header */}

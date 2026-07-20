@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Get Started | Moore Solutions",
   description:
     "Request your free Opportunity Finder with just your name and email.",
+  robots: { index: false, follow: false },
 };
 
 const PROOF_POINTS = [

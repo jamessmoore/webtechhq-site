@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: "Business Audit | Moore Solutions",
   description:
     "Answer a few questions about your biggest operational headaches. I'll identify your top AI opportunities and deliver your report within 48 hours.",
+  // Gated behind a session (see src/proxy.ts) — no public content to index.
+  robots: { index: false, follow: false },
 };
 
 export default async function QuestionnairePage() {

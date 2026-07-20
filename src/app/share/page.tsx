@@ -5,6 +5,7 @@ import Footer from '@/components/Footer'
 export const metadata: Metadata = {
   title: 'Share This Site | Moore Solutions',
   description: 'Scan this QR code to open webtechhq.com on your phone.',
+  robots: { index: false, follow: false },
 }
 
 const shareUrl = 'https://webtechhq.com'

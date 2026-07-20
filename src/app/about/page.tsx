@@ -1,7 +1,14 @@
+import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+
+export const metadata: Metadata = {
+  title: 'About James Moore | Moore Solutions',
+  description:
+    "James S. Moore, founder of Moore Solutions, backed by 20+ years building, scaling, and automating production systems. Start free with the Opportunity Finder, then move into the Business Audit or a custom build.",
+}
 
 export default function Page() {
   return (

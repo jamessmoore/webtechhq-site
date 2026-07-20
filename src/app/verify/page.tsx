@@ -4,6 +4,7 @@ import LogoLockup from "@/components/LogoLockup";
 
 export const metadata: Metadata = {
   title: "Email Verification | Moore Solutions",
+  robots: { index: false, follow: false },
 };
 
 type State = "success" | "expired" | "invalid";

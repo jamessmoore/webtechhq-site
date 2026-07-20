@@ -7,6 +7,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Sign In | Moore Solutions",
   description: "Sign in to your Moore Solutions account.",
+  robots: { index: false, follow: false },
 };
 
 export default function SignInPage() {
