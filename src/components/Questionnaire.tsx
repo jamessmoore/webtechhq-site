@@ -522,7 +522,6 @@ function SuccessScreen({ firstName }: { firstName: string }) {
         Expect it in your inbox <span style={{ color: "#89D4FF" }}>right away</span>.
       </p>
       <p className="font-sans text-[12px] mt-5 leading-relaxed">
-        I personally review every submission before generating your report.
         You&apos;ll get your top 3 AI opportunities, ranked by impact, with
         realistic time and cost estimates, not hype.
       </p>
