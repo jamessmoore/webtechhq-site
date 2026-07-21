@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import HexMark from '@/components/HexMark'
 import { getFaqJsonLd } from '@/lib/structuredData'
 
 export const metadata: Metadata = {
@@ -158,9 +159,14 @@ export default function Page() {
                     className="card-accent p-5"
                     style={{ backgroundColor: '#071525', border: '0.8px solid #162D5A', borderRadius: '2px' }}
                   >
-                    <h3 className="font-sans font-bold text-[21px] leading-snug" style={{ color: '#EEF6FF' }}>
-                      {faq.question}
-                    </h3>
+                    <div className="flex items-center gap-3">
+                      <span className="shrink-0">
+                        <HexMark size={14} />
+                      </span>
+                      <h3 className="font-sans font-bold text-[21px] leading-snug" style={{ color: '#EEF6FF' }}>
+                        {faq.question}
+                      </h3>
+                    </div>
                     <div style={{ width: '100%', height: '2px', backgroundColor: '#3D7FD4', margin: '10px 0' }} />
                     <p className="font-sans text-[19px] leading-relaxed">
                       {faq.answer}
