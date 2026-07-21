@@ -141,7 +141,10 @@ if (fs.existsSync(videoMetaPath)) {
 // where it's actually catchable. Validate/normalize before it ever reaches
 // the DB.
 function isPlainIsoDate(value) {
-  return typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value);
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const [year, month, day] = value.split("-").map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  return date.getUTCFullYear() === year && date.getUTCMonth() + 1 === month && date.getUTCDate() === day;
 }
 function normalizeFolderDate(name) {
   if (/^\d{4}-\d{2}-\d{2}$/.test(name)) return name;
