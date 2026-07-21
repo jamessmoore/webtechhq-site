@@ -32,7 +32,7 @@ describe("sitemap()", () => {
 
   it("includes every public marketing page", () => {
     expect(getPaths()).toEqual(
-      expect.arrayContaining(["/", "/about", "/services", "/use-cases", "/portfolio", "/contact", "/privacy", "/terms"]),
+      expect.arrayContaining(["/", "/about", "/services", "/use-cases", "/faq", "/portfolio", "/contact", "/privacy", "/terms"]),
     );
   });
 
