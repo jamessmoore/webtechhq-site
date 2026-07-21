@@ -282,3 +282,48 @@ export function rowToAuditReport(row: AuditReportRow): AuditReportRecord {
     completedAt: row.completed_at ?? undefined,
   };
 }
+
+// ─── Journal Entries ──────────────────────────────────────────────────────────
+
+// 'weekly' = tied to the regular flagship-video content (moore-journal HEIT
+// pipeline). 'monthly-recap' = a founder-progress update; format not yet
+// decided, this is just room in the data model for it.
+export type JournalEntryType = "weekly" | "monthly-recap";
+
+export interface JournalEntry {
+  id: string;
+  slug: string;
+  title: string;
+  content: string;
+  entryDate: string;
+  entryType: JournalEntryType;
+  youtubeUrl?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface JournalEntryRow {
+  id: string;
+  slug: string;
+  title: string;
+  content: string;
+  entry_date: string;
+  entry_type: JournalEntryType;
+  youtube_url: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export function rowToJournalEntry(row: JournalEntryRow): JournalEntry {
+  return {
+    id: row.id,
+    slug: row.slug,
+    title: row.title,
+    content: row.content,
+    entryDate: row.entry_date,
+    entryType: row.entry_type,
+    youtubeUrl: row.youtube_url ?? undefined,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  };
+}

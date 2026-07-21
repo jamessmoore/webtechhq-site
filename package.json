@@ -13,7 +13,8 @@
     "test:unit": "vitest run",
     "seed:prompt-templates": "node scripts/seed-prompt-templates.js",
     "seed:agent-prompt-config": "node scripts/seed-agent-prompt-config.js",
-    "seed:fake-admin-data": "node scripts/seed-fake-admin-data.js"
+    "seed:fake-admin-data": "node scripts/seed-fake-admin-data.js",
+    "import:journal-entry": "node scripts/import-journal-entry.js"
   },
   "dependencies": {
     "@anthropic-ai/bedrock-sdk": "^0.32.0",
