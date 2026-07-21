@@ -151,6 +151,25 @@ export default function Page() {
                 GET SHAREABLE QR CODE ›
               </Link>
             </div>
+
+            <div
+              className="flex flex-col items-start gap-3 p-5 self-start"
+              style={{ backgroundColor: '#071525', border: '0.8px solid #162D5A', borderRadius: '2px' }}
+            >
+              <h2 className="font-sans font-bold text-[12px] tracking-widest" style={{ color: '#BCE5FF' }}>
+                GOT QUESTIONS?
+              </h2>
+              <p className="font-sans text-[15px] leading-relaxed">
+                Answers to what people ask most before getting started.
+              </p>
+              <Link
+                href="/faq"
+                className="font-sans text-[12.5px] tracking-widest px-5 py-2 text-center transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
+                style={{ background: 'linear-gradient(180deg, #1A4FC4, #0E3A9A)', border: '1px solid #3D7FD4', color: '#BCE5FF', borderRadius: '6px' }}
+              >
+                READ THE FAQ ›
+              </Link>
+            </div>
           </div>
         </section>
       </main>

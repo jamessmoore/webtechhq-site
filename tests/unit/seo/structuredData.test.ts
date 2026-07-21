@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getOrganizationJsonLd, getPersonJsonLd, getServiceJsonLd, SOCIAL_LINKS } from "../../../src/lib/structuredData";
+import { getOrganizationJsonLd, getPersonJsonLd, getServiceJsonLd, getFaqJsonLd, SOCIAL_LINKS } from "../../../src/lib/structuredData";
 
 describe("getOrganizationJsonLd()", () => {
   const org = getOrganizationJsonLd();
@@ -48,6 +48,29 @@ describe("getServiceJsonLd()", () => {
   it("points each service at the same provider", () => {
     for (const item of jsonLd.itemListElement) {
       expect(item.provider.name).toBe("Moore Solutions");
+    }
+  });
+});
+
+describe("getFaqJsonLd()", () => {
+  const faqs = [
+    { question: "Question A?", answer: "Answer A." },
+    { question: "Question B?", answer: "Answer B." },
+  ];
+  const jsonLd = getFaqJsonLd(faqs);
+
+  it("builds a schema.org FAQPage with one Question per input, in order", () => {
+    expect(jsonLd["@type"]).toBe("FAQPage");
+    expect(jsonLd.mainEntity).toHaveLength(2);
+    expect(jsonLd.mainEntity[0]["@type"]).toBe("Question");
+    expect(jsonLd.mainEntity[0].name).toBe("Question A?");
+    expect(jsonLd.mainEntity[1].name).toBe("Question B?");
+  });
+
+  it("nests each answer as an acceptedAnswer", () => {
+    for (const [i, item] of jsonLd.mainEntity.entries()) {
+      expect(item.acceptedAnswer["@type"]).toBe("Answer");
+      expect(item.acceptedAnswer.text).toBe(faqs[i].answer);
     }
   });
 });

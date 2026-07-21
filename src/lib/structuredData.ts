@@ -1,6 +1,7 @@
 // JSON-LD structured data builders. Facts here must stay traceable to
-// copy already on the site (Hero.tsx, ProofBar.tsx, about/page.tsx,
-// Footer.tsx) — don't invent client names, numbers, or profile URLs.
+// copy already on the site (Hero.tsx, ProofBar.tsx, Tools.tsx,
+// about/page.tsx, use-cases/page.tsx, Footer.tsx) — don't invent client
+// names, numbers, or profile URLs.
 
 export const SITE_URL = 'https://webtechhq.com'
 
@@ -86,6 +87,31 @@ export function getServiceJsonLd(services: ServiceSummary[]) {
       },
       areaServed: 'US',
       url: `${SITE_URL}/services#${s.id}`,
+    })),
+  }
+}
+
+type FaqSummary = {
+  question: string
+  answer: string
+}
+
+// Mirrors the `faqs` array in src/app/faq/page.tsx. Pass the same data in
+// from that page rather than re-typing it here, so the two never drift
+// apart. Every question/answer here must stay traceable to copy already
+// live elsewhere on the site (see file header) — no new pricing figures
+// or claims belong on this page or in this schema.
+export function getFaqJsonLd(faqs: FaqSummary[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: f.answer,
+      },
     })),
   }
 }

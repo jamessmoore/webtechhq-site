@@ -16,6 +16,10 @@
 - [Opportunity Finder](https://webtechhq.com/signup): Free tool. Answer a few plain-English questions and get a custom AI prompt built around your business, ready to run in Claude, ChatGPT, or Gemini.
 - [Business Audit](https://webtechhq.com/about): Flat-rate, AI-generated written report on exactly where AI could save a business time or make it money, described in detail on the About page.
 
+## FAQ
+
+- [FAQ](https://webtechhq.com/faq): Direct answers to what people ask most before getting started: how the Opportunity Finder and Business Audit work, who does the work, and how billing and contracts work.
+
 ## Journal
 
 - [Journal](https://webtechhq.com/journal): James Moore's founder-journey journal, personal essays on building Moore Solutions told from the actual stories behind each week's video.
