@@ -7,6 +7,8 @@ description: Push the current work through this repo's required branch → verif
 
 Automates the workflow required by this repo's `CLAUDE.md`: feature branch → local verification → push → PR → wait for CI. Never merges automatically.
 
+**Gate before invoking this skill at all (standing rule as of 2026-07-21):** this skill bundles commit *and* push/PR into one flow. Don't invoke it just because there's a working local change — push/PR needs its own explicit go-ahead from James, separate from and prior to whatever go-ahead produced the commit. For a commit-only round (steps 1-3 below), do those by hand without invoking this skill. Only run this skill once push has actually been authorized for that specific branch.
+
 ## Steps
 
 1. **Check branch.** Run `git branch --show-current`. If it's `master`, create a new branch off it named for the change (e.g. `feature/short-description` or `fix/short-description`) — ask the user to confirm the name if it isn't obvious from context. Never commit directly to `master`.
