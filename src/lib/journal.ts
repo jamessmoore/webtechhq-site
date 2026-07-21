@@ -34,9 +34,41 @@ export function slugify(str: string): string {
  * exists to catch at import time. The API route needs the same guard,
  * since it can't trust a machine caller (Leo) any more than a hand-edited
  * video-meta.json.
+ *
+ * Shape-only isn't enough: `Date.UTC`/`new Date(...)` silently roll a
+ * calendar-invalid date forward (e.g. "2026-02-30" becomes March 2, "2026-13-05"
+ * becomes January 2027, "2026-00-10" becomes December 2025) instead of
+ * raising an error, so a shape-only regex check lets those through and the
+ * entry gets silently published under the wrong date/month group on
+ * /journal. Round-trip the parsed value through Date.UTC and confirm it
+ * comes back out unchanged (Argus, PR #97 review, closing the gap left by
+ * the PR #96 "Invalid Date" fix, which only covered the full-ISO-timestamp
+ * case, not this one). Keep scripts/import-journal-entry.js's own
+ * `require()`-based copy of this function byte-identical to this one.
  */
 export function isPlainIsoDate(value: unknown): value is string {
-  return typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value);
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const [year, month, day] = value.split("-").map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  return date.getUTCFullYear() === year && date.getUTCMonth() + 1 === month && date.getUTCDate() === day;
+}
+
+/**
+ * youtubeUrl is rendered as a raw anchor href (src/app/journal/[slug]/page.tsx's
+ * "WATCH THE VIDEO" link) with only `rel="noopener noreferrer"`, which does
+ * NOT block a `javascript:`/`data:` URI from executing on click. Mirrors
+ * scripts/import-journal-entry.js's findYouTubeUrl regex (kept in sync by
+ * hand, same as slugify/isPlainIsoDate above), but anchored to the whole
+ * string and restricted to https:// only - findYouTubeUrl is scanning free
+ * text for a URL to extract, this is validating a caller-supplied value, so
+ * it needs to reject rather than just fail to match anything else in the
+ * string (Argus, PR #97 review).
+ */
+export function isValidYouTubeUrl(value: unknown): value is string {
+  return (
+    typeof value === "string" &&
+    /^https:\/\/(www\.)?(youtube\.com\/watch\?v=[\w-]+|youtu\.be\/[\w-]+)[^\s)"']*$/.test(value)
+  );
 }
 
 export function getAllJournalEntries(): JournalEntry[] {

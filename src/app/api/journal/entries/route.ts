@@ -1,6 +1,6 @@
 import { timingSafeEqual } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
-import { isPlainIsoDate, slugify, upsertJournalEntryBySlug } from "@/lib/journal";
+import { isPlainIsoDate, isValidYouTubeUrl, slugify, upsertJournalEntryBySlug } from "@/lib/journal";
 
 // Machine-to-machine credential for Leo (the Media Pipeline agent) to POST
 // new weekly Journal entries directly, replacing the manual
@@ -44,6 +44,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Request body must be valid JSON." }, { status: 400 });
   }
 
+  // A literal JSON `null`/array/primitive body parses fine (JSON.parse
+  // succeeds inside the try/catch above) but the destructuring right below
+  // throws outside that try/catch, turning into an uncaught 500 instead of
+  // a clean 400. Guard before destructuring (Argus, PR #97 review).
+  if (!body || typeof body !== "object") {
+    return NextResponse.json({ error: "Request body must be a JSON object." }, { status: 400 });
+  }
+
   const { title, content, entryDate, slug: rawSlug, youtubeUrl, entryType } = body;
 
   if (typeof title !== "string" || !title.trim()) {
@@ -83,6 +91,21 @@ export async function POST(request: NextRequest) {
   if (youtubeUrl !== undefined && typeof youtubeUrl !== "string") {
     return NextResponse.json({ error: "youtubeUrl must be a string if provided." }, { status: 400 });
   }
+  // Rendered as a raw anchor href on the public entry page with only
+  // rel="noopener noreferrer", which does not stop a javascript:/data: URI
+  // from executing - restrict to real https:// YouTube links rather than
+  // accepting any string (Argus, PR #97 review; stored-XSS risk if
+  // JOURNAL_API_KEY were ever leaked).
+  const trimmedYoutubeUrl = typeof youtubeUrl === "string" ? youtubeUrl.trim() : "";
+  if (trimmedYoutubeUrl && !isValidYouTubeUrl(trimmedYoutubeUrl)) {
+    return NextResponse.json(
+      {
+        error:
+          "youtubeUrl must be a https://youtube.com, https://www.youtube.com, or https://youtu.be video URL.",
+      },
+      { status: 400 },
+    );
+  }
 
   // Always normalized through slugify(), whether the caller supplied an
   // explicit slug or we're deriving one from the title - a hand-supplied
@@ -109,7 +132,7 @@ export async function POST(request: NextRequest) {
     content: content.trim(),
     entryDate,
     entryType: "weekly",
-    youtubeUrl: typeof youtubeUrl === "string" && youtubeUrl.trim() ? youtubeUrl.trim() : undefined,
+    youtubeUrl: trimmedYoutubeUrl || undefined,
   });
 
   return NextResponse.json({ entry, url: `/journal/${entry.slug}` }, { status: 201 });
