@@ -82,6 +82,39 @@ describe("journal", () => {
     expect(all).toHaveLength(1);
   });
 
+  it("isPlainIsoDate accepts calendar-valid YYYY-MM-DD dates", () => {
+    expect(journal.isPlainIsoDate("2026-07-20")).toBe(true);
+    expect(journal.isPlainIsoDate("2024-02-29")).toBe(true); // leap year
+  });
+
+  it("isPlainIsoDate rejects calendar-invalid dates that match the shape but silently roll over", () => {
+    expect(journal.isPlainIsoDate("2026-02-30")).toBe(false); // Feb has 29 days max
+    expect(journal.isPlainIsoDate("2026-13-05")).toBe(false); // no month 13
+    expect(journal.isPlainIsoDate("2026-00-10")).toBe(false); // no month 0
+    expect(journal.isPlainIsoDate("2023-02-29")).toBe(false); // not a leap year
+  });
+
+  it("isPlainIsoDate rejects non-plain-date shapes", () => {
+    expect(journal.isPlainIsoDate("2026-07-02T14:30:00Z")).toBe(false);
+    expect(journal.isPlainIsoDate(undefined)).toBe(false);
+    expect(journal.isPlainIsoDate(12345)).toBe(false);
+  });
+
+  it("isValidYouTubeUrl accepts real https youtube.com/youtu.be video URLs", () => {
+    expect(journal.isValidYouTubeUrl("https://www.youtube.com/watch?v=abc123")).toBe(true);
+    expect(journal.isValidYouTubeUrl("https://youtube.com/watch?v=abc123")).toBe(true);
+    expect(journal.isValidYouTubeUrl("https://youtu.be/abc123")).toBe(true);
+  });
+
+  it("isValidYouTubeUrl rejects javascript:/data: URIs and non-YouTube URLs", () => {
+    expect(journal.isValidYouTubeUrl("javascript:alert(1)")).toBe(false);
+    expect(journal.isValidYouTubeUrl("data:text/html,<script>alert(1)</script>")).toBe(false);
+    expect(journal.isValidYouTubeUrl("http://www.youtube.com/watch?v=abc123")).toBe(false); // http, not https
+    expect(journal.isValidYouTubeUrl("https://evil.example.com/watch?v=abc123")).toBe(false);
+    expect(journal.isValidYouTubeUrl("/relative/path")).toBe(false);
+    expect(journal.isValidYouTubeUrl(undefined)).toBe(false);
+  });
+
   it("getAllJournalEntries orders entries by entry_date descending", () => {
     journal.createJournalEntry({
       slug: "order-a",

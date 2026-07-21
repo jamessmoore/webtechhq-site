@@ -66,6 +66,14 @@ describe("POST /api/journal/entries", () => {
     expect(res.status).toBe(401);
   });
 
+  it("returns 401 when the bearer token is the same length as JOURNAL_API_KEY but wrong (exercises the timingSafeEqual comparison, not just the length-mismatch early return)", async () => {
+    expect(API_KEY.length).toBe(24);
+    const sameLengthWrongKey = "test-journal-api-key-124";
+    expect(sameLengthWrongKey.length).toBe(API_KEY.length);
+    const res = await POST(request(validBody, { Authorization: `Bearer ${sameLengthWrongKey}` }));
+    expect(res.status).toBe(401);
+  });
+
   it("returns 401 when JOURNAL_API_KEY isn't configured at all", async () => {
     delete process.env.JOURNAL_API_KEY;
     const res = await POST(request(validBody));
@@ -102,6 +110,66 @@ describe("POST /api/journal/entries", () => {
     const json = await res.json();
     expect(json.error).toMatch(/entryDate/i);
     expect(journal.getJournalEntryBySlug("bad-date-entry")).toBeNull();
+  });
+
+  it("returns 400 when entryDate is calendar-invalid despite matching the YYYY-MM-DD shape", async () => {
+    const res = await POST(request({ ...validBody, slug: "bad-calendar-date", entryDate: "2026-02-30" }));
+    expect(res.status).toBe(400);
+    const json = await res.json();
+    expect(json.error).toMatch(/entryDate/i);
+    expect(journal.getJournalEntryBySlug("bad-calendar-date")).toBeNull();
+  });
+
+  it("returns 400 when entryDate has an out-of-range month", async () => {
+    const res = await POST(request({ ...validBody, slug: "bad-month-date", entryDate: "2026-13-05" }));
+    expect(res.status).toBe(400);
+    expect(journal.getJournalEntryBySlug("bad-month-date")).toBeNull();
+  });
+
+  it("returns 400 when youtubeUrl uses a javascript: scheme (stored-XSS risk)", async () => {
+    const res = await POST(
+      request({ ...validBody, slug: "xss-attempt", youtubeUrl: "javascript:alert(1)" }),
+    );
+    expect(res.status).toBe(400);
+    const json = await res.json();
+    expect(json.error).toMatch(/youtubeUrl/i);
+    expect(journal.getJournalEntryBySlug("xss-attempt")).toBeNull();
+  });
+
+  it("returns 400 when youtubeUrl is on a non-YouTube domain", async () => {
+    const res = await POST(
+      request({ ...validBody, slug: "wrong-domain", youtubeUrl: "https://evil.example.com/watch?v=abc123" }),
+    );
+    expect(res.status).toBe(400);
+    expect(journal.getJournalEntryBySlug("wrong-domain")).toBeNull();
+  });
+
+  it("returns 400 when youtubeUrl is http:// instead of https://", async () => {
+    const res = await POST(
+      request({ ...validBody, slug: "http-not-https", youtubeUrl: "http://www.youtube.com/watch?v=abc123" }),
+    );
+    expect(res.status).toBe(400);
+    expect(journal.getJournalEntryBySlug("http-not-https")).toBeNull();
+  });
+
+  it("accepts a valid youtu.be short URL", async () => {
+    const res = await POST(
+      request({ ...validBody, slug: "short-url", youtubeUrl: "https://youtu.be/abc123" }),
+    );
+    expect(res.status).toBe(201);
+    const json = await res.json();
+    expect(json.entry.youtubeUrl).toBe("https://youtu.be/abc123");
+  });
+
+  it("returns 400 when the request body is a literal JSON null", async () => {
+    const res = await POST(
+      new NextRequest("http://localhost:3000/api/journal/entries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${API_KEY}` },
+        body: "null",
+      }),
+    );
+    expect(res.status).toBe(400);
   });
 
   it("returns 400 when entryType is provided and isn't 'weekly'", async () => {
