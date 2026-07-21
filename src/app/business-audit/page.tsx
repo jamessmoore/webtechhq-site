@@ -10,7 +10,7 @@ import { getSubmissionsByUser } from "@/lib/submissions";
 export const metadata: Metadata = {
   title: "Business Audit | Moore Solutions",
   description:
-    "Answer a few questions about your biggest operational headaches. I'll identify your top AI opportunities and deliver your report within 48 hours.",
+    "Answer a few questions about your biggest operational headaches. I'll identify your top AI opportunities and deliver your report immediately.",
   // Gated behind a session (see src/proxy.ts) — no public content to index.
   robots: { index: false, follow: false },
 };
@@ -49,7 +49,7 @@ export default async function QuestionnairePage() {
                 style={{ color: "#80AEE0" }}
               >
                 Hi {user.firstName}, answer four quick sections and I&apos;ll
-                send your personalized Opportunity Report within 48 hours.
+                send your personalized Opportunity Report immediately.
               </p>
             )}
           </div>

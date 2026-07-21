@@ -519,8 +519,7 @@ function SuccessScreen({ firstName }: { firstName: string }) {
         Opportunity Report.
       </p>
       <p className="font-sans text-[21px]" style={{ color: "#FFFFFF" }}>
-        Expect it in your inbox within{" "}
-        <span style={{ color: "#89D4FF" }}>48 hours</span>.
+        Expect it in your inbox <span style={{ color: "#89D4FF" }}>right away</span>.
       </p>
       <p className="font-sans text-[12px] mt-5 leading-relaxed">
         I personally review every submission before generating your report.

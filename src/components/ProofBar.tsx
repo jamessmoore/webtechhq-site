@@ -3,7 +3,7 @@ import HexMark from './HexMark'
 const credentials = [
   'FLAT-RATE, NO SURPRISES',
   'AUDIT FEE CREDITED TO YOUR BUILD',
-  '48-HOUR TURNAROUND',
+  'INSTANT TURNAROUND',
   'DIRECT TO THE FOUNDER, NOT A CALL CENTER',
 ]
 
