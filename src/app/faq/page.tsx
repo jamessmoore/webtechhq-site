@@ -125,7 +125,15 @@ export default function Page() {
             </h1>
             <p className="font-sans text-[24px] leading-relaxed">
               Straight answers, no sales pitch. If you don&apos;t see what you&apos;re looking for
-              here, reach out directly.
+              here,{' '}
+              <Link
+                href="/contact"
+                className="underline transition-all duration-200 hover:text-[#BCE5FF] hover:[text-shadow:0_0_6px_#BCE5FF,0_0_14px_#3D9FFF] active:!text-white"
+                style={{ color: '#BCE5FF' }}
+              >
+                reach out directly
+              </Link>
+              .
             </p>
           </div>
         </section>
