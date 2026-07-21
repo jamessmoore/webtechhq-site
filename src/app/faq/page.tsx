@@ -13,7 +13,11 @@ export const metadata: Metadata = {
 
 type Faq = {
   question: string
-  answer: string
+  answer: React.ReactNode
+  // Plain-text version of `answer`, used only for the JSON-LD FAQPage
+  // schema below. Only needed when `answer` isn't already a plain
+  // string (e.g. it contains an inline <Link>).
+  answerText?: string
 }
 
 type FaqCategory = {
@@ -60,7 +64,20 @@ const categories: FaqCategory[] = [
       },
       {
         question: 'How fast do I get my audit report?',
-        answer: 'Within 48 hours of finishing the questionnaire.',
+        answer: (
+          <>
+            Immediately, once you finish the{' '}
+            <Link
+              href="/tools"
+              className="underline transition-all duration-200 hover:text-[#BCE5FF] hover:[text-shadow:0_0_6px_#BCE5FF,0_0_14px_#3D9FFF] active:!text-white"
+              style={{ color: '#BCE5FF' }}
+            >
+              Opportunity Finder
+            </Link>{' '}
+            and request your Business Audit.
+          </>
+        ),
+        answerText: 'Immediately, once you finish the Opportunity Finder and request your Business Audit.',
       },
       {
         question: 'What comes after the audit?',
@@ -105,12 +122,22 @@ const categories: FaqCategory[] = [
 
 const allFaqs: Faq[] = categories.flatMap((c) => c.items)
 
+// JSON-LD needs a plain-text answer for every entry; fall back to
+// `answerText` for the one FAQ whose rendered `answer` is JSX (an
+// inline link) rather than a plain string.
+const faqJsonLd = getFaqJsonLd(
+  allFaqs.map((f) => ({
+    question: f.question,
+    answer: typeof f.answer === 'string' ? f.answer : (f.answerText ?? ''),
+  })),
+)
+
 export default function Page() {
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(getFaqJsonLd(allFaqs)) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
       <Navbar />
       <main className="min-h-screen pt-[58px]" style={{ backgroundColor: '#040C1C' }}>
