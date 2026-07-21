@@ -98,25 +98,27 @@ export default function Page() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-[58px]" style={{ backgroundColor: '#040C1C' }}>
-        {/* Marquee */}
-        <div className="overflow-hidden whitespace-nowrap py-[10px]" style={{ borderBottom: '0.5px solid #162D5A' }}>
-          <div className="marquee-track inline-flex">
-            {[0, 1].map((rep) => (
-              <span key={rep} className="inline-flex shrink-0">
-                {marqueeItems.map((item, i) => (
-                  <span key={i} className="inline-flex items-center font-sans text-[17px] tracking-widest" style={{ color: '#FFFFFF', padding: '0 2rem' }}>
-                    {item}
-                    <span style={{ margin: '0 0.5rem' }}>
-                      <HexMark size={10} />
-                    </span>
+      {/* Marquee: fixed directly under the 58px navbar so it stays pinned while the page scrolls */}
+      <div
+        className="fixed left-0 right-0 z-40 overflow-hidden whitespace-nowrap flex items-center"
+        style={{ top: 58, height: 41, backgroundColor: '#040C1C', borderBottom: '0.5px solid #162D5A' }}
+      >
+        <div className="marquee-track inline-flex">
+          {[0, 1].map((rep) => (
+            <span key={rep} className="inline-flex shrink-0">
+              {marqueeItems.map((item, i) => (
+                <span key={i} className="inline-flex items-center font-sans text-[17px] tracking-widest" style={{ color: '#FFFFFF', padding: '0 2rem' }}>
+                  {item}
+                  <span style={{ margin: '0 0.5rem' }}>
+                    <HexMark size={10} />
                   </span>
-                ))}
-              </span>
-            ))}
-          </div>
+                </span>
+              ))}
+            </span>
+          ))}
         </div>
-
+      </div>
+      <main className="min-h-screen pt-[99px]" style={{ backgroundColor: '#040C1C' }}>
         {/* Page header */}
         <section className="px-10 pt-8 pb-12">
           <div className="max-w-3xl mx-auto">
