@@ -151,10 +151,9 @@ export default function Page() {
 
               {/* Category label */}
               <div className="flex items-center gap-2 mb-4">
-                <span
-                  className="inline-block w-[6px] h-[6px] rounded-full shrink-0"
-                  style={{ backgroundColor: '#3D7FD4' }}
-                />
+                <span className="shrink-0">
+                  <HexMark size={10} />
+                </span>
                 <span className="font-sans text-[18px] tracking-widest" style={{ color: '#80AEE0' }}>
                   {u.category}
                 </span>
