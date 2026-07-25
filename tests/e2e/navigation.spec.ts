@@ -134,13 +134,20 @@ test.describe('contact page', () => {
 
 test.describe('about page inline links', () => {
   test('"Services page" link navigates to /services', async ({ page }) => {
-    await page.goto('/about')
+    // domcontentloaded, not the default `load`: these tests only need the
+    // link in the DOM, not the page's priority hero image finished loading.
+    // Waiting on `load` here made these two tests intermittently time out
+    // at 30s specifically on DPR-3 mobile profiles (iPhone 14, Galaxy S8),
+    // which request the largest srcset variant of that image and can hit a
+    // slow on-demand resize on a busy CI runner. See the "page loads" tests
+    // above for the same pattern already in use on this file.
+    await page.goto('/about', { waitUntil: 'domcontentloaded' })
     await page.getByRole('link', { name: 'Services page' }).click()
     await expect(page).toHaveURL(/\/services$/)
   })
 
   test('"let\'s go" link navigates to /tools when signed out', async ({ page }) => {
-    await page.goto('/about')
+    await page.goto('/about', { waitUntil: 'domcontentloaded' })
     await page.locator('main').getByRole('link', { name: "let's go" }).click()
     // /tools is ungated (anonymous-browsable) now, so it renders directly
     await expect(page).toHaveURL(/\/tools$/)
