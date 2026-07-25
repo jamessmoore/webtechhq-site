@@ -35,6 +35,7 @@ const MAX_NAME_LENGTH = 100;
 // /tools/opportunity-finder default in sendVerificationEmail/verify route.
 const REDIRECT_BY_SOURCE: Record<string, string> = {
   "prompt-pilot": "/tools/prompt-pilot",
+  "opportunity-finder": "/tools/opportunity-finder",
 };
 
 export async function POST(request: NextRequest) {

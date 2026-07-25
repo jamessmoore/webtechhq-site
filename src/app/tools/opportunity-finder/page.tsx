@@ -9,10 +9,10 @@ export const metadata: Metadata = { title: "Opportunity Finder | Moore Solutions
 
 export default async function ToolsQuestionnairePage() {
   const session = await auth();
-  if (!session?.user?.id) redirect("/signup");
+  if (!session?.user?.id) redirect("/opportunity-finder");
 
   const user = getUserById(session.user.id);
-  if (!user) redirect("/signup");
+  if (!user) redirect("/opportunity-finder");
 
   const submissions = getSubmissionsByUser(user.id);
   const alreadySubmitted = submissions.length > 0;

@@ -1,6 +1,6 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, afterEach } from "vitest";
 import { NextRequest } from "next/server";
-import { GET } from "../../../src/app/[source]/[slug]/route";
+import { GET, SLUG_OVERRIDES } from "../../../src/app/[source]/[slug]/route";
 
 function request(source: string, slug: string, query?: Record<string, string>) {
   const url = new URL(`http://localhost:3000/${source}/${slug}`);
@@ -17,15 +17,22 @@ describe("GET /[source]/[slug]", () => {
     ["ig", "instagram", "reel"],
     ["x", "x", "post"],
     ["li", "linkedin", "carousel"],
-  ])("301-redirects /%s/<slug> to /signup with utm_source=%s, utm_medium=%s", async (source, utmSource, utmMedium) => {
+  ])("301-redirects /%s/<slug> to /opportunity-finder with utm_source=%s, utm_medium=%s", async (source, utmSource, utmMedium) => {
     const res = await request(source, "not-the-best-barbecue");
 
     expect(res.status).toBe(301);
     const location = new URL(res.headers.get("location")!);
-    expect(location.pathname).toBe("/signup");
+    expect(location.pathname).toBe("/opportunity-finder");
     expect(location.searchParams.get("utm_source")).toBe(utmSource);
     expect(location.searchParams.get("utm_medium")).toBe(utmMedium);
     expect(location.searchParams.get("utm_campaign")).toBe("not-the-best-barbecue");
+  });
+
+  it("redirects an unmapped slug to the default /opportunity-finder destination", async () => {
+    const res = await request("yt", "some-unmapped-slug");
+
+    const location = new URL(res.headers.get("location")!);
+    expect(location.pathname).toBe("/opportunity-finder");
   });
 
   it("works for any slug without code changes", async () => {
@@ -45,5 +52,34 @@ describe("GET /[source]/[slug]", () => {
 
   it("404s for a source not on the allow-list instead of treating it as a redirect source", async () => {
     await expect(request("not-a-real-source", "foo")).rejects.toThrow();
+  });
+
+  describe("SLUG_OVERRIDES", () => {
+    const OVERRIDE_SLUG = "test-override-slug";
+
+    afterEach(() => {
+      delete SLUG_OVERRIDES[OVERRIDE_SLUG];
+    });
+
+    it("redirects a slug present in SLUG_OVERRIDES to its mapped destination instead of the default", async () => {
+      SLUG_OVERRIDES[OVERRIDE_SLUG] = "/prompt-pilot";
+
+      const res = await request("yt", OVERRIDE_SLUG);
+
+      const location = new URL(res.headers.get("location")!);
+      expect(location.pathname).toBe("/prompt-pilot");
+      expect(location.searchParams.get("utm_campaign")).toBe(OVERRIDE_SLUG);
+    });
+
+    it("still applies UTM params and query passthrough on an overridden destination", async () => {
+      SLUG_OVERRIDES[OVERRIDE_SLUG] = "/prompt-pilot";
+
+      const res = await request("li", OVERRIDE_SLUG, { utm_medium: "override-test" });
+
+      const location = new URL(res.headers.get("location")!);
+      expect(location.pathname).toBe("/prompt-pilot");
+      expect(location.searchParams.get("utm_source")).toBe("linkedin");
+      expect(location.searchParams.get("utm_medium")).toBe("override-test");
+    });
   });
 });

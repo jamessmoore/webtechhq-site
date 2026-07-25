@@ -9,16 +9,18 @@ const SITE_URL = 'https://webtechhq.com'
 // governs which routes require a signed-in session (/business-audit,
 // /admin, /tools, /signin), which is unrelated to whether a page has
 // crawlable content. Notably, /signup is NOT in this list even though
-// it's a public page with no content of its own to index: it's the
-// destination for the "Opportunity Finder" link in llms.txt, and AI
-// crawlers need to be able to fetch it to see what the tool actually is.
-// Its page-level `robots: {index:false, follow:false}` metadata handles
-// the "don't index this in search results" signal without blocking fetch.
-// /prompt-pilot is also deliberately absent from this list, but for a
-// different reason than /signup: it's a real tool-specific landing page
-// with its own copy (not a bare form), so unlike /signup it's meant to be
-// indexed too - its page metadata has no robots override, letting it fall
-// through to the default `allow: '/'` below.
+// it's a public page with no content of its own to index: it's still the
+// generic, tool-agnostic default entry point (Hero CTA, proxy.ts auth-gate
+// redirects), and AI crawlers need to be able to fetch it. Its page-level
+// `robots: {index:false, follow:false}` metadata handles the "don't index
+// this in search results" signal without blocking fetch.
+// /prompt-pilot and /opportunity-finder are also deliberately absent from
+// this list, but for a different reason than /signup: each is a real
+// tool-specific landing page with its own copy (not a bare form), used as
+// the "Prompt Pilot"/"Opportunity Finder" destination in llms.txt, so
+// unlike /signup they're meant to be indexed too - their page metadata has
+// no robots override, letting them fall through to the default `allow: '/'`
+// below.
 const DISALLOWED_PATHS = [
   '/admin',
   '/api',

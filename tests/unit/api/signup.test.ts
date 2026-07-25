@@ -257,6 +257,21 @@ describe("POST /api/auth/signup", () => {
       );
     });
 
+    it("threads the Opportunity Finder destination through to the verification email for a brand-new signup", async () => {
+      const res = await POST(
+        signupRequest({ ...validBody, email: "of.signup@example.com", source: "opportunity-finder" }),
+      );
+      expect(res.status).toBe(200);
+
+      const user = users.getUserByEmail("of.signup@example.com")!;
+      expect(email.sendVerificationEmail).toHaveBeenCalledWith(
+        "of.signup@example.com",
+        "Ada Lovelace",
+        user.verificationToken,
+        "/tools/opportunity-finder",
+      );
+    });
+
     it("falls back to the default Opportunity Finder destination (no 4th arg) when `source` is omitted", async () => {
       const res = await POST(signupRequest({ ...validBody, email: "no.source@example.com" }));
       expect(res.status).toBe(200);
