@@ -13,7 +13,8 @@ interface ToolsUser {
 }
 
 interface SidebarProps {
-  user: ToolsUser;
+  /** Null for an anonymous (no-session) visitor - the bottom block shows a sign-in prompt instead. */
+  user: ToolsUser | null;
   toolStatus: "not_started" | "completed";
   mobileOpen: boolean;
   onClose: () => void;
@@ -182,40 +183,60 @@ export default function Sidebar({ user, mobileOpen, onClose, signOutButton }: Si
               MESSAGE JAMES
             </Link>
           </div>
-          <div
-            className="flex items-center gap-[11px]"
-            style={{ padding: "14px 8px 6px", borderTop: "0.8px solid #162D5A" }}
-          >
+          {user ? (
             <div
-              className="flex-none flex items-center justify-center"
+              className="flex items-center gap-[11px]"
+              style={{ padding: "14px 8px 6px", borderTop: "0.8px solid #162D5A" }}
+            >
+              <div
+                className="flex-none flex items-center justify-center"
+                style={{
+                  width: 36,
+                  height: 36,
+                  border: "0.8px solid #3D7FD4",
+                  backgroundColor: "#0A1832",
+                  font: '700 12px "Courier New", monospace',
+                  color: "#89D4FF",
+                  borderRadius: 6,
+                }}
+              >
+                {initialsOf(user)}
+              </div>
+              <div className="min-w-0" style={{ lineHeight: 1.3, flex: 1 }}>
+                <div
+                  className="whitespace-nowrap overflow-hidden text-ellipsis"
+                  style={{ font: '400 13px Arial, sans-serif', color: "#EEF6FF" }}
+                >
+                  {user.firstName} {user.lastName}
+                </div>
+                <div
+                  className="whitespace-nowrap overflow-hidden text-ellipsis"
+                  style={{ font: '400 11px Arial, sans-serif', color: "#5B7BA5" }}
+                >
+                  {user.businessType || user.email}
+                </div>
+              </div>
+              {signOutButton}
+            </div>
+          ) : (
+            <Link
+              href="/signin"
+              onClick={onClose}
+              className="flex items-center justify-center transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
               style={{
-                width: 36,
-                height: 36,
+                marginTop: 14,
+                padding: "10px 12px",
+                borderRadius: 6,
                 border: "0.8px solid #3D7FD4",
                 backgroundColor: "#0A1832",
-                font: '700 12px "Courier New", monospace',
                 color: "#89D4FF",
-                borderRadius: 6,
+                font: '400 12px "Courier New", monospace',
+                letterSpacing: "0.08em",
               }}
             >
-              {initialsOf(user)}
-            </div>
-            <div className="min-w-0" style={{ lineHeight: 1.3, flex: 1 }}>
-              <div
-                className="whitespace-nowrap overflow-hidden text-ellipsis"
-                style={{ font: '400 13px Arial, sans-serif', color: "#EEF6FF" }}
-              >
-                {user.firstName} {user.lastName}
-              </div>
-              <div
-                className="whitespace-nowrap overflow-hidden text-ellipsis"
-                style={{ font: '400 11px Arial, sans-serif', color: "#5B7BA5" }}
-              >
-                {user.businessType || user.email}
-              </div>
-            </div>
-            {signOutButton}
-          </div>
+              SIGN IN
+            </Link>
+          )}
         </div>
       </aside>
     </>

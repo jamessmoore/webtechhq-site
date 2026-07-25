@@ -14,7 +14,8 @@ interface ToolsUser {
 }
 
 interface ToolsShellProps {
-  user: ToolsUser;
+  /** Null for an anonymous (no-session) visitor - Sidebar/TopBar render a generic state. */
+  user: ToolsUser | null;
   toolStatus: "not_started" | "completed";
   signOutButton: React.ReactNode;
   children: React.ReactNode;

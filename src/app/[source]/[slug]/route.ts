@@ -33,10 +33,11 @@ const SOURCES: Record<string, { utm_source: string; utm_medium: string }> = {
 // Where a slug lands when it has no entry below. All of the
 // already-published video/social links predate this mechanism and have no
 // per-slug distinction, so they fall through here - pointed at the
-// indexable Opportunity Finder landing page rather than the generic
+// flagship, indexable Opportunity Finder tool (itself the landing page now,
+// see src/app/tools/opportunity-finder/page.tsx) rather than the generic
 // /signup form, since that's the broadest tool most of that historical
 // traffic is relevant to.
-const DEFAULT_DESTINATION = "/opportunity-finder";
+const DEFAULT_DESTINATION = "/tools/opportunity-finder";
 
 // Per-slug override: lets a specific future slug (e.g. a Prompt Pilot CTA
 // in a particular video) point somewhere other than DEFAULT_DESTINATION
@@ -46,8 +47,11 @@ const DEFAULT_DESTINATION = "/opportunity-finder";
 // than a private module const) only so tests/unit/api/sourceSlugRedirect.test.ts
 // can inject/remove a temporary entry to exercise the override branch
 // without this file needing a real slug mapping committed ahead of need.
+// A real Prompt Pilot campaign is coming (the "Use AI to Learn AI" video
+// release) but has no slug value yet - left empty/commented rather than
+// inventing one ahead of need.
 export const SLUG_OVERRIDES: Record<string, string> = {
-  // "prompt-pilot-cta": "/prompt-pilot",
+  // "prompt-pilot-cta": "/tools/prompt-pilot",
 };
 
 export async function GET(

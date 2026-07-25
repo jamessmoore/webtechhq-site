@@ -1,9 +1,11 @@
+import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { getUserById } from "@/lib/users";
 import { createSubmission, getSubmissionsByUser } from "@/lib/submissions";
 import { renderPromptTemplate } from "@/lib/tools/promptTemplates";
 import { sendSlackNotification } from "@/lib/slack";
+import { OPPORTUNITY_FINDER_CLAIM_COOKIE, setClaimCookie } from "@/lib/tools/claimCookies";
 import type {
   TeamSize,
   RepetitiveAnswer,
@@ -12,29 +14,36 @@ import type {
 } from "@/lib/types";
 
 export async function POST(request: NextRequest) {
+  // The Opportunity Finder no longer requires an account up front - an
+  // unauthenticated visitor gets a submission created anonymously (userId
+  // left null), and is offered a way to save/claim it once the result
+  // renders. A session, when present, behaves exactly as before. This route
+  // also still backs the legacy /business-audit page, which always has a
+  // session by the time it can reach here.
   const session = await auth();
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: "Not authenticated." }, { status: 401 });
-  }
+  const user = session?.user?.id ? getUserById(session.user.id) : null;
 
-  const user = getUserById(session.user.id);
-  if (!user) {
+  if (session?.user?.id && !user) {
     return NextResponse.json({ error: "User not found." }, { status: 401 });
   }
-  if (!user.emailVerified) {
+  if (user && !user.emailVerified) {
     return NextResponse.json(
       { error: "Please verify your email before submitting." },
       { status: 403 },
     );
   }
 
-  // One submission per user
-  const existing = getSubmissionsByUser(user.id);
-  if (existing.length > 0) {
-    return NextResponse.json(
-      { error: "You already have a submission on file." },
-      { status: 409 },
-    );
+  // One submission per user. Only applies to a real signed-in user -
+  // anonymous visitors can always submit, since each anonymous submission
+  // gets its own claim token.
+  if (user) {
+    const existing = getSubmissionsByUser(user.id);
+    if (existing.length > 0) {
+      return NextResponse.json(
+        { error: "You already have a submission on file." },
+        { status: 409 },
+      );
+    }
   }
 
   const body = (await request.json()) as {
@@ -103,8 +112,10 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    const claimToken = user ? undefined : randomUUID();
+
     const submission = createSubmission({
-      userId: user.id,
+      userId: user?.id,
       businessType: body.businessType?.trim(),
       teamSize: body.teamSize,
       layer1Problem: body.layer1Problem?.trim(),
@@ -117,15 +128,23 @@ export async function POST(request: NextRequest) {
       layer3Data: body.layer3Data,
       additionalNotes: body.additionalNotes?.trim(),
       renderedPrompt: renderedPrompt ?? undefined,
+      claimToken,
     });
 
+    const submitter = user ? `${user.firstName} <${user.email}>` : "Anonymous visitor";
     sendSlackNotification(
-      `Opportunity Finder submitted: ${user.firstName} <${user.email}> (${body.businessType?.trim()})`,
+      `Opportunity Finder submitted: ${submitter} (${body.businessType?.trim()})`,
     ).catch((err) => {
       console.error("Slack notification failed:", err);
     });
 
-    return NextResponse.json({ success: true, id: submission.id, renderedPrompt });
+    const response = NextResponse.json({ success: true, id: submission.id, renderedPrompt });
+
+    if (claimToken) {
+      setClaimCookie(response, OPPORTUNITY_FINDER_CLAIM_COOKIE, claimToken);
+    }
+
+    return response;
   } catch (err: unknown) {
     if (err instanceof Error && err.message.includes("UNIQUE constraint failed")) {
       return NextResponse.json(

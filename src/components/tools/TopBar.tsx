@@ -11,7 +11,8 @@ interface ToolsUser {
 interface TopBarProps {
   kicker: string;
   title: string;
-  user: ToolsUser;
+  /** Null for an anonymous (no-session) visitor - the avatar square is skipped. */
+  user: ToolsUser | null;
   onOpenMobileMenu: () => void;
 }
 
@@ -73,20 +74,22 @@ export default function TopBar({ kicker, title, user, onOpenMobileMenu }: TopBar
           <HelpCircleIcon size={21} />
           HELP
         </Link>
-        <div
-          className="flex-none flex items-center justify-center"
-          style={{
-            width: 37,
-            height: 37,
-            border: "0.8px solid #3D7FD4",
-            backgroundColor: "#0A1832",
-            font: '700 12px "Courier New", monospace',
-            color: "#89D4FF",
-            borderRadius: 6,
-          }}
-        >
-          {initialsOf(user)}
-        </div>
+        {user && (
+          <div
+            className="flex-none flex items-center justify-center"
+            style={{
+              width: 37,
+              height: 37,
+              border: "0.8px solid #3D7FD4",
+              backgroundColor: "#0A1832",
+              font: '700 12px "Courier New", monospace',
+              color: "#89D4FF",
+              borderRadius: 6,
+            }}
+          >
+            {initialsOf(user)}
+          </div>
+        )}
       </div>
     </header>
   );

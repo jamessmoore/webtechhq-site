@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { getUserById } from "@/lib/users";
@@ -6,6 +7,7 @@ import {
   getPromptPilotSubmissionByUser,
 } from "@/lib/tools/promptPilotSubmissions";
 import { renderPromptPilotTemplate } from "@/lib/tools/promptPilotTemplates";
+import { PROMPT_PILOT_CLAIM_COOKIE, setClaimCookie } from "@/lib/tools/claimCookies";
 import type {
   PromptPilotStartingPoint,
   PromptPilotWhy,
@@ -13,29 +15,34 @@ import type {
 } from "@/lib/types";
 
 export async function POST(request: NextRequest) {
+  // Prompt Pilot no longer requires an account up front - an unauthenticated
+  // visitor gets a submission created anonymously (userId left null), and is
+  // offered a way to save/claim it once the result renders. A session, when
+  // present, behaves exactly as before.
   const session = await auth();
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: "Not authenticated." }, { status: 401 });
-  }
+  const user = session?.user?.id ? getUserById(session.user.id) : null;
 
-  const user = getUserById(session.user.id);
-  if (!user) {
+  if (session?.user?.id && !user) {
     return NextResponse.json({ error: "User not found." }, { status: 401 });
   }
-  if (!user.emailVerified) {
+  if (user && !user.emailVerified) {
     return NextResponse.json(
       { error: "Please verify your email before submitting." },
       { status: 403 },
     );
   }
 
-  // One submission per user, same pattern as the Opportunity Finder.
-  const existing = getPromptPilotSubmissionByUser(user.id);
-  if (existing) {
-    return NextResponse.json(
-      { error: "You already have a Prompt Pilot result on file." },
-      { status: 409 },
-    );
+  // One submission per user, same pattern as the Opportunity Finder. Only
+  // applies to a real signed-in user - anonymous visitors can always submit,
+  // since each anonymous submission gets its own claim token.
+  if (user) {
+    const existing = getPromptPilotSubmissionByUser(user.id);
+    if (existing) {
+      return NextResponse.json(
+        { error: "You already have a Prompt Pilot result on file." },
+        { status: 409 },
+      );
+    }
   }
 
   const body = (await request.json()) as {
@@ -82,21 +89,30 @@ export async function POST(request: NextRequest) {
       timeBudget: body.timeBudget,
     });
 
+    const claimToken = user ? undefined : randomUUID();
+
     const submission = createPromptPilotSubmission({
-      userId: user.id,
+      userId: user?.id,
       learningGoal,
       startingPoint: body.startingPoint,
       why: body.why,
       timeBudget: body.timeBudget,
       renderedPrompt: renderedPrompt ?? undefined,
+      claimToken,
     });
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       success: true,
       id: submission.id,
       renderedPrompt,
       why: body.why ?? null,
     });
+
+    if (claimToken) {
+      setClaimCookie(response, PROMPT_PILOT_CLAIM_COOKIE, claimToken);
+    }
+
+    return response;
   } catch (err: unknown) {
     if (err instanceof Error && err.message.includes("UNIQUE constraint failed")) {
       return NextResponse.json(

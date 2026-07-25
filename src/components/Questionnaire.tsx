@@ -505,14 +505,14 @@ function StatusCard({
   );
 }
 
-function SuccessScreen({ firstName }: { firstName: string }) {
+function SuccessScreen({ firstName }: { firstName?: string }) {
   return (
     <StatusCard>
       <h2
         className="font-sans font-bold text-[20px] mb-3"
         style={{ color: "#89D4FF" }}
       >
-        Got it, {firstName}.
+        Got it{firstName ? `, ${firstName}` : ""}.
       </h2>
       <p className="font-sans text-[21px] leading-relaxed mb-2" style={{ color: "#FFFFFF" }}>
         Your answers are in. I&apos;ll review them and build your personalized
@@ -539,9 +539,12 @@ export default function Questionnaire({
   redirectOnSuccessHref,
   onSubmitted,
   showAiDisclosure = true,
+  anonymous = false,
 }: {
-  firstName: string;
-  email: string;
+  /** Unset for an anonymous (no-session) visitor. */
+  firstName?: string;
+  /** Unset for an anonymous (no-session) visitor. */
+  email?: string;
   emailVerified: boolean;
   alreadySubmitted: boolean;
   /** If provided, navigates here on successful submit instead of showing SuccessScreen. */
@@ -559,6 +562,12 @@ export default function Questionnaire({
    * model at submission time.
    */
   showAiDisclosure?: boolean;
+  /**
+   * No session - skips the emailVerified gate entirely. Default false, so
+   * every existing caller (the legacy /business-audit page, which always
+   * has a session by the time it renders this) is unaffected.
+   */
+  anonymous?: boolean;
 }) {
   const router = useRouter();
   const [step, setStep] = useState(1);
@@ -673,7 +682,9 @@ export default function Questionnaire({
     );
   }
 
-  if (!emailVerified) {
+  // Anonymous visitors skip straight from the form to the result - the
+  // verify-email gate only applies to a real (unverified) session.
+  if (!anonymous && !emailVerified) {
     return (
       <StatusCard>
         <h2

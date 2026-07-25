@@ -37,9 +37,17 @@ describe("sitemap()", () => {
   });
 
   it("excludes gated and auth/utility routes", () => {
+    // Every /tools/* route except the two public tools below is still
+    // gated/excluded. Checked against a precise list of known gated
+    // subpaths (plus a bare, exact-only "/tools" for the dashboard itself)
+    // rather than a blanket "/tools" prefix match, since a startsWith match
+    // on "/tools" would also (wrongly) flag /tools/opportunity-finder and
+    // /tools/prompt-pilot, which are deliberately NOT excluded (see the
+    // next test).
     const gatedOrUtility = [
       "/admin",
-      "/tools",
+      "/tools/business-audit",
+      "/tools/finish-signup",
       "/business-audit",
       "/signin",
       "/signup",
@@ -49,9 +57,16 @@ describe("sitemap()", () => {
       "/share",
     ];
     const paths = getPaths();
+    expect(paths).not.toContain("/tools");
     for (const path of gatedOrUtility) {
       expect(paths.some((p) => p === path || p.startsWith(`${path}/`))).toBe(false);
     }
+  });
+
+  it("includes Opportunity Finder and Prompt Pilot, which are usable anonymously and are now their own tool landing pages", () => {
+    expect(getPaths()).toEqual(
+      expect.arrayContaining(["/tools/opportunity-finder", "/tools/prompt-pilot"]),
+    );
   });
 
   it("gives the homepage the highest priority", () => {

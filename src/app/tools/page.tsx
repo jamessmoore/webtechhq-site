@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getUserById } from "@/lib/users";
 import { getSubmissionsByUser } from "@/lib/submissions";
@@ -15,19 +14,22 @@ import { isGoldStandardTestAccount } from "@/lib/testAccount";
 export const metadata: Metadata = { title: "Dashboard | Moore Solutions" };
 
 export default async function ToolsDashboardPage() {
+  // No account required to browse the dashboard or use Opportunity Finder /
+  // Prompt Pilot anonymously (see src/proxy.ts). Without a session there's
+  // no way to know a visitor's real progress, so every card falls back to
+  // its generic default: "not_started" for the two ungated tools, "locked"
+  // for Business Audit (its normal until-OF-is-done default, which is also
+  // the right default for an anonymous visitor). A session, when present,
+  // keeps today's fully personalized behavior.
   const session = await auth();
-  if (!session?.user?.id) redirect("/signup");
+  const user = session?.user?.id ? getUserById(session.user.id) : null;
 
-  const user = getUserById(session.user.id);
-  if (!user) redirect("/signup");
+  const isTestAccount = user ? isGoldStandardTestAccount(user.email) : false;
 
-  const isTestAccount = isGoldStandardTestAccount(user.email);
-
-  const submissions = getSubmissionsByUser(user.id);
-  const hasSubmission = submissions.length > 0;
+  const hasSubmission = user ? getSubmissionsByUser(user.id).length > 0 : false;
   const opportunityFinderStatus: ToolCardStatus = hasSubmission ? "completed" : "not_started";
 
-  const purchasedAudit = hasPurchased(user.id, "business_audit");
+  const purchasedAudit = user ? hasPurchased(user.id, "business_audit") : false;
   const businessAuditStatus: ToolCardStatus = !hasSubmission
     ? "locked"
     : purchasedAudit
@@ -44,7 +46,7 @@ export default async function ToolsDashboardPage() {
           : "GET YOUR AUDIT, $50";
   const businessAuditHref = businessAuditStatus === "locked" ? "/tools/opportunity-finder" : "/tools/business-audit";
 
-  const promptPilotSubmission = getPromptPilotSubmissionByUser(user.id);
+  const promptPilotSubmission = user ? getPromptPilotSubmissionByUser(user.id) : null;
   const promptPilotStatus: ToolCardStatus = promptPilotSubmission ? "completed" : "not_started";
 
   return (
@@ -58,7 +60,7 @@ export default async function ToolsDashboardPage() {
           letterSpacing: "0.01em",
         }}
       >
-        Welcome back, {user.firstName}.
+        {user ? `Welcome back, ${user.firstName}.` : "Your AI toolkit."}
       </h1>
       <p style={{ margin: "11px 0 0", font: "400 21px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 560 }}>
         Your AI toolkit lives here. Run a tool, get clear results, and put your time back where

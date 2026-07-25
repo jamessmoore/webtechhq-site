@@ -69,9 +69,17 @@ function migrate(db: Database.Database): void {
       updated_at         TEXT NOT NULL
     );
 
+    -- user_id is nullable to support anonymous submissions: the Opportunity
+    -- Finder can now be used without an account, and the row is only linked
+    -- to a real user_id later if the visitor chooses to save their result
+    -- (see the claim-submission flow). claim_token is the opaque, unguessable
+    -- lookup key used for that later link-up; it's cleared once claimed.
+    -- SQLite treats every NULL as distinct under a UNIQUE index, so the
+    -- existing one-submission-per-user uniqueness on user_id keeps working
+    -- unchanged: any number of NULL (anonymous) rows can coexist.
     CREATE TABLE IF NOT EXISTS submissions (
       id                       TEXT PRIMARY KEY,
-      user_id                  TEXT NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+      user_id                  TEXT REFERENCES users (id) ON DELETE CASCADE,
       business_type            TEXT,
       team_size                TEXT,
       layer1_problem           TEXT,
@@ -89,7 +97,8 @@ function migrate(db: Database.Database): void {
       approval_status          TEXT NOT NULL DEFAULT 'pending_review',
       approved_by              TEXT,
       approved_at              TEXT,
-      admin_notes              TEXT
+      admin_notes              TEXT,
+      claim_token              TEXT
     );
 
     CREATE INDEX IF NOT EXISTS idx_submissions_user_id
@@ -157,16 +166,19 @@ function migrate(db: Database.Database): void {
     -- admin_notes) because Prompt Pilot's output is rendered instantly and
     -- never emailed or reviewed by an admin, unlike the Opportunity Finder
     -- pipeline that table supports.
+    -- user_id nullable + claim_token: same anonymous-submission-then-claim
+    -- pattern as submissions above (see the comment on that table).
     CREATE TABLE IF NOT EXISTS prompt_pilot_submissions (
       id               TEXT PRIMARY KEY,
-      user_id          TEXT NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+      user_id          TEXT REFERENCES users (id) ON DELETE CASCADE,
       learning_goal    TEXT NOT NULL,
       starting_point   TEXT,
       why              TEXT,
       time_budget      TEXT,
       rendered_prompt  TEXT,
       submitted_at     TEXT NOT NULL,
-      created_at       TEXT NOT NULL
+      created_at       TEXT NOT NULL,
+      claim_token      TEXT
     );
 
     CREATE UNIQUE INDEX IF NOT EXISTS idx_prompt_pilot_submissions_user_unique
@@ -311,6 +323,144 @@ function migrate(db: Database.Database): void {
   if (!submissionColumnNames.has("rendered_prompt")) {
     db.exec("ALTER TABLE submissions ADD COLUMN rendered_prompt TEXT");
   }
+
+  // Relax submissions.user_id to nullable for databases created before
+  // anonymous (pre-account) submissions existed. SQLite can't drop a NOT
+  // NULL constraint in place, so rebuild the table, same approach as the
+  // users/last_name relax above. Runs *after* the rendered_prompt backfill
+  // immediately above, so that column is always already present here and
+  // its data is carried across by this rebuild rather than dropped -
+  // rebuilding first and backfilling rendered_prompt second would silently
+  // lose every existing rendered_prompt value.
+  const submissionsUserIdCol = db.prepare("PRAGMA table_info(submissions)").all() as
+    { name: string; notnull: number }[];
+  const submissionsUserId = submissionsUserIdCol.find((c) => c.name === "user_id");
+  if (submissionsUserId && submissionsUserId.notnull === 1) {
+    db.pragma("foreign_keys = OFF");
+    db.exec(`
+      CREATE TABLE submissions_new (
+        id                       TEXT PRIMARY KEY,
+        user_id                  TEXT REFERENCES users (id) ON DELETE CASCADE,
+        business_type            TEXT,
+        team_size                TEXT,
+        layer1_problem           TEXT,
+        layer1_elimination       TEXT,
+        layer2_hours             REAL,
+        layer2_salary            TEXT,
+        layer3_repetitive        TEXT,
+        layer3_compliance        TEXT,
+        layer3_compliance_detail TEXT,
+        layer3_data              TEXT,
+        additional_notes         TEXT,
+        rendered_prompt          TEXT,
+        submitted_at             TEXT NOT NULL,
+        created_at               TEXT NOT NULL,
+        validation_flags         TEXT NOT NULL DEFAULT '[]',
+        approval_status          TEXT NOT NULL DEFAULT 'pending_review',
+        approved_by              TEXT,
+        approved_at              TEXT,
+        admin_notes              TEXT,
+        claim_token              TEXT
+      );
+
+      INSERT INTO submissions_new (
+        id, user_id, business_type, team_size,
+        layer1_problem, layer1_elimination,
+        layer2_hours, layer2_salary,
+        layer3_repetitive, layer3_compliance, layer3_compliance_detail, layer3_data,
+        additional_notes, rendered_prompt, submitted_at, created_at, validation_flags,
+        approval_status, approved_by, approved_at, admin_notes
+      )
+      SELECT
+        id, user_id, business_type, team_size,
+        layer1_problem, layer1_elimination,
+        layer2_hours, layer2_salary,
+        layer3_repetitive, layer3_compliance, layer3_compliance_detail, layer3_data,
+        additional_notes, rendered_prompt, submitted_at, created_at, validation_flags,
+        approval_status, approved_by, approved_at, admin_notes
+      FROM submissions;
+
+      DROP TABLE submissions;
+      ALTER TABLE submissions_new RENAME TO submissions;
+
+      CREATE INDEX IF NOT EXISTS idx_submissions_user_id ON submissions (user_id);
+      CREATE UNIQUE INDEX IF NOT EXISTS idx_submissions_user_unique ON submissions (user_id);
+      CREATE INDEX IF NOT EXISTS idx_submissions_status ON submissions (approval_status);
+      CREATE INDEX IF NOT EXISTS idx_submissions_claim_token ON submissions (claim_token);
+    `);
+    db.pragma("foreign_keys = ON");
+  }
+  // Backfill claim_token for submissions databases that skipped the rebuild
+  // above (user_id was already nullable, e.g. a database created fresh after
+  // this change shipped but before a later deploy added claim_token - not a
+  // real-world path today, but keeps this guard independent and idempotent
+  // like the rest of this function rather than assuming the rebuild branch
+  // is the only way this column gets added).
+  const submissionsColumnsAfter = db.prepare("PRAGMA table_info(submissions)").all() as { name: string }[];
+  if (!submissionsColumnsAfter.some((c) => c.name === "claim_token")) {
+    db.exec("ALTER TABLE submissions ADD COLUMN claim_token TEXT");
+  }
+  // Column is now guaranteed present (fresh CREATE TABLE above, the rebuild
+  // block above, or the ALTER right above) - safe to create unconditionally.
+  // Deliberately NOT part of the static CREATE TABLE IF NOT EXISTS block up
+  // top: that CREATE INDEX would run even when the table already existed
+  // without this column (CREATE TABLE IF NOT EXISTS is a no-op there) and
+  // crash migrate() on every pre-existing database, same failure mode this
+  // codebase has hit before with an index created ahead of its column.
+  db.exec("CREATE INDEX IF NOT EXISTS idx_submissions_claim_token ON submissions (claim_token)");
+
+  // Same user_id-nullable relax for prompt_pilot_submissions. No extra
+  // columns to preserve here (rendered_prompt has been part of this table's
+  // schema since it was created), so this is a simpler rebuild than
+  // submissions above.
+  const promptPilotCols = db.prepare("PRAGMA table_info(prompt_pilot_submissions)").all() as
+    { name: string; notnull: number }[];
+  const promptPilotUserId = promptPilotCols.find((c) => c.name === "user_id");
+  if (promptPilotUserId && promptPilotUserId.notnull === 1) {
+    db.pragma("foreign_keys = OFF");
+    db.exec(`
+      CREATE TABLE prompt_pilot_submissions_new (
+        id               TEXT PRIMARY KEY,
+        user_id          TEXT REFERENCES users (id) ON DELETE CASCADE,
+        learning_goal    TEXT NOT NULL,
+        starting_point   TEXT,
+        why              TEXT,
+        time_budget      TEXT,
+        rendered_prompt  TEXT,
+        submitted_at     TEXT NOT NULL,
+        created_at       TEXT NOT NULL,
+        claim_token      TEXT
+      );
+
+      INSERT INTO prompt_pilot_submissions_new (
+        id, user_id, learning_goal, starting_point, why, time_budget,
+        rendered_prompt, submitted_at, created_at
+      )
+      SELECT
+        id, user_id, learning_goal, starting_point, why, time_budget,
+        rendered_prompt, submitted_at, created_at
+      FROM prompt_pilot_submissions;
+
+      DROP TABLE prompt_pilot_submissions;
+      ALTER TABLE prompt_pilot_submissions_new RENAME TO prompt_pilot_submissions;
+
+      CREATE UNIQUE INDEX IF NOT EXISTS idx_prompt_pilot_submissions_user_unique
+        ON prompt_pilot_submissions (user_id);
+      CREATE INDEX IF NOT EXISTS idx_prompt_pilot_submissions_claim_token
+        ON prompt_pilot_submissions (claim_token);
+    `);
+    db.pragma("foreign_keys = ON");
+  }
+  const promptPilotColsAfter = db.prepare("PRAGMA table_info(prompt_pilot_submissions)").all() as
+    { name: string }[];
+  if (!promptPilotColsAfter.some((c) => c.name === "claim_token")) {
+    db.exec("ALTER TABLE prompt_pilot_submissions ADD COLUMN claim_token TEXT");
+  }
+  // Same reasoning as idx_submissions_claim_token above - unconditional and
+  // safe here, but deliberately not in the static block up top.
+  db.exec(
+    "CREATE INDEX IF NOT EXISTS idx_prompt_pilot_submissions_claim_token ON prompt_pilot_submissions (claim_token)",
+  );
 
   // Backfill business_name for purchases created before it existed.
   const purchaseColumns = db.prepare("PRAGMA table_info(purchases)").all() as { name: string }[];

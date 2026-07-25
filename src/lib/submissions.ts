@@ -9,7 +9,8 @@ import {
 } from "./types";
 
 export function createSubmission(data: {
-  userId: string;
+  /** Omit for an anonymous submission (see `claimToken`); the Opportunity Finder no longer requires an account up front. */
+  userId?: string;
   businessType?: string;
   teamSize?: string;
   layer1Problem?: string;
@@ -23,6 +24,8 @@ export function createSubmission(data: {
   additionalNotes?: string;
   renderedPrompt?: string;
   validationFlags?: ValidationFlag[];
+  /** Opaque token set on anonymous submissions so they can be claimed later; leave unset for a submission created with a real userId. */
+  claimToken?: string;
 }): Submission {
   const db = getDb();
   const id = randomUUID();
@@ -34,13 +37,14 @@ export function createSubmission(data: {
       layer1_problem, layer1_elimination,
       layer2_hours, layer2_salary,
       layer3_repetitive, layer3_compliance, layer3_compliance_detail, layer3_data,
-      additional_notes, rendered_prompt, submitted_at, created_at, validation_flags, approval_status
+      additional_notes, rendered_prompt, submitted_at, created_at, validation_flags, approval_status,
+      claim_token
     ) VALUES (
-      ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending_review'
+      ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending_review', ?
     )
   `).run(
     id,
-    data.userId,
+    data.userId ?? null,
     data.businessType ?? null,
     data.teamSize ?? null,
     data.layer1Problem ?? null,
@@ -56,6 +60,7 @@ export function createSubmission(data: {
     now,
     now,
     JSON.stringify(data.validationFlags ?? []),
+    data.claimToken ?? null,
   );
 
   return getSubmissionById(id)!;
@@ -80,6 +85,35 @@ export function getSubmissionWithUser(id: string): SubmissionWithUser | null {
     ...rowToSubmission(row),
     user: { firstName: row.first_name, lastName: row.last_name ?? undefined, email: row.email },
   };
+}
+
+export function getSubmissionByClaimToken(claimToken: string): Submission | null {
+  const db = getDb();
+  const row = db.prepare("SELECT * FROM submissions WHERE claim_token = ?").get(claimToken) as
+    | SubmissionRow
+    | undefined;
+  return row ? rowToSubmission(row) : null;
+}
+
+/**
+ * Links an anonymous submission (found by its claim_token) to a real
+ * account and clears the token so it can't be claimed again. Returns null
+ * if the token doesn't match a pending (unclaimed) submission. Throws the
+ * same SQLite UNIQUE constraint error as `createSubmission` if the target
+ * user already has a submission on file (idx_submissions_user_unique) -
+ * callers should catch that the same way the submit route does.
+ */
+export function claimSubmission(claimToken: string, userId: string): Submission | null {
+  const db = getDb();
+  const existing = getSubmissionByClaimToken(claimToken);
+  if (!existing) return null;
+
+  db.prepare("UPDATE submissions SET user_id = ?, claim_token = NULL WHERE id = ?").run(
+    userId,
+    existing.id,
+  );
+
+  return getSubmissionById(existing.id);
 }
 
 export function getSubmissionsByUser(userId: string): Submission[] {

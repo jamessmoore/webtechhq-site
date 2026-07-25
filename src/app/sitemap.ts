@@ -14,8 +14,13 @@ const SITE_URL = 'https://webtechhq.com'
 export const dynamic = 'force-dynamic'
 
 // Only genuinely public marketing pages belong here. Everything gated
-// behind a session (auth pages, /admin, /tools/*, /business-audit) is
-// excluded and noindexed instead — see the robots metadata on those routes.
+// behind a session (auth pages, /admin, most of /tools/*, /business-audit)
+// is excluded and noindexed instead — see the robots metadata on those
+// routes. /tools/opportunity-finder and /tools/prompt-pilot are the
+// exception: both tools are usable anonymously (see src/proxy.ts) and are
+// now the real landing pages for each tool - there's no separate marketing
+// page anymore - so they're included below and each overrides the /tools
+// layout's blanket noindex with its own `robots: { index: true, follow: true }`.
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date()
 
@@ -62,13 +67,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
-      url: `${SITE_URL}/opportunity-finder`,
+      url: `${SITE_URL}/tools/opportunity-finder`,
       lastModified,
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
-      url: `${SITE_URL}/prompt-pilot`,
+      url: `${SITE_URL}/tools/prompt-pilot`,
       lastModified,
       changeFrequency: 'monthly',
       priority: 0.7,

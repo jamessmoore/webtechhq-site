@@ -223,81 +223,15 @@ describe("POST /api/auth/signup", () => {
     expect(res.status).toBe(200);
   });
 
-  describe("tool-specific landing page redirect (`source`)", () => {
-    it("threads the Prompt Pilot destination through to the verification email for a brand-new signup", async () => {
-      const res = await POST(
-        signupRequest({ ...validBody, email: "pilot.signup@example.com", source: "prompt-pilot" }),
-      );
-      expect(res.status).toBe(200);
-
-      const user = users.getUserByEmail("pilot.signup@example.com")!;
-      expect(email.sendVerificationEmail).toHaveBeenCalledWith(
-        "pilot.signup@example.com",
-        "Ada Lovelace",
-        user.verificationToken,
-        "/tools/prompt-pilot",
-      );
-    });
-
-    it("threads the Prompt Pilot destination through on a resend to an existing, unverified account", async () => {
-      const email1 = "pilot.resend@example.com";
-      await POST(signupRequest({ ...validBody, email: email1 }));
-
-      const second = await POST(
-        signupRequest({ ...validBody, email: email1, source: "prompt-pilot" }),
-      );
-      expect(second.status).toBe(200);
-
-      const user = users.getUserByEmail(email1)!;
-      expect(email.sendVerificationEmail).toHaveBeenLastCalledWith(
-        email1,
-        "Ada Lovelace",
-        user.verificationToken,
-        "/tools/prompt-pilot",
-      );
-    });
-
-    it("threads the Opportunity Finder destination through to the verification email for a brand-new signup", async () => {
-      const res = await POST(
-        signupRequest({ ...validBody, email: "of.signup@example.com", source: "opportunity-finder" }),
-      );
-      expect(res.status).toBe(200);
-
-      const user = users.getUserByEmail("of.signup@example.com")!;
-      expect(email.sendVerificationEmail).toHaveBeenCalledWith(
-        "of.signup@example.com",
-        "Ada Lovelace",
-        user.verificationToken,
-        "/tools/opportunity-finder",
-      );
-    });
-
-    it("falls back to the default Opportunity Finder destination (no 4th arg) when `source` is omitted", async () => {
-      const res = await POST(signupRequest({ ...validBody, email: "no.source@example.com" }));
-      expect(res.status).toBe(200);
-
-      const user = users.getUserByEmail("no.source@example.com")!;
-      expect(email.sendVerificationEmail).toHaveBeenCalledWith(
-        "no.source@example.com",
-        "Ada Lovelace",
-        user.verificationToken,
-      );
-    });
-
-    it("ignores an unrecognized `source` value rather than erroring, falling back to the default destination", async () => {
-      const res = await POST(
-        signupRequest({ ...validBody, email: "bad.source@example.com", source: "not-a-real-tool" }),
-      );
-      expect(res.status).toBe(200);
-
-      const user = users.getUserByEmail("bad.source@example.com")!;
-      expect(email.sendVerificationEmail).toHaveBeenCalledWith(
-        "bad.source@example.com",
-        "Ada Lovelace",
-        user.verificationToken,
-      );
-    });
-  });
+  // The old "tool-specific landing page redirect (`source`)" describe block
+  // that lived here tested REDIRECT_BY_SOURCE / the `source` request field,
+  // both removed from src/app/api/auth/signup/route.ts: /prompt-pilot and
+  // /opportunity-finder no longer exist as separate marketing pages (see
+  // src/app/tools/prompt-pilot/page.tsx and src/app/tools/opportunity-finder/page.tsx),
+  // so there's no longer a tool-specific post-verification destination for
+  // this endpoint to thread through - every verification email now sends the
+  // caller through the plain (no 4th arg) sendVerificationEmail path, already
+  // covered by "creates a lightweight user..." and the resend test above.
 
   describe("per-source-IP rate limiting", () => {
     const IP_BLOCK_MESSAGE = "Further retries are not allowed. Please contact us for assistance.";

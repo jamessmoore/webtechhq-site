@@ -31,6 +31,12 @@ interface SignUpFormProps {
   submitLoadingLabel?: string;
   /** Body copy shown under "Check your inbox" once the form's submitted, with the submitted email already rendered above it. */
   verifyBody?: ReactNode;
+  /** POST target. Defaults to the account-signup endpoint; the "save this result" claim flow (see /api/tools/claim-submission) points this elsewhere while reusing the same name+email UI. */
+  endpoint?: string;
+  /** Extra fields merged into the JSON body alongside name/email/recaptchaToken/source - e.g. `{ tool: "prompt-pilot" }` for the claim endpoint, which needs to know which anonymous result to attach. */
+  extraBody?: Record<string, string>;
+  /** Hides the "Continue with Google" option and its divider - the claim flow already has a pending anonymous result to attach and isn't a fresh Google signup. */
+  hideGoogle?: boolean;
 }
 
 export default function SignUpForm({
@@ -39,6 +45,9 @@ export default function SignUpForm({
   submitLabel = "TRY THE OPPORTUNITY FINDER ›",
   submitLoadingLabel = "SENDING…",
   verifyBody = "Click it to jump straight into your Opportunity Finder.",
+  endpoint = "/api/auth/signup",
+  extraBody,
+  hideGoogle = false,
 }: SignUpFormProps) {
   const [form, setForm] = useState<FormState>(INITIAL);
   const [error, setError] = useState<string | null>(null);
@@ -69,7 +78,7 @@ export default function SignUpForm({
     setIpBlocked(false);
 
     try {
-      const res = await fetch("/api/auth/signup", {
+      const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -77,6 +86,7 @@ export default function SignUpForm({
           email: form.email,
           recaptchaToken,
           ...(source ? { source } : {}),
+          ...extraBody,
         }),
       });
 
@@ -277,33 +287,37 @@ export default function SignUpForm({
         {loading ? submitLoadingLabel : submitLabel}
       </button>
 
-      {/* Divider */}
-      <div className="flex items-center gap-3 py-1">
-        <div className="flex-1 h-px" style={{ background: "#162D5A" }} />
-        <span className="text-xs tracking-widest" style={{ color: "#4A6A8A" }}>
-          OR
-        </span>
-        <div className="flex-1 h-px" style={{ background: "#162D5A" }} />
-      </div>
+      {!hideGoogle && (
+        <>
+          {/* Divider */}
+          <div className="flex items-center gap-3 py-1">
+            <div className="flex-1 h-px" style={{ background: "#162D5A" }} />
+            <span className="text-xs tracking-widest" style={{ color: "#4A6A8A" }}>
+              OR
+            </span>
+            <div className="flex-1 h-px" style={{ background: "#162D5A" }} />
+          </div>
 
-      {/* Google */}
-      <button
-        type="button"
-        onClick={handleGoogle}
-        className="w-full flex items-center justify-center gap-3 py-2.5 text-sm tracking-wide transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
-        style={{
-          background: "rgba(14,58,154,0.08)",
-          border: "1px solid #162D5A",
-          borderRadius: "6px",
-          color: "#EEF6FF",
-          fontFamily: "'Courier New', monospace",
-        }}
-        onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#3D7FD4")}
-        onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#162D5A")}
-      >
-        <GoogleIcon />
-        Continue with Google
-      </button>
+          {/* Google */}
+          <button
+            type="button"
+            onClick={handleGoogle}
+            className="w-full flex items-center justify-center gap-3 py-2.5 text-sm tracking-wide transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
+            style={{
+              background: "rgba(14,58,154,0.08)",
+              border: "1px solid #162D5A",
+              borderRadius: "6px",
+              color: "#EEF6FF",
+              fontFamily: "'Courier New', monospace",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#3D7FD4")}
+            onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#162D5A")}
+          >
+            <GoogleIcon />
+            Continue with Google
+          </button>
+        </>
+      )}
 
       <p className="text-center text-xs">
         Already have an account?{" "}

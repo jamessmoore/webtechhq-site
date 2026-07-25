@@ -20,7 +20,21 @@ export function proxy(request: NextRequest) {
     }
   }
 
-  if (pathname.startsWith("/business-audit") || pathname.startsWith("/tools")) {
+  // Opportunity Finder and Prompt Pilot (dashboard root included) are usable
+  // anonymously now - the questionnaire/form renders and produces a result
+  // with no account required, and saving that result is offered only after
+  // the fact (see the claim-submission flow). Every other /tools route
+  // (business-audit, finish-signup, report sub-pages, etc.) still requires a
+  // session before the page component ever runs.
+  const isUngatedToolsPath =
+    pathname === "/tools" ||
+    pathname.startsWith("/tools/opportunity-finder") ||
+    pathname.startsWith("/tools/prompt-pilot");
+
+  if (
+    (pathname.startsWith("/business-audit") || pathname.startsWith("/tools")) &&
+    !isUngatedToolsPath
+  ) {
     if (!hasSession(request)) {
       return NextResponse.redirect(new URL("/signup", request.url));
     }

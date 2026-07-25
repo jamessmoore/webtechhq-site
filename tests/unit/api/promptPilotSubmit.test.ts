@@ -58,10 +58,13 @@ function request(body: unknown) {
 }
 
 describe("POST /api/prompt-pilot/submit", () => {
-  it("returns 401 when there is no session", async () => {
+  it("creates an anonymous submission and sets a claim cookie when there is no session", async () => {
     auth.auth.mockResolvedValue(null);
-    const res = await request(validBody);
-    expect((await POST(res)).status).toBe(401);
+    const res = await POST(request(validBody));
+    expect(res.status).toBe(200);
+    const data = (await res.json()) as { success: boolean; renderedPrompt: string | null };
+    expect(data.success).toBe(true);
+    expect(res.cookies.get("pp_claim_token")?.value).toBeTruthy();
   });
 
   it("returns 401 when the session user no longer exists in the db", async () => {

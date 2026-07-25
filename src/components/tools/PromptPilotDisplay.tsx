@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CheckIcon, CopyIcon } from "./icons";
+import SignUpForm from "@/components/SignUpForm";
 import type { PromptPilotWhy } from "@/lib/types";
 
 const BRAND_COLORS: Record<
@@ -34,12 +35,16 @@ export default function PromptPilotDisplay({
   prompt,
   why,
   accountCompleted,
+  anonymous = false,
 }: {
-  firstName: string;
+  /** Unset for an anonymous (no-session) visitor - the heading below adapts. */
+  firstName?: string;
   prompt: string;
   /** Drives the soft Opportunity Finder nudge below the prompt — only shown for "I run a business". */
   why?: PromptPilotWhy | null;
   accountCompleted: boolean;
+  /** No session yet - shows a "save this result" capture step instead of "finish account setup". */
+  anonymous?: boolean;
 }) {
   const router = useRouter();
   const [copied, setCopied] = useState(false);
@@ -86,7 +91,7 @@ export default function PromptPilotDisplay({
           letterSpacing: "0.01em",
         }}
       >
-        Got it, {firstName}.
+        Got it{firstName ? `, ${firstName}` : ""}.
       </h2>
       <p
         style={{
@@ -208,7 +213,7 @@ export default function PromptPilotDisplay({
           </button>
         </div>
 
-        {!accountCompleted && (
+        {anonymous ? (
           <div
             style={{
               marginTop: 28,
@@ -218,28 +223,53 @@ export default function PromptPilotDisplay({
               backgroundColor: "#0A1B33",
             }}
           >
-            <p className="font-sans text-[15px] leading-relaxed" style={{ color: "#FFFFFF" }}>
-              To save it permanently, finish setting up your account with a password. Skip it and
-              you&apos;ll need to redo Prompt Pilot next time.
+            <p className="font-sans text-[15px] leading-relaxed mb-4" style={{ color: "#FFFFFF" }}>
+              Want to keep this result? Save it to an account and you won&apos;t need to redo
+              Prompt Pilot next time.
             </p>
-            <div className="flex flex-wrap gap-3 mt-4">
-              <button
-                type="button"
-                onClick={() => router.push("/tools/finish-signup")}
-                className="inline-flex items-center gap-2 font-sans text-[15px] font-bold tracking-wide transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
-                style={{
-                  padding: "10px 18px",
-                  borderRadius: 6,
-                  border: "1px solid #238636",
-                  backgroundColor: "#238636",
-                  color: "#FFFFFF",
-                  cursor: "pointer",
-                }}
-              >
-                Complete account signup ›
-              </button>
-            </div>
+            <SignUpForm
+              endpoint="/api/tools/claim-submission"
+              extraBody={{ tool: "prompt-pilot" }}
+              hideGoogle
+              submitLabel="SAVE MY RESULT ›"
+              submitLoadingLabel="SAVING…"
+              verifyBody="Click it to save this result to your account."
+            />
           </div>
+        ) : (
+          !accountCompleted && (
+            <div
+              style={{
+                marginTop: 28,
+                padding: "18px 20px",
+                border: "0.8px solid rgba(255,255,255,0.4)",
+                borderRadius: 4,
+                backgroundColor: "#0A1B33",
+              }}
+            >
+              <p className="font-sans text-[15px] leading-relaxed" style={{ color: "#FFFFFF" }}>
+                To save it permanently, finish setting up your account with a password. Skip it and
+                you&apos;ll need to redo Prompt Pilot next time.
+              </p>
+              <div className="flex flex-wrap gap-3 mt-4">
+                <button
+                  type="button"
+                  onClick={() => router.push("/tools/finish-signup")}
+                  className="inline-flex items-center gap-2 font-sans text-[15px] font-bold tracking-wide transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
+                  style={{
+                    padding: "10px 18px",
+                    borderRadius: 6,
+                    border: "1px solid #238636",
+                    backgroundColor: "#238636",
+                    color: "#FFFFFF",
+                    cursor: "pointer",
+                  }}
+                >
+                  Complete account signup ›
+                </button>
+              </div>
+            </div>
+          )
         )}
 
         {why === "I run a business" && (

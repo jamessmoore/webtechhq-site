@@ -134,9 +134,12 @@ export default function PromptPilotFlow({
   initialPrompt,
   initialWhy,
   accountCompleted,
+  anonymous = false,
 }: {
-  firstName: string;
-  email: string;
+  /** Unset for an anonymous (no-session) visitor. */
+  firstName?: string;
+  /** Unset for an anonymous (no-session) visitor. */
+  email?: string;
   emailVerified: boolean;
   alreadySubmitted: boolean;
   /** The stored prompt from a prior submission, if any. */
@@ -144,6 +147,8 @@ export default function PromptPilotFlow({
   /** The stored "why" answer from a prior submission, drives the business nudge. */
   initialWhy: PromptPilotWhy | null;
   accountCompleted: boolean;
+  /** No session - skips the emailVerified gate entirely and renders the "save this result" step instead of "finish account setup" once a prompt exists. */
+  anonymous?: boolean;
 }) {
   const [form, setForm] = useState<FormData>(INITIAL_FORM);
   const [prompt, setPrompt] = useState<string | null>(initialPrompt);
@@ -230,6 +235,7 @@ export default function PromptPilotFlow({
         prompt={prompt}
         why={why}
         accountCompleted={accountCompleted}
+        anonymous={anonymous}
       />
     );
   }
@@ -238,7 +244,7 @@ export default function PromptPilotFlow({
     return (
       <StatusCard>
         <h2 className="font-sans font-bold text-[20px] mb-3" style={{ color: "#89D4FF" }}>
-          You&apos;re already set, {firstName}.
+          You&apos;re already set{firstName ? `, ${firstName}` : ""}.
         </h2>
         <p className="font-sans text-[21px] leading-relaxed" style={{ color: "#FFFFFF" }}>
           We already have a Prompt Pilot result on file for{" "}
@@ -248,7 +254,9 @@ export default function PromptPilotFlow({
     );
   }
 
-  if (!emailVerified) {
+  // Anonymous visitors skip straight from the form to the result - the
+  // verify-email gate only applies to a real (unverified) session.
+  if (!anonymous && !emailVerified) {
     return (
       <StatusCard>
         <h2 className="font-sans font-bold text-[20px] mb-3" style={{ color: "#89D4FF" }}>
