@@ -42,6 +42,22 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium webkit
 
+      # CI has no access to the real prompt_template / prompt_pilot_template
+      # copy (data/seeds/*.local.json are gitignored, developer-machine-only —
+      # the template text is core IP, see scripts/seed-prompt-templates.js).
+      # Without at least one is_fallback row in each table,
+      # renderPromptTemplate() always returns null here, which makes
+      # OpportunityFinderFlow/PromptPilot fall into their "no prompt
+      # returned" error branch instead of rendering PromptDisplay, breaking
+      # e2e specs that expect that screen. Seed from the committed, safe
+      # placeholder files instead — their placeholder template_text is fine
+      # for e2e purposes since no e2e test asserts on rendered prompt
+      # content, only on which screen/button appears.
+      - name: Seed placeholder prompt templates for e2e
+        run: |
+          PROMPT_TEMPLATE_SEED_PATH=./data/seeds/prompt-templates.example.json npm run seed:prompt-templates
+          PROMPT_PILOT_TEMPLATE_SEED_PATH=./data/seeds/prompt-pilot-templates.example.json npm run seed:prompt-pilot-templates
+
       - name: Run end-to-end tests
         run: npm run test:e2e
 
