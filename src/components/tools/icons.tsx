@@ -117,6 +117,15 @@ export function SearchIcon({ size = 17, className, style }: IconProps) {
   );
 }
 
+export function CompassIcon({ size = 17, className, style }: IconProps) {
+  return (
+    <svg {...base(size, 1.6)} className={className} style={style}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M15.5 8.5 L13.2 13.2 L8.5 15.5 L10.8 10.8 Z" />
+    </svg>
+  );
+}
+
 export function HelpCircleIcon({ size = 14, className, style }: IconProps) {
   return (
     <svg {...base(size, 1.7)} className={className} style={style}>

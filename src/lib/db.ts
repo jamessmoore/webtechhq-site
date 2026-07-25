@@ -129,6 +129,49 @@ function migrate(db: Database.Database): void {
     CREATE INDEX IF NOT EXISTS idx_prompt_template_eval_template_id
       ON prompt_template_eval (template_id);
 
+    -- Prompt Pilot: same DB-seeded-template IP-protection pattern as
+    -- prompt_template above, but a separate table rather than a shared one,
+    -- since the trigger vocabulary is entirely different (starting point /
+    -- why / time budget vs. repetitive / compliance / data) and reusing
+    -- prompt_template's trigger columns for a second, unrelated tool would
+    -- make its unique index and callers ambiguous about which tool a row
+    -- belongs to.
+    CREATE TABLE IF NOT EXISTS prompt_pilot_template (
+      id                      TEXT PRIMARY KEY,
+      trigger_starting_point  TEXT,
+      trigger_why             TEXT,
+      trigger_time_budget     TEXT,
+      is_fallback             INTEGER NOT NULL DEFAULT 0,
+      version                 INTEGER NOT NULL DEFAULT 1,
+      template_text           TEXT NOT NULL,
+      created_at              TEXT NOT NULL,
+      updated_at              TEXT NOT NULL
+    );
+
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_prompt_pilot_template_trigger
+      ON prompt_pilot_template (trigger_starting_point, trigger_why, trigger_time_budget)
+      WHERE is_fallback = 0;
+
+    -- One row per user, mirroring submissions' one-submission-per-user
+    -- pattern. No admin-review columns (approval_status/validation_flags/
+    -- admin_notes) because Prompt Pilot's output is rendered instantly and
+    -- never emailed or reviewed by an admin, unlike the Opportunity Finder
+    -- pipeline that table supports.
+    CREATE TABLE IF NOT EXISTS prompt_pilot_submissions (
+      id               TEXT PRIMARY KEY,
+      user_id          TEXT NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+      learning_goal    TEXT NOT NULL,
+      starting_point   TEXT,
+      why              TEXT,
+      time_budget      TEXT,
+      rendered_prompt  TEXT,
+      submitted_at     TEXT NOT NULL,
+      created_at       TEXT NOT NULL
+    );
+
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_prompt_pilot_submissions_user_unique
+      ON prompt_pilot_submissions (user_id);
+
     CREATE TABLE IF NOT EXISTS agent_prompt_config (
       id                TEXT PRIMARY KEY,
       config_key        TEXT NOT NULL UNIQUE,

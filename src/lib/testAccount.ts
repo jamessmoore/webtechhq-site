@@ -32,6 +32,7 @@ export function resetAllToolDataForUser(userId: string): void {
   const reset = db.transaction((id: string) => {
     db.prepare("DELETE FROM submissions WHERE user_id = ?").run(id);
     db.prepare("DELETE FROM audit_reports WHERE user_id = ?").run(id);
+    db.prepare("DELETE FROM prompt_pilot_submissions WHERE user_id = ?").run(id);
   });
   reset(userId);
 }

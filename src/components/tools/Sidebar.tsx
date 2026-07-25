@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import HexMark from "@/components/HexMark";
-import { GridIcon, TelescopeIcon, SearchIcon, ShieldIcon, CloseIcon } from "./icons";
+import { GridIcon, TelescopeIcon, SearchIcon, CompassIcon, ShieldIcon, CloseIcon } from "./icons";
 
 interface ToolsUser {
   firstName: string;
@@ -30,6 +30,7 @@ export default function Sidebar({ user, mobileOpen, onClose, signOutButton }: Si
   const isDashActive = pathname === "/tools";
   const isToolActive = pathname.startsWith("/tools/opportunity-finder");
   const isBusinessAuditActive = pathname.startsWith("/tools/business-audit");
+  const isPromptPilotActive = pathname.startsWith("/tools/prompt-pilot");
 
   const navBase: React.CSSProperties = {
     display: "flex",
@@ -135,6 +136,17 @@ export default function Sidebar({ user, mobileOpen, onClose, signOutButton }: Si
           >
             <SearchIcon size={21} />
             <span style={{ flex: 1 }}>Business Audit</span>
+            <HexMark size={14} />
+          </Link>
+
+          <Link
+            href="/tools/prompt-pilot"
+            onClick={onClose}
+            className="transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)]"
+            style={{ ...navBase, ...(isPromptPilotActive ? navActive : {}), borderRadius: 6 }}
+          >
+            <CompassIcon size={21} />
+            <span style={{ flex: 1 }}>Prompt Pilot</span>
             <HexMark size={14} />
           </Link>
         </nav>

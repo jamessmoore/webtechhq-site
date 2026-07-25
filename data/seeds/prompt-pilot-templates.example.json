@@ -1,0 +1,19 @@
+{
+  "_comment": "Structure reference only — placeholder copy, safe to commit. Copy this file to prompt-pilot-templates.local.json (gitignored) and replace template_text with real copy before running `npm run seed:prompt-pilot-templates`. 18 real combinations (starting_point x why x time_budget) plus exactly one is_fallback row are expected.",
+  "templates": [
+    {
+      "trigger_starting_point": "Never used AI",
+      "trigger_why": "Personal curiosity",
+      "trigger_time_budget": "Quick primer",
+      "is_fallback": false,
+      "template_text": "PLACEHOLDER: a short have-AI-teach-you-AI prompt for a total beginner, learning out of curiosity, who wants a quick primer. Reference {learning_goal}."
+    },
+    {
+      "trigger_starting_point": null,
+      "trigger_why": null,
+      "trigger_time_budget": null,
+      "is_fallback": true,
+      "template_text": "PLACEHOLDER fallback have-AI-teach-you-AI prompt for combinations with no direct match. Reference {learning_goal}."
+    }
+  ]
+}

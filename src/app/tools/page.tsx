@@ -3,11 +3,12 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getUserById } from "@/lib/users";
 import { getSubmissionsByUser } from "@/lib/submissions";
+import { getPromptPilotSubmissionByUser } from "@/lib/tools/promptPilotSubmissions";
 import { hasPurchased } from "@/lib/purchases";
 import FeaturedToolCard, { type ToolCardStatus } from "@/components/tools/FeaturedToolCard";
 import ToolPlaceholderCard from "@/components/tools/ToolPlaceholderCard";
 import TestAccountResetButton from "@/components/tools/TestAccountResetButton";
-import { TelescopeIcon, SearchIcon } from "@/components/tools/icons";
+import { TelescopeIcon, SearchIcon, CompassIcon } from "@/components/tools/icons";
 import { COMING_SOON_TOOLS } from "@/lib/tools/reportData";
 import { isGoldStandardTestAccount } from "@/lib/testAccount";
 
@@ -42,6 +43,9 @@ export default async function ToolsDashboardPage() {
           ? "RUN YOUR AUDIT (TEST, NO CHARGE)"
           : "GET YOUR AUDIT, $50";
   const businessAuditHref = businessAuditStatus === "locked" ? "/tools/opportunity-finder" : "/tools/business-audit";
+
+  const promptPilotSubmission = getPromptPilotSubmissionByUser(user.id);
+  const promptPilotStatus: ToolCardStatus = promptPilotSubmission ? "completed" : "not_started";
 
   return (
     <div style={{ maxWidth: 1040, margin: "0 auto", padding: "clamp(24px,4vw,40px) clamp(18px,4vw,44px) 64px" }}>
@@ -79,6 +83,16 @@ export default async function ToolsDashboardPage() {
         icon={<SearchIcon size={42} style={{ color: "#89D4FF" } as React.CSSProperties} />}
         metaItems={["FOUNDING CLIENT RATE", "ONE-TIME PURCHASE"]}
         primaryLabel={businessAuditPrimaryLabel}
+      />
+
+      <FeaturedToolCard
+        title="Prompt Pilot"
+        description="Answer four quick questions about where you're starting from and what you want to learn. I'll build you a custom prompt that has AI teach you AI, tuned to your level and how much time you've got."
+        status={promptPilotStatus}
+        href="/tools/prompt-pilot"
+        icon={<CompassIcon size={42} style={{ color: "#89D4FF" } as React.CSSProperties} />}
+        metaItems={["4 QUICK QUESTIONS"]}
+        primaryLabel={promptPilotStatus === "completed" ? "SEE YOUR PROMPT" : "START PROMPT PILOT"}
       />
 
       <div className="flex items-baseline justify-between flex-wrap gap-2" style={{ marginTop: 38 }}>

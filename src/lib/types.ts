@@ -166,6 +166,58 @@ export interface SubmissionWithUser extends Submission {
   user: Pick<User, "firstName" | "lastName" | "email">;
 }
 
+// ─── Prompt Pilot ─────────────────────────────────────────────────────────────
+
+export type PromptPilotStartingPoint =
+  | "Never used AI"
+  | "Dabbled with it"
+  | "Used it, want to go deeper";
+
+export type PromptPilotWhy =
+  | "Personal curiosity"
+  | "Career or job search"
+  | "I run a business";
+
+export type PromptPilotTimeBudget = "Quick primer" | "Go deep";
+
+export interface PromptPilotSubmission {
+  id: string;
+  userId: string;
+  learningGoal: string;
+  startingPoint?: PromptPilotStartingPoint;
+  why?: PromptPilotWhy;
+  timeBudget?: PromptPilotTimeBudget;
+  renderedPrompt?: string;
+  submittedAt: string;
+  createdAt: string;
+}
+
+export interface PromptPilotSubmissionRow {
+  id: string;
+  user_id: string;
+  learning_goal: string;
+  starting_point: string | null;
+  why: string | null;
+  time_budget: string | null;
+  rendered_prompt: string | null;
+  submitted_at: string;
+  created_at: string;
+}
+
+export function rowToPromptPilotSubmission(row: PromptPilotSubmissionRow): PromptPilotSubmission {
+  return {
+    id: row.id,
+    userId: row.user_id,
+    learningGoal: row.learning_goal,
+    startingPoint: (row.starting_point as PromptPilotStartingPoint) ?? undefined,
+    why: (row.why as PromptPilotWhy) ?? undefined,
+    timeBudget: (row.time_budget as PromptPilotTimeBudget) ?? undefined,
+    renderedPrompt: row.rendered_prompt ?? undefined,
+    submittedAt: row.submitted_at,
+    createdAt: row.created_at,
+  };
+}
+
 // ─── Purchases ────────────────────────────────────────────────────────────────
 
 export type PurchaseStatus = "created" | "approved" | "captured" | "failed" | "refunded";
