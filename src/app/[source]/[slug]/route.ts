@@ -12,7 +12,8 @@ const BASE_URL = process.env.NEXTAUTH_URL ?? "http://localhost:3000";
 //   /ig/<slug>    -> Instagram Reels
 //   /x/<slug>     -> X/Twitter posts
 //   /li/<slug>    -> LinkedIn carousel posts
-// All five redirect to /signup?utm_source=<source>&utm_medium=<medium>&utm_campaign=<slug>
+// All five redirect to DEFAULT_DESTINATION (or a per-slug override, see
+// SLUG_OVERRIDES below) with ?utm_source=<source>&utm_medium=<medium>&utm_campaign=<slug>
 // for any slug, so future posts don't need a code change or a new
 // next.config.js redirects() entry per campaign.
 //
@@ -29,6 +30,30 @@ const SOURCES: Record<string, { utm_source: string; utm_medium: string }> = {
   li: { utm_source: "linkedin", utm_medium: "carousel" },
 };
 
+// Where a slug lands when it has no entry below. All of the
+// already-published video/social links predate this mechanism and have no
+// per-slug distinction, so they fall through here - pointed at the
+// flagship, indexable Opportunity Finder tool (itself the landing page now,
+// see src/app/tools/opportunity-finder/page.tsx) rather than the generic
+// /signup form, since that's the broadest tool most of that historical
+// traffic is relevant to.
+const DEFAULT_DESTINATION = "/tools/opportunity-finder";
+
+// Per-slug override: lets a specific future slug (e.g. a Prompt Pilot CTA
+// in a particular video) point somewhere other than DEFAULT_DESTINATION
+// without affecting every other historical link on the same source prefix.
+// Same allow-listed-path reasoning as SOURCES above - values here are
+// fixed, code-reviewed destinations, not client input. Exported (rather
+// than a private module const) only so tests/unit/api/sourceSlugRedirect.test.ts
+// can inject/remove a temporary entry to exercise the override branch
+// without this file needing a real slug mapping committed ahead of need.
+// A real Prompt Pilot campaign is coming (the "Use AI to Learn AI" video
+// release) but has no slug value yet - left empty/commented rather than
+// inventing one ahead of need.
+export const SLUG_OVERRIDES: Record<string, string> = {
+  // "prompt-pilot-cta": "/tools/prompt-pilot",
+};
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ source: string; slug: string }> },
@@ -40,7 +65,7 @@ export async function GET(
     notFound();
   }
 
-  const destination = new URL("/signup", BASE_URL);
+  const destination = new URL(SLUG_OVERRIDES[slug] ?? DEFAULT_DESTINATION, BASE_URL);
   destination.searchParams.set("utm_source", mapping.utm_source);
   destination.searchParams.set("utm_medium", mapping.utm_medium);
   destination.searchParams.set("utm_campaign", slug);

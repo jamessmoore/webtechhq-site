@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CheckIcon, CopyIcon } from "./icons";
 import SignUpForm from "@/components/SignUpForm";
+import type { PromptPilotWhy } from "@/lib/types";
 
 const BRAND_COLORS: Record<
   string,
@@ -29,15 +30,18 @@ const BRAND_COLORS: Record<
   },
 };
 
-export default function PromptDisplay({
+export default function PromptPilotDisplay({
   firstName,
   prompt,
+  why,
   accountCompleted,
   anonymous = false,
 }: {
   /** Unset for an anonymous (no-session) visitor - the heading below adapts. */
   firstName?: string;
   prompt: string;
+  /** Drives the soft Opportunity Finder nudge below the prompt — only shown for "I run a business". */
+  why?: PromptPilotWhy | null;
   accountCompleted: boolean;
   /** No session yet - shows a "save this result" capture step instead of "finish account setup". */
   anonymous?: boolean;
@@ -57,15 +61,11 @@ export default function PromptDisplay({
     }
   }
 
-  // ChatGPT accepts the prompt as a "?q=" URL argument. Claude and Gemini have no
-  // equivalent (Claude dropped it over prompt-injection concerns; Gemini never had
-  // one), so those copy the prompt to the clipboard before opening the site.
-  //
-  // The write must be awaited and confirmed *before* opening the destination tab —
-  // window.open() shifts document focus away, and Chromium browsers silently fail
-  // any clipboard write that lands after focus has moved (NotAllowedError: Document
-  // is not focused). Doing the write first, while this document still has focus,
-  // avoids that race.
+  // Same Send-To-AI mechanic as PromptDisplay.tsx: ChatGPT accepts the prompt
+  // as a "?q=" URL argument, Claude and Gemini don't, so those copy first.
+  // The write must be awaited and confirmed before opening the destination
+  // tab — window.open() shifts focus away, and Chromium silently fails any
+  // clipboard write that lands after focus has moved.
   async function handleSendTo(label: string, url: string, copyFirst: boolean) {
     if (copyFirst) {
       try {
@@ -74,8 +74,6 @@ export default function PromptDisplay({
         setCopyFailed(false);
         setTimeout(() => setCopiedDestination(null), 2000);
       } catch {
-        // Clipboard write was blocked (e.g. no active user-activation window,
-        // or an unsupported browser) — surface it instead of failing silently.
         setCopyFailed(true);
         setTimeout(() => setCopyFailed(false), 4000);
       }
@@ -102,10 +100,11 @@ export default function PromptDisplay({
           color: "#FFFFFF",
         }}
       >
-        Here&apos;s a prompt built specifically for your business. Click a button below and
-        I&apos;ll open Claude, ChatGPT, or Gemini with the prompt ready to go: copied to your
-        clipboard or pre-filled, depending on the tool. Or copy it yourself and paste it into
-        whatever AI chat tool you already prefer.
+        Here&apos;s a prompt built to have AI teach you AI, tuned to where you&apos;re starting
+        from and how deep you want to go. Click a button below and I&apos;ll open Claude,
+        ChatGPT, or Gemini with it ready to go: copied to your clipboard or pre-filled,
+        depending on the tool. Or copy it yourself and paste it into whatever AI chat tool you
+        already prefer.
       </p>
 
       <div style={{ marginTop: 28 }}>
@@ -142,9 +141,6 @@ export default function PromptDisplay({
               { label: "Gemini", url: "https://gemini.google.com/app", copyFirst: true },
             ].map(({ label, url, copyFirst }) => {
               const isCopied = copiedDestination === label;
-              // Each destination's resting/copied colors are built from its own brand
-              // color: Claude's asterisk orange (#D97757), ChatGPT's teal (#10A37F),
-              // Gemini's violet (#8E75B2).
               const palette = BRAND_COLORS[label];
               const border = isCopied ? palette.copiedBorder : palette.restingBg;
               const background = isCopied ? palette.brand : palette.restingBg;
@@ -228,12 +224,12 @@ export default function PromptDisplay({
             }}
           >
             <p className="font-sans text-[15px] leading-relaxed mb-4" style={{ color: "#FFFFFF" }}>
-              Want to keep this result and unlock the full Business Audit? Save it to an account
-              and you won&apos;t need to redo the Opportunity Finder next time.
+              Want to keep this result? Save it to an account and you won&apos;t need to redo
+              Prompt Pilot next time.
             </p>
             <SignUpForm
               endpoint="/api/tools/claim-submission"
-              extraBody={{ tool: "opportunity-finder" }}
+              extraBody={{ tool: "prompt-pilot" }}
               hideGoogle
               submitLabel="SAVE MY RESULT ›"
               submitLoadingLabel="SAVING…"
@@ -252,9 +248,8 @@ export default function PromptDisplay({
               }}
             >
               <p className="font-sans text-[15px] leading-relaxed" style={{ color: "#FFFFFF" }}>
-                To save it permanently and unlock the full Business Audit, finish setting up your
-                account with a password. Skip it and you&apos;ll need to redo the Opportunity Finder
-                next time.
+                To save it permanently, finish setting up your account with a password. Skip it and
+                you&apos;ll need to redo Prompt Pilot next time.
               </p>
               <div className="flex flex-wrap gap-3 mt-4">
                 <button
@@ -277,59 +272,47 @@ export default function PromptDisplay({
           )
         )}
 
-        <div
-          style={{
-            marginTop: 20,
-            padding: "18px 20px",
-            border: "0.8px solid rgba(255,255,255,0.4)",
-            borderRadius: 4,
-            backgroundColor: "#0A1B33",
-          }}
-        >
-          <p
-            className="font-sans text-[21px] font-bold"
-            style={{ color: "#FFFFFF", marginBottom: 8 }}
-          >
-            Want the full picture?
-          </p>
-          <p className="font-sans text-[20px] leading-relaxed" style={{ color: "#FFFFFF" }}>
-            The Opportunity Finder is just a starting point. The full Business Audit takes your
-            answers further: a ranked breakdown of your best opportunities, what each one is
-            worth, and a concrete plan to act on it.
-          </p>
+        {why === "I run a business" && (
           <div
             style={{
-              marginTop: 14,
-              padding: "10px 14px",
+              marginTop: 20,
+              padding: "18px 20px",
+              border: "0.8px solid rgba(255,255,255,0.4)",
               borderRadius: 4,
-              border: "0.8px solid #3D7FD4",
-              backgroundColor: "rgba(61,127,212,0.12)",
+              backgroundColor: "#0A1B33",
             }}
           >
-            <p style={{ margin: 0, font: "700 18px/1.5 Arial, sans-serif", color: "#89D4FF" }}>
-              Limited-time founding client rate: $50 for your Business Audit (regularly $300).
-              This rate is only available through July 2026, and it credits in full toward any
-              implementation you engage from your report.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3 mt-4">
-            <button
-              type="button"
-              onClick={() => router.push("/tools/business-audit")}
-              className="inline-flex items-center gap-2 font-sans text-[15px] font-bold tracking-wide transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
-              style={{
-                padding: "10px 18px",
-                borderRadius: 6,
-                border: "1px solid #1A4FC4",
-                backgroundColor: "#1A4FC4",
-                color: "#FFFFFF",
-                cursor: "pointer",
-              }}
+            <p
+              className="font-sans text-[21px] font-bold"
+              style={{ color: "#FFFFFF", marginBottom: 8 }}
             >
-              Start my Business Audit ›
-            </button>
+              Since you run a business…
+            </p>
+            <p className="font-sans text-[20px] leading-relaxed" style={{ color: "#FFFFFF" }}>
+              There&apos;s a free tool built specifically to find AI opportunities in your
+              business, not just to teach you AI in general. Answer a few plain-English
+              questions and get a custom prompt pointing at the moves that would save you the
+              most time and money.
+            </p>
+            <div className="flex flex-wrap gap-3 mt-4">
+              <button
+                type="button"
+                onClick={() => router.push("/tools/opportunity-finder")}
+                className="inline-flex items-center gap-2 font-sans text-[15px] font-bold tracking-wide transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
+                style={{
+                  padding: "10px 18px",
+                  borderRadius: 6,
+                  border: "1px solid #1A4FC4",
+                  backgroundColor: "#1A4FC4",
+                  color: "#FFFFFF",
+                  cursor: "pointer",
+                }}
+              >
+                Try the Opportunity Finder ›
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

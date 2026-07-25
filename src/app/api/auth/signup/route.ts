@@ -117,7 +117,8 @@ export async function POST(request: NextRequest) {
       const { token, expiresAt } = generateVerificationToken();
       setVerificationToken(existing.id, token, expiresAt);
 
-      sendVerificationEmail(existing.email, existing.firstName, token).catch((err) => {
+      const resendPromise = sendVerificationEmail(existing.email, existing.firstName, token);
+      resendPromise.catch((err) => {
         console.error("Verification email resend failed:", err);
       });
 
@@ -144,7 +145,8 @@ export async function POST(request: NextRequest) {
     });
 
     // Send verification email (non-blocking — don't fail signup if email fails)
-    sendVerificationEmail(user.email, user.firstName, token).catch((err) => {
+    const sendPromise = sendVerificationEmail(user.email, user.firstName, token);
+    sendPromise.catch((err) => {
       console.error("Verification email failed:", err);
     });
 

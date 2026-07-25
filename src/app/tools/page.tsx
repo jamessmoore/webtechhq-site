@@ -1,32 +1,35 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getUserById } from "@/lib/users";
 import { getSubmissionsByUser } from "@/lib/submissions";
+import { getPromptPilotSubmissionByUser } from "@/lib/tools/promptPilotSubmissions";
 import { hasPurchased } from "@/lib/purchases";
 import FeaturedToolCard, { type ToolCardStatus } from "@/components/tools/FeaturedToolCard";
 import ToolPlaceholderCard from "@/components/tools/ToolPlaceholderCard";
 import TestAccountResetButton from "@/components/tools/TestAccountResetButton";
-import { TelescopeIcon, SearchIcon } from "@/components/tools/icons";
+import { TelescopeIcon, SearchIcon, CompassIcon } from "@/components/tools/icons";
 import { COMING_SOON_TOOLS } from "@/lib/tools/reportData";
 import { isGoldStandardTestAccount } from "@/lib/testAccount";
 
 export const metadata: Metadata = { title: "Dashboard | Moore Solutions" };
 
 export default async function ToolsDashboardPage() {
+  // No account required to browse the dashboard or use Opportunity Finder /
+  // Prompt Pilot anonymously (see src/proxy.ts). Without a session there's
+  // no way to know a visitor's real progress, so every card falls back to
+  // its generic default: "not_started" for the two ungated tools, "locked"
+  // for Business Audit (its normal until-OF-is-done default, which is also
+  // the right default for an anonymous visitor). A session, when present,
+  // keeps today's fully personalized behavior.
   const session = await auth();
-  if (!session?.user?.id) redirect("/signup");
+  const user = session?.user?.id ? getUserById(session.user.id) : null;
 
-  const user = getUserById(session.user.id);
-  if (!user) redirect("/signup");
+  const isTestAccount = user ? isGoldStandardTestAccount(user.email) : false;
 
-  const isTestAccount = isGoldStandardTestAccount(user.email);
-
-  const submissions = getSubmissionsByUser(user.id);
-  const hasSubmission = submissions.length > 0;
+  const hasSubmission = user ? getSubmissionsByUser(user.id).length > 0 : false;
   const opportunityFinderStatus: ToolCardStatus = hasSubmission ? "completed" : "not_started";
 
-  const purchasedAudit = hasPurchased(user.id, "business_audit");
+  const purchasedAudit = user ? hasPurchased(user.id, "business_audit") : false;
   const businessAuditStatus: ToolCardStatus = !hasSubmission
     ? "locked"
     : purchasedAudit
@@ -43,6 +46,9 @@ export default async function ToolsDashboardPage() {
           : "GET YOUR AUDIT, $50";
   const businessAuditHref = businessAuditStatus === "locked" ? "/tools/opportunity-finder" : "/tools/business-audit";
 
+  const promptPilotSubmission = user ? getPromptPilotSubmissionByUser(user.id) : null;
+  const promptPilotStatus: ToolCardStatus = promptPilotSubmission ? "completed" : "not_started";
+
   return (
     <div style={{ maxWidth: 1040, margin: "0 auto", padding: "clamp(24px,4vw,40px) clamp(18px,4vw,44px) 64px" }}>
       {isTestAccount && <TestAccountResetButton />}
@@ -54,7 +60,7 @@ export default async function ToolsDashboardPage() {
           letterSpacing: "0.01em",
         }}
       >
-        Welcome back, {user.firstName}.
+        {user ? `Welcome back, ${user.firstName}.` : "Your AI toolkit."}
       </h1>
       <p style={{ margin: "11px 0 0", font: "400 21px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 560 }}>
         Your AI toolkit lives here. Run a tool, get clear results, and put your time back where
@@ -79,6 +85,16 @@ export default async function ToolsDashboardPage() {
         icon={<SearchIcon size={42} style={{ color: "#89D4FF" } as React.CSSProperties} />}
         metaItems={["FOUNDING CLIENT RATE", "ONE-TIME PURCHASE"]}
         primaryLabel={businessAuditPrimaryLabel}
+      />
+
+      <FeaturedToolCard
+        title="Prompt Pilot"
+        description="Answer four quick questions about where you're starting from and what you want to learn. I'll build you a custom prompt that has AI teach you AI, tuned to your level and how much time you've got."
+        status={promptPilotStatus}
+        href="/tools/prompt-pilot"
+        icon={<CompassIcon size={42} style={{ color: "#89D4FF" } as React.CSSProperties} />}
+        metaItems={["4 QUICK QUESTIONS"]}
+        primaryLabel={promptPilotStatus === "completed" ? "SEE YOUR PROMPT" : "START PROMPT PILOT"}
       />
 
       <div className="flex items-baseline justify-between flex-wrap gap-2" style={{ marginTop: 38 }}>

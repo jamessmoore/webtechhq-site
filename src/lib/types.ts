@@ -88,7 +88,8 @@ export type DataAnswer =
 
 export interface Submission {
   id: string;
-  userId: string;
+  /** Null until an anonymous submission is claimed by (linked to) an account. */
+  userId: string | null;
   businessType?: string;
   teamSize?: TeamSize;
   layer1Problem?: string;
@@ -108,11 +109,13 @@ export interface Submission {
   approvedBy?: string;
   approvedAt?: string;
   adminNotes?: string;
+  /** Opaque lookup token for claiming an anonymous submission; null once claimed. */
+  claimToken?: string;
 }
 
 export interface SubmissionRow {
   id: string;
-  user_id: string;
+  user_id: string | null;
   business_type: string | null;
   team_size: string | null;
   layer1_problem: string | null;
@@ -132,6 +135,7 @@ export interface SubmissionRow {
   approved_by: string | null;
   approved_at: string | null;
   admin_notes: string | null;
+  claim_token: string | null;
 }
 
 export function rowToSubmission(row: SubmissionRow): Submission {
@@ -157,6 +161,7 @@ export function rowToSubmission(row: SubmissionRow): Submission {
     approvedBy: row.approved_by ?? undefined,
     approvedAt: row.approved_at ?? undefined,
     adminNotes: row.admin_notes ?? undefined,
+    claimToken: row.claim_token ?? undefined,
   };
 }
 
@@ -164,6 +169,63 @@ export function rowToSubmission(row: SubmissionRow): Submission {
 
 export interface SubmissionWithUser extends Submission {
   user: Pick<User, "firstName" | "lastName" | "email">;
+}
+
+// ─── Prompt Pilot ─────────────────────────────────────────────────────────────
+
+export type PromptPilotStartingPoint =
+  | "Never used AI"
+  | "Dabbled with it"
+  | "Used it, want to go deeper";
+
+export type PromptPilotWhy =
+  | "Personal curiosity"
+  | "Career or job search"
+  | "I run a business";
+
+export type PromptPilotTimeBudget = "Quick primer" | "Go deep";
+
+export interface PromptPilotSubmission {
+  id: string;
+  /** Null until an anonymous submission is claimed by (linked to) an account. */
+  userId: string | null;
+  learningGoal: string;
+  startingPoint?: PromptPilotStartingPoint;
+  why?: PromptPilotWhy;
+  timeBudget?: PromptPilotTimeBudget;
+  renderedPrompt?: string;
+  submittedAt: string;
+  createdAt: string;
+  /** Opaque lookup token for claiming an anonymous submission; null once claimed. */
+  claimToken?: string;
+}
+
+export interface PromptPilotSubmissionRow {
+  id: string;
+  user_id: string | null;
+  learning_goal: string;
+  starting_point: string | null;
+  why: string | null;
+  time_budget: string | null;
+  rendered_prompt: string | null;
+  submitted_at: string;
+  created_at: string;
+  claim_token: string | null;
+}
+
+export function rowToPromptPilotSubmission(row: PromptPilotSubmissionRow): PromptPilotSubmission {
+  return {
+    id: row.id,
+    userId: row.user_id,
+    learningGoal: row.learning_goal,
+    startingPoint: (row.starting_point as PromptPilotStartingPoint) ?? undefined,
+    why: (row.why as PromptPilotWhy) ?? undefined,
+    timeBudget: (row.time_budget as PromptPilotTimeBudget) ?? undefined,
+    renderedPrompt: row.rendered_prompt ?? undefined,
+    submittedAt: row.submitted_at,
+    createdAt: row.created_at,
+    claimToken: row.claim_token ?? undefined,
+  };
 }
 
 // ─── Purchases ────────────────────────────────────────────────────────────────

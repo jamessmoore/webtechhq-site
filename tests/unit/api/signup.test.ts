@@ -223,6 +223,16 @@ describe("POST /api/auth/signup", () => {
     expect(res.status).toBe(200);
   });
 
+  // The old "tool-specific landing page redirect (`source`)" describe block
+  // that lived here tested REDIRECT_BY_SOURCE / the `source` request field,
+  // both removed from src/app/api/auth/signup/route.ts: /prompt-pilot and
+  // /opportunity-finder no longer exist as separate marketing pages (see
+  // src/app/tools/prompt-pilot/page.tsx and src/app/tools/opportunity-finder/page.tsx),
+  // so there's no longer a tool-specific post-verification destination for
+  // this endpoint to thread through - every verification email now sends the
+  // caller through the plain (no 4th arg) sendVerificationEmail path, already
+  // covered by "creates a lightweight user..." and the resend test above.
+
   describe("per-source-IP rate limiting", () => {
     const IP_BLOCK_MESSAGE = "Further retries are not allowed. Please contact us for assistance.";
 

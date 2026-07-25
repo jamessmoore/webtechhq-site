@@ -142,7 +142,14 @@ export default async function AdminUsersPage({
   const params = await searchParams;
 
   const allUsers = getAllUsers();
-  const submittedUserIds = new Set(getAllSubmissions().map((s) => s.userId));
+  // getAllSubmissions() INNER JOINs on user_id, so every row here really has
+  // one - the `| null` on Submission.userId only applies to unclaimed
+  // anonymous submissions, which that join excludes by construction.
+  const submittedUserIds = new Set(
+    getAllSubmissions()
+      .map((s) => s.userId)
+      .filter((id): id is string => id !== null),
+  );
 
   const view = getAdminUsersView(allUsers, submittedUserIds, {
     sort: first(params.sort),

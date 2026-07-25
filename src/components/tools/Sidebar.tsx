@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import HexMark from "@/components/HexMark";
-import { GridIcon, TelescopeIcon, SearchIcon, ShieldIcon, CloseIcon } from "./icons";
+import { GridIcon, TelescopeIcon, SearchIcon, CompassIcon, ShieldIcon, CloseIcon } from "./icons";
 
 interface ToolsUser {
   firstName: string;
@@ -13,7 +13,8 @@ interface ToolsUser {
 }
 
 interface SidebarProps {
-  user: ToolsUser;
+  /** Null for an anonymous (no-session) visitor - the bottom block shows a sign-in prompt instead. */
+  user: ToolsUser | null;
   toolStatus: "not_started" | "completed";
   mobileOpen: boolean;
   onClose: () => void;
@@ -30,6 +31,7 @@ export default function Sidebar({ user, mobileOpen, onClose, signOutButton }: Si
   const isDashActive = pathname === "/tools";
   const isToolActive = pathname.startsWith("/tools/opportunity-finder");
   const isBusinessAuditActive = pathname.startsWith("/tools/business-audit");
+  const isPromptPilotActive = pathname.startsWith("/tools/prompt-pilot");
 
   const navBase: React.CSSProperties = {
     display: "flex",
@@ -137,6 +139,17 @@ export default function Sidebar({ user, mobileOpen, onClose, signOutButton }: Si
             <span style={{ flex: 1 }}>Business Audit</span>
             <HexMark size={14} />
           </Link>
+
+          <Link
+            href="/tools/prompt-pilot"
+            onClick={onClose}
+            className="transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)]"
+            style={{ ...navBase, ...(isPromptPilotActive ? navActive : {}), borderRadius: 6 }}
+          >
+            <CompassIcon size={21} />
+            <span style={{ flex: 1 }}>Prompt Pilot</span>
+            <HexMark size={14} />
+          </Link>
         </nav>
 
         <div className="flex flex-col gap-3" style={{ marginTop: "auto" }}>
@@ -170,40 +183,60 @@ export default function Sidebar({ user, mobileOpen, onClose, signOutButton }: Si
               MESSAGE JAMES
             </Link>
           </div>
-          <div
-            className="flex items-center gap-[11px]"
-            style={{ padding: "14px 8px 6px", borderTop: "0.8px solid #162D5A" }}
-          >
+          {user ? (
             <div
-              className="flex-none flex items-center justify-center"
+              className="flex items-center gap-[11px]"
+              style={{ padding: "14px 8px 6px", borderTop: "0.8px solid #162D5A" }}
+            >
+              <div
+                className="flex-none flex items-center justify-center"
+                style={{
+                  width: 36,
+                  height: 36,
+                  border: "0.8px solid #3D7FD4",
+                  backgroundColor: "#0A1832",
+                  font: '700 12px "Courier New", monospace',
+                  color: "#89D4FF",
+                  borderRadius: 6,
+                }}
+              >
+                {initialsOf(user)}
+              </div>
+              <div className="min-w-0" style={{ lineHeight: 1.3, flex: 1 }}>
+                <div
+                  className="whitespace-nowrap overflow-hidden text-ellipsis"
+                  style={{ font: '400 13px Arial, sans-serif', color: "#EEF6FF" }}
+                >
+                  {user.firstName} {user.lastName}
+                </div>
+                <div
+                  className="whitespace-nowrap overflow-hidden text-ellipsis"
+                  style={{ font: '400 11px Arial, sans-serif', color: "#5B7BA5" }}
+                >
+                  {user.businessType || user.email}
+                </div>
+              </div>
+              {signOutButton}
+            </div>
+          ) : (
+            <Link
+              href="/signin"
+              onClick={onClose}
+              className="flex items-center justify-center transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
               style={{
-                width: 36,
-                height: 36,
+                marginTop: 14,
+                padding: "10px 12px",
+                borderRadius: 6,
                 border: "0.8px solid #3D7FD4",
                 backgroundColor: "#0A1832",
-                font: '700 12px "Courier New", monospace',
                 color: "#89D4FF",
-                borderRadius: 6,
+                font: '400 12px "Courier New", monospace',
+                letterSpacing: "0.08em",
               }}
             >
-              {initialsOf(user)}
-            </div>
-            <div className="min-w-0" style={{ lineHeight: 1.3, flex: 1 }}>
-              <div
-                className="whitespace-nowrap overflow-hidden text-ellipsis"
-                style={{ font: '400 13px Arial, sans-serif', color: "#EEF6FF" }}
-              >
-                {user.firstName} {user.lastName}
-              </div>
-              <div
-                className="whitespace-nowrap overflow-hidden text-ellipsis"
-                style={{ font: '400 11px Arial, sans-serif', color: "#5B7BA5" }}
-              >
-                {user.businessType || user.email}
-              </div>
-            </div>
-            {signOutButton}
-          </div>
+              SIGN IN
+            </Link>
+          )}
         </div>
       </aside>
     </>

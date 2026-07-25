@@ -24,7 +24,7 @@ describe("robots()", () => {
     }
   });
 
-  it("does not disallow /signup, since llms.txt links AI crawlers to it", () => {
+  it("does not disallow /signup, which now redirects to the public Opportunity Finder tool", () => {
     for (const rule of rules) {
       expect(rule.disallow).not.toContain("/signup");
     }

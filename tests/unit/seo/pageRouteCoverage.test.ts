@@ -14,12 +14,20 @@ const GATED_OR_UTILITY_PREFIXES = [
   "/tools",
   "/business-audit",
   "/signin",
-  "/signup",
   "/forgot-password",
   "/reset-password",
   "/verify",
   "/share",
 ];
+
+// /tools/opportunity-finder and /tools/prompt-pilot are genuinely public and
+// indexable now (each overrides the /tools layout's blanket noindex - see
+// src/app/tools/layout.tsx and the `robots: { index: true, follow: true }`
+// on those two page.tsx files) even though they live under the otherwise-
+// gated /tools prefix above. Carve them back out so this test actually
+// verifies they're covered by sitemap.ts, instead of silently skipping them
+// via the prefix match like the rest of /tools/*.
+const PUBLIC_EXCEPTIONS_WITHIN_GATED_PREFIXES = ["/tools/opportunity-finder", "/tools/prompt-pilot"];
 
 const APP_DIR = path.resolve(__dirname, "../../../src/app");
 
@@ -37,6 +45,7 @@ function findPageRoutes(dir: string, base = ""): string[] {
 }
 
 function isGatedOrUtility(route: string): boolean {
+  if (PUBLIC_EXCEPTIONS_WITHIN_GATED_PREFIXES.includes(route)) return false;
   return GATED_OR_UTILITY_PREFIXES.some((prefix) => route === prefix || route.startsWith(`${prefix}/`));
 }
 

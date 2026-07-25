@@ -15,12 +15,15 @@ function fileDeclaresNoindex(relativeFile: string): boolean {
 // `robots: { index: false, follow: false }` metadata — either the page
 // itself, or (for whole gated subtrees) the nearest layout. Kept in sync
 // with GATED_OR_UTILITY_PREFIXES in sitemap.test.ts / pageRouteCoverage.test.ts.
+// /signup is deliberately absent here: it's no longer a page (see
+// next.config.js's redirects()), just a permanent redirect to
+// /tools/opportunity-finder, so there's no page.tsx left to carry noindex
+// metadata and nothing for a crawler to index at that path either.
 const NOINDEX_COVERAGE: { route: string; file: string }[] = [
   { route: "/admin", file: "admin/layout.tsx" },
   { route: "/tools", file: "tools/layout.tsx" },
   { route: "/business-audit", file: "business-audit/page.tsx" },
   { route: "/signin", file: "signin/page.tsx" },
-  { route: "/signup", file: "signup/page.tsx" },
   { route: "/forgot-password", file: "forgot-password/page.tsx" },
   { route: "/reset-password", file: "reset-password/[token]/page.tsx" },
   { route: "/verify", file: "verify/page.tsx" },

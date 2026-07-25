@@ -14,7 +14,8 @@ interface ToolsUser {
 }
 
 interface ToolsShellProps {
-  user: ToolsUser;
+  /** Null for an anonymous (no-session) visitor - Sidebar/TopBar render a generic state. */
+  user: ToolsUser | null;
   toolStatus: "not_started" | "completed";
   signOutButton: React.ReactNode;
   children: React.ReactNode;
@@ -30,6 +31,9 @@ function pageMeta(pathname: string): { kicker: string; title: string } {
   }
   if (pathname.startsWith("/tools/business-audit")) {
     return { kicker: "AI TOOLS", title: "Business Audit" };
+  }
+  if (pathname.startsWith("/tools/prompt-pilot")) {
+    return { kicker: "AI TOOLS", title: "Prompt Pilot" };
   }
   return { kicker: "CLIENT TOOLS", title: "Dashboard" };
 }

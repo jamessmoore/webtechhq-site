@@ -31,10 +31,23 @@ export async function sendVerificationEmail(
   to: string,
   firstName: string,
   token: string,
+  // Set only for signups from a tool-specific landing page other than the
+  // default Opportunity Finder /signup flow (e.g. "/tools/prompt-pilot" for
+  // Prompt Pilot) - threads through to both the primary verify link and the
+  // "finish creating my account" link below so the whole verify -> (finish
+  // signup ->) tool round trip lands the user back where they started
+  // instead of defaulting to /tools/opportunity-finder. Left undefined,
+  // behavior is identical to before this param existed.
+  redirectTo?: string,
 ): Promise<void> {
-  const verifyUrl = `${BASE_URL}/api/verify/${token}`;
+  const verifyUrl = redirectTo
+    ? `${BASE_URL}/api/verify/${token}?next=${encodeURIComponent(redirectTo)}`
+    : `${BASE_URL}/api/verify/${token}`;
+  const finishSignupNext = redirectTo
+    ? `/tools/finish-signup?next=${encodeURIComponent(redirectTo)}`
+    : "/tools/finish-signup";
   const finishSignupUrl = `${BASE_URL}/api/verify/${token}?next=${encodeURIComponent(
-    "/tools/finish-signup",
+    finishSignupNext,
   )}`;
   const sg = getSendGrid();
 
@@ -47,7 +60,11 @@ export async function sendVerificationEmail(
       <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;color:#0F0F0F">
         <h2 style="margin-bottom:8px">Hi ${firstName},</h2>
         <p style="margin-bottom:20px">
-          Click below to verify your email and jump straight into your Opportunity Finder.
+          ${
+            redirectTo
+              ? "Click below to verify your email and get started."
+              : "Click below to verify your email and jump straight into your Opportunity Finder."
+          }
           This link expires in 24 hours.
         </p>
         <a href="${verifyUrl}"

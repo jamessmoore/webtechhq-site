@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, FormEvent } from "react";
+import { useRef, useState, FormEvent, ReactNode } from "react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -17,7 +17,38 @@ const INITIAL: FormState = {
   tos: false,
 };
 
-export default function SignUpForm() {
+interface SignUpFormProps {
+  /**
+   * Short opaque label sent to POST /api/auth/signup so the verification
+   * email can point back at this tool's dashboard page instead of the
+   * default /tools/opportunity-finder (see REDIRECT_BY_SOURCE in that
+   * route). Leave unset for the default Opportunity Finder behavior.
+   */
+  source?: string;
+  /** Where a "Continue with Google" signup lands, since Google accounts skip email verification entirely. Defaults to the generic dashboard. */
+  googleCallbackUrl?: string;
+  submitLabel?: string;
+  submitLoadingLabel?: string;
+  /** Body copy shown under "Check your inbox" once the form's submitted, with the submitted email already rendered above it. */
+  verifyBody?: ReactNode;
+  /** POST target. Defaults to the account-signup endpoint; the "save this result" claim flow (see /api/tools/claim-submission) points this elsewhere while reusing the same name+email UI. */
+  endpoint?: string;
+  /** Extra fields merged into the JSON body alongside name/email/recaptchaToken/source - e.g. `{ tool: "prompt-pilot" }` for the claim endpoint, which needs to know which anonymous result to attach. */
+  extraBody?: Record<string, string>;
+  /** Hides the "Continue with Google" option and its divider - the claim flow already has a pending anonymous result to attach and isn't a fresh Google signup. */
+  hideGoogle?: boolean;
+}
+
+export default function SignUpForm({
+  source,
+  googleCallbackUrl = "/tools",
+  submitLabel = "TRY THE OPPORTUNITY FINDER ›",
+  submitLoadingLabel = "SENDING…",
+  verifyBody = "Click it to jump straight into your Opportunity Finder.",
+  endpoint = "/api/auth/signup",
+  extraBody,
+  hideGoogle = false,
+}: SignUpFormProps) {
   const [form, setForm] = useState<FormState>(INITIAL);
   const [error, setError] = useState<string | null>(null);
   const [ipBlocked, setIpBlocked] = useState(false);
@@ -47,13 +78,15 @@ export default function SignUpForm() {
     setIpBlocked(false);
 
     try {
-      const res = await fetch("/api/auth/signup", {
+      const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: form.name,
           email: form.email,
           recaptchaToken,
+          ...(source ? { source } : {}),
+          ...extraBody,
         }),
       });
 
@@ -80,7 +113,7 @@ export default function SignUpForm() {
   }
 
   async function handleGoogle() {
-    await signIn("google", { callbackUrl: "/tools" });
+    await signIn("google", { callbackUrl: googleCallbackUrl });
   }
 
   if (submitted) {
@@ -103,7 +136,7 @@ export default function SignUpForm() {
         <p className="text-sm leading-relaxed">
           We sent a verification link to{" "}
           <span style={{ color: "#89D4FF" }}>{form.email}</span>.<br />
-          Click it to jump straight into your Opportunity Finder.
+          {verifyBody}
         </p>
         <p className="mt-4 text-xs">
           Didn&apos;t get it? Check your spam folder or{" "}
@@ -251,36 +284,40 @@ export default function SignUpForm() {
           cursor: loading ? "not-allowed" : "pointer",
         }}
       >
-        {loading ? "SENDING…" : "TRY THE OPPORTUNITY FINDER ›"}
+        {loading ? submitLoadingLabel : submitLabel}
       </button>
 
-      {/* Divider */}
-      <div className="flex items-center gap-3 py-1">
-        <div className="flex-1 h-px" style={{ background: "#162D5A" }} />
-        <span className="text-xs tracking-widest" style={{ color: "#4A6A8A" }}>
-          OR
-        </span>
-        <div className="flex-1 h-px" style={{ background: "#162D5A" }} />
-      </div>
+      {!hideGoogle && (
+        <>
+          {/* Divider */}
+          <div className="flex items-center gap-3 py-1">
+            <div className="flex-1 h-px" style={{ background: "#162D5A" }} />
+            <span className="text-xs tracking-widest" style={{ color: "#4A6A8A" }}>
+              OR
+            </span>
+            <div className="flex-1 h-px" style={{ background: "#162D5A" }} />
+          </div>
 
-      {/* Google */}
-      <button
-        type="button"
-        onClick={handleGoogle}
-        className="w-full flex items-center justify-center gap-3 py-2.5 text-sm tracking-wide transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
-        style={{
-          background: "rgba(14,58,154,0.08)",
-          border: "1px solid #162D5A",
-          borderRadius: "6px",
-          color: "#EEF6FF",
-          fontFamily: "'Courier New', monospace",
-        }}
-        onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#3D7FD4")}
-        onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#162D5A")}
-      >
-        <GoogleIcon />
-        Continue with Google
-      </button>
+          {/* Google */}
+          <button
+            type="button"
+            onClick={handleGoogle}
+            className="w-full flex items-center justify-center gap-3 py-2.5 text-sm tracking-wide transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
+            style={{
+              background: "rgba(14,58,154,0.08)",
+              border: "1px solid #162D5A",
+              borderRadius: "6px",
+              color: "#EEF6FF",
+              fontFamily: "'Courier New', monospace",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#3D7FD4")}
+            onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#162D5A")}
+          >
+            <GoogleIcon />
+            Continue with Google
+          </button>
+        </>
+      )}
 
       <p className="text-center text-xs">
         Already have an account?{" "}

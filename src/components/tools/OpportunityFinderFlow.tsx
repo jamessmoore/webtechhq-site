@@ -11,14 +11,19 @@ export default function OpportunityFinderFlow({
   alreadySubmitted,
   initialPrompt,
   accountCompleted,
+  anonymous = false,
 }: {
-  firstName: string;
-  email: string;
+  /** Unset for an anonymous (no-session) visitor. */
+  firstName?: string;
+  /** Unset for an anonymous (no-session) visitor. */
+  email?: string;
   emailVerified: boolean;
   alreadySubmitted: boolean;
   /** The stored prompt from a prior submission, if any. */
   initialPrompt: string | null;
   accountCompleted: boolean;
+  /** No session - skips the emailVerified gate and shows a "save this result" step instead of "finish account setup" once a prompt exists. */
+  anonymous?: boolean;
 }) {
   const [prompt, setPrompt] = useState<string | null>(initialPrompt);
   // Tracks "a submission now exists" separately from `prompt` so that if
@@ -38,6 +43,7 @@ export default function OpportunityFinderFlow({
         firstName={firstName}
         prompt={prompt}
         accountCompleted={accountCompleted}
+        anonymous={anonymous}
       />
     );
   }
@@ -73,6 +79,7 @@ export default function OpportunityFinderFlow({
           alreadySubmitted={submitted}
           onSubmitted={handleSubmitted}
           showAiDisclosure={false}
+          anonymous={anonymous}
         />
       </div>
     </>
