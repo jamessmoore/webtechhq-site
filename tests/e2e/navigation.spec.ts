@@ -45,15 +45,15 @@ test.describe('primary navigation', () => {
     })
   }
 
-  test('"LET\'S GO" navigates to signup when signed out', async ({ page }) => {
+  test('"LET\'S GO" navigates to /tools when signed out', async ({ page }) => {
     await page.goto('/')
     await openMobileNavIfNeeded(page)
 
     const nav = page.getByRole('navigation', { name: 'Primary' })
     await nav.getByRole('link', { name: /LET'S GO/i }).click()
 
-    // /tools is auth-gated and redirects signed-out visitors to /signup
-    await expect(page).toHaveURL(/\/signup$/)
+    // /tools is ungated (anonymous-browsable) now, so it renders directly
+    await expect(page).toHaveURL(/\/tools$/)
   })
 
   test('logo returns home from a sub-page', async ({ page }) => {
@@ -76,10 +76,11 @@ test.describe('primary navigation', () => {
 })
 
 test.describe('hero CTAs', () => {
-  test('"GET STARTED" button navigates to /signup', async ({ page }) => {
+  test('"GET STARTED" button navigates to /tools/opportunity-finder', async ({ page }) => {
     await page.goto('/')
     await page.getByRole('link', { name: /GET STARTED/i }).click()
-    await expect(page).toHaveURL(/\/signup$/)
+    // href is /signup, which permanently redirects to /tools/opportunity-finder
+    await expect(page).toHaveURL(/\/tools\/opportunity-finder$/)
   })
 
   test('"SEE HOW IT WORKS" button navigates to /use-cases', async ({ page }) => {
@@ -138,10 +139,10 @@ test.describe('about page inline links', () => {
     await expect(page).toHaveURL(/\/services$/)
   })
 
-  test('"let\'s go" link navigates to signup when signed out', async ({ page }) => {
+  test('"let\'s go" link navigates to /tools when signed out', async ({ page }) => {
     await page.goto('/about')
     await page.locator('main').getByRole('link', { name: "let's go" }).click()
-    // /tools is auth-gated and redirects signed-out visitors to /signup
-    await expect(page).toHaveURL(/\/signup$/)
+    // /tools is ungated (anonymous-browsable) now, so it renders directly
+    await expect(page).toHaveURL(/\/tools$/)
   })
 })

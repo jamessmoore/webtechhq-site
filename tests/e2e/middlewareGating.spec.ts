@@ -12,14 +12,18 @@ test.describe('middleware gating (signed out)', () => {
     await expect(page).toHaveURL(/\/signin$/)
   })
 
-  test('/business-audit redirects to /signup', async ({ page }) => {
+  test('/business-audit redirects to /tools/opportunity-finder', async ({ page }) => {
     await page.goto('/business-audit')
-    await expect(page).toHaveURL(/\/signup$/)
+    // proxy.ts redirects the gated top-level /business-audit to /signup,
+    // which itself permanently redirects to /tools/opportunity-finder.
+    await expect(page).toHaveURL(/\/tools\/opportunity-finder$/)
   })
 
-  test('/tools redirects to /signup', async ({ page }) => {
+  test('/tools renders without redirecting when signed out', async ({ page }) => {
     await page.goto('/tools')
-    await expect(page).toHaveURL(/\/signup$/)
+    // /tools root is in proxy.ts's isUngatedToolsPath, so it's anonymous-browsable
+    await expect(page).toHaveURL(/\/tools$/)
+    await expect(page.getByRole('heading', { name: 'Your AI toolkit.' })).toBeVisible()
   })
 })
 
