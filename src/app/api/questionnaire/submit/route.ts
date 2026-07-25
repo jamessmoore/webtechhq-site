@@ -20,12 +20,12 @@ export async function POST(request: NextRequest) {
   // renders. A session, when present, behaves exactly as before. This route
   // also still backs the legacy /business-audit page, which always has a
   // session by the time it can reach here.
+  // A session whose JWT points at a user id that no longer exists (e.g. a
+  // stale session after a DB reset) is treated the same as no session at
+  // all - fall through to the anonymous flow.
   const session = await auth();
   const user = session?.user?.id ? getUserById(session.user.id) : null;
 
-  if (session?.user?.id && !user) {
-    return NextResponse.json({ error: "User not found." }, { status: 401 });
-  }
   if (user && !user.emailVerified) {
     return NextResponse.json(
       { error: "Please verify your email before submitting." },

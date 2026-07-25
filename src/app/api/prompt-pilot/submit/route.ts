@@ -19,12 +19,12 @@ export async function POST(request: NextRequest) {
   // visitor gets a submission created anonymously (userId left null), and is
   // offered a way to save/claim it once the result renders. A session, when
   // present, behaves exactly as before.
+  // A session whose JWT points at a user id that no longer exists (e.g. a
+  // stale session after a DB reset) is treated the same as no session at
+  // all - fall through to the anonymous flow, matching page.tsx.
   const session = await auth();
   const user = session?.user?.id ? getUserById(session.user.id) : null;
 
-  if (session?.user?.id && !user) {
-    return NextResponse.json({ error: "User not found." }, { status: 401 });
-  }
   if (user && !user.emailVerified) {
     return NextResponse.json(
       { error: "Please verify your email before submitting." },

@@ -665,6 +665,22 @@ export default function Questionnaire({
   // ── Special states ──
 
   if (alreadySubmitted) {
+    if (anonymous) {
+      return (
+        <StatusCard>
+          <h2
+            className="font-sans font-bold text-[20px] mb-3"
+            style={{ color: "#89D4FF" }}
+          >
+            Something went wrong
+          </h2>
+          <p className="font-sans text-[21px] leading-relaxed" style={{ color: "#FFFFFF" }}>
+            Your answers are in, but something went wrong generating your
+            result. Please try again in a moment.
+          </p>
+        </StatusCard>
+      );
+    }
     return (
       <StatusCard>
         <h2

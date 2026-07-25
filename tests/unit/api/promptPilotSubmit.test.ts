@@ -67,10 +67,13 @@ describe("POST /api/prompt-pilot/submit", () => {
     expect(res.cookies.get("pp_claim_token")?.value).toBeTruthy();
   });
 
-  it("returns 401 when the session user no longer exists in the db", async () => {
+  it("falls back to the anonymous flow when the session user no longer exists in the db", async () => {
     auth.auth.mockResolvedValue({ user: { id: "ghost-user" } });
     const res = await POST(request(validBody));
-    expect(res.status).toBe(401);
+    expect(res.status).toBe(200);
+    const data = (await res.json()) as { success: boolean; renderedPrompt: string | null };
+    expect(data.success).toBe(true);
+    expect(res.cookies.get("pp_claim_token")?.value).toBeTruthy();
   });
 
   it("returns 403 when the user hasn't verified their email", async () => {
