@@ -14,6 +14,11 @@ const SITE_URL = 'https://webtechhq.com'
 // crawlers need to be able to fetch it to see what the tool actually is.
 // Its page-level `robots: {index:false, follow:false}` metadata handles
 // the "don't index this in search results" signal without blocking fetch.
+// /prompt-pilot is also deliberately absent from this list, but for a
+// different reason than /signup: it's a real tool-specific landing page
+// with its own copy (not a bare form), so unlike /signup it's meant to be
+// indexed too - its page metadata has no robots override, letting it fall
+// through to the default `allow: '/'` below.
 const DISALLOWED_PATHS = [
   '/admin',
   '/api',

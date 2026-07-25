@@ -9,10 +9,10 @@ export const metadata: Metadata = { title: "Prompt Pilot | Moore Solutions" };
 
 export default async function PromptPilotPage() {
   const session = await auth();
-  if (!session?.user?.id) redirect("/signup");
+  if (!session?.user?.id) redirect("/prompt-pilot");
 
   const user = getUserById(session.user.id);
-  if (!user) redirect("/signup");
+  if (!user) redirect("/prompt-pilot");
 
   const submission = getPromptPilotSubmissionByUser(user.id);
 

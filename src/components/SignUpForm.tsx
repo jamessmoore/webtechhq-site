@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, FormEvent } from "react";
+import { useRef, useState, FormEvent, ReactNode } from "react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -17,7 +17,29 @@ const INITIAL: FormState = {
   tos: false,
 };
 
-export default function SignUpForm() {
+interface SignUpFormProps {
+  /**
+   * Short opaque label sent to POST /api/auth/signup so the verification
+   * email can point back at this tool's dashboard page instead of the
+   * default /tools/opportunity-finder (see REDIRECT_BY_SOURCE in that
+   * route). Leave unset for the default Opportunity Finder behavior.
+   */
+  source?: string;
+  /** Where a "Continue with Google" signup lands, since Google accounts skip email verification entirely. Defaults to the generic dashboard. */
+  googleCallbackUrl?: string;
+  submitLabel?: string;
+  submitLoadingLabel?: string;
+  /** Body copy shown under "Check your inbox" once the form's submitted, with the submitted email already rendered above it. */
+  verifyBody?: ReactNode;
+}
+
+export default function SignUpForm({
+  source,
+  googleCallbackUrl = "/tools",
+  submitLabel = "TRY THE OPPORTUNITY FINDER ›",
+  submitLoadingLabel = "SENDING…",
+  verifyBody = "Click it to jump straight into your Opportunity Finder.",
+}: SignUpFormProps) {
   const [form, setForm] = useState<FormState>(INITIAL);
   const [error, setError] = useState<string | null>(null);
   const [ipBlocked, setIpBlocked] = useState(false);
@@ -54,6 +76,7 @@ export default function SignUpForm() {
           name: form.name,
           email: form.email,
           recaptchaToken,
+          ...(source ? { source } : {}),
         }),
       });
 
@@ -80,7 +103,7 @@ export default function SignUpForm() {
   }
 
   async function handleGoogle() {
-    await signIn("google", { callbackUrl: "/tools" });
+    await signIn("google", { callbackUrl: googleCallbackUrl });
   }
 
   if (submitted) {
@@ -103,7 +126,7 @@ export default function SignUpForm() {
         <p className="text-sm leading-relaxed">
           We sent a verification link to{" "}
           <span style={{ color: "#89D4FF" }}>{form.email}</span>.<br />
-          Click it to jump straight into your Opportunity Finder.
+          {verifyBody}
         </p>
         <p className="mt-4 text-xs">
           Didn&apos;t get it? Check your spam folder or{" "}
@@ -251,7 +274,7 @@ export default function SignUpForm() {
           cursor: loading ? "not-allowed" : "pointer",
         }}
       >
-        {loading ? "SENDING…" : "TRY THE OPPORTUNITY FINDER ›"}
+        {loading ? submitLoadingLabel : submitLabel}
       </button>
 
       {/* Divider */}

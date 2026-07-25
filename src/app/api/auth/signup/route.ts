@@ -25,14 +25,28 @@ const IP_RATE_LIMIT_MESSAGE = "Further retries are not allowed. Please contact u
 // shrinks the space of possible catastrophic-backtracking haystacks.
 const MAX_NAME_LENGTH = 100;
 
+// Maps an optional client-supplied `source` to the post-verification
+// destination that tool's landing page wants. Deliberately an allowlist
+// keyed by a short opaque label rather than accepting a raw path from the
+// client - a client-controlled redirect path would be an open-redirect
+// footgun once threaded into an email link. Add one entry here per
+// tool-specific landing page (see /prompt-pilot); the default /signup flow
+// passes no `source` and keeps falling through to the existing
+// /tools/opportunity-finder default in sendVerificationEmail/verify route.
+const REDIRECT_BY_SOURCE: Record<string, string> = {
+  "prompt-pilot": "/tools/prompt-pilot",
+};
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, email, recaptchaToken } = body as {
+    const { name, email, recaptchaToken, source } = body as {
       name: string;
       email: string;
       recaptchaToken: string;
+      source?: string;
     };
+    const redirectTo = typeof source === "string" ? REDIRECT_BY_SOURCE[source] : undefined;
 
     // Basic field validation - the Opportunity Finder request only needs a
     // name (whatever they give us, first/full/whatever) and a valid email.
@@ -117,7 +131,10 @@ export async function POST(request: NextRequest) {
       const { token, expiresAt } = generateVerificationToken();
       setVerificationToken(existing.id, token, expiresAt);
 
-      sendVerificationEmail(existing.email, existing.firstName, token).catch((err) => {
+      const resendPromise = redirectTo
+        ? sendVerificationEmail(existing.email, existing.firstName, token, redirectTo)
+        : sendVerificationEmail(existing.email, existing.firstName, token);
+      resendPromise.catch((err) => {
         console.error("Verification email resend failed:", err);
       });
 
@@ -144,7 +161,10 @@ export async function POST(request: NextRequest) {
     });
 
     // Send verification email (non-blocking — don't fail signup if email fails)
-    sendVerificationEmail(user.email, user.firstName, token).catch((err) => {
+    const sendPromise = redirectTo
+      ? sendVerificationEmail(user.email, user.firstName, token, redirectTo)
+      : sendVerificationEmail(user.email, user.firstName, token);
+    sendPromise.catch((err) => {
       console.error("Verification email failed:", err);
     });
 
