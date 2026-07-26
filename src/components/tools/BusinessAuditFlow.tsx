@@ -193,7 +193,7 @@ export default function BusinessAuditFlow({
             Something went wrong preparing your audit
           </h1>
           <p style={{ margin: "11px 0 0", font: "400 19px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 480 }}>
-            Your payment went through, but we hit a snag putting the report together.{" "}
+            Your payment went through, but I hit a snag putting the report together.{" "}
             <Link href="/contact" style={{ color: "#89D4FF", textDecoration: "underline" }}>
               Message James
             </Link>{" "}
