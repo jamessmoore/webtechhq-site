@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { AuditReport } from "@/lib/types";
+import type { AuditReport, MoveForwardStatus } from "@/lib/types";
 
 function formatWholeDollars(cents: number): string {
   return `$${(cents / 100).toFixed(0)}`;
@@ -47,8 +47,19 @@ const metricValue: React.CSSProperties = {
   color: "#89D4FF",
 };
 
-export default function BusinessAuditReport({ report }: { report: AuditReport }) {
+export default function BusinessAuditReport({
+  report,
+  initialMoveForwardStatus = null,
+}: {
+  report: AuditReport;
+  initialMoveForwardStatus?: MoveForwardStatus | null;
+}) {
   const [emailState, setEmailState] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [moveForwardStatus, setMoveForwardStatus] = useState<MoveForwardStatus | null>(
+    initialMoveForwardStatus,
+  );
+  const [moveForwardSubmitting, setMoveForwardSubmitting] = useState(false);
+  const [moveForwardError, setMoveForwardError] = useState<string | null>(null);
 
   async function handleEmailPdf() {
     if (emailState === "sending") return;
@@ -59,6 +70,26 @@ export default function BusinessAuditReport({ report }: { report: AuditReport })
       setEmailState("sent");
     } catch {
       setEmailState("error");
+    }
+  }
+
+  async function handleMoveForward() {
+    if (moveForwardSubmitting || moveForwardStatus) return;
+    setMoveForwardSubmitting(true);
+    setMoveForwardError(null);
+    try {
+      const res = await fetch("/api/tools/business-audit/move-forward", { method: "POST" });
+      if (!res.ok) {
+        const d = (await res.json()) as { error?: string };
+        setMoveForwardError(d.error ?? "Something went wrong.");
+        return;
+      }
+      const data = (await res.json()) as { status: MoveForwardStatus };
+      setMoveForwardStatus(data.status);
+    } catch {
+      setMoveForwardError("Network error.");
+    } finally {
+      setMoveForwardSubmitting(false);
     }
   }
 
@@ -208,6 +239,42 @@ export default function BusinessAuditReport({ report }: { report: AuditReport })
             full toward this build.
           </p>
         </div>
+      </div>
+
+      <div className="relative overflow-hidden card-accent" style={{ ...cardStyle, textAlign: "center" }}>
+        <span className="br-corner-tr" />
+        {moveForwardStatus ? (
+          <p style={{ margin: 0, font: "400 18px/1.7 Arial, sans-serif", color: "#89D4FF" }}>
+            You&apos;re on the waiting list. I&apos;ll connect with you as soon as I can. I work with a
+            select group of clients each month.
+          </p>
+        ) : (
+          <>
+            <button
+              type="button"
+              onClick={handleMoveForward}
+              disabled={moveForwardSubmitting}
+              className="transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] disabled:opacity-60 disabled:pointer-events-none"
+              style={{
+                padding: "12px 24px",
+                borderRadius: 6,
+                border: "0.8px solid #3D7FD4",
+                backgroundColor: "#1A4FC4",
+                color: "#EEF6FF",
+                font: '400 14.5px "Courier New", monospace',
+                letterSpacing: "0.1em",
+                cursor: moveForwardSubmitting ? "not-allowed" : "pointer",
+              }}
+            >
+              {moveForwardSubmitting ? "SENDING…" : "I WANT TO MOVE FORWARD"}
+            </button>
+            {moveForwardError && (
+              <p style={{ margin: "12px 0 0", font: "400 15px/1.5 Arial, sans-serif", color: "#F87171" }}>
+                {moveForwardError}
+              </p>
+            )}
+          </>
+        )}
       </div>
 
       <div className="relative overflow-hidden card-accent" style={cardStyle}>

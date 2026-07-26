@@ -8,6 +8,7 @@ import { hasPurchased } from "@/lib/purchases";
 import { getProduct } from "@/lib/products";
 import { getLatestAuditReportForUser } from "@/lib/auditReports";
 import { isGoldStandardTestAccount } from "@/lib/testAccount";
+import { getMoveForwardRequestByUser } from "@/lib/moveForwardRequests";
 
 export const metadata: Metadata = { title: "Business Audit | Moore Solutions" };
 
@@ -25,6 +26,7 @@ export default async function BusinessAuditPage() {
   const alreadyPurchased = hasPurchased(user.id, product.id);
   const reportRecord = alreadyPurchased ? getLatestAuditReportForUser(user.id, product.id) : null;
   const isTestAccount = isGoldStandardTestAccount(user.email);
+  const moveForwardStatus = alreadyPurchased ? getMoveForwardRequestByUser(user.id)?.status ?? null : null;
 
   return (
     <div style={{ maxWidth: 760, margin: "0 auto", padding: "clamp(24px,4vw,34px) clamp(18px,4vw,44px) 80px" }}>
@@ -36,6 +38,7 @@ export default async function BusinessAuditPage() {
         initialReportStatus={reportRecord?.status ?? null}
         initialReport={reportRecord?.report ?? null}
         isTestAccount={isTestAccount}
+        initialMoveForwardStatus={moveForwardStatus}
       />
     </div>
   );

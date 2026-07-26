@@ -66,23 +66,43 @@ export default async function AdminPage() {
         </div>
 
         {/* Sections */}
-        <Link
-          href="/admin/users"
-          className="flex items-center justify-between p-6 transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)]"
-          style={{ backgroundColor: "#071525", border: "0.8px solid #162D5A", borderRadius: "4px" }}
-        >
-          <div>
-            <h2 className="font-sans font-bold text-[14px] tracking-widest mb-1" style={{ color: "#EEF6FF" }}>
-              USERS
-            </h2>
-            <p className="font-sans text-[13px]" style={{ color: "#80AEE0" }}>
-              View sign-ups, questionnaire submissions, and prepared prompts. Delete accounts.
-            </p>
-          </div>
-          <span className="font-sans text-[12px] tracking-widest" style={{ color: "#89D4FF" }}>
-            VIEW →
-          </span>
-        </Link>
+        <div className="space-y-4">
+          <Link
+            href="/admin/users"
+            className="flex items-center justify-between p-6 transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)]"
+            style={{ backgroundColor: "#071525", border: "0.8px solid #162D5A", borderRadius: "4px" }}
+          >
+            <div>
+              <h2 className="font-sans font-bold text-[14px] tracking-widest mb-1" style={{ color: "#EEF6FF" }}>
+                USERS
+              </h2>
+              <p className="font-sans text-[13px]" style={{ color: "#80AEE0" }}>
+                View sign-ups, questionnaire submissions, and prepared prompts. Delete accounts.
+              </p>
+            </div>
+            <span className="font-sans text-[12px] tracking-widest" style={{ color: "#89D4FF" }}>
+              VIEW →
+            </span>
+          </Link>
+
+          <Link
+            href="/admin/queue"
+            className="flex items-center justify-between p-6 transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)]"
+            style={{ backgroundColor: "#071525", border: "0.8px solid #162D5A", borderRadius: "4px" }}
+          >
+            <div>
+              <h2 className="font-sans font-bold text-[14px] tracking-widest mb-1" style={{ color: "#EEF6FF" }}>
+                QUEUE
+              </h2>
+              <p className="font-sans text-[13px]" style={{ color: "#80AEE0" }}>
+                Clients who&apos;ve asked to move forward after their Business Audit. Update their status.
+              </p>
+            </div>
+            <span className="font-sans text-[12px] tracking-widest" style={{ color: "#89D4FF" }}>
+              VIEW →
+            </span>
+          </Link>
+        </div>
       </main>
     </div>
   );
