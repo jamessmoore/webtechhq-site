@@ -97,4 +97,59 @@ describe("prompt pilot submissions", () => {
       expect(fetched?.learningGoal).toBe("a resubmitted learning goal");
     });
   });
+
+  describe("deletePromptPilotSubmissionByUser", () => {
+    it("deletes the user's submission so a subsequent lookup returns null", () => {
+      const deleteUserId = users.createUser({
+        firstName: "Margaret",
+        lastName: "Hamilton",
+        email: "pilot-delete@example.com",
+      }).id;
+
+      promptPilotSubmissions.createPromptPilotSubmission({
+        userId: deleteUserId,
+        learningGoal: "how to reset my result",
+        renderedPrompt: "rendered prompt text",
+      });
+      expect(promptPilotSubmissions.getPromptPilotSubmissionByUser(deleteUserId)).not.toBeNull();
+
+      promptPilotSubmissions.deletePromptPilotSubmissionByUser(deleteUserId);
+
+      expect(promptPilotSubmissions.getPromptPilotSubmissionByUser(deleteUserId)).toBeNull();
+    });
+
+    it("is a no-op (doesn't throw) when the user has no submission on file", () => {
+      const noSubmissionUserId = users.createUser({
+        firstName: "Katherine",
+        lastName: "Johnson",
+        email: "pilot-no-submission@example.com",
+      }).id;
+
+      expect(() =>
+        promptPilotSubmissions.deletePromptPilotSubmissionByUser(noSubmissionUserId),
+      ).not.toThrow();
+    });
+  });
+
+  describe("deletePromptPilotSubmissionByClaimToken", () => {
+    it("deletes the anonymous submission matching the claim token", () => {
+      const claimToken = "test-claim-token-delete";
+      promptPilotSubmissions.createPromptPilotSubmission({
+        learningGoal: "an anonymous submission",
+        renderedPrompt: "rendered prompt text",
+        claimToken,
+      });
+      expect(promptPilotSubmissions.getPromptPilotSubmissionByClaimToken(claimToken)).not.toBeNull();
+
+      promptPilotSubmissions.deletePromptPilotSubmissionByClaimToken(claimToken);
+
+      expect(promptPilotSubmissions.getPromptPilotSubmissionByClaimToken(claimToken)).toBeNull();
+    });
+
+    it("is a no-op (doesn't throw) when the token doesn't match anything", () => {
+      expect(() =>
+        promptPilotSubmissions.deletePromptPilotSubmissionByClaimToken("no-such-token"),
+      ).not.toThrow();
+    });
+  });
 });

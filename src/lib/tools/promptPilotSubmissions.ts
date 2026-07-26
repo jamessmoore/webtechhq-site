@@ -109,6 +109,31 @@ export function getPromptPilotSubmissionByUser(userId: string): PromptPilotSubmi
   return row ? rowToPromptPilotSubmission(row) : null;
 }
 
+/**
+ * Deletes the signed-in user's Prompt Pilot submission, if any - backs the
+ * Reset button on the result screen (PromptPilotDisplay / /api/prompt-pilot/
+ * reset), scoped to this one tool only. Distinct from
+ * resetAllToolDataForUser() in @/lib/testAccount, which wipes every tool's
+ * data at once for the gold-standard test account; this is available to any
+ * signed-in user resetting just Prompt Pilot. No-op (not an error) if the
+ * user has nothing on file.
+ */
+export function deletePromptPilotSubmissionByUser(userId: string): void {
+  const db = getDb();
+  db.prepare("DELETE FROM prompt_pilot_submissions WHERE user_id = ?").run(userId);
+}
+
+/**
+ * Deletes an anonymous (unclaimed) Prompt Pilot submission by its claim
+ * token - the anonymous-visitor counterpart to
+ * deletePromptPilotSubmissionByUser, used by the same Reset button when
+ * there's no session. No-op if the token doesn't match anything.
+ */
+export function deletePromptPilotSubmissionByClaimToken(claimToken: string): void {
+  const db = getDb();
+  db.prepare("DELETE FROM prompt_pilot_submissions WHERE claim_token = ?").run(claimToken);
+}
+
 export function getPromptPilotSubmissionByClaimToken(claimToken: string): PromptPilotSubmission | null {
   const db = getDb();
   const row = db

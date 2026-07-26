@@ -172,12 +172,14 @@ export default function PromptPilotFlow({
   }
 
   // Clears the completed result and any in-progress form state, returning
-  // to the same start state a fresh page load would show - client-side
-  // only. This does not delete the stored submission server-side (see
-  // TestAccountResetButton / resetAllToolDataForUser for that, a separate,
-  // DB-level mechanism scoped to the gold-standard test account); a
-  // signed-in user who reloads afterward will see their prior result again
-  // via initialPrompt/alreadySubmitted from the server.
+  // to the same start state a fresh page load would show. Called by
+  // PromptPilotDisplay only after its own POST to /api/prompt-pilot/reset
+  // has already deleted the stored submission server-side - that ordering
+  // matters, since a reload after a client-only reset would otherwise bring
+  // the prior result straight back via initialPrompt/alreadySubmitted. This
+  // is scoped to Prompt Pilot alone and is a separate mechanism from
+  // TestAccountResetButton / resetAllToolDataForUser, which wipes every
+  // tool's data at once for the gold-standard test account.
   function handleReset() {
     setForm(INITIAL_FORM);
     setPrompt(null);
