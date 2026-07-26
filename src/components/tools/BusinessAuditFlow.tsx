@@ -121,7 +121,7 @@ export default function BusinessAuditFlow({
             letterSpacing: "0.1em",
           }}
         >
-          START THE OPPORTUNITY FINDER
+          START OPPORTUNITY FINDER
           <ArrowRightIcon size={16} />
         </Link>
       </div>

@@ -171,6 +171,25 @@ export default function PromptPilotFlow({
     setError(null);
   }
 
+  // Clears the completed result and any in-progress form state, returning
+  // to the same start state a fresh page load would show. Called by
+  // PromptPilotDisplay only after its own POST to /api/prompt-pilot/reset
+  // has already deleted the stored submission server-side - that ordering
+  // matters, since a reload after a client-only reset would otherwise bring
+  // the prior result straight back via initialPrompt/alreadySubmitted. This
+  // is scoped to Prompt Pilot alone and is a separate mechanism from
+  // TestAccountResetButton / resetAllToolDataForUser, which wipes every
+  // tool's data at once for the gold-standard test account.
+  function handleReset() {
+    setForm(INITIAL_FORM);
+    setPrompt(null);
+    setWhy(null);
+    setSubmitted(false);
+    setError(null);
+    setRecaptchaToken("");
+    recaptchaRef.current?.reset();
+  }
+
   const recaptchaConfigured = !!process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
   const canSubmit =
     !!form.learningGoal.trim() &&
@@ -245,6 +264,7 @@ export default function PromptPilotFlow({
         why={why}
         accountCompleted={accountCompleted}
         anonymous={anonymous}
+        onReset={handleReset}
       />
     );
   }

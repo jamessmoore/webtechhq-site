@@ -38,7 +38,7 @@ export default async function ToolsDashboardPage() {
 
   const businessAuditPrimaryLabel =
     businessAuditStatus === "locked"
-      ? "FINISH THE OPPORTUNITY FINDER FIRST"
+      ? "START BUSINESS AUDIT"
       : businessAuditStatus === "purchased"
         ? "VIEW YOUR AUDIT"
         : isTestAccount
@@ -89,7 +89,7 @@ export default async function ToolsDashboardPage() {
         href="/tools/opportunity-finder"
         icon={<TelescopeIcon size={42} style={{ color: "#89D4FF" } as React.CSSProperties} />}
         metaItems={["4 QUICK SECTIONS"]}
-        primaryLabel={opportunityFinderStatus === "completed" ? "SEE RESULTS" : "START THE OPPORTUNITY FINDER"}
+        primaryLabel={opportunityFinderStatus === "completed" ? "SEE RESULTS" : "START OPPORTUNITY FINDER"}
       />
 
       <FeaturedToolCard

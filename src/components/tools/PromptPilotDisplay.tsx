@@ -36,6 +36,7 @@ export default function PromptPilotDisplay({
   why,
   accountCompleted,
   anonymous = false,
+  onReset,
 }: {
   /** Unset for an anonymous (no-session) visitor - the heading below adapts. */
   firstName?: string;
@@ -45,11 +46,15 @@ export default function PromptPilotDisplay({
   accountCompleted: boolean;
   /** No session yet - shows a "save this result" capture step instead of "finish account setup". */
   anonymous?: boolean;
+  /** Clears the completed result/form state back to the start of the Prompt Pilot flow. */
+  onReset: () => void;
 }) {
   const router = useRouter();
   const [copied, setCopied] = useState(false);
   const [copiedDestination, setCopiedDestination] = useState<string | null>(null);
   const [copyFailed, setCopyFailed] = useState(false);
+  const [resetting, setResetting] = useState(false);
+  const [resetError, setResetError] = useState<string | null>(null);
 
   async function handleCopy() {
     try {
@@ -79,6 +84,29 @@ export default function PromptPilotDisplay({
       }
     }
     window.open(url, "_blank", "noopener,noreferrer");
+  }
+
+  // Deletes the stored submission server-side first (so a reload afterward
+  // doesn't bring the old result back via initialPrompt/alreadySubmitted),
+  // then hands off to the parent's onReset to clear the local prompt/form
+  // state - only on success. A failed request leaves the result screen and
+  // client state exactly as they were, with an inline error, rather than
+  // clearing local state while a stale row is still on file server-side.
+  async function handleReset() {
+    setResetting(true);
+    setResetError(null);
+    try {
+      const res = await fetch("/api/prompt-pilot/reset", { method: "POST" });
+      if (!res.ok) {
+        setResetError("Couldn't reset your result. Please try again.");
+        setResetting(false);
+        return;
+      }
+      onReset();
+    } catch {
+      setResetError("Network error. Please check your connection and try again.");
+      setResetting(false);
+    }
   }
 
   return (
@@ -211,6 +239,32 @@ export default function PromptPilotDisplay({
               </>
             )}
           </button>
+        </div>
+
+        <div className="flex flex-col items-end mt-4">
+          <button
+            type="button"
+            onClick={handleReset}
+            disabled={resetting}
+            className="inline-flex items-center gap-2 transition-all duration-200 disabled:opacity-50 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
+            style={{
+              padding: "10px 18px",
+              borderRadius: 6,
+              border: "0.8px solid #162D5A",
+              backgroundColor: "#143C6A",
+              color: "var(--brand-sky)",
+              font: '400 12px "Courier New", monospace',
+              letterSpacing: "0.08em",
+              cursor: resetting ? "not-allowed" : "pointer",
+            }}
+          >
+            {resetting ? "RESETTING…" : "RESET"}
+          </button>
+          {resetError && (
+            <p className="font-sans text-[11px] mt-2" style={{ color: "#E8634A" }}>
+              {resetError}
+            </p>
+          )}
         </div>
 
         {anonymous ? (
