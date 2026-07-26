@@ -113,14 +113,14 @@ Every field label (the small caption above an input/textarea/select) gets: `clas
 Every screen-level header inside `/tools` (the dashboard welcome header, and each state/step header rendered by a tool flow: locked, not-started, in-progress, success, error, etc.) plus its immediately-following lead paragraph gets this treatment by default:
 
 - **Header** (`h1`/`h2`, `"Courier New", monospace`): `color: "#89D4FF"` (light blue, matches `--brand-sky`).
-- **Lead paragraph** directly under it (Arial, sans-serif): `font-size: 21px`, `color: "#FFFFFF"` (pure white, not the `--brand-white` default).
+- **Lead paragraph** directly under it (Arial, sans-serif): `font-size: 19px`, `color: "#FFFFFF"` (pure white, not the `--brand-white` default).
 
 This is already the pattern in `AiOpportunityFinderFlow.tsx`, `PromptDisplay.tsx`, `BusinessAuditFlow.tsx` (all of its state screens), the dashboard welcome header in `app/tools/page.tsx`, and the `StatusCard`/`SuccessScreen` states in `Questionnaire.tsx`. Apply it to any new tool screen's header/lead-paragraph pair rather than inventing new values.
 
 **Excluded:**
 - `BusinessAuditReport.tsx` — the formal Opportunity Report document follows its own fixed template (see the Opportunity Report section) with intentionally varied heading/text sizes; don't apply this convention to it.
 - Compact confirmation banners/toasts (e.g. the "Payment received" strip in `BusinessAuditFlow.tsx` shown alongside a checkmark icon) — these are transient inline confirmations, not full screen headers, and keep their own smaller sizing.
-- Secondary/supplementary paragraphs below the main lead paragraph (disclaimers, fine print, perk callouts) keep their own smaller, purpose-specific sizing rather than being bumped to 21px.
+- Secondary/supplementary paragraphs below the main lead paragraph (disclaimers, fine print, perk callouts) keep their own smaller, purpose-specific sizing rather than being bumped to 19px.
 
 ## Gold-standard test account — applies to every tool, present and future
 
