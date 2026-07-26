@@ -255,7 +255,7 @@ export default function PromptPilotFlow({
         <h2 className="font-sans font-bold text-[20px] mb-3" style={{ color: "#89D4FF" }}>
           You&apos;re already set{firstName ? `, ${firstName}` : ""}.
         </h2>
-        <p className="font-sans text-[21px] leading-relaxed" style={{ color: "#FFFFFF" }}>
+        <p className="font-sans text-[19px] leading-relaxed" style={{ color: "#FFFFFF" }}>
           We already have a Prompt Pilot result on file for{" "}
           <span style={{ color: "#89D4FF" }}>{email}</span>.
         </p>
@@ -271,7 +271,7 @@ export default function PromptPilotFlow({
         <h2 className="font-sans font-bold text-[20px] mb-3" style={{ color: "#89D4FF" }}>
           Verify your email first
         </h2>
-        <p className="font-sans text-[21px] leading-relaxed" style={{ color: "#FFFFFF" }}>
+        <p className="font-sans text-[19px] leading-relaxed" style={{ color: "#FFFFFF" }}>
           Check your inbox at <span style={{ color: "#89D4FF" }}>{email}</span> for a
           verification link. Once confirmed you can get started.
         </p>
@@ -294,7 +294,7 @@ export default function PromptPilotFlow({
       <p
         style={{
           margin: "11px 0 0",
-          font: "400 21px/1.6 Arial, sans-serif",
+          font: "400 19px/1.6 Arial, sans-serif",
           color: "#FFFFFF",
         }}
       >

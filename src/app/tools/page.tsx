@@ -62,7 +62,7 @@ export default async function ToolsDashboardPage() {
       >
         {user ? `Welcome back, ${user.firstName}.` : "Your AI toolkit."}
       </h1>
-      <p style={{ margin: "11px 0 0", font: "400 21px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 560 }}>
+      <p style={{ margin: "11px 0 0", font: "400 19px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 560 }}>
         Your AI toolkit lives here. Run a tool, get clear results, and put your time back where
         it belongs, running the business.
       </p>

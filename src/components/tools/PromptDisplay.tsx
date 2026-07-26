@@ -98,7 +98,7 @@ export default function PromptDisplay({
       <p
         style={{
           margin: "11px 0 0",
-          font: "400 21px/1.6 Arial, sans-serif",
+          font: "400 19px/1.6 Arial, sans-serif",
           color: "#FFFFFF",
         }}
       >

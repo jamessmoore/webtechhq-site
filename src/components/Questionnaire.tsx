@@ -514,11 +514,11 @@ function SuccessScreen({ firstName }: { firstName?: string }) {
       >
         Got it{firstName ? `, ${firstName}` : ""}.
       </h2>
-      <p className="font-sans text-[21px] leading-relaxed mb-2" style={{ color: "#FFFFFF" }}>
+      <p className="font-sans text-[19px] leading-relaxed mb-2" style={{ color: "#FFFFFF" }}>
         Your answers are in. I&apos;ll review them and build your personalized
         Opportunity Report.
       </p>
-      <p className="font-sans text-[21px]" style={{ color: "#FFFFFF" }}>
+      <p className="font-sans text-[19px]" style={{ color: "#FFFFFF" }}>
         Expect it in your inbox <span style={{ color: "#89D4FF" }}>right away</span>.
       </p>
       <p className="font-sans text-[12px] mt-5 leading-relaxed">
@@ -674,7 +674,7 @@ export default function Questionnaire({
           >
             Something went wrong
           </h2>
-          <p className="font-sans text-[21px] leading-relaxed" style={{ color: "#FFFFFF" }}>
+          <p className="font-sans text-[19px] leading-relaxed" style={{ color: "#FFFFFF" }}>
             Your answers are in, but something went wrong generating your
             result. Please try again in a moment.
           </p>
@@ -689,7 +689,7 @@ export default function Questionnaire({
         >
           You&apos;re already in the queue
         </h2>
-        <p className="font-sans text-[21px] leading-relaxed" style={{ color: "#FFFFFF" }}>
+        <p className="font-sans text-[19px] leading-relaxed" style={{ color: "#FFFFFF" }}>
           We received your answers. Your Opportunity Report is being
           prepared. Watch your inbox at{" "}
           <span style={{ color: "#89D4FF" }}>{email}</span>.
@@ -709,7 +709,7 @@ export default function Questionnaire({
         >
           Verify your email first
         </h2>
-        <p className="font-sans text-[21px] leading-relaxed" style={{ color: "#FFFFFF" }}>
+        <p className="font-sans text-[19px] leading-relaxed" style={{ color: "#FFFFFF" }}>
           Check your inbox at{" "}
           <span style={{ color: "#89D4FF" }}>{email}</span> for a verification
           link. Once confirmed you can get started.
