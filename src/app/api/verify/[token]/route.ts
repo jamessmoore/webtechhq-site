@@ -16,7 +16,7 @@ export async function GET(
 ) {
   const { token } = await params;
   const next = request.nextUrl.searchParams.get("next");
-  const redirectTo = next && next.startsWith("/") ? next : "/tools/opportunity-finder";
+  const redirectTo = next && next.startsWith("/") ? next : "/tools";
 
   const user = getUserByVerificationToken(token);
 

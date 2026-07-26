@@ -76,11 +76,11 @@ test.describe('primary navigation', () => {
 })
 
 test.describe('hero CTAs', () => {
-  test('"GET STARTED" button navigates to /tools/opportunity-finder', async ({ page }) => {
+  test('"GET STARTED" button navigates to /tools', async ({ page }) => {
     await page.goto('/')
     await page.getByRole('link', { name: /GET STARTED/i }).click()
-    // href is /signup, which permanently redirects to /tools/opportunity-finder
-    await expect(page).toHaveURL(/\/tools\/opportunity-finder$/)
+    // href is /signup, which permanently redirects to /tools
+    await expect(page).toHaveURL(/\/tools$/)
   })
 
   test('"SEE HOW IT WORKS" button navigates to /use-cases', async ({ page }) => {

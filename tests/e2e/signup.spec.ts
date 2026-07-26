@@ -14,9 +14,9 @@ test.beforeEach(({}, testInfo) => {
 // "save this result" claim step after a real submission (SignUpForm reused
 // with a different endpoint, see PromptDisplay.tsx / PromptPilotDisplay.tsx).
 test.describe('/signup', () => {
-  test('permanently redirects to /tools/opportunity-finder', async ({ page }) => {
+  test('permanently redirects to /tools', async ({ page }) => {
     const response = await page.goto('/signup')
-    await expect(page).toHaveURL(/\/tools\/opportunity-finder$/)
+    await expect(page).toHaveURL(/\/tools$/)
     // next.config.js's redirects() entry is `permanent: true` (308).
     expect(response?.request().redirectedFrom()).not.toBeNull()
   })

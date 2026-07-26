@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 import { getUserById } from "@/lib/users";
 import {
   createPromptPilotSubmission,
-  getPromptPilotSubmissionByUser,
+  upsertPromptPilotSubmission,
 } from "@/lib/tools/promptPilotSubmissions";
 import { renderPromptPilotTemplate } from "@/lib/tools/promptPilotTemplates";
 import { PROMPT_PILOT_CLAIM_COOKIE, setClaimCookie } from "@/lib/tools/claimCookies";
@@ -30,19 +30,6 @@ export async function POST(request: NextRequest) {
       { error: "Please verify your email before submitting." },
       { status: 403 },
     );
-  }
-
-  // One submission per user, same pattern as the Opportunity Finder. Only
-  // applies to a real signed-in user - anonymous visitors can always submit,
-  // since each anonymous submission gets its own claim token.
-  if (user) {
-    const existing = getPromptPilotSubmissionByUser(user.id);
-    if (existing) {
-      return NextResponse.json(
-        { error: "You already have a Prompt Pilot result on file." },
-        { status: 409 },
-      );
-    }
   }
 
   const body = (await request.json()) as {
@@ -80,46 +67,61 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  try {
-    const learningGoal = body.learningGoal.trim();
-    const renderedPrompt = renderPromptPilotTemplate({
-      learningGoal,
-      startingPoint: body.startingPoint,
-      why: body.why,
-      timeBudget: body.timeBudget,
-    });
+  const learningGoal = body.learningGoal.trim();
+  const renderedPrompt = renderPromptPilotTemplate({
+    learningGoal,
+    startingPoint: body.startingPoint,
+    why: body.why,
+    timeBudget: body.timeBudget,
+  });
 
-    const claimToken = user ? undefined : randomUUID();
-
-    const submission = createPromptPilotSubmission({
-      userId: user?.id,
-      learningGoal,
-      startingPoint: body.startingPoint,
-      why: body.why,
-      timeBudget: body.timeBudget,
-      renderedPrompt: renderedPrompt ?? undefined,
-      claimToken,
-    });
-
-    const response = NextResponse.json({
-      success: true,
-      id: submission.id,
-      renderedPrompt,
-      why: body.why ?? null,
-    });
-
-    if (claimToken) {
-      setClaimCookie(response, PROMPT_PILOT_CLAIM_COOKIE, claimToken);
-    }
-
-    return response;
-  } catch (err: unknown) {
-    if (err instanceof Error && err.message.includes("UNIQUE constraint failed")) {
-      return NextResponse.json(
-        { error: "You already have a Prompt Pilot result on file." },
-        { status: 409 },
-      );
-    }
-    throw err;
+  // renderPromptPilotTemplate() only returns null when the
+  // prompt_pilot_template table has no matching/fallback row - a
+  // production data-seeding gap, not something to silently paper over as
+  // a fake "success". Surface it as a real error instead of persisting a
+  // submission with no rendered prompt (which the client would otherwise
+  // have no sane way to distinguish from an already-on-file result).
+  if (renderedPrompt === null) {
+    return NextResponse.json(
+      { error: "Something went wrong generating your prompt. Please try again shortly." },
+      { status: 500 },
+    );
   }
+
+  const claimToken = user ? undefined : randomUUID();
+
+  // One submission per signed-in user, but resubmitting overwrites the
+  // existing row (upsert) rather than being blocked - anonymous visitors
+  // always get their own new row, since each gets its own claim token and
+  // the unique index excludes NULL user_id.
+  const submission = user
+    ? upsertPromptPilotSubmission({
+        userId: user.id,
+        learningGoal,
+        startingPoint: body.startingPoint,
+        why: body.why,
+        timeBudget: body.timeBudget,
+        renderedPrompt,
+      })
+    : createPromptPilotSubmission({
+        learningGoal,
+        startingPoint: body.startingPoint,
+        why: body.why,
+        timeBudget: body.timeBudget,
+        renderedPrompt,
+        claimToken,
+      });
+
+  const response = NextResponse.json({
+    success: true,
+    id: submission.id,
+    renderedPrompt,
+    why: body.why ?? null,
+  });
+
+  if (claimToken) {
+    setClaimCookie(response, PROMPT_PILOT_CLAIM_COOKIE, claimToken);
+  }
+
+  return response;
 }
