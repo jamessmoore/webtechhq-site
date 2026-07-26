@@ -21,8 +21,9 @@ interface ToolsShellProps {
   children: React.ReactNode;
 }
 
-function pageMeta(pathname: string): { kicker: string; title: string } {
-  if (pathname === "/tools") return { kicker: "CLIENT TOOLS", title: "Dashboard" };
+function pageMeta(pathname: string, anonymous: boolean): { kicker: string; title: string } {
+  const dashboardKicker = anonymous ? "AI TOOLS" : "CLIENT TOOLS";
+  if (pathname === "/tools") return { kicker: dashboardKicker, title: "Dashboard" };
   if (pathname.startsWith("/tools/opportunity-finder/report")) {
     return { kicker: "OPPORTUNITY FINDER", title: "Opportunity Finder" };
   }
@@ -35,13 +36,13 @@ function pageMeta(pathname: string): { kicker: string; title: string } {
   if (pathname.startsWith("/tools/prompt-pilot")) {
     return { kicker: "AI TOOLS", title: "Prompt Pilot" };
   }
-  return { kicker: "CLIENT TOOLS", title: "Dashboard" };
+  return { kicker: dashboardKicker, title: "Dashboard" };
 }
 
 export default function ToolsShell({ user, toolStatus, signOutButton, children }: ToolsShellProps) {
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { kicker, title } = pageMeta(pathname);
+  const { kicker, title } = pageMeta(pathname, user === null);
 
   return (
     <div className="flex" style={{ height: "100vh", overflow: "hidden", backgroundColor: "#030B18" }}>

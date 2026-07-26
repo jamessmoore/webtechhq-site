@@ -87,7 +87,7 @@ export default function Sidebar({ user, mobileOpen, onClose, signOutButton }: Si
             <div
               style={{ font: '400 10px "Courier New", monospace', color: "#5B90C8", marginTop: 3, letterSpacing: "0.28em" }}
             >
-              CLIENT TOOLS
+              {user === null ? "AI TOOLS" : "CLIENT TOOLS"}
             </div>
           </div>
           <button
