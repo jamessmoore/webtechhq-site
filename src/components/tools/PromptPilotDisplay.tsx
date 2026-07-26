@@ -96,7 +96,7 @@ export default function PromptPilotDisplay({
       <p
         style={{
           margin: "11px 0 0",
-          font: "400 21px/1.6 Arial, sans-serif",
+          font: "400 19px/1.6 Arial, sans-serif",
           color: "#FFFFFF",
         }}
       >
@@ -223,9 +223,11 @@ export default function PromptPilotDisplay({
               backgroundColor: "#0A1B33",
             }}
           >
+            <p className="font-sans text-[15px] leading-relaxed" style={{ color: "#FFFFFF" }}>
+              Want to keep this result?
+            </p>
             <p className="font-sans text-[15px] leading-relaxed mb-4" style={{ color: "#FFFFFF" }}>
-              Want to keep this result? Save it to an account and you won&apos;t need to redo
-              Prompt Pilot next time.
+              Save it to an account, and you won&apos;t need to redo Prompt Pilot next time.
             </p>
             <SignUpForm
               endpoint="/api/tools/claim-submission"

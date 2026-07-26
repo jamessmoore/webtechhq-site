@@ -119,6 +119,17 @@ export default function Sidebar({ user, mobileOpen, onClose, signOutButton }: Si
           </div>
 
           <Link
+            href="/tools/prompt-pilot"
+            onClick={onClose}
+            className="transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)]"
+            style={{ ...navBase, ...(isPromptPilotActive ? navActive : {}), borderRadius: 6 }}
+          >
+            <CompassIcon size={21} />
+            <span style={{ flex: 1 }}>Prompt Pilot</span>
+            <HexMark size={14} />
+          </Link>
+
+          <Link
             href="/tools/opportunity-finder"
             onClick={onClose}
             className="transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)]"
@@ -137,17 +148,6 @@ export default function Sidebar({ user, mobileOpen, onClose, signOutButton }: Si
           >
             <SearchIcon size={21} />
             <span style={{ flex: 1 }}>Business Audit</span>
-            <HexMark size={14} />
-          </Link>
-
-          <Link
-            href="/tools/prompt-pilot"
-            onClick={onClose}
-            className="transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)]"
-            style={{ ...navBase, ...(isPromptPilotActive ? navActive : {}), borderRadius: 6 }}
-          >
-            <CompassIcon size={21} />
-            <span style={{ flex: 1 }}>Prompt Pilot</span>
             <HexMark size={14} />
           </Link>
         </nav>

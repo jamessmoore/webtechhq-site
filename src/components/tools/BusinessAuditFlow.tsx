@@ -103,7 +103,7 @@ export default function BusinessAuditFlow({
         <h1 style={{ margin: 0, font: '400 clamp(21px,4vw,27px)/1.2 "Courier New", monospace', color: "#89D4FF", letterSpacing: "0.01em" }}>
           Finish the Opportunity Finder first
         </h1>
-        <p style={{ margin: "11px 0 0", font: "400 21px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 480 }}>
+        <p style={{ margin: "11px 0 0", font: "400 19px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 480 }}>
           Your Business Audit is built from your Opportunity Finder answers, so we need those
           first. It only takes a few minutes.
         </p>
@@ -144,7 +144,7 @@ export default function BusinessAuditFlow({
         <h1 style={{ margin: 0, font: '400 clamp(21px,4vw,27px)/1.2 "Courier New", monospace', color: "#89D4FF", letterSpacing: "0.01em" }}>
           Finish creating your account first
         </h1>
-        <p style={{ margin: "11px 0 0", font: "400 21px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 480 }}>
+        <p style={{ margin: "11px 0 0", font: "400 19px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 480 }}>
           Your Opportunity Finder answers aren&apos;t saved to an account yet. Set a password to
           lock them in permanently before moving on to the Business Audit.
         </p>
@@ -192,7 +192,7 @@ export default function BusinessAuditFlow({
           <h1 style={{ margin: 0, font: '400 clamp(21px,4vw,27px)/1.2 "Courier New", monospace', color: "#89D4FF", letterSpacing: "0.01em" }}>
             Something went wrong preparing your audit
           </h1>
-          <p style={{ margin: "11px 0 0", font: "400 21px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 480 }}>
+          <p style={{ margin: "11px 0 0", font: "400 19px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 480 }}>
             Your payment went through, but we hit a snag putting the report together.{" "}
             <Link href="/contact" style={{ color: "#89D4FF", textDecoration: "underline" }}>
               Message James
@@ -219,7 +219,7 @@ export default function BusinessAuditFlow({
           <h1 style={{ margin: 0, font: '400 clamp(21px,4vw,27px)/1.2 "Courier New", monospace', color: "#89D4FF", letterSpacing: "0.01em" }}>
             Run your audit
           </h1>
-          <p style={{ margin: "11px 0 0", font: "400 21px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 480 }}>
+          <p style={{ margin: "11px 0 0", font: "400 19px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 480 }}>
             This account is already marked as purchased. Enter a business name and run the
             report generation again.
           </p>
@@ -286,7 +286,7 @@ export default function BusinessAuditFlow({
         <h1 style={{ margin: 0, font: '400 clamp(21px,4vw,27px)/1.2 "Courier New", monospace', color: "#89D4FF", letterSpacing: "0.01em" }}>
           Your audit is being prepared
         </h1>
-        <p style={{ margin: "11px 0 0", font: "400 21px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 480 }}>
+        <p style={{ margin: "11px 0 0", font: "400 19px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 480 }}>
           Thanks for the purchase. I&apos;m putting your Business Audit together from your
           Opportunity Finder answers. This usually takes about a minute, this page will update
           automatically.
@@ -329,7 +329,7 @@ export default function BusinessAuditFlow({
       <h1 style={{ margin: 0, font: '400 clamp(21px,4vw,27px)/1.2 "Courier New", monospace', color: "#89D4FF", letterSpacing: "0.01em" }}>
         Get your Business Audit
       </h1>
-      <p style={{ margin: "11px 0 0", font: "400 21px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 480 }}>
+      <p style={{ margin: "11px 0 0", font: "400 19px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 480 }}>
         {product.description} One-time purchase, no subscription.
       </p>
 

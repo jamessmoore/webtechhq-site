@@ -62,7 +62,7 @@ export default async function ToolsDashboardPage() {
       >
         {user ? `Welcome back, ${user.firstName}.` : "Your AI toolkit."}
       </h1>
-      <p style={{ margin: "11px 0 0", font: "400 21px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 560 }}>
+      <p style={{ margin: "11px 0 0", font: "400 19px/1.6 Arial, sans-serif", color: "#FFFFFF", maxWidth: 560 }}>
         Your AI toolkit lives here. Run a tool, get clear results, and put your time back where
         it belongs, running the business.
       </p>
@@ -80,7 +80,6 @@ export default async function ToolsDashboardPage() {
       <FeaturedToolCard
         title="Opportunity Finder"
         description="Answer a few plain-English questions about how you work. I'll build you a custom prompt to run in Claude, ChatGPT, or Gemini, pointing straight at the AI moves that would save you the most time and money."
-        descriptionFontSize={19}
         status={opportunityFinderStatus}
         href="/tools/opportunity-finder"
         icon={<TelescopeIcon size={42} style={{ color: "#89D4FF" } as React.CSSProperties} />}
