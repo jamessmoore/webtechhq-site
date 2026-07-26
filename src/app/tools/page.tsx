@@ -69,7 +69,7 @@ export default async function ToolsDashboardPage() {
 
       <FeaturedToolCard
         title="Prompt Pilot"
-        description="Answer four quick questions about where you're starting from and what you want to learn. I'll build you a custom prompt that has AI teach you AI, tuned to your level and how much time you've got."
+        description="Answer four quick questions about where you're starting from and what you want to learn."
         status={promptPilotStatus}
         href="/tools/prompt-pilot"
         icon={<CompassIcon size={42} style={{ color: "#89D4FF" } as React.CSSProperties} />}
@@ -79,7 +79,8 @@ export default async function ToolsDashboardPage() {
 
       <FeaturedToolCard
         title="Opportunity Finder"
-        description="Answer a few plain-English questions about how you work. I'll build you a custom prompt to run in Claude, ChatGPT, or Gemini, pointing straight at the AI moves that would save you the most time and money. No jargon, no fluff."
+        description="Answer a few plain-English questions about how you work. I'll build you a custom prompt to run in Claude, ChatGPT, or Gemini, pointing straight at the AI moves that would save you the most time and money."
+        descriptionFontSize={19}
         status={opportunityFinderStatus}
         href="/tools/opportunity-finder"
         icon={<TelescopeIcon size={42} style={{ color: "#89D4FF" } as React.CSSProperties} />}
@@ -89,7 +90,7 @@ export default async function ToolsDashboardPage() {
 
       <FeaturedToolCard
         title="Business Audit"
-        description="A personalized audit of your business, built from your Opportunity Finder answers. Get a clear breakdown of what to automate first and what it's worth."
+        description="A personalized audit of your business. Get a clear breakdown of what to automate first and what it's worth."
         status={businessAuditStatus}
         href={businessAuditHref}
         icon={<SearchIcon size={42} style={{ color: "#89D4FF" } as React.CSSProperties} />}

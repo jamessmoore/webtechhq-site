@@ -6,6 +6,8 @@ export type ToolCardStatus = "not_started" | "completed" | "locked" | "purchased
 interface FeaturedToolCardProps {
   title: string;
   description: string;
+  /** Overrides the description's default 21px font size for this card only. */
+  descriptionFontSize?: number;
   status: ToolCardStatus;
   href: string;
   icon: React.ReactNode;
@@ -50,6 +52,7 @@ const STATUS_CONFIG: Record<
 export default function FeaturedToolCard({
   title,
   description,
+  descriptionFontSize = 21,
   status,
   href,
   icon,
@@ -98,7 +101,7 @@ export default function FeaturedToolCard({
               {cfg.pillLabel}
             </span>
           </div>
-          <p style={{ margin: "11px 0 0", font: "400 21px/1.6 Arial, sans-serif", maxWidth: 520 }}>
+          <p style={{ margin: "11px 0 0", font: `400 ${descriptionFontSize}px/1.6 Arial, sans-serif`, maxWidth: 520 }}>
             {description}
           </p>
           {metaItems && metaItems.length > 0 && (

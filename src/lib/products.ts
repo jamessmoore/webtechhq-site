@@ -12,8 +12,7 @@ export const PRODUCTS: Record<string, Product> = {
   business_audit: {
     id: "business_audit",
     name: "Business Audit",
-    description:
-      "A personalized audit of your business, built from your Opportunity Finder answers.",
+    description: "A personalized audit of your business.",
     priceCents: 5000,
     regularPriceCents: 30000,
     discountLabel: "Founding client rate",
