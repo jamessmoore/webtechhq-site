@@ -59,7 +59,7 @@ export default function TopBar({ kicker, title, user, onOpenMobileMenu }: TopBar
       </div>
       <div className="flex items-center gap-3 flex-none">
         <Link
-          href="/contact"
+          href={{ pathname: "/contact", query: { subject: "I need help with:" } }}
           className="hidden sm:flex items-center gap-[7px] transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
           style={{
             padding: "8px 12px",

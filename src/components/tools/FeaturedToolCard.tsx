@@ -6,7 +6,7 @@ export type ToolCardStatus = "not_started" | "completed" | "locked" | "purchased
 interface FeaturedToolCardProps {
   title: string;
   description: string;
-  /** Overrides the description's default 19px font size for this card only. */
+  /** Overrides the description's default 18px font size for this card only. */
   descriptionFontSize?: number;
   status: ToolCardStatus;
   href: string;
@@ -52,7 +52,7 @@ const STATUS_CONFIG: Record<
 export default function FeaturedToolCard({
   title,
   description,
-  descriptionFontSize = 19,
+  descriptionFontSize = 18,
   status,
   href,
   icon,

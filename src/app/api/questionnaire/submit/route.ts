@@ -94,6 +94,20 @@ export async function POST(request: NextRequest) {
       { status: 400 },
     );
   }
+  // Mirrors the client-side rule added in ce7eb3e (Questionnaire.tsx's
+  // Step3 validateStep): a direct API call bypassing that UI validation
+  // could otherwise submit a negative, zero, non-integer, or absurd hours
+  // value. layer2Hours itself stays optional (the legacy /business-audit
+  // flow doesn't always populate it) - only validated when present.
+  if (
+    body.layer2Hours !== undefined &&
+    (!Number.isInteger(body.layer2Hours) || body.layer2Hours < 1)
+  ) {
+    return NextResponse.json(
+      { error: "Hours per week must be a whole number of at least 1." },
+      { status: 400 },
+    );
+  }
 
   try {
     const renderedPrompt = renderPromptTemplate({

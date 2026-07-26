@@ -44,7 +44,12 @@ export default async function ToolsDashboardPage() {
         : isTestAccount
           ? "RUN YOUR AUDIT (TEST, NO CHARGE)"
           : "GET YOUR AUDIT, $50";
-  const businessAuditHref = businessAuditStatus === "locked" ? "/tools/opportunity-finder" : "/tools/business-audit";
+  // Always send the card to /tools/business-audit, even when locked - that
+  // page's own gate screen (BusinessAuditFlow's !hasSubmission state) is
+  // what explains the Opportunity Finder requirement and offers the CTA to
+  // go there. Don't shortcut straight to Opportunity Finder from here; that
+  // reads as a silent redirect with no explanation.
+  const businessAuditHref = "/tools/business-audit";
 
   const promptPilotSubmission = user ? getPromptPilotSubmissionByUser(user.id) : null;
   const promptPilotStatus: ToolCardStatus = promptPilotSubmission ? "completed" : "not_started";
@@ -79,7 +84,7 @@ export default async function ToolsDashboardPage() {
 
       <FeaturedToolCard
         title="Opportunity Finder"
-        description="Answer a few plain-English questions about how you work. I'll build you a custom prompt to run in Claude, ChatGPT, or Gemini, pointing straight at the AI moves that would save you the most time and money."
+        description="Answer a few plain-English questions about how you work and I'll direct you straight to the AI moves that would save you the most time and money."
         status={opportunityFinderStatus}
         href="/tools/opportunity-finder"
         icon={<TelescopeIcon size={42} style={{ color: "#89D4FF" } as React.CSSProperties} />}

@@ -21,9 +21,10 @@ const fieldStyle = {
 type ContactFormProps = {
   defaultName?: string
   defaultEmail?: string
+  defaultSubject?: string
 }
 
-export default function ContactForm({ defaultName = '', defaultEmail = '' }: ContactFormProps) {
+export default function ContactForm({ defaultName = '', defaultEmail = '', defaultSubject = '' }: ContactFormProps) {
   const [state, formAction, pending] = useActionState(sendContactMessage, initialState)
   const recaptchaRef = useRef<ReCAPTCHA>(null)
   const [recaptchaToken, setRecaptchaToken] = useState('')
@@ -105,6 +106,7 @@ export default function ContactForm({ defaultName = '', defaultEmail = '' }: Con
           name="subject"
           type="text"
           required
+          defaultValue={defaultSubject}
           className="w-full px-3 py-2 font-sans text-[14px] focus:outline-none"
           style={fieldStyle}
         />

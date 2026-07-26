@@ -289,7 +289,7 @@ export default function PromptPilotFlow({
           letterSpacing: "0.01em",
         }}
       >
-        Let&apos;s have AI teach you AI
+        Use AI to learn AI
       </h1>
       <p
         style={{
@@ -309,7 +309,7 @@ export default function PromptPilotFlow({
           <TextArea
             value={form.learningGoal}
             onChange={(v) => set("learningGoal", v)}
-            placeholder="e.g. how to use AI in my daily work, how these tools actually work under the hood, how to build something with it…"
+            placeholder="e.g. What's a prompt?"
             autoFocus
           />
         </div>

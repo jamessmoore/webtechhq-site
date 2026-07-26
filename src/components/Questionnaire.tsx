@@ -298,11 +298,12 @@ function Step3({
         <div className="flex items-center gap-3">
           <input
             type="number"
-            min={0}
+            min={1}
             max={168}
+            step={1}
             value={form.layer2Hours}
             onChange={(e) => set("layer2Hours", e.target.value)}
-            placeholder="0"
+            placeholder="1"
             className="px-3 py-2 font-sans text-[14px] focus:outline-none w-[110px]"
             style={fieldStyle}
           />
@@ -589,6 +590,12 @@ export default function Questionnaire({
     }
     if (step === 2 && !form.layer1Problem.trim()) {
       return "Please describe your biggest operational problem.";
+    }
+    if (step === 3) {
+      const hours = Number(form.layer2Hours);
+      if (!form.layer2Hours.trim() || !Number.isInteger(hours) || hours < 1) {
+        return "Enter at least 1 hour per week before continuing.";
+      }
     }
     return null;
   }
