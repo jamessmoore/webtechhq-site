@@ -289,7 +289,7 @@ export default function PromptPilotFlow({
           letterSpacing: "0.01em",
         }}
       >
-        Let&apos;s have AI teach you AI to use AI to learn AI.
+        Use AI to learn AI
       </h1>
       <p
         style={{
