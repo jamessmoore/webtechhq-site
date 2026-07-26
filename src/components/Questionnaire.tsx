@@ -303,7 +303,7 @@ function Step3({
             step={1}
             value={form.layer2Hours}
             onChange={(e) => set("layer2Hours", e.target.value)}
-            placeholder="0"
+            placeholder="1"
             className="px-3 py-2 font-sans text-[14px] focus:outline-none w-[110px]"
             style={fieldStyle}
           />
