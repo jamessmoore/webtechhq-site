@@ -79,7 +79,7 @@ export default async function ToolsDashboardPage() {
 
       <FeaturedToolCard
         title="Opportunity Finder"
-        description="Answer a few plain-English questions about how you work. I'll build you a custom prompt to run in Claude, ChatGPT, or Gemini, pointing straight at the AI moves that would save you the most time and money."
+        description="Answer a few plain-English questions about how you work and I'll direct you straight to the AI moves that would save you the most time and money."
         status={opportunityFinderStatus}
         href="/tools/opportunity-finder"
         icon={<TelescopeIcon size={42} style={{ color: "#89D4FF" } as React.CSSProperties} />}
