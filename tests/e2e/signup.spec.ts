@@ -36,7 +36,8 @@ async function submitOpportunityFinderAnonymously(page: Page) {
     .fill('Scheduling after-hours calls eats up my whole evening.')
   await page.getByRole('button', { name: /^NEXT/i }).click()
 
-  // Step 3: The Cost - no required fields, skip straight through
+  // Step 3: The Cost - hours/week is required (>= 1); hourly cost dropdown stays optional
+  await page.getByPlaceholder('1', { exact: true }).fill('5')
   await page.getByRole('button', { name: /^NEXT/i }).click()
 
   // Step 4: The Fit - no required fields, submit
