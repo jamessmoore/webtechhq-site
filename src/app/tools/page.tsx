@@ -38,12 +38,12 @@ export default async function ToolsDashboardPage() {
 
   const businessAuditPrimaryLabel =
     businessAuditStatus === "locked"
-      ? "START BUSINESS AUDIT"
+      ? "START"
       : businessAuditStatus === "purchased"
-        ? "VIEW YOUR AUDIT"
+        ? "VIEW RESULTS"
         : isTestAccount
-          ? "RUN YOUR AUDIT (TEST, NO CHARGE)"
-          : "GET YOUR AUDIT, $50";
+          ? "RUN (TEST, NO CHARGE)"
+          : "GET STARTED, $50";
   // Always send the card to /tools/business-audit, even when locked - that
   // page's own gate screen (BusinessAuditFlow's !hasSubmission state) is
   // what explains the Opportunity Finder requirement and offers the CTA to
@@ -79,7 +79,7 @@ export default async function ToolsDashboardPage() {
         href="/tools/prompt-pilot"
         icon={<CompassIcon size={42} style={{ color: "#89D4FF" } as React.CSSProperties} />}
         metaItems={["4 QUICK QUESTIONS"]}
-        primaryLabel={promptPilotStatus === "completed" ? "SEE YOUR PROMPT" : "START PROMPT PILOT"}
+        primaryLabel={promptPilotStatus === "completed" ? "SEE RESULTS" : "START"}
       />
 
       <FeaturedToolCard
@@ -89,7 +89,7 @@ export default async function ToolsDashboardPage() {
         href="/tools/opportunity-finder"
         icon={<TelescopeIcon size={42} style={{ color: "#89D4FF" } as React.CSSProperties} />}
         metaItems={["4 QUICK SECTIONS"]}
-        primaryLabel={opportunityFinderStatus === "completed" ? "SEE RESULTS" : "START OPPORTUNITY FINDER"}
+        primaryLabel={opportunityFinderStatus === "completed" ? "SEE RESULTS" : "START"}
       />
 
       <FeaturedToolCard
