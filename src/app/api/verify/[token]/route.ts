@@ -34,10 +34,10 @@ export async function GET(
     console.error("Slack notification failed:", err);
   });
 
-  // Auto-login straight into the Opportunity Finder questionnaire (or
-  // wherever the verification link points, e.g. finish-signup) - this
-  // account has no password yet, so a normal credentials sign-in isn't
-  // possible until they finish creating it.
+  // Auto-login straight into the dashboard (or wherever the verification
+  // link points, e.g. finish-signup for a specific tool) - this account has
+  // no password yet, so a normal credentials sign-in isn't possible until
+  // they finish creating it.
   const { token: loginToken, expiresAt: loginExpiresAt } = generateLoginToken();
   setLoginToken(user.id, loginToken, loginExpiresAt);
 

@@ -18,7 +18,7 @@ export default async function FinishSignupPage({
   if (!user) redirect("/signup");
 
   const { next } = await searchParams;
-  const redirectTo = next && next.startsWith("/") ? next : "/tools/opportunity-finder";
+  const redirectTo = next && next.startsWith("/") ? next : "/tools";
 
   if (isAccountCompleted(user)) redirect(redirectTo);
 
