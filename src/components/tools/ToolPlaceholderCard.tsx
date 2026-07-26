@@ -26,7 +26,7 @@ export default function ToolPlaceholderCard({ glyph, name, desc }: ToolPlacehold
         {glyph}
       </div>
       <div style={{ font: "700 14px Arial, sans-serif", color: "#80AEE0" }}>{name}</div>
-      <p style={{ margin: "6px 0 0", font: "400 12.5px/1.55 Arial, sans-serif" }}>{desc}</p>
+      <p style={{ margin: "6px 0 0", font: "400 11.5px/1.55 Arial, sans-serif" }}>{desc}</p>
       <span
         className="inline-block"
         style={{
