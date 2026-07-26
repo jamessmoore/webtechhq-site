@@ -42,6 +42,56 @@ export function createPromptPilotSubmission(data: {
   return getPromptPilotSubmissionById(id)!;
 }
 
+/**
+ * Creates a submission for `data.userId`, or overwrites the existing one for
+ * that user in place (same `id`/`created_at`, everything else replaced) if
+ * they already have one on file. Resubmitting Prompt Pilot is meant to
+ * update the user's answers/result, not be blocked by
+ * idx_prompt_pilot_submissions_user_unique - see /api/prompt-pilot/submit.
+ * `data.userId` must be a real user id here; anonymous submissions
+ * (`userId` omitted) should keep using `createPromptPilotSubmission`
+ * instead, since SQLite's unique index excludes NULL user_id and there's
+ * nothing to conflict on.
+ */
+export function upsertPromptPilotSubmission(data: {
+  userId: string;
+  learningGoal: string;
+  startingPoint?: string;
+  why?: string;
+  timeBudget?: string;
+  renderedPrompt?: string;
+}): PromptPilotSubmission {
+  const db = getDb();
+  const id = randomUUID();
+  const now = new Date().toISOString();
+
+  db.prepare(`
+    INSERT INTO prompt_pilot_submissions (
+      id, user_id, learning_goal, starting_point, why, time_budget,
+      rendered_prompt, submitted_at, created_at, claim_token
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)
+    ON CONFLICT(user_id) DO UPDATE SET
+      learning_goal = excluded.learning_goal,
+      starting_point = excluded.starting_point,
+      why = excluded.why,
+      time_budget = excluded.time_budget,
+      rendered_prompt = excluded.rendered_prompt,
+      submitted_at = excluded.submitted_at
+  `).run(
+    id,
+    data.userId,
+    data.learningGoal,
+    data.startingPoint ?? null,
+    data.why ?? null,
+    data.timeBudget ?? null,
+    data.renderedPrompt ?? null,
+    now,
+    now,
+  );
+
+  return getPromptPilotSubmissionByUser(data.userId)!;
+}
+
 export function getPromptPilotSubmissionById(id: string): PromptPilotSubmission | null {
   const db = getDb();
   const row = db.prepare("SELECT * FROM prompt_pilot_submissions WHERE id = ?").get(id) as

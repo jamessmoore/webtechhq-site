@@ -12,11 +12,11 @@ test.describe('middleware gating (signed out)', () => {
     await expect(page).toHaveURL(/\/signin$/)
   })
 
-  test('/business-audit redirects to /tools/opportunity-finder', async ({ page }) => {
+  test('/business-audit redirects to /tools', async ({ page }) => {
     await page.goto('/business-audit')
     // proxy.ts redirects the gated top-level /business-audit to /signup,
-    // which itself permanently redirects to /tools/opportunity-finder.
-    await expect(page).toHaveURL(/\/tools\/opportunity-finder$/)
+    // which itself permanently redirects to /tools.
+    await expect(page).toHaveURL(/\/tools$/)
   })
 
   test('/tools renders without redirecting when signed out', async ({ page }) => {

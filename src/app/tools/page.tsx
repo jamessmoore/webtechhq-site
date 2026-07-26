@@ -68,6 +68,16 @@ export default async function ToolsDashboardPage() {
       </p>
 
       <FeaturedToolCard
+        title="Prompt Pilot"
+        description="Answer four quick questions about where you're starting from and what you want to learn. I'll build you a custom prompt that has AI teach you AI, tuned to your level and how much time you've got."
+        status={promptPilotStatus}
+        href="/tools/prompt-pilot"
+        icon={<CompassIcon size={42} style={{ color: "#89D4FF" } as React.CSSProperties} />}
+        metaItems={["4 QUICK QUESTIONS"]}
+        primaryLabel={promptPilotStatus === "completed" ? "SEE YOUR PROMPT" : "START PROMPT PILOT"}
+      />
+
+      <FeaturedToolCard
         title="Opportunity Finder"
         description="Answer a few plain-English questions about how you work. I'll build you a custom prompt to run in Claude, ChatGPT, or Gemini, pointing straight at the AI moves that would save you the most time and money. No jargon, no fluff."
         status={opportunityFinderStatus}
@@ -85,16 +95,6 @@ export default async function ToolsDashboardPage() {
         icon={<SearchIcon size={42} style={{ color: "#89D4FF" } as React.CSSProperties} />}
         metaItems={["FOUNDING CLIENT RATE", "ONE-TIME PURCHASE"]}
         primaryLabel={businessAuditPrimaryLabel}
-      />
-
-      <FeaturedToolCard
-        title="Prompt Pilot"
-        description="Answer four quick questions about where you're starting from and what you want to learn. I'll build you a custom prompt that has AI teach you AI, tuned to your level and how much time you've got."
-        status={promptPilotStatus}
-        href="/tools/prompt-pilot"
-        icon={<CompassIcon size={42} style={{ color: "#89D4FF" } as React.CSSProperties} />}
-        metaItems={["4 QUICK QUESTIONS"]}
-        primaryLabel={promptPilotStatus === "completed" ? "SEE YOUR PROMPT" : "START PROMPT PILOT"}
       />
 
       <div className="flex items-baseline justify-between flex-wrap gap-2" style={{ marginTop: 38 }}>

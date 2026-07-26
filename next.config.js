@@ -13,14 +13,14 @@ const nextConfig = {
       // usable anonymously now (see src/proxy.ts), so there's no more
       // pre-tool-use signup step to land on - anyone arriving via a /signup
       // link (Hero CTA, SignInForm's "sign up" link, NextAuth's newUser page,
-      // proxy.ts's gated-route fallback, etc.) goes straight to the flagship
-      // tool instead. The SignUpForm component and /api/auth/signup route are
-      // untouched - they're still how an account actually gets created, both
-      // from this redirected flow and from the claim-a-result flow on
-      // /tools/opportunity-finder and /tools/prompt-pilot.
+      // proxy.ts's gated-route fallback, etc.) goes straight to the tools
+      // dashboard instead. The SignUpForm component and /api/auth/signup
+      // route are untouched - they're still how an account actually gets
+      // created, both from this redirected flow and from the claim-a-result
+      // flow on /tools/opportunity-finder and /tools/prompt-pilot.
       {
         source: '/signup',
-        destination: '/tools/opportunity-finder',
+        destination: '/tools',
         permanent: true,
       },
     ]

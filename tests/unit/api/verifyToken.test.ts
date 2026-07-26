@@ -66,14 +66,14 @@ describe("GET /api/verify/[token]", () => {
     // signIn() is mocked to resolve instead of throwing its real NEXT_REDIRECT
     // digest error, so the route falls through to its own fallback redirect
     // here — in production, signIn() throwing is what actually redirects the
-    // browser straight to /tools/opportunity-finder instead.
+    // browser straight to /tools instead.
     const res = await request("good-verify-tok");
     expect(res.headers.get("location")).toMatch(/\/verify\?success=1$/);
     expect(users.getUserById(user.id)!.emailVerified).toBe(true);
 
     expect(auth.signIn).toHaveBeenCalledWith(
       "verified-login",
-      expect.objectContaining({ token: expect.any(String), redirectTo: "/tools/opportunity-finder" }),
+      expect.objectContaining({ token: expect.any(String), redirectTo: "/tools" }),
     );
   });
 
@@ -107,7 +107,7 @@ describe("GET /api/verify/[token]", () => {
 
     expect(auth.signIn).toHaveBeenCalledWith(
       "verified-login",
-      expect.objectContaining({ redirectTo: "/tools/opportunity-finder" }),
+      expect.objectContaining({ redirectTo: "/tools" }),
     );
   });
 });

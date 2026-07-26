@@ -153,10 +153,13 @@ export default function PromptPilotFlow({
   const [form, setForm] = useState<FormData>(INITIAL_FORM);
   const [prompt, setPrompt] = useState<string | null>(initialPrompt);
   const [why, setWhy] = useState<PromptPilotWhy | null>(initialWhy);
-  // Tracks "a submission now exists" separately from `prompt` so that if
-  // rendering somehow produces no prompt (e.g. no templates seeded yet),
-  // the form falls back to its own "already submitted" state instead of
-  // showing the intake form again.
+  // Tracks "a submission now exists" separately from `prompt` so a visitor
+  // who already has a result on file (alreadySubmitted, from the server
+  // component) sees the "already set" state below without needing a
+  // `prompt` value in hand yet. A failed submit() never sets this to
+  // true - see the res.ok/renderedPrompt guard in submit() below - so a
+  // template-rendering failure surfaces as a real error instead of this
+  // "already submitted" state.
   const [submitted, setSubmitted] = useState(alreadySubmitted);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -212,14 +215,20 @@ export default function PromptPilotFlow({
         renderedPrompt?: string | null;
         why?: PromptPilotWhy | null;
       };
-      if (!res.ok) {
+      // The server only ever returns success with a real renderedPrompt now
+      // (see /api/prompt-pilot/submit) - a rendering failure comes back as
+      // a non-ok error response instead. Still guard against `res.ok` with
+      // no renderedPrompt defensively, treating it the same as a failed
+      // submission rather than falling through to the "already submitted"
+      // state below with a blank/garbled result.
+      if (!res.ok || !data.renderedPrompt) {
         setError(data.error ?? "Something went wrong. Please try again.");
         recaptchaRef.current?.reset();
         setRecaptchaToken("");
         return;
       }
       setSubmitted(true);
-      setPrompt(data.renderedPrompt ?? null);
+      setPrompt(data.renderedPrompt);
       setWhy(data.why ?? null);
     } catch {
       setError("Network error. Please check your connection and try again.");

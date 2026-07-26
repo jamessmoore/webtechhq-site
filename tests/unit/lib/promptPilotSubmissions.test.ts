@@ -48,4 +48,53 @@ describe("prompt pilot submissions", () => {
       }),
     ).toThrow(/UNIQUE constraint failed/);
   });
+
+  describe("upsertPromptPilotSubmission", () => {
+    it("creates a submission when the user has none yet", () => {
+      const otherUserId = users.createUser({
+        firstName: "Grace",
+        lastName: "Hopper",
+        email: "pilot-upsert@example.com",
+      }).id;
+
+      const created = promptPilotSubmissions.upsertPromptPilotSubmission({
+        userId: otherUserId,
+        learningGoal: "how to automate reporting",
+        startingPoint: "Never used AI",
+        why: "I run a business",
+        timeBudget: "Go deep",
+        renderedPrompt: "first rendered prompt",
+      });
+
+      expect(created.learningGoal).toBe("how to automate reporting");
+      expect(created.renderedPrompt).toBe("first rendered prompt");
+
+      const fetched = promptPilotSubmissions.getPromptPilotSubmissionByUser(otherUserId);
+      expect(fetched?.id).toBe(created.id);
+    });
+
+    it("overwrites the existing row in place (same id) when the user already has a submission", () => {
+      // `userId` already has a submission from the "creates a submission
+      // and reads it back by user id" test above.
+      const before = promptPilotSubmissions.getPromptPilotSubmissionByUser(userId)!;
+
+      const updated = promptPilotSubmissions.upsertPromptPilotSubmission({
+        userId,
+        learningGoal: "a resubmitted learning goal",
+        startingPoint: "Used it, want to go deeper",
+        why: "Personal curiosity",
+        timeBudget: "Go deep",
+        renderedPrompt: "a resubmitted rendered prompt",
+      });
+
+      expect(updated.id).toBe(before.id);
+      expect(updated.learningGoal).toBe("a resubmitted learning goal");
+      expect(updated.startingPoint).toBe("Used it, want to go deeper");
+      expect(updated.renderedPrompt).toBe("a resubmitted rendered prompt");
+
+      const fetched = promptPilotSubmissions.getPromptPilotSubmissionByUser(userId);
+      expect(fetched?.id).toBe(before.id);
+      expect(fetched?.learningGoal).toBe("a resubmitted learning goal");
+    });
+  });
 });
