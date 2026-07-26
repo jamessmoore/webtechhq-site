@@ -23,13 +23,25 @@ export function proxy(request: NextRequest) {
   // Opportunity Finder and Prompt Pilot (dashboard root included) are usable
   // anonymously now - the questionnaire/form renders and produces a result
   // with no account required, and saving that result is offered only after
-  // the fact (see the claim-submission flow). Every other /tools route
-  // (business-audit, finish-signup, report sub-pages, etc.) still requires a
-  // session before the page component ever runs.
+  // the fact (see the claim-submission flow).
+  //
+  // /tools/business-audit is also let through anonymously, but for a
+  // different reason: an anonymous visitor has no Opportunity Finder
+  // submission yet, so the page component itself renders its existing
+  // "Finish the Opportunity Finder first" gate screen rather than the real
+  // audit flow. Letting the middleware bounce these visitors to /signup
+  // instead just produces a silent redirect with no explanation. Only the
+  // base route is ungated here; any genuinely account-gated sub-route added
+  // under /tools/business-audit later (there are none today) should NOT be
+  // added to this list and should keep requiring a session.
+  //
+  // Every other /tools route (finish-signup, report sub-pages, etc.) still
+  // requires a session before the page component ever runs.
   const isUngatedToolsPath =
     pathname === "/tools" ||
     pathname.startsWith("/tools/opportunity-finder") ||
-    pathname.startsWith("/tools/prompt-pilot");
+    pathname.startsWith("/tools/prompt-pilot") ||
+    pathname === "/tools/business-audit";
 
   if (
     (pathname.startsWith("/business-audit") || pathname.startsWith("/tools")) &&
