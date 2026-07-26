@@ -44,7 +44,12 @@ export default async function ToolsDashboardPage() {
         : isTestAccount
           ? "RUN YOUR AUDIT (TEST, NO CHARGE)"
           : "GET YOUR AUDIT, $50";
-  const businessAuditHref = businessAuditStatus === "locked" ? "/tools/opportunity-finder" : "/tools/business-audit";
+  // Always send the card to /tools/business-audit, even when locked - that
+  // page's own gate screen (BusinessAuditFlow's !hasSubmission state) is
+  // what explains the Opportunity Finder requirement and offers the CTA to
+  // go there. Don't shortcut straight to Opportunity Finder from here; that
+  // reads as a silent redirect with no explanation.
+  const businessAuditHref = "/tools/business-audit";
 
   const promptPilotSubmission = user ? getPromptPilotSubmissionByUser(user.id) : null;
   const promptPilotStatus: ToolCardStatus = promptPilotSubmission ? "completed" : "not_started";
