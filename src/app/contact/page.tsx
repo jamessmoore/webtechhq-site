@@ -13,11 +13,17 @@ export const metadata: Metadata = {
     "Send James Moore a note, or connect on LinkedIn. No call required to get started, try the free Opportunity Finder first.",
 }
 
-export default async function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ subject?: string }>
+}) {
   const session = await auth()
   const user = session?.user?.id ? getUserById(session.user.id) : null
   const defaultName = user ? [user.firstName, user.lastName].filter(Boolean).join(' ') : ''
   const defaultEmail = user?.email ?? ''
+  const { subject } = await searchParams
+  const defaultSubject = subject ?? ''
 
   return (
     <>
@@ -46,7 +52,7 @@ export default async function Page() {
               <HexMark size={320} />
             </div>
             <div className="relative z-10 grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-10">
-              <ContactForm defaultName={defaultName} defaultEmail={defaultEmail} />
+              <ContactForm defaultName={defaultName} defaultEmail={defaultEmail} defaultSubject={defaultSubject} />
 
               <div className="flex flex-col gap-6 self-start">
                 <div
