@@ -124,6 +124,7 @@ export default function FeaturedToolCard({
           <div className="flex gap-3 items-center flex-wrap">
             <Link
               href={href}
+              aria-label={`${title} — ${primaryLabel}`}
               className="inline-flex items-center gap-[9px] transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
               style={{
                 padding: "12px 20px",
