@@ -67,8 +67,8 @@ export default function OpportunityFinderFlow({
           color: "#FFFFFF",
         }}
       >
-        There are no wrong answers, just tell us how things really work today. The more honest
-        you are, the sharper your results.
+        Tell me how things really work in your business today. The more detail you provide, the
+        sharper your results.
       </p>
 
       <div style={{ marginTop: 32 }}>

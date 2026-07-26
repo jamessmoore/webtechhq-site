@@ -1,6 +1,6 @@
 import { randomUUID } from "crypto";
 import { getDb } from "./db";
-import { type User, type UserRow, rowToUser } from "./types";
+import { type ClientClass, type User, type UserRow, rowToUser } from "./types";
 
 export function createUser(data: {
   firstName: string;
@@ -107,6 +107,11 @@ export function verifyUserEmail(userId: string): void {
         verification_expires_at = NULL
     WHERE id = ?
   `).run(new Date().toISOString(), userId);
+}
+
+export function setClientClass(userId: string, clientClass: ClientClass): void {
+  const db = getDb();
+  db.prepare("UPDATE users SET client_class = ? WHERE id = ?").run(clientClass, userId);
 }
 
 export function linkGoogleAccount(userId: string, googleId: string): void {

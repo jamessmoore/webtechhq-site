@@ -6,7 +6,7 @@ import PayPalCardCheckout from "./PayPalCardCheckout";
 import BusinessAuditReport from "./BusinessAuditReport";
 import { ShieldIcon, SearchIcon, CheckIcon, ArrowRightIcon } from "./icons";
 import type { Product } from "@/lib/products";
-import type { AuditReport, AuditReportStatus } from "@/lib/types";
+import type { AuditReport, AuditReportStatus, MoveForwardStatus } from "@/lib/types";
 
 function formatWholeDollars(cents: number): string {
   return `$${(cents / 100).toFixed(0)}`;
@@ -20,6 +20,7 @@ export default function BusinessAuditFlow({
   initialReportStatus,
   initialReport,
   isTestAccount = false,
+  initialMoveForwardStatus = null,
 }: {
   product: Product;
   hasSubmission: boolean;
@@ -28,6 +29,7 @@ export default function BusinessAuditFlow({
   initialReportStatus?: AuditReportStatus | null;
   initialReport?: AuditReport | null;
   isTestAccount?: boolean;
+  initialMoveForwardStatus?: MoveForwardStatus | null;
 }) {
   const [justConfirmed, setJustConfirmed] = useState(false);
   const [purchased, setPurchased] = useState(alreadyPurchased);
@@ -169,7 +171,9 @@ export default function BusinessAuditFlow({
 
   if (purchased) {
     if (reportStatus === "ready" && report) {
-      return <BusinessAuditReport report={report} />;
+      return (
+        <BusinessAuditReport report={report} initialMoveForwardStatus={initialMoveForwardStatus} />
+      );
     }
 
     if (reportStatus === "failed") {

@@ -14,6 +14,7 @@ import {
   type AdminUsersSearch,
 } from "@/lib/adminUsersView";
 import { isValidEmailFormat } from "@/lib/emailFormat";
+import type { ClientClass } from "@/lib/types";
 import AdminUsersColumnSearch, {
   type AdminUsersColumnSearchHiddenField,
 } from "@/components/AdminUsersColumnSearch";
@@ -48,6 +49,20 @@ function VerifiedBadge({ verified }: { verified: boolean }) {
       style={{ color, backgroundColor: bg, border: `0.8px solid ${color}`, borderRadius: "3px" }}
     >
       {verified ? "VERIFIED" : "UNVERIFIED"}
+    </span>
+  );
+}
+
+function ClientClassBadge({ clientClass }: { clientClass: ClientClass }) {
+  const isFoundingClient = clientClass === "founding_client";
+  const color = isFoundingClient ? "#89D4FF" : "#5B7BA5";
+  const bg = isFoundingClient ? "rgba(61,127,212,0.15)" : "rgba(91,123,165,0.1)";
+  return (
+    <span
+      className="font-sans text-[10px] tracking-widest px-2 py-0.5"
+      style={{ color, backgroundColor: bg, border: `0.8px solid ${color}`, borderRadius: "3px" }}
+    >
+      {isFoundingClient ? "FOUNDING CLIENT" : "NOT A CLIENT"}
     </span>
   );
 }
@@ -370,6 +385,11 @@ export default async function AdminUsersPage({
                         </th>
                       );
                     })}
+                    <th className="px-6 py-3 text-left">
+                      <span className="font-sans text-[10px] tracking-widest px-1.5 py-0.5" style={{ color: "#5B90C8" }}>
+                        CLASS
+                      </span>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -426,6 +446,9 @@ export default async function AdminUsersPage({
                       </td>
                       <td className="px-6 py-4 font-sans text-[13px]" style={{ color: "#5B90C8", whiteSpace: "nowrap" }}>
                         {formatSignedUpDate(u.createdAt)}
+                      </td>
+                      <td className="px-6 py-4">
+                        <ClientClassBadge clientClass={u.clientClass} />
                       </td>
                     </tr>
                   ))}

@@ -1,5 +1,12 @@
 // ─── Users ────────────────────────────────────────────────────────────────────
 
+// Account "class" categorization. 'not_client' is the default for every
+// signup; 'founding_client' is set the moment a user completes any Business
+// Audit purchase (see capture-order/route.ts). Room to extend later (e.g.
+// a non-founding standard client class) without a migration - don't add
+// more values than are actually needed yet.
+export type ClientClass = "not_client" | "founding_client";
+
 export interface User {
   id: string;
   firstName: string;
@@ -15,6 +22,7 @@ export interface User {
   resetExpiresAt?: string;
   loginToken?: string;
   loginTokenExpiresAt?: string;
+  clientClass: ClientClass;
   createdAt: string;
 }
 
@@ -33,6 +41,7 @@ export interface UserRow {
   reset_expires_at: string | null;
   login_token: string | null;
   login_token_expires_at: string | null;
+  client_class: ClientClass;
   created_at: string;
 }
 
@@ -52,6 +61,7 @@ export function rowToUser(row: UserRow): User {
     resetExpiresAt: row.reset_expires_at ?? undefined,
     loginToken: row.login_token ?? undefined,
     loginTokenExpiresAt: row.login_token_expires_at ?? undefined,
+    clientClass: row.client_class ?? "not_client",
     createdAt: row.created_at,
   };
 }
@@ -342,6 +352,36 @@ export function rowToAuditReport(row: AuditReportRow): AuditReportRecord {
     errorMessage: row.error_message ?? undefined,
     createdAt: row.created_at,
     completedAt: row.completed_at ?? undefined,
+  };
+}
+
+// ─── Move Forward Requests (Business Audit waiting list) ─────────────────────
+
+export type MoveForwardStatus = "waiting" | "contacted" | "converted";
+
+export interface MoveForwardRequest {
+  id: string;
+  userId: string;
+  status: MoveForwardStatus;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface MoveForwardRequestRow {
+  id: string;
+  user_id: string;
+  status: MoveForwardStatus;
+  created_at: string;
+  updated_at: string;
+}
+
+export function rowToMoveForwardRequest(row: MoveForwardRequestRow): MoveForwardRequest {
+  return {
+    id: row.id,
+    userId: row.user_id,
+    status: row.status,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
   };
 }
 

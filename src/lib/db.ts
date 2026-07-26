@@ -36,6 +36,7 @@ function migrate(db: Database.Database): void {
       reset_expires_at        TEXT,
       login_token             TEXT,
       login_token_expires_at  TEXT,
+      client_class            TEXT NOT NULL DEFAULT 'not_client',
       created_at              TEXT NOT NULL
     );
 
@@ -232,6 +233,22 @@ function migrate(db: Database.Database): void {
     CREATE INDEX IF NOT EXISTS idx_audit_reports_user_product
       ON audit_reports (user_id, product_id);
 
+    -- Business Audit "move forward" waiting list. A client who has purchased
+    -- and completed their audit can flag that they want to move forward into
+    -- implementation; one row per user (mirrors submissions'/prompt_pilot_
+    -- submissions' one-row-per-user pattern) so re-clicking the CTA is a
+    -- no-op rather than creating duplicate queue entries.
+    CREATE TABLE IF NOT EXISTS move_forward_requests (
+      id          TEXT PRIMARY KEY,
+      user_id     TEXT NOT NULL UNIQUE REFERENCES users (id) ON DELETE CASCADE,
+      status      TEXT NOT NULL DEFAULT 'waiting',
+      created_at  TEXT NOT NULL,
+      updated_at  TEXT NOT NULL
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_move_forward_requests_status
+      ON move_forward_requests (status);
+
     -- Founder-journey essay series (webtechhq.com/journal). Two categories
     -- share this table via entry_type: 'weekly' (tied to the regular
     -- flagship-video content, produced via the moore-journal HEIT pipeline)
@@ -316,6 +333,9 @@ function migrate(db: Database.Database): void {
   // Created here (rather than in the schema block above) so it works whether
   // login_token was just added by the ALTER above or already existed.
   db.exec("CREATE INDEX IF NOT EXISTS idx_users_login_token ON users (login_token)");
+  if (!columnNames.has("client_class")) {
+    db.exec("ALTER TABLE users ADD COLUMN client_class TEXT NOT NULL DEFAULT 'not_client'");
+  }
 
   // Backfill rendered_prompt for databases created before it existed.
   const submissionColumns = db.prepare("PRAGMA table_info(submissions)").all() as { name: string }[];

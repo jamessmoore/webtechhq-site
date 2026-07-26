@@ -112,17 +112,31 @@ export default async function AdminUserDetailPage({
               {user.email} · Signed up {new Date(user.createdAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
             </p>
           </div>
-          <span
-            className="font-sans text-[11px] tracking-widest px-3 py-1"
-            style={{
-              color: user.emailVerified ? "#2ea043" : "#FBBC05",
-              backgroundColor: user.emailVerified ? "rgba(46,160,67,0.1)" : "rgba(251,188,5,0.1)",
-              border: `0.8px solid ${user.emailVerified ? "#2ea043" : "#FBBC05"}`,
-              borderRadius: "3px",
-            }}
-          >
-            {user.emailVerified ? "VERIFIED" : "UNVERIFIED"}
-          </span>
+          <div className="flex items-center gap-2">
+            <span
+              className="font-sans text-[11px] tracking-widest px-3 py-1"
+              style={{
+                color: user.emailVerified ? "#2ea043" : "#FBBC05",
+                backgroundColor: user.emailVerified ? "rgba(46,160,67,0.1)" : "rgba(251,188,5,0.1)",
+                border: `0.8px solid ${user.emailVerified ? "#2ea043" : "#FBBC05"}`,
+                borderRadius: "3px",
+              }}
+            >
+              {user.emailVerified ? "VERIFIED" : "UNVERIFIED"}
+            </span>
+            <span
+              className="font-sans text-[11px] tracking-widest px-3 py-1"
+              style={{
+                color: user.clientClass === "founding_client" ? "#89D4FF" : "#5B7BA5",
+                backgroundColor:
+                  user.clientClass === "founding_client" ? "rgba(61,127,212,0.15)" : "rgba(91,123,165,0.1)",
+                border: `0.8px solid ${user.clientClass === "founding_client" ? "#89D4FF" : "#5B7BA5"}`,
+                borderRadius: "3px",
+              }}
+            >
+              {user.clientClass === "founding_client" ? "FOUNDING CLIENT" : "NOT A CLIENT"}
+            </span>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6">

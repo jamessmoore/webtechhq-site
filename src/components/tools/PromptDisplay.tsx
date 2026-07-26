@@ -259,7 +259,11 @@ export default function PromptDisplay({
               <div className="flex flex-wrap gap-3 mt-4">
                 <button
                   type="button"
-                  onClick={() => router.push("/tools/finish-signup")}
+                  onClick={() =>
+                    router.push(
+                      `/tools/finish-signup?next=${encodeURIComponent("/tools/opportunity-finder")}`,
+                    )
+                  }
                   className="inline-flex items-center gap-2 font-sans text-[15px] font-bold tracking-wide transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
                   style={{
                     padding: "10px 18px",
