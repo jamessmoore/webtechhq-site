@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { getUserById } from "@/lib/users";
+import { getUserById, setClientClass } from "@/lib/users";
 import { getPurchaseByOrderId, markPurchaseCaptured, markPurchaseFailed } from "@/lib/purchases";
 import { captureOrder } from "@/lib/paypal";
 import { getSubmissionsByUser } from "@/lib/submissions";
@@ -46,6 +46,8 @@ export async function POST(request: NextRequest) {
 
   if (purchase.productId === "business_audit") {
     const businessName = purchase.businessName ?? user.firstName;
+
+    setClientClass(user.id, "founding_client");
 
     sendSlackNotification(
       `Business Audit purchased: ${user.firstName} <${user.email}> for ${businessName} ($${(purchase.amountCents / 100).toFixed(2)})`,

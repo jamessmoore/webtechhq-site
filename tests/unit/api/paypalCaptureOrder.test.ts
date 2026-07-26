@@ -118,6 +118,48 @@ describe("POST /api/payments/paypal/capture-order", () => {
 
     const report = auditReports.getAuditReportByPurchase(purchase.id);
     expect(report).not.toBeNull();
+
+    expect(users.getUserById(userId)!.clientClass).toBe("founding_client");
+  });
+
+  it("sets client_class to founding_client on any business_audit capture, even without a submission", async () => {
+    const noSubmissionUser = users.createUser({
+      firstName: "ClassOnly",
+      lastName: "User",
+      email: "class.only@example.com",
+    }).id;
+    auth.auth.mockResolvedValue({ user: { id: noSubmissionUser } });
+
+    const purchase = purchases.createPurchase({
+      userId: noSubmissionUser,
+      productId: "business_audit",
+      amountCents: 5000,
+      currency: "USD",
+      businessName: "Class Only Co",
+    });
+    purchases.updatePurchaseOrderId(purchase.id, "ORDER-CLASS-ONLY");
+    paypal.captureOrder.mockResolvedValue({ status: "COMPLETED" });
+
+    const res = await POST(request({ orderId: "ORDER-CLASS-ONLY" }));
+    expect(res.status).toBe(200);
+    expect(users.getUserById(noSubmissionUser)!.clientClass).toBe("founding_client");
+  });
+
+  it("leaves client_class untouched for a non-audit purchase", async () => {
+    const nonAuditUser = users.createUser({
+      firstName: "NonAudit",
+      lastName: "User",
+      email: "non.audit@example.com",
+    }).id;
+    auth.auth.mockResolvedValue({ user: { id: nonAuditUser } });
+
+    const purchase = purchases.createPurchase({ userId: nonAuditUser, productId: "prod-non-audit", amountCents: 1000, currency: "USD" });
+    purchases.updatePurchaseOrderId(purchase.id, "ORDER-NON-AUDIT");
+    paypal.captureOrder.mockResolvedValue({ status: "COMPLETED" });
+
+    const res = await POST(request({ orderId: "ORDER-NON-AUDIT" }));
+    expect(res.status).toBe(200);
+    expect(users.getUserById(nonAuditUser)!.clientClass).toBe("not_client");
   });
 
   it("does not start audit report generation when the user has no Opportunity Finder submission", async () => {
