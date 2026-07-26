@@ -171,6 +171,23 @@ export default function PromptPilotFlow({
     setError(null);
   }
 
+  // Clears the completed result and any in-progress form state, returning
+  // to the same start state a fresh page load would show - client-side
+  // only. This does not delete the stored submission server-side (see
+  // TestAccountResetButton / resetAllToolDataForUser for that, a separate,
+  // DB-level mechanism scoped to the gold-standard test account); a
+  // signed-in user who reloads afterward will see their prior result again
+  // via initialPrompt/alreadySubmitted from the server.
+  function handleReset() {
+    setForm(INITIAL_FORM);
+    setPrompt(null);
+    setWhy(null);
+    setSubmitted(false);
+    setError(null);
+    setRecaptchaToken("");
+    recaptchaRef.current?.reset();
+  }
+
   const recaptchaConfigured = !!process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
   const canSubmit =
     !!form.learningGoal.trim() &&
@@ -245,6 +262,7 @@ export default function PromptPilotFlow({
         why={why}
         accountCompleted={accountCompleted}
         anonymous={anonymous}
+        onReset={handleReset}
       />
     );
   }

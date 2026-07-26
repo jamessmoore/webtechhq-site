@@ -36,6 +36,7 @@ export default function PromptPilotDisplay({
   why,
   accountCompleted,
   anonymous = false,
+  onReset,
 }: {
   /** Unset for an anonymous (no-session) visitor - the heading below adapts. */
   firstName?: string;
@@ -45,6 +46,8 @@ export default function PromptPilotDisplay({
   accountCompleted: boolean;
   /** No session yet - shows a "save this result" capture step instead of "finish account setup". */
   anonymous?: boolean;
+  /** Clears the completed result/form state back to the start of the Prompt Pilot flow. */
+  onReset: () => void;
 }) {
   const router = useRouter();
   const [copied, setCopied] = useState(false);
@@ -210,6 +213,26 @@ export default function PromptPilotDisplay({
                 COPY TO CLIPBOARD
               </>
             )}
+          </button>
+        </div>
+
+        <div className="flex justify-end mt-4">
+          <button
+            type="button"
+            onClick={onReset}
+            className="inline-flex items-center gap-2 transition-all duration-200 hover:[box-shadow:0_0_10px_2px_rgba(61,127,212,0.45),0_0_24px_6px_rgba(137,212,255,0.25)] hover:!text-white"
+            style={{
+              padding: "10px 18px",
+              borderRadius: 6,
+              border: "0.8px solid #162D5A",
+              backgroundColor: "#143C6A",
+              color: "var(--brand-sky)",
+              font: '400 12px "Courier New", monospace',
+              letterSpacing: "0.08em",
+              cursor: "pointer",
+            }}
+          >
+            RESET
           </button>
         </div>
 
