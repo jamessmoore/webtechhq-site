@@ -25,6 +25,16 @@ test.describe('middleware gating (signed out)', () => {
     await expect(page).toHaveURL(/\/tools$/)
     await expect(page.getByRole('heading', { name: 'Your AI toolkit.' })).toBeVisible()
   })
+
+  test('/tools/business-audit renders the gate screen instead of redirecting when signed out', async ({ page }) => {
+    const response = await page.goto('/tools/business-audit')
+    // /tools/business-audit is also in proxy.ts's isUngatedToolsPath, so an
+    // anonymous visitor gets a 200 with the "finish the Opportunity Finder
+    // first" gate screen rather than a redirect to /signup.
+    expect(response?.status()).toBe(200)
+    await expect(page).toHaveURL(/\/tools\/business-audit$/)
+    await expect(page.getByRole('heading', { name: 'Finish the Opportunity Finder first' })).toBeVisible()
+  })
 })
 
 test.describe('middleware gating (signed in)', () => {
