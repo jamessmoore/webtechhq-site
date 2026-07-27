@@ -47,11 +47,12 @@ const DEFAULT_DESTINATION = "/tools/opportunity-finder";
 // than a private module const) only so tests/unit/api/sourceSlugRedirect.test.ts
 // can inject/remove a temporary entry to exercise the override branch
 // without this file needing a real slug mapping committed ahead of need.
-// A real Prompt Pilot campaign is coming (the "Use AI to Learn AI" video
-// release) but has no slug value yet - left empty/commented rather than
-// inventing one ahead of need.
+// "use-ai-to-learn-ai" is the flagship video's slug - it tracks the video's
+// locked YouTube title, not the thumbnail's kicker text ("This is
+// cheating."), which is a separate, deliberately decoupled field. Its CTA
+// points to Prompt Pilot instead of the default Opportunity Finder.
 export const SLUG_OVERRIDES: Record<string, string> = {
-  // "prompt-pilot-cta": "/tools/prompt-pilot",
+  "use-ai-to-learn-ai": "/tools/prompt-pilot",
 };
 
 export async function GET(
