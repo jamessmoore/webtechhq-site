@@ -13,6 +13,8 @@ interface FeaturedToolCardProps {
   icon: React.ReactNode;
   metaItems?: string[];
   primaryLabel: string;
+  /** Optional short green callout line rendered above the description. Omit to render nothing. */
+  calloutText?: string;
 }
 
 const STATUS_CONFIG: Record<
@@ -58,6 +60,7 @@ export default function FeaturedToolCard({
   icon,
   metaItems,
   primaryLabel,
+  calloutText,
 }: FeaturedToolCardProps) {
   const cfg = STATUS_CONFIG[status];
 
@@ -101,6 +104,11 @@ export default function FeaturedToolCard({
               {cfg.pillLabel}
             </span>
           </div>
+          {calloutText && (
+            <p className="font-sans font-bold" style={{ margin: "11px 0 0", fontSize: 20, lineHeight: 1.6, color: "#4ADE80" }}>
+              {calloutText}
+            </p>
+          )}
           <p style={{ margin: "11px 0 0", font: `400 ${descriptionFontSize}px/1.6 Arial, sans-serif`, maxWidth: 520 }}>
             {description}
           </p>

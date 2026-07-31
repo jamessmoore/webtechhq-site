@@ -80,6 +80,7 @@ export default async function ToolsDashboardPage() {
         icon={<CompassIcon size={42} style={{ color: "#89D4FF" } as React.CSSProperties} />}
         metaItems={["4 QUICK QUESTIONS"]}
         primaryLabel={promptPilotStatus === "completed" ? "SEE RESULTS" : "START"}
+        calloutText={!user ? "New to AI? Start here." : undefined}
       />
 
       <FeaturedToolCard
