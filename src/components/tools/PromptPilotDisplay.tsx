@@ -277,7 +277,7 @@ export default function PromptPilotDisplay({
               backgroundColor: "#0A1B33",
             }}
           >
-            <p className="font-sans text-[15px] leading-relaxed mb-2" style={{ color: "#FFFFFF" }}>
+            <p className="font-sans font-bold text-[30px] leading-relaxed mb-2" style={{ color: "#FFFFFF" }}>
               Want to keep this result?
             </p>
             <p className="font-sans text-[15px] leading-relaxed mb-4" style={{ color: "#FFFFFF" }}>
