@@ -125,7 +125,7 @@ function AuditReportDocument({ report }: { report: AuditReport }) {
           <Text style={styles.h2}>Start with {recommended?.title ?? `Opportunity ${report.recommendedOpportunityRank}`}</Text>
           <Text style={styles.body}>{report.recommendedReasoning}</Text>
           <View style={styles.metricBox}>
-            <Text style={{ fontSize: 12, fontWeight: 700, marginBottom: 3 }}>THE FIRST EMPLOYEE</Text>
+            <Text style={{ fontSize: 12, fontWeight: 700, marginBottom: 3 }}>THE SUPER AGENT</Text>
             <Text style={{ fontSize: 10, color: "#1A4FC4", marginBottom: 6 }}>
               Setup from $750, ongoing support from $150/month
             </Text>
