@@ -79,7 +79,7 @@ export default function Page() {
                 Business Audit
               </Link>
               , a flat-rate written report on exactly where AI could save you time or make you
-              money, no hype attached. The next step after that is usually an AI assistant trained on
+              money, no hype attached. The next step after that is usually a Super Agent trained on
               your business that handles inquiries and follow-ups while you sleep. See what that
               looks like in the{' '}
               <Link

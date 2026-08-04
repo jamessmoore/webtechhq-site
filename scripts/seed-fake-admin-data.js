@@ -120,7 +120,7 @@ const people = [
       layer3Repetitive: "Mostly repetitive", layer3Compliance: "No concerns", layer3Data: "Somewhat, it's scattered",
       additionalNotes: "We use Jobber for scheduling if that matters.",
     },
-    submittedDaysAgo: 19, adminNotes: "Great fit for AI First Employee, follow up about Jobber integration.",
+    submittedDaysAgo: 19, adminNotes: "Great fit for Super Agent, follow up about Jobber integration.",
   },
   {
     firstName: "Marcus", lastName: "Webb", email: "marcus@webbhvac.example.com",
@@ -146,7 +146,7 @@ const people = [
       layer3Repetitive: "Mostly repetitive", layer3Compliance: "No concerns", layer3Data: "Not really",
       additionalNotes: "Growing fast, added 3 crews this year.",
     },
-    submittedDaysAgo: 25, adminNotes: "Strong AI First Employee candidate, unify the intake channels first.",
+    submittedDaysAgo: 25, adminNotes: "Strong Super Agent candidate, unify the intake channels first.",
   },
   {
     firstName: "Tom", lastName: "Whitfield", email: "tom@whitfieldrealty.example.com",
@@ -171,7 +171,7 @@ const people = [
       layer3Repetitive: "Mix of both", layer3Compliance: "No concerns", layer3Data: "Yes, we're organized",
       additionalNotes: "Already tried a Calendly form, didn't filter well enough.",
     },
-    submittedDaysAgo: 30, adminNotes: "Started with AI First Employee 2026-06-10, went well.",
+    submittedDaysAgo: 30, adminNotes: "Started with Super Agent 2026-06-10, went well.",
   },
   {
     firstName: "Jake", lastName: "Alvarez", email: "jake@alvarezautobody.example.com",

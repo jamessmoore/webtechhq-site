@@ -82,7 +82,7 @@ const categories: FaqCategory[] = [
       {
         question: 'What comes after the audit?',
         answer:
-          'Usually a custom AI assistant trained on your business, handling inquiries and follow-ups while you sleep.',
+          'Usually a custom Super Agent trained on your business, handling inquiries and follow-ups while you sleep.',
       },
       {
         question: 'Do I have to book a call to get started?',

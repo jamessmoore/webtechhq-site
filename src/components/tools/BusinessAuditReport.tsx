@@ -228,7 +228,7 @@ export default function BusinessAuditReport({
         </p>
         <div style={{ ...metricBoxStyle, padding: "16px 18px" }}>
           <div style={{ font: '700 18px "Courier New", monospace', color: "#EEF6FF", marginBottom: 4 }}>
-            THE FIRST EMPLOYEE
+            THE SUPER AGENT
           </div>
           <div style={{ font: "400 15px Arial, sans-serif", color: "#89D4FF", marginBottom: 8 }}>
             Setup from $750, ongoing support from $150/month
