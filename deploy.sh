@@ -8,7 +8,7 @@ set -euo pipefail
 SERVER="${1:?Usage: ./deploy.sh <server-ip> [branch]}"
 BRANCH="${2:-master}"
 SSH_USER="ubuntu"
-SSH_KEY="${SSH_KEY:-$HOME/.ssh/id_ed25519}"
+SSH_KEY="${SSH_KEY:-$HOME/.ssh/master.pem}"
 
 echo "==> Deploying $BRANCH to $SERVER"
 
